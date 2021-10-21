@@ -21,7 +21,7 @@ app.use(express.urlencoded({
 app.use(express.static('./templates'))
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
+    
 app.get("/", (req, res)=>{
     res.sendFile("templates/logIn.html", { root: '.' })
 })
@@ -37,6 +37,10 @@ app.post("/sign", (req, res)=>{
 
 })
 
+app.get("/home", (req, res)=>{
+    //send the url, video-id as parameters
+    res.sendFile('templates/home.html',{root:'.'});
+})
 
 
 
