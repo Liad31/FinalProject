@@ -1,0 +1,12 @@
+body{
+    background-color:beige;
+}
+
+.tiktok-embed{
+    position: absolute;
+    height: 100%;
+    width: 30%;
+    left: 7%;
+    top: 7%;
+    vertical-align:middle;
+}

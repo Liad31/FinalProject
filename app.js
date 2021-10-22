@@ -13,7 +13,7 @@ const app = express();
 const httpServer = http.createServer(app);
 
 httpServer.listen(8000);
-
+app.use(express.static('public'));
 app.use(express.urlencoded({
     extended: false
 }))
