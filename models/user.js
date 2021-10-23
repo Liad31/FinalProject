@@ -7,6 +7,7 @@ const SALT_FACTOR = 10;
 const userSchema = new Schema({
     email: {type:String, required:true, unique:true},
     password: {type:String, required:true},
+    isAdmin: {type:Boolean, default:0},
     createdAt: {type:Date, default:Date.now},
 });
 
@@ -17,10 +18,19 @@ userSchema.pre("save", function(done) {
         return done();
     }
 
+    console.log("hashing password");
     bcyrpt.genSalt(SALT_FACTOR, function(err, salt) {
-        if (err) {return done(err);}
+        if (err) 
+        {
+            console.log(`Error: ${err}`);
+            return done(err);
+        }
         bcyrpt.hash(user.password, salt, function(err, hashPassword) {
-            if (err) {return done(err);}
+            if (err)
+            {
+                console.log(`Error: ${err}`);
+                return done(err);
+            }
             user.password = hashPassword;
             done();
         })
@@ -28,6 +38,7 @@ userSchema.pre("save", function(done) {
 })
 
 userSchema.methods.checkPassword = function(guess, done) {
+    console.log("checking if password is correct");
     if (this.password != null) {
         bcyrpt.compare(guess, this.password, function(err, isMatch) {
             done(err, isMatch);
