@@ -42,20 +42,20 @@ router.get("/", (req, res) => {
 });
 
 router.post("/signup", function (req, res, next) {
-    let email = req.body.email;
-    let password = req.body.psw;
-    let re_password = req.body.psw_repeat;
+    let username = req.body.username;
+    let password = req.body.password;
+    let re_password = req.body.repassword;
     console.log("trying to sign up user");
     console.log("checking if mail already in use");
-    User.findOne({ email: email }, function (err, user) {
+    User.findOne({ username: username }, function (err, user) {
         if (err)
          { 
             console.log(`Error: ${err}`);
             return next(err);
          }
         if (user) {
-            req.flash("error", "There is already an account with that email");
-            console.log("email user is taken, redirecting to login");
+            req.flash("error", "There is already an account with that username");
+            console.log("username is taken, redirecting to login");
             return res.redirect("/login");
         }
         if (password != re_password) {
@@ -65,7 +65,7 @@ router.post("/signup", function (req, res, next) {
         }
         console.log("creating user");
         var newUser = User({
-            email: email,
+            username: username,
             password: password
         });
         newUser.save(next);
