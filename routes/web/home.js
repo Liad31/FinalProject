@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const passport = require("passport");
 const User = require("../../models/user");
-
+const ensureAuthenticated = require("../../auth/auth").ensureAuthenticated;
 
 router.get("/login", (req, res) => {
     res.render("login.ejs");
@@ -29,23 +29,12 @@ router.get("/signup", (req, res) => {
     console.log("getting signup page");
 })
 
-// router.post("/sign", (req, res) => {
-//     let email = console.log(req.body.email)
-//     let psw = console.log(req.body.psw)
-//     let psw_repeat = console.log(req.body.psw_repeat)
-// });
-
-router.get("/", (req, res) => {
-    //send the url, video-id as parameters
-    res.render("home.ejs");
-    console.log("getting home page");
-});
 
 router.post("/signup", function (req, res, next) {
     let username = req.body.username;
     let password = req.body.password;
     let re_password = req.body.repassword;
-    console.log("trying to sign up user");
+    console.log("trying to sign up user", username);
     console.log("checking if mail already in use");
     User.findOne({ username: username }, function (err, user) {
         if (err)
@@ -64,7 +53,7 @@ router.post("/signup", function (req, res, next) {
             return res.redirect("/signup");
         }
         console.log("creating user");
-        var newUser = User({
+        let newUser = User({
             username: username,
             password: password
         });
@@ -75,5 +64,11 @@ router.post("/signup", function (req, res, next) {
     failureRedirect: "/signup",
     failureFlash: true
 }));
+
+router.get("/", ensureAuthenticated,(req, res) => {
+    //send the url, video-id as parameters
+    res.render("home.ejs");
+    console.log("getting home page");
+});
 
 module.exports = router;
