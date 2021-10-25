@@ -47,6 +47,11 @@ router.post("/signup", function (req, res, next) {
             console.log("username is taken, redirecting to login");
             return res.redirect("/login");
         }
+        if (username.length < 6  || password.length < 6) {
+            req.flash("error", "username and password must be at least 6 chars long");
+            console.log("pasusername or password in bad format");
+            return res.redirect("/signup");
+        }
         if (password != re_password) {
             req.flash("error", "passwords does not match");
             console.log("passwords does not match");
@@ -70,5 +75,14 @@ router.get("/", ensureAuthenticated,(req, res) => {
     res.render("home.ejs");
     console.log("getting home page");
 });
+
+router.get("/data",ensureAuthenticated,(req, res) => {
+    if(req.user.Permissions < 2){
+        req.flash("error", "you dont have the pernissions for this page");
+        console.log("dont have the pernissions for this page");
+        return res.status(404)
+    }
+    res.render("data.ejs");
+})
 
 module.exports = router;
