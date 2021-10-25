@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const passport = require("passport");
 const User = require("../../models/user");
+const Video = require("../../models/video");
 const ensureAuthenticated = require("../../auth/auth").ensureAuthenticated;
 
 router.get("/login", (req, res) => {
@@ -66,9 +67,17 @@ router.post("/signup", function (req, res, next) {
 }));
 
 router.get("/", ensureAuthenticated,(req, res) => {
-    //send the url, video-id as parameters
-    res.render("home.ejs");
-    console.log("getting home page");
+    Video.count().exec(function (err, count) {
+
+      // Get a random entry
+      var random = Math.floor(Math.random() * count)
+      Video.findOne().skip(random).exec(
+        function (err, result) {
+            res.locals.id=result.tiktok_id
+            res.render("home.ejs");
+            console.log("getting home page");
+        })
+    })
 });
 
 module.exports = router;
