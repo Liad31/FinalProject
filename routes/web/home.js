@@ -1,7 +1,9 @@
 const router = require("express").Router();
 const passport = require("passport");
 const User = require("../../models/user");
-const Video = require("../../models/video");
+const VideoModule = require("../../models/video");
+const Video=VideoModule.Video
+const ExpertVideos=VideoModule.ExpertVideos
 const ensureAuthenticated = require("../../auth/auth").ensureAuthenticated;
 
 router.get("/login", (req, res) => {
@@ -78,6 +80,7 @@ router.get("/", ensureAuthenticated,(req, res) => {
       var random = Math.floor(Math.random() * count)
       Video.findOne().skip(random).exec(
         function (err, result) {
+            res.locals.featuresList=["hair","arabush"]
             res.locals.id=result.tiktok_id
             res.render("home.ejs");
             console.log("getting home page");

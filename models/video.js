@@ -8,6 +8,9 @@ const videoSchema = new Schema({
 });
 
 
+const ExpertVideos= mongoose.model("ExpertVideos", videoSchema);
 const Video = mongoose.model("Video", videoSchema);
-
-module.exports = Video;
+module.exports={
+    Video: Video,
+    ExpertVideos: ExpertVideos 
+}

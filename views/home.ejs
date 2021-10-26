@@ -5,6 +5,7 @@
   <title>log in</title>
   <%- include('_partial/_head') -%> 
   <link rel="stylesheet" type="text/css" href="home.css" />
+  <script src="home.js"></script>
 </head>
 
 <header>
@@ -16,12 +17,17 @@
     <blockquote allowtransparency="true" class="tiktok-embed" data-video-id='<%= id %>' allowtransparency="true"  > 
         <section style="background-color: cadetblue;"> <a target="_blank" title="@omerikoly"></a> 
             </section> </blockquote> <script async src="https://www.tiktok.com/embed.js"></script>
-  </div>  
-  <div class="button-container">
-       <button class="rbutton">Religious</button>
-       <button class="nbutton">Neutral</button>
-       <button class="sbutton">Secular</button>
-    </div>
+  </div>
+  <form  id='tagForm' name='tagForm' action= "/submitTag">
+      <input type="hidden" name="videoId" value='<%= id %>'/>
+      <input type="submit" name="religiosity" value="Religious"\>    
+      <input type="submit" name="religiosity" value="Neutral"\>    
+      <input type="submit" name="religiosity" value="Secular"\>
+      <% for(let feature of featuresList) { %>
+      <input type="checkbox" id='<%= feature %>' name='<%= feature %>' >
+      <label for= '<%= feature %>'><%= feature %></label>
+      <% } %>
+  </form>
 </body>
 
 </html>
