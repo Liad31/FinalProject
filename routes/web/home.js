@@ -96,5 +96,7 @@ router.get("/data",ensureAuthenticated,(req, res) => {
     }
     res.render("data.ejs");
 })
-
+router.post("/submitTag", (req,res) => {
+    console.log(req.religiosity)
+})
 module.exports = router;

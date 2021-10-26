@@ -2,7 +2,7 @@ $(document).ready(function(){
         $('#tagForm').submit(function(e){
         e.preventDefault();
         $.ajax({
-            url: 'api/submitTag',
+            url: 'submitTag',
             type: 'post',
             data:$('#tagForm').serialize(),
             success:function(){
