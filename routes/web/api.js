@@ -37,6 +37,6 @@ router.get("api/getVideos", (req,res) => {
             return
         }
         res.setHeader('Content-Type', 'application/json');
-        res.end(JSON.stringify({videoId: user.videos}))
+        res.end(JSON.stringify({videoIds: user.videos}))
     })
 })

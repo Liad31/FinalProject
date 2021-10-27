@@ -14,9 +14,9 @@
 
 <body>
   <div class="container">
-    <blockquote allowtransparency="true" class="tiktok-embed" data-video-id='<%= id %>' allowtransparency="true"  > 
-        <section style="background-color: cadetblue;"> <a target="_blank" title="@omerikoly"></a> 
-            </section> </blockquote> <script async src="https://www.tiktok.com/embed.js"></script>
+    <blockquote allowtransparency="true" class="tiktok-embed" data-video-id=0 allowtransparency="true" id="tikton-iframe" > 
+        <section style="background-color: cadetblue;"></section> </blockquote>
+         <script async src="https://www.tiktok.com/embed.js"></script>
   </div>
 
   <div id="buttons">
@@ -32,5 +32,44 @@
       <% } %>
   </form>
 </body>
+<script>
+  let videosIDs
+  let numOfVideos = 0
+  let currentVideoPos = 0
+  $( document ).ready(function() {
+    $.ajax({
+        url: 'api/getUser',
+        type: 'get',
+        success:function(user){
+          numOfVideos = user['numOfVideos']
+          alert(user['numOfVideos'])
+          $.ajax({
+            url: 'api/getVideos',
+            type: 'get',
+            data: { userId: user['userId'] },
+            success:function(videosJson){
+              videoIds = videosJson['videoIds']
+              alert(videosJson['videoIds'])
+
+              document.getElementById("tikton-iframe").setAttribute("data-video-id ", videosIDs[currentVideoPos])
+              
+
+            }
+          });
+        }
+    });
+  });
+
+</script>
+<style>
+  .tiktok-embed{
+    position: absolute;
+    left:0px;
+    height: 100%;
+    width: 30%;
+    left:7%;
+    top: 7%;
+}
+</style>
 
 </html>
