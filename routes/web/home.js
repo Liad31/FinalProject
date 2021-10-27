@@ -5,7 +5,6 @@ const User = require("../../models/user");
 // const Video=VideoModule.Video
 // const ExpertVideos=VideoModule.ExpertVideos
 const ensureAuthenticated = require("../../auth/auth").ensureAuthenticated;
-
 router.get("/login", (req, res) => {
     res.render("login.ejs");
     console.log("getting login page");
