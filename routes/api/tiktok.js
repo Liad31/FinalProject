@@ -5,7 +5,7 @@ const Tag= require("../../models/tag")
 const TiktokUser= require("../../models/tiktokUser");
 const NodeCache= require("node-cache");
 // TTL=30 mins
-const recentlySent= new NodeCache({stdTTL: 30*60*60});
+const recentlySent= new NodeCache({stdTTL: 1});// change back to 30 min!!!!!!!!!!!!!!!!!!!
 router.get("/", (req,res)=> {
     let user=TiktokUser({
         userId: "123",
@@ -20,11 +20,12 @@ router.post("/submitTag", (req,res) => {
     let params=req.body
 })
 router.get("/getUser", (req,res) => {
-    let isExpert=req.query.expert
+    let Permissions = req.user.Permissions
+    console.log(Permissions)
     // const tagsPerUser=1
     // const tagToFind= "tags."+(tagsPerUser-1)
     const filter={
-        expertNeeded: isExpert,
+        expertNeeded: Permissions > 0,
         "tags.0":{$exists: false},
         userId: {$nin: recentlySent.keys()}  
     }

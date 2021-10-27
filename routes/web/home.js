@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const passport = require("passport");
 const User = require("../../models/user");
-//const VideoModule = require("../../models/video");
+// const VideoModule = require("../../models/video");
 // const Video=VideoModule.Video
 // const ExpertVideos=VideoModule.ExpertVideos
 const ensureAuthenticated = require("../../auth/auth").ensureAuthenticated;
@@ -73,20 +73,7 @@ router.post("/signup", function (req, res, next) {
 }));
 
 router.get("/", ensureAuthenticated,(req, res) => {
-    // Video.count().exec(function (err, count) {
-
-    //   // Get a random entry
-    //   var random = Math.floor(Math.random() * count)
-    //   Video.findOne().skip(random).exec(
-    //     function (err, result) {
-    //         res.locals.featuresList=["hair","arabush"]
-    //         res.locals.id=result.tiktok_id
-    //         res.render("home.ejs");
-    //         console.log("getting home page");
-    //     })
-    // })
     res.locals.featuresList=["hair","arabush"]
-    res.locals.id="6995460871094799617"
     res.render("home.ejs");
     console.log("getting home page");
 });

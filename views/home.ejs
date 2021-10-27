@@ -25,7 +25,6 @@
   <button id="rel" class="submitButton">Religious</button>
   </div>
   <form  id='feature' name='features'>
-      <input type="hidden" name="videoId" value='<%= id %>'/>
       <% for(let feature of featuresList) { %>
       <input type="checkbox" id='<%= feature %>' name='<%= feature %>' >
       <label for= '<%= feature %>'><%= feature %></label>
@@ -38,13 +37,14 @@
   let currentVideoPos = 0
   $( document ).ready(function() {
     $.ajax({
-        url: 'api/getUser',
+        url: 'api/tiktok/getUser',
         type: 'get',
+        data : {expert: false},
         success:function(user){
           numOfVideos = user['numOfVideos']
           alert(user['numOfVideos'])
           $.ajax({
-            url: 'api/getVideos',
+            url: 'api/tiktok/getVideos',
             type: 'get',
             data: { userId: user['userId'] },
             success:function(videosJson){
@@ -52,7 +52,7 @@
               alert(videosJson['videoIds'])
 
               document.getElementById("tikton-iframe").setAttribute("data-video-id ", videosIDs[currentVideoPos])
-              
+
 
             }
           });
