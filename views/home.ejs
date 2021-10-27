@@ -18,11 +18,14 @@
         <section style="background-color: cadetblue;"> <a target="_blank" title="@omerikoly"></a> 
             </section> </blockquote> <script async src="https://www.tiktok.com/embed.js"></script>
   </div>
-  <form  id='tagForm' name='tagForm'>
+
+  <div id="buttons">
+  <button id="sec" class="submitButton">Secular</button>
+  <button id="neu" class="submitButton">Neutral</button>
+  <button id="rel" class="submitButton">Religious</button>
+  </div>
+  <form  id='feature' name='features'>
       <input type="hidden" name="videoId" value='<%= id %>'/>
-      <input type="submit" name="religiosity" value="Religious"\>    
-      <input type="submit" name="religiosity" value="Neutral"\>    
-      <input type="submit" name="religiosity" value="Secular"\>
       <% for(let feature of featuresList) { %>
       <input type="checkbox" id='<%= feature %>' name='<%= feature %>' >
       <label for= '<%= feature %>'><%= feature %></label>

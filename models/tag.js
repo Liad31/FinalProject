@@ -3,11 +3,8 @@ const { json } = require("express");
 const Schema = mongoose.Schema;
 
 const tagSchema = new Schema({
-    video_id: { type: Schema.Types.ObjectId, ref: 'Video'},
-    user_id: { type: Schema.Types.ObjectId, ref: 'User'},
-    time_in_sec: {type:Number, required:true},
-    features: {type:Object, required:true},
-    createdAt: {type:Date, default:Date.now}
+    videoTag: [{tiktokId: String, timeDelta: Number, features: Object, decision: Number}],
+    videoDecision: Number,
 });
 
 

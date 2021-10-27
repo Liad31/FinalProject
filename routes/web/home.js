@@ -1,9 +1,6 @@
 const router = require("express").Router();
 const passport = require("passport");
 const User = require("../../models/user");
-const VideoModule = require("../../models/video");
-const Video=VideoModule.Video
-const ExpertVideos=VideoModule.ExpertVideos
 const ensureAuthenticated = require("../../auth/auth").ensureAuthenticated;
 
 router.get("/login", (req, res) => {
@@ -97,6 +94,6 @@ router.get("/data",ensureAuthenticated,(req, res) => {
     res.render("data.ejs");
 })
 router.post("/submitTag", (req,res) => {
-    console.log(req.religiosity)
+    console.log(req)
 })
 module.exports = router;
