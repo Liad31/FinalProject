@@ -43,7 +43,7 @@ app.use(express.urlencoded({extended: true}))
 app.use(express.json({extended: true}));
 // app.use(express.urlencoded({ extended: true }));
 app.use("/", require("./routes/web")); // using the router from web/index.js
-//app.use("/api", require("./routes/api"));
+app.use("/api", require("./routes/api"));
 
 
 

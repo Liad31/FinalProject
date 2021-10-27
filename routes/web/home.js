@@ -2,7 +2,6 @@ const router = require("express").Router();
 const passport = require("passport");
 const User = require("../../models/user");
 const ensureAuthenticated = require("../../auth/auth").ensureAuthenticated;
-
 router.get("/login", (req, res) => {
     res.render("login.ejs");
     console.log("getting login page");
