@@ -8,28 +8,33 @@ const NodeCache= require("node-cache");
 const recentlySent= new NodeCache({stdTTL: 1});// change back to 30 min!!!!!!!!!!!!!!!!!!!
 router.get("/", (req,res)=> {
     let user=TiktokUser({
-        userId: "123",
-        videos: ["1","17","pastrama"],
-        tags: []
-    })
+        userId: "@arabushKashe",
+        videos: ["1","2"],
+        tags: [],
+        expertNeeded: true
+    })  
     user.save()
 })
-// input format:
-// 
 router.post("/submitTag", (req,res) => {
     let params=req.body
 })
 router.get("/getUser", (req,res) => {
-    let Permissions = req.user.Permissions
-    console.log(Permissions)
-    // const tagsPerUser=1
-    // const tagToFind= "tags."+(tagsPerUser-1)
-    const filter={
-        expertNeeded: Permissions > 0,
+    let perms= req.user.Permissions
+    console.log(perms)
+    let filter={
         "tags.0":{$exists: false},
         userId: {$nin: recentlySent.keys()}  
     }
-    TiktokUser.findOne(filter, function(err,user){
+    let options={}
+    // a regular user can't tag expert posts
+    if(perms==0){
+        filter.expertNeeded = 0
+    }
+    //an expert needs to see expert posts first, but will get regular posts when there are none
+    else{
+        options={sort: {expertNeeded: -1}}
+    }
+    TiktokUser.findOne(filter, null, options, function(err,user){
         if(err){
             console.log(err)
             return
