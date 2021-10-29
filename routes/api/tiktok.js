@@ -94,6 +94,8 @@ router.post("/tag", (req,res) => {
         for (i = 0; i < videos_tag.length; i++) {
             videosTags.push({timeDelta: times_array[i], decision: videos_tag[i]});
         }
+        tag = Tag({videoTag: videosTags, userDecision: user_tag});
+        tag.save();
         user.tags.push(Tag({videoTag: videosTags, userDecision: user_tag}));
         user.save();
 
