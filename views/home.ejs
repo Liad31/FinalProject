@@ -13,16 +13,15 @@
 </header>
 
 <body>
-  <div class="container">
-    <blockquote allowtransparency="true" class="tiktok-embed" data-video-id=0 allowtransparency="true" id="tikton-iframe" > 
-        <section style="background-color: cadetblue;"></section> </blockquote>
-         <script async src="https://www.tiktok.com/embed.js"></script>
-  </div>
+  <iframe id="iframe" class="iframe"></iframe>
+ 
+
+  <!-- <blockquote class="tiktok-embed" data-video-id="6991131155013668102"> <section> </section> </blockquote> 
+  <script async src="https://www.tiktok.com/embed.js"></script> -->
 
   <div id="buttons">
-  <button id="sec" class="submitButton">Secular</button>
-  <button id="neu" class="submitButton">Neutral</button>
-  <button id="rel" class="submitButton">Religious</button>
+  <button id="sec" class="btn" onclick="tag(0)">Secular</button>
+  <button id="rel" class="btn" onclick="tag(1)">Religious</button>
   </div>
   <form  id='feature' name='features'>
       <% for(let feature of featuresList) { %>
@@ -30,9 +29,18 @@
       <label for= '<%= feature %>'><%= feature %></label>
       <% } %>
   </form>
+  <div>
+  <button id="submit" class="submitButton" onclick="submitTag()">Submit</button>
+  <button id="expert" class="submitButton" onclick="passToExpert()">passToExpert</button>
+  </div>
+
 </body>
 <script>
+  let times
+  let user_tag = -1
+  let tags_array
   let videosIDs
+  let userID
   let numOfVideos = 0
   let currentVideoPos = 0
   $( document ).ready(function() {
@@ -42,32 +50,123 @@
         data : {expert: false},
         success:function(user){
           numOfVideos = user['numOfVideos']
-          alert(user['numOfVideos'])
+          userID = user['userId']
+          tags_array = new Array(numOfVideos)
+          for (let i = 0; i < numOfVideos; i++) {
+            tags_array[i] = -1
+          }
+          times = new Array(numOfVideos)
           $.ajax({
             url: 'api/tiktok/getVideos',
             type: 'get',
             data: { userId: user['userId'] },
             success:function(videosJson){
               videoIds = videosJson['videoIds']
-              alert(videosJson['videoIds'])
-
-              document.getElementById("tikton-iframe").setAttribute("data-video-id ", videosIDs[currentVideoPos])
-
-
+              videoIds = String(videoIds)
+              videoIds = videoIds.split(',');
+              document.getElementsByClassName("iframe")[0].setAttribute("src", "api/tiktok/video?id=" + videoIds[currentVideoPos])
+              time = new Date();
             }
           });
         }
     });
   });
 
+  function tag(tag) {
+    if (currentVideoPos < numOfVideos){
+      if (tag == 0) {
+        tags_array[currentVideoPos] = 0
+        document.getElementById("sec").style.background = 'cyan'
+        document.getElementById("rel").style.background = 'gray'
+
+      } else {
+        tags_array[currentVideoPos] = 1
+        document.getElementById("rel").style.background = 'cyan'
+        document.getElementById("sec").style.background = 'gray'
+
+      }
+    } else {
+      if (tag == 0) {
+        user_tag = 0
+        document.getElementById("sec").style.background = 'cyan'
+        document.getElementById("rel").style.background = 'gray'
+
+      } else {
+        user_tag = 1
+        document.getElementById("rel").style.background = 'cyan'
+        document.getElementById("sec").style.background = 'gray'
+
+      }
+    }
+  }
+
+
+  function submitTag(){
+
+    if (currentVideoPos < numOfVideos && tags_array[currentVideoPos] < 0) {
+      alert("you havent taged the video")
+      return
+    }
+    if (currentVideoPos == numOfVideos && user_tag < 0) {
+      alert("you havent taged the user")
+      return
+    }
+    if (currentVideoPos < numOfVideos) {
+      times[currentVideoPos] = calcSeconds(new Date(), time);
+      time = new Date();
+    }
+    
+    currentVideoPos++
+    btns = document.getElementsByClassName("btn");
+    for (let i = 0; i < 2; i++) {
+      btns[i].style.background = 'gray'
+    }
+
+    if (currentVideoPos < numOfVideos){
+      document.getElementsByClassName("iframe")[0].setAttribute("src", "api/tiktok/video?id=" + videoIds[currentVideoPos])
+    }
+    else if(currentVideoPos == numOfVideos){
+      document.getElementsByClassName("iframe")[0].style.display = 'none';
+    }
+    else {
+      $.ajax({
+      url: 'api/tiktok/tag',
+      type: 'post',
+      data: { id: userID, user_tag: user_tag, videos_tag: tags_array, times_array: times },
+      success:function(videosJson){
+        window.location.href = "/";
+      }
+    });    }
+  }
+
+  function passToExpert(){
+    $.ajax({
+      url: 'api/tiktok/expert',
+      type: 'post',
+      data: { id: userID },
+      success:function(videosJson){
+        window.location.href = "/";
+      }
+    });
+  }
+
+  function calcSeconds(time2, time1){
+    var dif = time2 - time1;
+    return dif / 1000;
+  }
+
+
 </script>
 <style>
-  .tiktok-embed{
+body{
+    background-color:beige;
+}
+
+#iframe{
     position: absolute;
-    left:0px;
-    height: 100%;
-    width: 30%;
-    left:7%;
+    height: 80%;
+    width: 50%;
+    left: 15%;
     top: 7%;
 }
 </style>
