@@ -82,8 +82,8 @@ router.post("/tag", (req,res) => {
     let videos_tag = req.body.videos_tag
     let times_array = req.body.times_array
 
-    console.log(times_array + " times array");
-    console.log(videos_tag + " videos tag");
+    console.log(times_array + " times array"); //why is this undefined?
+    console.log(videos_tag + " videos tag"); //why is this undefined?
 
     TiktokUser.findOne({userId: userID}, function(err,user){
         if(err){
@@ -91,10 +91,10 @@ router.post("/tag", (req,res) => {
             return
         }
         videosTags = [];
-        for (i = 0; i < videos_tag.length(); i++) {
+        for (i = 0; i < videos_tag.length; i++) {
             videosTags.push({timeDelta: times_array[i], decision: videos_tag[i]});
         }
-        user.tags.psuh(Tag({videoTag: videosTags, userDecision: user_tag}));
+        user.tags.push(Tag({videoTag: videosTags, userDecision: user_tag}));
         user.save();
 
     })
