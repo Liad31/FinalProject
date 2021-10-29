@@ -26,7 +26,7 @@ $( document ).ready(function() {
             videoIds = videosJson['videoIds']
             videoIds = String(videoIds)
             videoIds = videoIds.split(',');
-            document.getElementsByClassName("iframe")[0].setAttribute("src", "api/tiktok/video?id=" + videoIds[currentVideoPos])
+            $("#iframe").prop("src", "api/tiktok/video?id=" + videoIds[currentVideoPos])
             time = new Date();
           }
         });
@@ -38,26 +38,25 @@ function tag(tag) {
   if (currentVideoPos < numOfVideos){
     if (tag == 0) {
       tags_array[currentVideoPos] = 0
-      document.getElementById("sec").style.background = 'cyan'
-      document.getElementById("rel").style.background = 'gray'
+      $("#sec").prop("class", "btn-on");
+      $("#rel").prop("class", "btn-off");
 
     } else {
       tags_array[currentVideoPos] = 1
-      document.getElementById("rel").style.background = 'cyan'
-      document.getElementById("sec").style.background = 'gray'
+      $("#rel").prop("class", "btn-on");
+      $("#sec").prop("class", "btn-off");
 
     }
   } else {
     if (tag == 0) {
       user_tag = 0
-      document.getElementById("sec").style.background = 'cyan'
-      document.getElementById("rel").style.background = 'gray'
+      $("#sec").prop("class", "btn-on");
+      $("#rel").prop("class", "btn-off");
 
     } else {
       user_tag = 1
-      document.getElementById("rel").style.background = 'cyan'
-      document.getElementById("sec").style.background = 'gray'
-
+      $("#rel").prop("class", "btn-on");
+      $("#sec").prop("class", "btn-off");
     }
   }
 }
@@ -79,16 +78,16 @@ function submitTag(){
   }
   
   currentVideoPos++
-  btns = document.getElementsByClassName("btn");
-  for (let i = 0; i < 2; i++) {
-    btns[i].style.background = 'gray'
-  }
+  $("#rel").prop("class", "btn-off");
+  $("#sec").prop("class", "btn-off");
 
   if (currentVideoPos < numOfVideos){
-    document.getElementsByClassName("iframe")[0].setAttribute("src", "api/tiktok/video?id=" + videoIds[currentVideoPos])
+    $("#iframe").prop("src", "api/tiktok/video?id=" + videoIds[currentVideoPos])
   }
   else if(currentVideoPos == numOfVideos){
-    document.getElementsByClassName("iframe")[0].style.display = 'none'; //change something
+    $("div.iframe").hide();
+    $("div.tag-panel").css("left", `${$(window).width() * 45 / 100}px`);
+    $("#headline").text("Tag the user");
   }
   else {
     $.ajax({

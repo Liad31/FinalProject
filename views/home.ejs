@@ -3,9 +3,9 @@
 
 <head>
   <title>log in</title>
-  <%- include('_partial/_head') -%> 
-  <link rel="stylesheet" type="text/css" href="home.css" />
-  <script src="home.js"></script>
+  <%- include('_partial/_head') -%>
+    <link rel="stylesheet" type="text/css" href="home.css" />
+    <script src="home.js"></script>
 </head>
 
 <header>
@@ -13,26 +13,37 @@
 </header>
 
 <body>
-  <iframe id="iframe" class="iframe"></iframe>
- 
+  <div class = "panel">
 
-  <!-- <blockquote class="tiktok-embed" data-video-id="6991131155013668102"> <section> </section> </blockquote> 
+    <div class="iframe">
+      <iframe id="iframe" class="iframe"></iframe>
+    </div>
+
+    <!-- <blockquote class="tiktok-embed" data-video-id="6991131155013668102"> <section> </section> </blockquote> 
   <script async src="https://www.tiktok.com/embed.js"></script> -->
 
-  <div id="buttons">
-  <button id="sec" class="btn" onclick="tag(0)" background-color="white">Secular</button>
-  <button id="rel" class="btn" onclick="tag(1)">Religious</button>
+    <div class="tag-panel">
+      <div class="buttons-top">
+        <h1 id="headline">Tag the video</h1>
+        <button id="sec" class="btn-off" onclick="tag(0)">Secular</button>
+        <button id="rel" class="btn-off" onclick="tag(1)">Religious</button>
+      </div>
+      <div class="features">
+        <form id='feature' name='features'>
+          <% for(let feature of featuresList) { %>
+            <input type="checkbox" id='<%= feature %>' name='<%= feature %>'>
+            <label for='<%= feature %>'>
+              <%= feature %>
+            </label>
+            <% } %>
+        </form>
+      </div>
+      <div class="buttons-bottom">
+        <button id="submit" class="submitButton" onclick="submitTag()">Submit</button>
+        <button id="expert" class="submitButton" onclick="passToExpert()">passToExpert</button>
+      </div>
+    </div>
   </div>
-  <form  id='feature' name='features'>
-      <% for(let feature of featuresList) { %>
-      <input type="checkbox" id='<%= feature %>' name='<%= feature %>' >
-      <label for= '<%= feature %>'><%= feature %></label>
-      <% } %>
-  </form>
-  <div>
-  <button id="submit" class="submitButton" onclick="submitTag()">Submit</button>
-  <button id="expert" class="submitButton" onclick="passToExpert()">passToExpert</button>
-  </div>
-
 </body>
+
 </html>

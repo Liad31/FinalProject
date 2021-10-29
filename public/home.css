@@ -46,10 +46,57 @@ body{
     background-color:beige;
 }
 
-#iframe{
+.iframe {
+    height: 100%;
+    width: 100%
+}
+
+div.iframe{
     position: absolute;
-    height: 80%;
-    width: 50%;
-    left: 15%;
-    top: 7%;
+    height: 70%;
+    width: 35%;
+    right: 5%;
+    top: 10%;
+}
+
+div.panel {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+}
+div.tag-panel {
+    position: absolute;
+    left: 10%;
+    top: 30%
+
+}
+
+div.buttons-top {
+    position: relative;
+    padding: 5px;
+ 
+}
+
+div.buttons-bottom {
+    position: relative;
+    padding: 5px;
+}
+
+div.features {
+    position: relative;
+    padding: 5px;
+}
+
+.btn-off{
+    background-color: lightgrey;
+    font-size: 34px;
+}
+
+.btn-on{
+    background-color: tomato;
+    font-size: 34px;
+}
+
+.submitButton {
+    font-size: 34px;
 }
