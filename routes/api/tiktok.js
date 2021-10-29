@@ -79,6 +79,8 @@ router.post("/tag", (req,res) => {
     let userID = req.body.id
     let user_tag = req.body.user_tag
     let videos_tag = req.body.videos_tag
+    let times_array = req.body.times_array
+
     console.log(userID + "passed to expert")
     TiktokUser.findOne({userId: userID}, function(err,user){
         if(err){
