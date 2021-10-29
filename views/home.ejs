@@ -20,7 +20,7 @@
   <script async src="https://www.tiktok.com/embed.js"></script> -->
 
   <div id="buttons">
-  <button id="sec" class="btn" onclick="tag(0)">Secular</button>
+  <button id="sec" class="btn" onclick="tag(0)" background-color="white">Secular</button>
   <button id="rel" class="btn" onclick="tag(1)">Religious</button>
   </div>
   <form  id='feature' name='features'>
@@ -126,7 +126,7 @@
       document.getElementsByClassName("iframe")[0].setAttribute("src", "api/tiktok/video?id=" + videoIds[currentVideoPos])
     }
     else if(currentVideoPos == numOfVideos){
-      document.getElementsByClassName("iframe")[0].style.display = 'none';
+      document.getElementsByClassName("iframe")[0].style.display = 'none'; //change something
     }
     else {
       $.ajax({

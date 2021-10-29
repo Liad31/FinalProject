@@ -61,14 +61,15 @@ router.get("/video", (req,res) => {
 })
 
 router.post("/expert", (req,res) => {
-    let userID = req.body.id
-    console.log(userID + "passed to expert")
+    let userID = req.body.id;
+    console.log(userID + "passed to expert");
     TiktokUser.findOne({userId: userID}, function(err,user){
         if(err){
             console.log(err)
             return
         }
-        // save that the user was passed to expert
+        user.expertNeeded = 1;
+        user.save();
     })
     res.status(200).send();
 
@@ -81,13 +82,21 @@ router.post("/tag", (req,res) => {
     let videos_tag = req.body.videos_tag
     let times_array = req.body.times_array
 
-    console.log(userID + "passed to expert")
+    console.log(times_array + " times array");
+    console.log(videos_tag + " videos tag");
+
     TiktokUser.findOne({userId: userID}, function(err,user){
         if(err){
             console.log(err)
             return
         }
-        // save the tags
+        videosTags = [];
+        for (i = 0; i < videos_tag.length(); i++) {
+            videosTags.push({timeDelta: times_array[i], decision: videos_tag[i]});
+        }
+        user.tags.psuh(Tag({videoTag: videosTags, userDecision: user_tag}));
+        user.save();
+
     })
     res.status(200).send();
 
