@@ -10,9 +10,10 @@ const recentlySent= new NodeCache({stdTTL: 1});// change back to 30*60*60 min!!!
 router.post("/submitTag", (req,res) => {
     let params=req.body
 })
-router.get("/getUser", (req,res) => {
+router.get("/getUser", (req,res) => {a
     let perms= req.user.Permissions
     console.log(perms)
+    recentlySent.flushAll()
     let filter={
         "tags.0":{$exists: false},
         userId: {$nin: recentlySent.keys()}  
