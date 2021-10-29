@@ -41,3 +41,15 @@ body{
     left: 7%;
     top: 7%;
 }
+
+body{
+    background-color:beige;
+}
+
+#iframe{
+    position: absolute;
+    height: 80%;
+    width: 50%;
+    left: 15%;
+    top: 7%;
+}

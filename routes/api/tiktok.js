@@ -10,7 +10,7 @@ const recentlySent= new NodeCache({stdTTL: 1});// change back to 30*60*60 min!!!
 router.post("/submitTag", (req,res) => {
     let params=req.body
 })
-router.get("/getUser", (req,res) => {a
+router.get("/getUser", (req,res) => {
     let perms= req.user.Permissions
     console.log(perms)
     recentlySent.flushAll()
@@ -97,7 +97,7 @@ router.post("/tag", (req,res) => {
         }
         tag = Tag({videoTag: videosTags, userDecision: user_tag});
         tag.save();
-        user.tags.push(Tag({videoTag: videosTags, userDecision: user_tag}));
+        user.tags.push(tag);
         user.save();
 
     })
