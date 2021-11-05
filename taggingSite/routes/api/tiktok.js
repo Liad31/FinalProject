@@ -83,10 +83,11 @@ router.post("/tag", (req,res) => {
     let videos_tag = req.body.videos_tag
     let times_array = req.body.times_array
 
-    console.log(times_array + " times array"); //why is this undefined?
-    console.log(videos_tag + " videos tag"); //why is this undefined?
+    console.log(times_array + " times array"); 
+    console.log(videos_tag + " videos tag");
 
-    TiktokUser.findOne({userId: userID}, function(err,user){
+    //update tiktokuser
+    TiktokUser.findOne({userId: userID}, function(err,tiktokUser){
         if(err){
             console.log(err)
             return
@@ -97,10 +98,17 @@ router.post("/tag", (req,res) => {
         }
         tag = Tag({videoTag: videosTags, userDecision: user_tag});
         tag.save();
-        user.tags.push(tag);
-        user.save();
+        tiktokUser.tags.push(tag);
+        tiktokUser.save();
 
     })
+
+    //update user
+    let user = req.user;
+    user.videos_tagged += videos_tag.length;
+    user.weekly_tags_left -= videos_tag.length
+    user.save();
+
     res.status(200).send();
 
 

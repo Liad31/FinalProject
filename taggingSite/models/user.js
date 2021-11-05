@@ -1,5 +1,6 @@
 const bcyrpt = require("bcryptjs");
 const mongoose = require("mongoose");
+const params = require("../params/params");
 const Schema = mongoose.Schema;
 
 const SALT_FACTOR = 10;
@@ -8,6 +9,8 @@ const userSchema = new Schema({
     username: {type:String, required:true, unique:true},
     password: {type:String, required:true},
     Permissions: {type:Number, default:0},
+    videos_tagged: {type: Number, default:0},
+    weekly_tags_left: {type: Number, default: params.WEEKLY_TAGS_NUM},
     tags: [{ type: Schema.Types.ObjectId, ref: 'Tag'}]
 });
 

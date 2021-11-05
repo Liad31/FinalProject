@@ -7,6 +7,7 @@
 //   key: key,
 //   cert: cert
 // };
+const schedule = require('node-schedule');
 const mongoose = require("mongoose");
 const express = require('express');
 const path = require("path");
@@ -17,6 +18,7 @@ const flash = require("connect-flash");
 const params = require("./params/params");
 const bodyParser = require("body-parser");
 const setUpPassport = require("./setuppassport");
+const User = require('./models/user');
 
 const app = express();
 mongoose.connect(params.DATABASECONNECTION);
@@ -45,7 +47,9 @@ app.use(express.json({extended: true}));
 app.use("/", require("./routes/web")); // using the router from web/index.js
 app.use("/api", require("./routes/api"));
 
-
+const job = schedule.scheduleJob(params.WEKKLY_UPDATE_TIME, async function(){
+    let res = await User.updateMany({}, {"$inc": {weekly_tags_left: params.WEEKLY_TAGS_NUM}});
+});
 
 app.listen(app.get("port"), () => {
     console.log(`Starting on port ${app.get("port")}`);
