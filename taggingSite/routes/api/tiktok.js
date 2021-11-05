@@ -5,7 +5,7 @@ const Tag= require("../../models/tag")
 const TiktokUser= require("../../models/tiktokUser");
 const NodeCache= require("node-cache");
 // TTL=30 mins
-const recentlySent= new NodeCache({stdTTL: 1});// change back to 30*60*60 min!!!!!!!!!!!!!!!!!!!
+const recentlySent= new NodeCache({stdTTL: 1});// TODO:change back to 30*60*60 min!!!!!!!!!!!!!!!!!!!
 
 router.post("/submitTag", (req,res) => {
     let params=req.body
@@ -19,6 +19,7 @@ router.get("/getUser", (req,res) => {
         userId: {$nin: recentlySent.keys()}  
     }
     let options={}
+    filter.error = 0; // users marked in error won't bt given to tag
     // a regular user can't tag expert posts
     if(perms==0){
         filter.expertNeeded = 0
@@ -73,8 +74,20 @@ router.post("/expert", (req,res) => {
         user.save();
     })
     res.status(200).send();
+})
 
-
+router.post("/markError", (req,res) => {
+    let userID = req.body.id;
+    console.log(userID + "marked as error");
+    TiktokUser.findOne({userId: userID}, function(err,user){
+        if(err){
+            console.log(err)
+            return
+        }
+        user.error = 1;
+        user.save();
+    })
+    res.status(200).send();
 })
 
 router.post("/tag", (req,res) => {

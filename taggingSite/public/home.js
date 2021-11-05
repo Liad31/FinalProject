@@ -111,6 +111,17 @@ function passToExpert(){
   });
 }
 
+function markError() {
+  $.ajax({
+    url: 'api/tiktok/markError',
+    type: 'post',
+    data: { id: userID },
+    success:function(videosJson){
+      window.location.href = "/";
+    }
+  });
+}
+
 function calcSeconds(time2, time1){
   var dif = time2 - time1;
   return dif / 1000;
