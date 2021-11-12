@@ -12,6 +12,15 @@ $( document ).ready(function() {
       type: 'get',
       data : {expert: false},
       success:function(user){
+        if (user == null) {
+          $("div.iframe").hide();
+          $("div.tag-panel").css("left", `${$(window).width() * 40 / 100}px`);
+          $("#headline").text("There are no users to tag");
+          $("div.features").hide();
+          $("div.buttons-top").hide();
+          $("div.buttons-bottom").hide();
+          return
+        }
         numOfVideos = user['numOfVideos']
         userID = user['userId']
         tags_array = new Array(numOfVideos)

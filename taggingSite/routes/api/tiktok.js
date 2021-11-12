@@ -35,11 +35,14 @@ router.get("/getUser", (req,res) => {
         }
         if (!user) {
             console.log("no user found")
-            return
+            res.setHeader('Content-Type', 'application/json');
+            res.end(JSON.stringify(null))
         }
+        else {
         recentlySent.set(user.userId,1)
         res.setHeader('Content-Type', 'application/json');
         res.end(JSON.stringify({userId: user.userId, numOfVideos: user.videos.length}))
+        }
     })
 })
 router.get("/getVideos", (req,res) => {
