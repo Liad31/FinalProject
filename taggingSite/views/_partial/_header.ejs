@@ -2,6 +2,8 @@
     <a class="navbar-brand" href="/">Home</a>
     <ul class="navbar-nav ml-auto my-lg-0">
         <% if(currentUser !=null) { %>
+            <li class="nav-item ml-auto"><a class="nav-link">Total tags: <%= currentUser.videos_tagged %></a></li>
+            <li class="nav-item ml-auto"><a class="nav-link">Tags left this week: <%= currentUser.weekly_tags_left %></a></li>
             <li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
             <% if(currentUser.Permissions >= 2) { %>
             <li class="nav-item"><a class="nav-link" href="/data">Data</a></li>

@@ -5,6 +5,7 @@ let videosIDs
 let userID
 let numOfVideos = 0
 let currentVideoPos = 0
+let features = []
 $( document ).ready(function() {
   $.ajax({
       url: 'api/tiktok/getUser',
@@ -75,6 +76,14 @@ function submitTag(){
   if (currentVideoPos < numOfVideos) {
     times[currentVideoPos] = calcSeconds(new Date(), time);
     time = new Date();
+    let this_features = {}
+    $(':checkbox').each(function(i){
+      console.log($(this))
+      console.log($(this).prop('checked'))
+      this_features[$(this).prop('name')] = $(this).prop('checked')
+    });
+    features.push(this_features)
+    console.log(features)
   }
   
   currentVideoPos++
@@ -93,7 +102,7 @@ function submitTag(){
     $.ajax({
     url: 'api/tiktok/tag',
     type: 'post',
-    data: { id: userID, user_tag: user_tag, videos_tag: tags_array, times_array: times },
+    data: { id: userID, user_tag: user_tag, features:features, videos_tag: tags_array, times_array: times },
     success:function(videosJson){
       window.location.href = "/";
     }

@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const passport = require("passport");
 const User = require("../../models/user");
+const params = require("../../params/params");
 // const VideoModule = require("../../models/video");
 // const Video=VideoModule.Video
 // const ExpertVideos=VideoModule.ExpertVideos
@@ -73,7 +74,7 @@ router.post("/signup", function (req, res, next) {
 }));
 
 router.get("/", ensureAuthenticated,(req, res) => {
-    res.locals.featuresList=["hair","arabush"]
+    res.locals.featuresList= params.FEATURE_LIST
     res.render("home.ejs");
     console.log("getting home page");
 });

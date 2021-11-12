@@ -95,6 +95,7 @@ router.post("/tag", (req,res) => {
     let user_tag = req.body.user_tag
     let videos_tag = req.body.videos_tag
     let times_array = req.body.times_array
+    let features = req.body.features;
 
     console.log(times_array + " times array"); 
     console.log(videos_tag + " videos tag");
@@ -107,7 +108,7 @@ router.post("/tag", (req,res) => {
         }
         videosTags = [];
         for (i = 0; i < videos_tag.length; i++) {
-            videosTags.push({timeDelta: times_array[i], decision: videos_tag[i]});
+            videosTags.push({timeDelta: times_array[i], features: features[i], decision: videos_tag[i]});
         }
         tag = Tag({videoTag: videosTags, userDecision: user_tag});
         tag.save();
