@@ -19,6 +19,7 @@ const params = require("./params/params");
 const bodyParser = require("body-parser");
 const setUpPassport = require("./setuppassport");
 const User = require('./models/user');
+const Value = require('./models/value');
 
 const app = express();
 mongoose.connect(params.DATABASECONNECTION);
@@ -49,6 +50,8 @@ app.use("/api", require("./routes/api"));
 
 const job = schedule.scheduleJob(params.WEKKLY_UPDATE_TIME, async function(){
     let res = await User.updateMany({}, {"$inc": {weekly_tags_left: params.WEEKLY_TAGS_NUM}});
+    let old_week = await Value.findOneAndUpdate({ name: "videos_tagged_this_week" }, { value: 0 });
+    await Value.findOneAndUpdate({ name: "videos_tagged_last_week" }, { value: old_week.value });
 });
 
 app.listen(app.get("port"), () => {
