@@ -160,7 +160,7 @@ router.post("/tag", (req, res) => {
             //update user stats
             userStats = await Stats.findOne({ userId: user.id, date: null })
             if (userStats == null) {
-                userStats = new Stats({userId: user.id, date: null});
+                userStats = new Stats({ userId: user.id, date: null });
             }
             old_total_time = userStats.video_avg_tagging_time * userStats.videos_total_tags;
             userStats.user_pos_tags += user_tag == true;
@@ -175,7 +175,7 @@ router.post("/tag", (req, res) => {
             // update stats
             stats = await Stats.findOne({ userId: null, date: null })
             if (stats == null) {
-                stats = new Stats({userId:null, date: null});
+                stats = new Stats({ userId: null, date: null });
             }
             old_total_time = stats.video_avg_tagging_time * stats.videos_total_tags;
             stats.user_pos_tags += user_tag == true;
@@ -197,15 +197,58 @@ router.post("/tag", (req, res) => {
 
 })
 
-router.get("/getValue", (req, res) => {
-    Value.findOne({ name: req.query.name }, function (err, value) {
+router.get("/userStats", (req, res) => {
+    Stats.findOne({ userId: req.query.id, date: null }, function (err, stats) {
         if (err) {
             console.log(err)
             return
         }
         res.setHeader('Content-Type', 'application/json');
-        res.end(JSON.stringify({ value: value }))
+        res.end(JSON.stringify({ stats }))
     })
 })
 
+router.get("/stats", (req, res) => {
+    Stats.findOne({ userId: null, date: null }, function (err, stats) {
+        if (err) {
+            console.log(err)
+            return
+        }
+        res.setHeader('Content-Type', 'application/json');
+        res.end(JSON.stringify({ stats }))
+    })
+})
+
+router.get("/weeklyUserStats", (req, res) => {
+    Stats.find({ userId: req.query.id, date: { $ne: null } }, {}, { sort: { 'date': -1 } }, function (err, stats) {
+        if (err) {
+            console.log(err)
+            return
+        }
+        res.setHeader('Content-Type', 'application/json');
+        res.end(JSON.stringify({ stats }));
+    });
+})
+
+router.get("/weeklyStats", (req, res) => {
+    Stats.find({ userId: null, date: { $ne: null } }, {}, { sort: { 'date': -1 } }, function (err, stats) {
+        if (err) {
+            console.log(err)
+            return
+        }
+        res.setHeader('Content-Type', 'application/json');
+        res.end(JSON.stringify({ stats }));
+    });
+})
+
+router.get("/userIds",(req, res) => {
+    User.find({}, {select: "_id"}, function (err, users) {
+        if (err) {
+            console.log(err)
+            return
+        }
+        res.setHeader('Content-Type', 'application/json');
+        res.end(JSON.stringify({ users }));
+    });
+})
 module.exports = router;
