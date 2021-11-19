@@ -9,14 +9,8 @@ const userSchema = new Schema({
     username: {type:String, required:true, unique:true},
     password: {type:String, required:true},
     Permissions: {type:Number, default:0},
-    videos_tagged: {type: Number, default:0},
     weekly_tags_left: {type: Number, default: params.WEEKLY_TAGS_NUM},
     tags: [{ type: Schema.Types.ObjectId, ref: 'Tag'}],
-    user_pos_tags: {type:Number, default:0},
-    user_neg_tags: {type:Number, default:0},
-    user_total_tags: {type:Number, default:0},
-    videos_pos_tags: {type:Number, default:0},
-    videos_neg_tags: {type:Number, default:0},
 });
 
 userSchema.pre("save", function(done) {

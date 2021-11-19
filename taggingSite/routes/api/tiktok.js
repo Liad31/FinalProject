@@ -3,7 +3,7 @@ var router = express.Router();
 const User = require("../../models/user")
 const Tag = require("../../models/tag")
 const TiktokUser = require("../../models/tiktokUser");
-const Value = require("../../models/value.js");
+const Stats = require("../../models/stats");
 const NodeCache = require("node-cache");
 // TTL=30 mins
 const recentlySent = new NodeCache({ stdTTL: 1 });// TODO:change back to 30*60*60 min!!!!!!!!!!!!!!!!!!!
@@ -112,36 +112,81 @@ router.post("/tag", (req, res) => {
             }
             let videosTags = [];
             let videos_pos_tags = 0;
+            let total_time = 0;
             for (i = 0; i < videos_tag.length; i++) {
                 videosTags.push({ timeDelta: times_array[i], features: features[i], decision: videos_tag[i] });
                 videos_pos_tags += videos_tag[i] == true;
+                total_time += parseFloat(times_array[i])
             }
             let tag = Tag({ videoTag: videosTags, userDecision: user_tag });
             tag.save();
             tiktokUser.tags.push(tag);
             tiktokUser.save();
 
-
             //update user
             let user = req.user;
-            user.videos_tagged += videos_tag.length;
             user.weekly_tags_left -= videos_tag.length;
-            user.user_pos_tags += user_tag == true;
-            user.user_neg_tags += user_tag == false;
-            user.user_total_tags += 1;
-            user.videos_pos_tags += videos_pos_tags;
-            user.videos_neg_tags += (videos_tag.length - videos_pos_tags);
             user.tags.push(tag.id)
             user.save();
 
-            // update values
-            await Value.findOneAndUpdate({ name: "user_pos_tags" }, { $inc: { value: user_tag == true } });
-            await Value.findOneAndUpdate({ name: "user_neg_tags" }, { $inc: { value: user_tag == false } });
-            await Value.findOneAndUpdate({ name: "user_total_tags" }, { $inc: { value: 1 } });
-            await Value.findOneAndUpdate({ name: "videos_pos_tags" }, { $inc: { value: videos_pos_tags } });
-            await Value.findOneAndUpdate({ name: "videos_neg_tags" }, { $inc: { value: videos_tag.length - videos_pos_tags } });
-            await Value.findOneAndUpdate({ name: "videos_tagged" }, { $inc: { value: videos_tag.length } });
-            await Value.findOneAndUpdate({ name: "videos_tagged_this_week" }, { $inc: { value: videos_tag.length } });
+            let date = new Date();
+            date.setDate(date.getDate() - 7);
+            //date.setMinutes(date.getMinutes() - 1);
+
+            //update user weekly stats
+            let userStats = await Stats.findOne({ userId: user.id, date: { $gt: date } })
+            let old_total_time = userStats.video_avg_tagging_time * userStats.videos_total_tags;
+            userStats.user_pos_tags += user_tag == true;
+            userStats.user_neg_tags += user_tag == false;
+            userStats.user_total_tags += 1;
+            userStats.videos_pos_tags += videos_pos_tags;
+            userStats.videos_neg_tags += (videos_tag.length - videos_pos_tags);
+            userStats.videos_total_tags += videos_tag.length;
+            userStats.video_avg_tagging_time = (old_total_time + total_time) / userStats.videos_total_tags;
+            userStats.save();
+
+            // update weekly stats
+            let stats = await Stats.findOne({ userId: null, date: { $gt: date } })
+            old_total_time = stats.video_avg_tagging_time * stats.videos_total_tags;
+            stats.user_pos_tags += user_tag == true;
+            stats.user_neg_tags += user_tag == false;
+            stats.user_total_tags += 1;
+            stats.videos_pos_tags += videos_pos_tags;
+            stats.videos_neg_tags += (videos_tag.length - videos_pos_tags);
+            stats.videos_total_tags += videos_tag.length;
+            stats.video_avg_tagging_time = (old_total_time + total_time) / stats.videos_total_tags;
+            stats.save();
+
+            //update user stats
+            userStats = await Stats.findOne({ userId: user.id, date: null })
+            if (userStats == null) {
+                userStats = new Stats({userId: user.id, date: null});
+            }
+            old_total_time = userStats.video_avg_tagging_time * userStats.videos_total_tags;
+            userStats.user_pos_tags += user_tag == true;
+            userStats.user_neg_tags += user_tag == false;
+            userStats.user_total_tags += 1;
+            userStats.videos_pos_tags += videos_pos_tags;
+            userStats.videos_neg_tags += (videos_tag.length - videos_pos_tags);
+            userStats.videos_total_tags += videos_tag.length;
+            userStats.video_avg_tagging_time = (old_total_time + total_time) / userStats.videos_total_tags;
+            userStats.save();
+
+            // update stats
+            stats = await Stats.findOne({ userId: null, date: null })
+            if (stats == null) {
+                stats = new Stats({userId:null, date: null});
+            }
+            old_total_time = stats.video_avg_tagging_time * stats.videos_total_tags;
+            stats.user_pos_tags += user_tag == true;
+            stats.user_neg_tags += user_tag == false;
+            stats.user_total_tags += 1;
+            stats.videos_pos_tags += videos_pos_tags;
+            stats.videos_neg_tags += (videos_tag.length - videos_pos_tags);
+            stats.videos_total_tags += videos_tag.length;
+            stats.video_avg_tagging_time = (old_total_time + total_time) / stats.videos_total_tags;
+            stats.save();
+
         } catch (err) {
             console.log(err);
         }
