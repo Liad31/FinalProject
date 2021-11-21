@@ -23,7 +23,7 @@ router.get("/getUser", (req, res) => {
     filter.error = 0; // users marked in error won't bt given to tag
     // a regular user can't tag expert posts
     if (perms == 0) {
-        filter.expertNeeded = 0
+        filter.expertNeeded = {$eq: null}
     }
     //an expert needs to see expert posts first, but will get regular posts when there are none
     else {
@@ -42,10 +42,11 @@ router.get("/getUser", (req, res) => {
         else {
             recentlySent.set(user.userId, 1)
             res.setHeader('Content-Type', 'application/json');
-            res.end(JSON.stringify({ userId: user.userId, numOfVideos: user.videos.length }))
+            res.end(JSON.stringify({ userId: user.userId, numOfVideos: user.videos.length, message: user.expertNeeded}))
         }
     })
 })
+
 router.get("/getVideos", (req, res) => {
     TiktokUser.findOne({ userId: req.query.userId }, function (err, user) {
         if (err) {
@@ -67,13 +68,15 @@ router.get("/video", (req, res) => {
 
 router.post("/expert", (req, res) => {
     let userID = req.body.id;
+    let message = req.body.message;
     console.log(userID + "passed to expert");
     TiktokUser.findOne({ userId: userID }, function (err, user) {
         if (err) {
             console.log(err)
             return
         }
-        user.expertNeeded = 1;
+        user.expertNeeded = message;
+        console.log(message)
         user.save();
     })
     res.status(200).send();

@@ -21,6 +21,11 @@ $( document ).ready(function() {
           $("div.buttons-bottom").hide();
           return
         }
+        if (user.message != null) {
+          $("#expert-message").show();
+          $("p").text(user.message);
+        }
+        
         numOfVideos = user['numOfVideos']
         userID = user['userId']
         tags_array = new Array(numOfVideos)
@@ -122,7 +127,7 @@ function passToExpert(){
   $.ajax({
     url: 'api/tiktok/expert',
     type: 'post',
-    data: { id: userID },
+    data: { id: userID, message: $('textarea#message').val() },
     success:function(videosJson){
       window.location.href = "/";
     }

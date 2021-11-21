@@ -100,3 +100,7 @@ div.features {
 .submitButton {
     font-size: 34px;
 }
+
+div.expert-message {
+    display: none
+}

@@ -6,7 +6,7 @@ const tiktokUserSchema= new Schema({
     userId: String,
     videos: [{type: String}],
     tags: [{ type: Schema.Types.ObjectId, ref: 'Tag'}],
-    expertNeeded: {type: Boolean, default: false},
+    expertNeeded: {type: String, default: null},
     error: {type: Number, default: 0},
 });
 
