@@ -90,6 +90,7 @@ class Scraper:
     def scrap_batch(self, cmds, params):
         dir_name = os.path.join(self.results_dir, str(self.counter))
         cmds_name = self.cmds_filename + str(self.counter)
+        
         if os.path.exists(dir_name):
             shutil.rmtree(dir_name)
         os.mkdir(dir_name)
@@ -102,6 +103,7 @@ class Scraper:
 
         scrap_params = ' '.join(f'--{param_name} {param_value}' for param_name, param_value in params.items())
         scrap_cmd = f'tiktok-scraper from-file {cmds_name} {self.async_workers}'
+        print(scrap_cmd)
         os.system(f'{scrap_cmd} {scrap_params}')
 
         os.remove(cmds_name)

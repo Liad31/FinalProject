@@ -5,6 +5,9 @@ const Schema = mongoose.Schema;
 const tiktokUserSchema= new Schema({
     userId: String,
     videos: [{type: String}],
+    bio: String,
+    governorate: String,
+    userStats: Object,
     tags: [{ type: Schema.Types.ObjectId, ref: 'Tag'}],
     expertNeeded: {type: String, default: null},
     error: {type: Number, default: 0},
