@@ -48,36 +48,42 @@ class Scraper:
         output = self.generate_output_from_mp4(dir_name)
         return output
 
-    def scrap_hashtags(self, hashtags, num_posts):
+    def scrap_hashtags(self, hashtags, num_posts, since, before):
         cmds = [f'#{hashtag}' for hashtag in hashtags]
 
         params = {
             'number': num_posts,
-            'filetype': 'csv'
+            'filetype': 'csv',
+            'since': since,
+            'before': before
         }
         dir_name = self.scrap_batch(cmds, params)
 
         output = self.generate_output_from_csv(dir_name)
         return output
 
-    def scrap_musics(self, music_ids, num_posts):
+    def scrap_musics(self, music_ids, num_posts, since, before):
         cmds = [f'music:{music_id}' for music_id in music_ids]
 
         params = {
             'number': num_posts,
-            'filetype': 'csv'
+            'filetype': 'csv',
+            'since': since,
+            'before': before
         }
         dir_name = self.scrap_batch(cmds, params)
 
         output = self.generate_output_from_csv(dir_name)
         return output
 
-    def scrap_users(self, usernames, num_posts):
+    def scrap_users(self, usernames, num_posts, since, before):
         cmds = usernames
 
         params = {
             'number': num_posts,
-            'filetype': 'csv'
+            'filetype': 'csv',
+            'since': since,
+            'before': before
         }
         dir_name = self.scrap_batch(cmds, params)
 

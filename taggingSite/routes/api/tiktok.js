@@ -4,9 +4,10 @@ const User = require("../../models/user")
 const Tag = require("../../models/tag")
 const TiktokUser = require("../../models/tiktokUser");
 const Stats = require("../../models/stats");
+const Video = require("../../models/video");
 const NodeCache = require("node-cache");
 // TTL=30 mins
-const recentlySent = new NodeCache({ stdTTL: 1 });// TODO:change back to 30*60*60 min!!!!!!!!!!!!!!!!!!!
+const recentlySent = new NodeCache({ stdTTL: 30*60*60 });// TODO:change back to 30*60*60 min!!!!!!!!!!!!!!!!!!!
 
 router.post("/submitTag", (req, res) => {
     let params = req.body
@@ -54,7 +55,20 @@ router.get("/getVideos", (req, res) => {
             return
         }
         res.setHeader('Content-Type', 'application/json');
-        res.end(JSON.stringify({ videoIds: user.videos }))
+        ids = []
+        for (i = 0; i < user.videos.length; i++) {
+            Video.findOne({"_id" : user.videos[i]}, function (err, vid) {
+                if (err) {
+                    console.log(err)
+                    return
+                }
+                console.log(vid)
+                ids.push(vid['Vid'])
+                if (i >= user.videos.length-1){
+                    res.end(JSON.stringify({ videoIds: ids }))
+                }
+            })
+        }
     })
 })
 

@@ -17,8 +17,11 @@ def user_query_from_csv(csv_file_name):
 @app.route('/user/<username>')
 def user_query(username):
     num_posts = request.args.get('num_posts', default=0, type=int)
+    since=request.args.get('since', default=0, type=int)
+    before=request.args.get('before', default=0, type=int)
 
-    output = scraper.scrap_users([username], num_posts)[0]
+
+    output = scraper.scrap_users([username], num_posts, since, before)[0]
     #
 
     print("Sdasdasd")
@@ -28,16 +31,20 @@ def user_query(username):
 @app.route('/music/<music_id>')
 def music_query(music_id):
     num_posts = request.args.get('num_posts', default=0, type=int)
+    since=request.args.get('since', default=0, type=int)
+    before=request.args.get('before', default=0, type=int)
 
-    output = scraper.scrap_musics([music_id], num_posts)
+    output = scraper.scrap_musics([music_id], num_posts, since, before)
     return json.dumps(output)
 
 
 @app.route('/hashtag/<hashtag>')
 def hashtag_query(hashtag):
     num_posts = request.args.get('num_posts', default=0, type=int)
+    since=request.args.get('since', default=0, type=int)
+    before=request.args.get('before', default=0, type=int)
 
-    output = scraper.scrap_hashtags([hashtag], num_posts)
+    output = scraper.scrap_hashtags([hashtag], num_posts, since, before)
     return json.dumps(output)
 
 
@@ -60,8 +67,10 @@ def get_lines_of_uploaded_file(filename):
 def users_query():
     usernames = get_lines_of_uploaded_file('usernames')
     num_posts = request.values.get('num_posts', default=0, type=int)
+    since=request.args.get('since', default=0, type=int)
+    before=request.args.get('before', default=0, type=int)
 
-    output = scraper.scrap_users(usernames, num_posts)
+    output = scraper.scrap_users(usernames, num_posts, since, before)
     return json.dumps(output)
 
 
@@ -69,8 +78,10 @@ def users_query():
 def musics_query():
     music_ids = get_lines_of_uploaded_file('music_ids')
     num_posts = request.values.get('num_posts', default=0, type=int)
+    since=request.args.get('since', default=0, type=int)
+    before=request.args.get('before', default=0, type=int)
 
-    output = scraper.scrap_musics(music_ids, num_posts)
+    output = scraper.scrap_musics(music_ids, num_posts, since, before)
     return json.dumps(output)
 
 

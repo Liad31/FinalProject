@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const tagSchema = new Schema({
-    videoTag: [{tiktokId: String, text: String, hashtags: [{type: String}], musicId: String, musicUrl: String, timeDelta: Number, features: Object, decision: Boolean}],
+    videoTag: [{ timeDelta: Number, features: Object, decision: Boolean}],
     userDecision: Boolean,
 });
 

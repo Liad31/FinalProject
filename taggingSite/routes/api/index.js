@@ -10,5 +10,6 @@ router.use(function(req, res, next) {
 });
 
 router.use("/tiktok", require("./tiktok.js"));
+router.use("/database", require("./databaseManager.js"));
 
 module.exports = router;    
