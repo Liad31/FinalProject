@@ -36,11 +36,12 @@ router.post("/postNewUsers", (req, res) => {
                 musicId: videos[k]['musicId'],
                 musicUrl: videos[k]['musicUrl']
               });
-              user.videos.push(vid);
-              vid.save().catch(err => {
-                res.status(400).send("unable to save to database");
+              user.videos.push(vid).then(function (value) {
+                user.save().catch(err => {
+                  res.status(400).send("unable to save to database");
+                });
               });
-              user.save().catch(err => {
+              vid.save().catch(err => {
                 res.status(400).send("unable to save to database");
               });
             }
