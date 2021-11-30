@@ -40,7 +40,7 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
-app.use(express.static('public'));
+app.use(express.static(__dirname+'/public'));
 app.use(express.urlencoded({extended: true}))
 // app.use(express.static('./views'))
 app.use(express.json({extended: true}));
