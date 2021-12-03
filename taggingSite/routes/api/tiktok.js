@@ -7,7 +7,7 @@ const Stats = require("../../models/stats");
 const Video = require("../../models/video");
 const NodeCache = require("node-cache");
 // TTL=30 mins
-const recentlySent = new NodeCache({ stdTTL: 30*60*60 });// TODO:change back to 30*60*60 min!!!!!!!!!!!!!!!!!!!
+const recentlySent = new NodeCache({ stdTTL: 30*60*60, checkperiod: 0});// TODO:change back to 30*60*60 min!!!!!!!!!!!!!!!!!!!
 
 router.post("/submitTag", (req, res) => {
     let params = req.body
@@ -15,7 +15,10 @@ router.post("/submitTag", (req, res) => {
 router.get("/getUser", (req, res) => {
     let perms = req.user.Permissions
     console.log(perms)
-    recentlySent.flushAll()
+    // invalidate cache
+    for( key of recentlySent.keys()){
+        recentlySent.get(key)
+    }
     let filter = {
         "tags.0": { $exists: false },
         userId: { $nin: recentlySent.keys() }
@@ -131,7 +134,7 @@ router.post("/tag", (req, res) => {
             let videosTags = [];
             let videos_pos_tags = 0;
             let total_time = 0;
-            for (i = 0; i < videos_tag.length; i++) {
+            for (let i = 0; i < videos_tag.length; i++) {
                 videosTags.push({ timeDelta: times_array[i], features: features[i], decision: videos_tag[i] });
                 videos_pos_tags += videos_tag[i] == true;
                 total_time += parseFloat(times_array[i])

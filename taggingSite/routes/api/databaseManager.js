@@ -55,7 +55,7 @@ router.post("/postNewUsers", (req, res) => {
         let governorate = req.body.users[t]['governorate'];
         let userStats =  req.body.users[t]['userStats'];
         let videos = []
-        for (i = 0; i < videos_arr.length; i++) {
+        for (let i = 0; i < videos_arr.length; i++) {
           let cur_video = Video({
           Vid: videos_arr[i]['Vid'],
           text: videos_arr[i]['text'],
