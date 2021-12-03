@@ -1,18 +1,36 @@
 {
-  "name": "heroku",
+  "name": "finalproject",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
-  "scripts": {
-	 "start": "cd taggingSite && node app.js"
+  "main": "taggingSite/app.js",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "^1.4.5",
+    "ejs": "^3.1.6",
+    "express": "^4.17.1",
+    "express-session": "^1.17.2",
+    "mongodb": "^4.1.3",
+    "mongoose": "^6.0.12",
+    "node-cache": "^5.1.2",
+    "node-schedule": "^2.0.0",
+    "passport": "^0.5.0",
+    "passport-local": "^1.0.0",
+    "path": "^0.12.7"
   },
-  "keywords": [],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node taggigSite/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Liad31/FinalProject.git"
+  },
   "author": "",
   "license": "ISC",
-  "engines":{
-	 "node": "17.1.0"
+  "bugs": {
+    "url": "https://github.com/Liad31/FinalProject/issues"
   },
-  "dependencies": {
-    "express": "^4.17.1"
-  }
+  "homepage": "https://github.com/Liad31/FinalProject#readme"
 }
