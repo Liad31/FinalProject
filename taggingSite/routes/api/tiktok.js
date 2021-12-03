@@ -56,7 +56,7 @@ router.get("/getVideos", (req, res) => {
         }
         res.setHeader('Content-Type', 'application/json');
         ids = []
-        for (i = 0; i < user.videos.length; i++) {
+        for (let i = 0; i < user.videos.length; i++) {
             Video.findOne({"_id" : user.videos[i]}, function (err, vid) {
                 if (err) {
                     console.log(err)
@@ -65,6 +65,7 @@ router.get("/getVideos", (req, res) => {
                 console.log(vid)
                 ids.push(vid['Vid'])
                 if (i >= user.videos.length-1){
+
                     res.end(JSON.stringify({ videoIds: ids }))
                 }
             })
