@@ -6,6 +6,7 @@ const TiktokUser = require("../../models/tiktokUser");
 const Stats = require("../../models/stats");
 const Video = require("../../models/video");
 const NodeCache = require("node-cache");
+const { ObjectId } = require("bson");
 // TTL=30 mins
 const recentlySent = new NodeCache({ stdTTL: 30*60*60, checkperiod: 0});// TODO:change back to 30*60*60 min!!!!!!!!!!!!!!!!!!!
 
@@ -219,7 +220,7 @@ router.post("/tag", (req, res) => {
 })
 
 router.get("/userStats", (req, res) => {
-    Stats.findOne({ userId: req.query.id, date: null }, function (err, stats) {
+    Stats.findOne({ userId: ObjectId(req.query.userId), date: null }, function (err, stats) {
         if (err) {
             console.log(err)
             return
@@ -241,7 +242,7 @@ router.get("/stats", (req, res) => {
 })
 
 router.get("/weeklyUserStats", (req, res) => {
-    Stats.find({ userId: req.query.id, date: { $ne: null } }, {}, { sort: { 'date': -1 } }, function (err, stats) {
+    Stats.find({ userId: ObjectId(req.query.userId), date: { $ne: null } }, {}, { sort: { 'date': -1 } }, function (err, stats) {
         if (err) {
             console.log(err)
             return
