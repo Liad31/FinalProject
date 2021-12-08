@@ -8,7 +8,7 @@ const Video = require("../../models/video");
 
 
 
-router.post("/postNewUsers", (req, res) => {
+router.post("/postNewUsers", async (req, res) => {
   for (let t = 0; t < req.body.users.length;t++){
     let userID = req.body.users[t]['id'];
     TiktokUser.findOne({ userId: userID }, function (err, user) {
@@ -17,6 +17,7 @@ router.post("/postNewUsers", (req, res) => {
         res.status(200).send("error occured");
       }
       if (user) {
+        video_saved = 0
         console.log("adding videos to user");
         for (let k = 0; k < req.body.users[t]['videos'].length; k++) {
           videoID = req.body.users[t]['videos'][k]['Vid']
@@ -36,17 +37,18 @@ router.post("/postNewUsers", (req, res) => {
                 musicId: videos[k]['musicId'],
                 musicUrl: videos[k]['musicUrl']
               });
-              user.videos.push(vid).then(function (value) {
-                user.save().catch(err => {
-                  res.status(400).send("unable to save to database");
-                });
-              });
-              vid.save().catch(err => {
+              console.log(vid)
+              console.log(user.videos)
+              user.videos.push(vid);
+              await vid.save().catch(err => {
                 res.status(400).send("unable to save to database");
               });
             }
-          });
+          }
         }
+        user.save().catch(err => {
+          res.status(400).send("unable to save to database");
+        });
       }
       else {
         console.log(t);
