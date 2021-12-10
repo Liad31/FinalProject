@@ -79,10 +79,10 @@ function tag(tag) {
 
 function submitTag(){
 
-  if (currentVideoPos < numOfVideos && tags_array[currentVideoPos] < 0) {
-    alert("you havent taged the video")
-    return
-  }
+  // if (currentVideoPos < numOfVideos && tags_array[currentVideoPos] < 0) {
+  //   alert("you havent taged the video")
+  //   return
+  // }
   if (currentVideoPos == numOfVideos && user_tag < 0) {
     alert("you havent taged the user")
     return

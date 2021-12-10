@@ -8,7 +8,7 @@ const Video = require("../../models/video");
 
 
 
-router.post("/postNewUsers", async (req, res) => {
+router.post("/postNewUsers", (req, res) => {
   for (let t = 0; t < req.body.users.length; t++) {
     let userID = req.body.users[t]['id'];
     TiktokUser.findOne({ userId: userID }, function (err, user) {
@@ -21,7 +21,7 @@ router.post("/postNewUsers", async (req, res) => {
         console.log("adding videos to user");
         for (let k = 0; k < req.body.users[t]['videos'].length; k++) {
           videoID = req.body.users[t]['videos'][k]['Vid']
-          Video.findOne({ Vid: videoID }, function (err, video) {
+          Video.findOne({ Vid: videoID }, async function (err, video) {
             if (err) {
               console.log(`Error: ${err}`);
               res.status(200).send("error occured");
