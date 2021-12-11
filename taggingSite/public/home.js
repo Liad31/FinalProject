@@ -30,7 +30,7 @@ $( document ).ready(function() {
         userID = user['userId']
         tags_array = new Array(numOfVideos)
         for (let i = 0; i < numOfVideos; i++) {
-          tags_array[i] = -1
+          tags_array[i] = 0
         }
         times = new Array(numOfVideos)
         $.ajax({
@@ -92,12 +92,12 @@ function submitTag(){
     time = new Date();
     let this_features = {}
     $(':checkbox').each(function(i){
-      console.log($(this))
-      console.log($(this).prop('checked'))
+      console.log($(this), "checkbox")
+      console.log($(this).prop('checked'), "is checked")
       this_features[$(this).prop('name')] = $(this).prop('checked')
     });
     features.push(this_features)
-    console.log(features)
+    console.log(features, "this_features")
   }
   
   currentVideoPos++
@@ -113,6 +113,7 @@ function submitTag(){
     $("#headline").text("Tag the user");
   }
   else {
+    console.log(features, "this_features")
     $.ajax({
     url: 'api/tiktok/tag',
     type: 'post',

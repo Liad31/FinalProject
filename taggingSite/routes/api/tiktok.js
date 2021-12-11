@@ -29,6 +29,7 @@ router.get("/getUser", (req, res) => {
     // a regular user can't tag expert posts
     if (perms == 0) {
         filter.expertNeeded = {$eq: null}
+        options = { sort: { userId: -1 } } //TODO: remove later
     }
     //an expert needs to see expert posts first, but will get regular posts when there are none
     else {
@@ -66,7 +67,7 @@ router.get("/getVideos", (req, res) => {
                     console.log(err)
                     return
                 }
-                console.log(vid)
+                console.log(vid, "vid")
                 ids.push(vid['Vid'])
                 if (i >= user.videos.length-1){
 
@@ -79,7 +80,7 @@ router.get("/getVideos", (req, res) => {
 
 router.get("/video", (req, res) => {
     let videoID = req.query.id
-    console.log(videoID)
+    console.log(videoID, "videoID")
     return res.render("tiktok.ejs", {
         id: videoID,
     });
@@ -121,9 +122,13 @@ router.post("/tag", (req, res) => {
     let videos_tag = req.body.videos_tag
     let times_array = req.body.times_array
     let features = req.body.features;
+    if (features === undefined) {
+        features = [];
+    }
 
     console.log(times_array + " times array");
     console.log(videos_tag + " videos tag");
+    console.log(features + " features");
 
     //update tiktokuser
     TiktokUser.findOne({ userId: userID }, async function (err, tiktokUser) {
@@ -156,7 +161,10 @@ router.post("/tag", (req, res) => {
             //date.setMinutes(date.getMinutes() - 1);
 
             //update user weekly stats
-            let userStats = await Stats.findOne({ userId: user.id, date: { $gt: date } })
+            let userStats = await Stats.findOne({ userId: user.id }, null, {sort: {date: -1 }})
+            if (userStats == null) {
+                userStats = new Stats({ userId: user.id, date: new Date() });
+            }
             let old_total_time = userStats.video_avg_tagging_time * userStats.videos_total_tags;
             userStats.user_pos_tags += user_tag == true;
             userStats.user_neg_tags += user_tag == false;
@@ -169,6 +177,9 @@ router.post("/tag", (req, res) => {
 
             // update weekly stats
             let stats = await Stats.findOne({ userId: null, date: { $gt: date } })
+            if (stats == null) {
+                stats = new Stats({ userId: null, date: new Date() });
+            }
             old_total_time = stats.video_avg_tagging_time * stats.videos_total_tags;
             stats.user_pos_tags += user_tag == true;
             stats.user_neg_tags += user_tag == false;
