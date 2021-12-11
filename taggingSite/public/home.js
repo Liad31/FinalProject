@@ -7,6 +7,10 @@ let numOfVideos = 0
 let currentVideoPos = 0
 let features = []
 $( document ).ready(function() {
+  $("#expert").hide();
+  $("#error").hide();
+  $("div.buttons-top").hide();
+  //TODO: remove these
   $.ajax({
       url: 'api/tiktok/getUser',
       type: 'get',
@@ -32,6 +36,7 @@ $( document ).ready(function() {
         for (let i = 0; i < numOfVideos; i++) {
           tags_array[i] = 0
         }
+        $("#headline").text(`Tag the video ${currentVideoPos + 1}/${numOfVideos}`);
         times = new Array(numOfVideos)
         $.ajax({
           url: 'api/tiktok/getVideos',
@@ -83,6 +88,7 @@ function submitTag(){
   //   alert("you havent taged the video")
   //   return
   // }
+  //TODO: undo // in here
   if (currentVideoPos == numOfVideos && user_tag < 0) {
     alert("you havent taged the user")
     return
@@ -106,11 +112,13 @@ function submitTag(){
 
   if (currentVideoPos < numOfVideos){
     $("#iframe").prop("src", "api/tiktok/video?id=" + videoIds[currentVideoPos])
+    $("#headline").text(`Tag the video ${currentVideoPos + 1}/${numOfVideos}`);
   }
   else if(currentVideoPos == numOfVideos){
     $("div.iframe").hide();
     $("div.tag-panel").css("left", `${$(window).width() * 45 / 100}px`);
     $("#headline").text("Tag the user");
+    $("div.buttons-top").show(); //TODO: remove this
   }
   else {
     console.log(features, "this_features")
