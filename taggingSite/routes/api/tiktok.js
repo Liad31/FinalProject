@@ -152,7 +152,7 @@ router.post("/tag", (req, res) => {
 
             //update user
             let user = req.user;
-            user.weekly_tags_left -= videos_tag.length;
+            user.weekly_tags_left -= 1; //TODO: change back to videos_tag.length
             user.tags.push(tag.id)
             user.save();
 
