@@ -8,7 +8,7 @@ let currentVideoPos = 0
 let features = []
 $( document ).ready(function() {
   $("#expert").hide();
-  $("#error").hide();
+  // $("#error").hide();
   $("div.buttons-top").hide();
   //TODO: remove these
   $.ajax({
