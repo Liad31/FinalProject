@@ -82,7 +82,7 @@ function tag(tag) {
 }
 
 
-function submitTag(){
+function submitTag(calc_seconds){
 
   // if (currentVideoPos < numOfVideos && tags_array[currentVideoPos] < 0) {
   //   alert("you havent taged the video")
@@ -94,7 +94,9 @@ function submitTag(){
     return
   }
   if (currentVideoPos < numOfVideos) {
-    times[currentVideoPos] = calcSeconds(new Date(), time);
+    if (calcSeconds){
+      times[currentVideoPos] = calcSeconds(new Date(), time);
+    }
     time = new Date();
     let this_features = {}
     $(':checkbox').each(function(i){
@@ -157,4 +159,9 @@ function markError() {
 function calcSeconds(time2, time1){
   var dif = time2 - time1;
   return dif / 1000;
+}
+
+function refresh(){
+  currentVideoPos-=1;
+  return submitTag(false);
 }
