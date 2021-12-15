@@ -35,7 +35,8 @@ router.post("/postNewUsers", (req, res) => {
                 text: videos[k]['text'],
                 hashtags: videos[k]['hashtags'],
                 musicId: videos[k]['musicId'],
-                musicUrl: videos[k]['musicUrl']
+                musicUrl: videos[k]['musicUrl'],
+                date: videos[k]['date']
               });
               console.log(vid)
               console.log(user.videos)
@@ -54,6 +55,7 @@ router.post("/postNewUsers", (req, res) => {
         console.log(t);
         let videos_arr = req.body.users[t]['videos'];
         let bio = req.body.users[t]['bio'];
+        let user_name = req.body.users[t]['userName'];
         let governorate = req.body.users[t]['governorate'];
         let userStats = req.body.users[t]['userStats'];
         let videos = []
@@ -61,9 +63,11 @@ router.post("/postNewUsers", (req, res) => {
           let cur_video = Video({
             Vid: videos_arr[i]['Vid'],
             text: videos_arr[i]['text'],
+            date: videos_arr[i]['date'],
             hashtags: videos_arr[i]['hashtags'],
             musicId: videos_arr[i]['musicId'],
-            musicUrl: videos_arr[i]['musicUrl']
+            musicUrl: videos_arr[i]['musicUrl'],
+            date: videos[k]['date']
           });
           videos.push(cur_video);
           cur_video.save().catch(err => {
@@ -75,6 +79,7 @@ router.post("/postNewUsers", (req, res) => {
           userId: userID,
           videos: videos,
           bio: bio,
+          userName: user_name,
           governorate: governorate,
           userStats: userStats,
           tags: []
@@ -87,6 +92,32 @@ router.post("/postNewUsers", (req, res) => {
   }
   res.status(200).send();
 })
+
+//gets a list of video ids
+router.post("/addVideoText", (req, res) => {
+  for (let t = 0; t < req.body.users.length; t++) {
+    let videoID = req.body.videos[t]['id'];
+    Video.findOne({ Vid: videoID }, async function (err, video) {
+      if (err) {
+        console.log(`Error: ${err}`);
+        res.status(200).send("error occured");
+      }
+      if (video) {
+        //run the textfromvideo instead
+        let video_text = "aaa";
+        video.video_text = video_text;
+        vid.save().catch(err => {
+          res.status(400).send("unable to save to database");
+        });
+      }
+    })
+  }
+  res.status(200).send();
+
+
+})
+
+
 
 
 module.exports = router;
