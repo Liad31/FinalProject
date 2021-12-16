@@ -29,7 +29,7 @@ router.get("/getUser", (req, res) => {
     // a regular user can't tag expert posts
     if (perms == 0) {
         filter.expertNeeded = {$eq: null}
-        options = { sort: { userId: -1 } } //TODO: remove later
+        options = { sort: { userId: 1 } } //already inverted the order
     }
     //an expert needs to see expert posts first, but will get regular posts when there are none
     else {
