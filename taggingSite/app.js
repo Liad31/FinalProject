@@ -48,17 +48,16 @@ app.use(express.json({extended: true}));
 app.use("/", require("./routes/web")); // using the router from web/index.js
 app.use("/api", require("./routes/api"));
 
-// const job = schedule.scheduleJob(params.WEKKLY_UPDATE_TIME, async function(){
-//     let res = await User.updateMany({}, {"$inc": {weekly_tags_left: params.WEEKLY_TAGS_NUM}});
+const job = schedule.scheduleJob(params.WEKKLY_UPDATE_TIME, async function(){
+    let res = await User.updateMany({}, {"$inc": {weekly_tags_left: params.WEEKLY_TAGS_NUM}});
 
-//     let today = new Date();
-//     let users = await User.find({});
-//     for (let user of users) {
-//        (new Stats({date: today, userId: user.id})).save();
-//     }
-//     (new Stats({date: today, userId: null})).save();
-// });
-//TODO: change this bacl
+    let today = new Date();
+    let users = await User.find({});
+    for (let user of users) {
+       (new Stats({date: today, userId: user.id, username: user.username})).save();
+    }
+    (new Stats({date: today, userId: null, username: null})).save();
+});
 
 app.listen(app.get("port"), () => {
     console.log(`Starting on port ${app.get("port")}`);

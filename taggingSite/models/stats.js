@@ -5,6 +5,7 @@ const Schema = mongoose.Schema;
 
 const StatsSchema = new Schema({
     userId: {type:ObjectId},
+    username: {type:String, default: ""},
     date: {type:Date},
     user_pos_tags: {type:Number, default:0},
     user_neg_tags: {type:Number, default:0},

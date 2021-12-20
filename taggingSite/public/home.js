@@ -5,12 +5,12 @@ let videosIDs
 let userID
 let numOfVideos = 0
 let currentVideoPos = 0
+let userName
 let features = []
 $( document ).ready(function() {
-  $("#expert").hide();
+  // $("#expert").hide();
   // $("#error").hide();
-  $("div.buttons-top").hide();
-  //TODO: remove these
+  // $("div.buttons-top").hide();
   $.ajax({
       url: 'api/tiktok/getUser',
       type: 'get',
@@ -32,9 +32,10 @@ $( document ).ready(function() {
         
         numOfVideos = user['numOfVideos']
         userID = user['userId']
+        userName = user.userName;
         tags_array = new Array(numOfVideos)
         for (let i = 0; i < numOfVideos; i++) {
-          tags_array[i] = 0
+          tags_array[i] = -1
         }
         $("#headline").text(`Tag the video ${currentVideoPos + 1}/${numOfVideos}`);
         times = new Array(numOfVideos)
@@ -84,11 +85,10 @@ function tag(tag) {
 
 function submitTag(calc_seconds){
 
-  // if (currentVideoPos < numOfVideos && tags_array[currentVideoPos] < 0) {
-  //   alert("you havent taged the video")
-  //   return
-  // }
-  //TODO: undo // in here
+  if (currentVideoPos < numOfVideos && tags_array[currentVideoPos] < 0) {
+    alert("you havent taged the video")
+    return
+  }
   if (currentVideoPos == numOfVideos && user_tag < 0) {
     alert("you havent taged the user")
     return
@@ -119,8 +119,8 @@ function submitTag(calc_seconds){
   else if(currentVideoPos == numOfVideos){
     $("div.iframe").hide();
     $("div.tag-panel").css("left", `${$(window).width() * 45 / 100}px`);
-    $("#headline").text("Tag the user");
-    $("div.buttons-top").show(); //TODO: remove this
+    $("#headline").html(`Tag the <a href='https://www.tiktok.com/@${userName}?' target="_blank">user</a>`);
+    // $("div.buttons-top").show();
   }
   else {
     console.log(features, "this_features")
