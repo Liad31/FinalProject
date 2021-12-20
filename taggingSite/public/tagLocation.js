@@ -131,7 +131,7 @@ function submitTag(calc_seconds){
     type: 'post',
     data: { id: userID, user_tag: user_tag, features:features, videos_tag: tags_array, times_array: times },
     success:function(videosJson){
-      window.location.href = "/";
+      window.location.href = "/location";
     }
   });    }
 }
@@ -142,7 +142,7 @@ function passToExpert(){
     type: 'post',
     data: { id: userID, message: $('textarea#message').val() },
     success:function(videosJson){
-      window.location.href = "/";
+      window.location.href = "/location";
     }
   });
 }
@@ -153,7 +153,7 @@ function markError() {
     type: 'post',
     data: { id: userID },
     success:function(videosJson){
-      window.location.href = "/";
+      window.location.href = "/location";
     }
   });
 }

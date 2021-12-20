@@ -1,0 +1,47 @@
+form {
+    border: 3px solid #f1f1f1;
+  }
+
+body{
+    background-color: aquamarine;
+}
+/* Full-width inputs */
+input[type=text], input[type=password] {
+width: 100%;
+padding: 12px 20px;
+margin: 8px 0;
+display: inline-block;
+border: 1px solid #ccc;
+box-sizing: border-box;
+}
+
+/* Add a hover effect for buttons */
+button:hover {
+opacity: 0.8;
+}
+
+.btn-group button {
+    background-color: #90411d; 
+    color: white; /* White text */
+    padding: 10px 24px; /* Some padding */
+    cursor: pointer; /* Pointer/hand icon */
+    width: 50%; /* Set a width if needed */
+    display: block; /* Make the buttons appear below each other */
+    margin-top: 25%;
+    margin-left: 25%;
+  }
+  
+  .btn-group button:not(:last-child) {
+    border-bottom: none; /* Prevent double borders */
+  }
+  
+  /* Add a background color on hover */
+  .btn-group button:hover {
+    background-color: #90411d;
+  }
+
+#title{
+    position: relative;
+    right: -34%;
+}
+

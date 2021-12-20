@@ -98,7 +98,7 @@ router.post("/addVideoText", (req, res) => {
     let videoID = req.body.videos[t];
     Video.findOne({ Vid: videoID }, async function (err, video) {
       if (err) {
-        console.log(Error: ${err});
+        console.log("Error:" + String(err));
         res.status(200).send("error occured");
       }
       if (video) {

@@ -74,8 +74,8 @@ router.post("/signup", function (req, res, next) {
 }));
 
 router.get("/", ensureAuthenticated,(req, res) => {
-    res.locals.featuresList= params.FEATURE_LIST
-    res.render("tagLocation.ejs");
+    res.locals.featuresList= params.FEATURE_LIST   
+    res.render("home.ejs");
     console.log("getting home page");
 });
 
