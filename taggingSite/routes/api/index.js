@@ -9,7 +9,10 @@ router.use(function(req, res, next) {
     next();
 });
 
-router.use("/tiktok", require("./tagLocation.js"));
-router.use("/database", require("./databaseManager.js"));
+router.use("/tagLocation", require("./tagLocation"));
+router.use("/tagNationalistic", require("./tagNationalistic"));
+router.use("/tiktokTag", require("./tiktokTag"));
+router.use("/database", require("./databaseManager"));
+
 
 module.exports = router;    

@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const tiktokUserSchema= new Schema({
+const tiktokUserLocationSchema= new Schema({
     userId: String,
     videos: [{ type: Schema.Types.ObjectId, ref: 'Video'}],
     bio: String,
@@ -14,5 +14,5 @@ const tiktokUserSchema= new Schema({
 });
 
 
-const TiktokUsers= mongoose.model("tiktokUsers", tiktokUserSchema);
-module.exports=TiktokUsers
+const TiktokUserLocation = mongoose.model("tiktokUserLocation", tiktokUserLocationSchema);
+module.exports=TiktokUserLocation

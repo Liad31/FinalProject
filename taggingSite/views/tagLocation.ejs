@@ -5,7 +5,7 @@
   <title>log in</title>
   <%- include('_partial/_head') -%>
     <link rel="stylesheet" type="text/css" href="tagLocation.css" />
-    <script src="tagLocation.ejs"></script>
+    <script src="tagLocation.js"></script>
 </head>
 
 <header>
@@ -28,16 +28,7 @@
         <button id="sec" class="btn-off" onclick="tag(0)">Wrong</button>
         <button id="rel" class="btn-off" onclick="tag(1)">Correct</button>
       </div>
-      <div class="features">
-        <form id='feature' name='features'>
-          <% for(let feature of featuresList) { %>
-            <input type="checkbox" id='<%= feature %>' name='<%= feature %>'>
-            <label for='<%= feature %>'>
-              <%= feature %>
-            </label>
-            <% } %>
-        </form>
-      </div>
+
       <div class="buttons-bottom">
         <button id="submit" class="submitButton" onclick="submitTag(true)">Submit</button>
         <% if(currentUser.Permissions == 0) { %>

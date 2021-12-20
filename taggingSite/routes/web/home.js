@@ -90,4 +90,20 @@ router.get("/data",ensureAuthenticated,(req, res) => {
 router.post("/submitTag", (req,res) => {
     console.log(req.religiosity, "religiosity")
 })
+
+router.get("/nationalistic", ensureAuthenticated,(req, res) => {
+    //send the url, video-id as parameters
+    res.locals.featuresList= params.FEATURE_LIST
+    res.render("tagNationalistic.ejs");
+    console.log("getting home page");
+});
+
+router.get("/location", ensureAuthenticated, (req, res) => {
+    //send the url, video-id as parameters
+    res.render("tagLocation.ejs");
+    console.log("getting tagLocation page");
+});
+
+
+
 module.exports = router;

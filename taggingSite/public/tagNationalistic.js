@@ -8,11 +8,8 @@ let currentVideoPos = 0
 let userName
 let features = []
 $( document ).ready(function() {
-  // $("#expert").hide();
-  // $("#error").hide();
-  // $("div.buttons-top").hide();
   $.ajax({
-      url: 'api/tiktok/getUser',
+      url: 'api/tagNationalistic/getUser',
       type: 'get',
       data : {expert: false},
       success:function(user){
@@ -40,14 +37,14 @@ $( document ).ready(function() {
         $("#headline").text(`Tag the video ${currentVideoPos + 1}/${numOfVideos}`);
         times = new Array(numOfVideos)
         $.ajax({
-          url: 'api/tiktok/getVideos',
+          url: 'api/tiktokTag/getVideos',
           type: 'get',
           data: { userId: user['userId'] },
           success:function(videosJson){
             videoIds = videosJson['videoIds']
             videoIds = String(videoIds)
             videoIds = videoIds.split(',');
-            $("#iframe").prop("src", "api/tiktok/video?id=" + videoIds[currentVideoPos])
+            $("#iframe").prop("src", "api/tiktokTag/video?id=" + videoIds[currentVideoPos])
             time = new Date();
           }
         });
@@ -113,11 +110,12 @@ function submitTag(calc_seconds){
   $("#sec").prop("class", "btn-off");
 
   if (currentVideoPos < numOfVideos){
-    $("#iframe").prop("src", "api/tiktok/video?id=" + videoIds[currentVideoPos])
+    $("#iframe").prop("src", "api/tiktokTag/video?id=" + videoIds[currentVideoPos])
     $("#headline").text(`Tag the video ${currentVideoPos + 1}/${numOfVideos}`);
   }
   else if(currentVideoPos == numOfVideos){
     $("div.iframe").hide();
+    $("#iframe").prop("src", "api/tiktokTag/video?id=0")
     $("div.tag-panel").css("left", `${$(window).width() * 45 / 100}px`);
     $("#headline").html(`Tag the <a href='https://www.tiktok.com/@${userName}?' target="_blank">user</a>`);
     // $("div.buttons-top").show();
@@ -125,7 +123,7 @@ function submitTag(calc_seconds){
   else {
     console.log(features, "this_features")
     $.ajax({
-    url: 'api/tiktok/tag',
+    url: 'api/tagNationalistic/tag',
     type: 'post',
     data: { id: userID, user_tag: user_tag, features:features, videos_tag: tags_array, times_array: times },
     success:function(videosJson){
@@ -136,7 +134,7 @@ function submitTag(calc_seconds){
 
 function passToExpert(){
   $.ajax({
-    url: 'api/tiktok/expert',
+    url: 'api/tagNationalistic/expert',
     type: 'post',
     data: { id: userID, message: $('textarea#message').val() },
     success:function(videosJson){
@@ -147,7 +145,7 @@ function passToExpert(){
 
 function markError() {
   $.ajax({
-    url: 'api/tiktok/markError',
+    url: 'api/tagNationalistic/markError',
     type: 'post',
     data: { id: userID },
     success:function(videosJson){

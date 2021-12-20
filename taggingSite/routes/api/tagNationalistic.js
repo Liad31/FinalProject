@@ -1,13 +1,12 @@
 let express = require("express");
 let router = express.Router();
 const User = require("../../models/user")
-const Tag = require("../../models/locationTag")
-const TiktokUser = require("../../models/tiktokUserLocation");
+const Tag = require("../../models/tag")
+const TiktokUser = require("../../models/tiktokUserNationalistic");
 const Stats = require("../../models/stats");
 const Video = require("../../models/video");
 const NodeCache = require("node-cache");
 const { ObjectId } = require("bson");
-
 
 // TTL=30 mins
 const recentlySent = new NodeCache({ stdTTL: 30*60*60, checkperiod: 0});
@@ -85,6 +84,16 @@ router.post("/markError", (req, res) => {
 router.post("/tag", (req, res) => {
     let userID = req.body.id
     let user_tag = req.body.user_tag
+    let videos_tag = req.body.videos_tag
+    let times_array = req.body.times_array
+    let features = req.body.features;
+    if (features === undefined) {
+        features = [];
+    }
+
+    console.log(times_array + " times array");
+    console.log(videos_tag + " videos tag");
+    console.log(features + " features");
 
     //update tiktokuser
     TiktokUser.findOne({ userId: userID }, async function (err, tiktokUser) {
@@ -93,15 +102,22 @@ router.post("/tag", (req, res) => {
                 console.log(err)
                 return
             }
-            let tag = Tag({ decision: user_tag });
+            let videosTags = [];
+            let videos_pos_tags = 0;
+            let total_time = 0;
+            for (let i = 0; i < videos_tag.length; i++) {
+                videosTags.push({ timeDelta: times_array[i], features: features[i], decision: videos_tag[i] });
+                videos_pos_tags += videos_tag[i] == true;
+                total_time += parseFloat(times_array[i])
+            }
+            let tag = Tag({ videoTag: videosTags, userDecision: user_tag });
             tag.save();
             tiktokUser.tags.push(tag);
             tiktokUser.save();
-            
-            //TODO: fix stats
+
             //update user
             let user = req.user;
-            user.weekly_tags_left -= 1;
+            user.weekly_tags_left -= videos_tag.length;
             user.tags.push(tag.id)
             user.save();
 
