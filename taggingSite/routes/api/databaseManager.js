@@ -95,15 +95,14 @@ router.post("/postNewUsers", (req, res) => {
 //gets a list of video ids
 router.post("/addVideoText", (req, res) => {
   for (let t = 0; t < req.body.users.length; t++) {
-    let videoID = req.body.videos[t]['id'];
+    let videoID = req.body.videos[t];
     Video.findOne({ Vid: videoID }, async function (err, video) {
       if (err) {
-        console.log(`Error: ${err}`);
+        console.log(Error: ${err});
         res.status(200).send("error occured");
       }
       if (video) {
-        //run the textfromvideo instead
-        let video_text = "aaa";
+        let video_text = req.body.texts[t];
         video.video_text = video_text;
         vid.save().catch(err => {
           res.status(400).send("unable to save to database");
@@ -115,7 +114,6 @@ router.post("/addVideoText", (req, res) => {
 
 
 })
-
 
 
 
