@@ -44,6 +44,7 @@ $( document ).ready(function() {
             videoIds = videosJson['videoIds']
             videoIds = String(videoIds)
             videoIds = videoIds.split(',');
+            alert(videoIds)
             $("#iframe").prop("src", "api/tiktokTag/video?id=" + videoIds[currentVideoPos])
             time = new Date();
           }

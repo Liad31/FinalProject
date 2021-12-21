@@ -25,6 +25,7 @@ router.get("/getVideos", (req, res) => {
                 console.log(vid, "vid")
                 ids.push(vid['Vid'])
                 if (i >= user.videos.length-1){
+                    while (ids.length != user.videos.length){}
 
                     res.end(JSON.stringify({ videoIds: ids }))
                 }
