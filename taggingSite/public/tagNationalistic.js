@@ -44,7 +44,7 @@ $( document ).ready(function() {
             videoIds = videosJson['videoIds']
             videoIds = String(videoIds)
             videoIds = videoIds.split(',');
-            alert(videoIds)
+            //alert(videoIds)
             $("#iframe").prop("src", "api/tiktokTag/video?id=" + videoIds[currentVideoPos])
             time = new Date();
           }
@@ -81,7 +81,7 @@ function tag(tag) {
 }
 
 
-function submitTag(calc_seconds){
+function submitTag(){
 
   if (currentVideoPos < numOfVideos && tags_array[currentVideoPos] < 0) {
     alert("you havent taged the video")
@@ -98,12 +98,11 @@ function submitTag(calc_seconds){
     time = new Date();
     let this_features = {}
     $(':checkbox').each(function(i){
-      console.log($(this), "checkbox")
-      console.log($(this).prop('checked'), "is checked")
+      // console.log($(this), "checkbox")
+      // console.log($(this).prop('checked'), "is checked")
       this_features[$(this).prop('name')] = $(this).prop('checked')
     });
     features.push(this_features)
-    console.log(features, "this_features")
   }
   
   currentVideoPos++
@@ -119,10 +118,8 @@ function submitTag(calc_seconds){
     $("#iframe").prop("src", "api/tiktokTag/video?id=0")
     $("div.tag-panel").css("left", `${$(window).width() * 45 / 100}px`);
     $("#headline").html(`Tag the <a href='https://www.tiktok.com/@${userName}?' target="_blank">user</a>`);
-    // $("div.buttons-top").show();
   }
   else {
-    console.log(features, "this_features")
     $.ajax({
     url: 'api/tagNationalistic/tag',
     type: 'post',
@@ -162,5 +159,5 @@ function calcSeconds(time2, time1){
 
 function refresh(){
   currentVideoPos-=1;
-  return submitTag(false);
+  return submitTag();
 }

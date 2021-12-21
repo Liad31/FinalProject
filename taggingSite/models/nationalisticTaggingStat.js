@@ -3,7 +3,7 @@ const { json } = require("express");
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const StatsSchema = new Schema({
+const nationalisticTaggingStatSchema = new Schema({
     userId: {type:ObjectId},
     username: {type:String, default: ""},
     date: {type:Date},
@@ -17,5 +17,5 @@ const StatsSchema = new Schema({
 });
 
 
-const Stats = mongoose.model("Stats", StatsSchema);
-module.exports= Stats;
+const NationalisticTaggingStat = mongoose.model("nationalisticTaggingStat", nationalisticTaggingStatSchema);
+module.exports= NationalisticTaggingStat;

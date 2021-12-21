@@ -1,12 +1,12 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const tagSchema = new Schema({
+const nationalisticTagSchema = new Schema({
     videoTag: [{ timeDelta: Number, features: Object, decision: Boolean}],
     userDecision: Boolean,
 });
 
 
-const Tag = mongoose.model("Tag", tagSchema);
+const NationalisticTag = mongoose.model("nationalisticTag", nationalisticTagSchema);
 
-module.exports = Tag;
+module.exports = NationalisticTag;

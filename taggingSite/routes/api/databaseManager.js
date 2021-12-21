@@ -1,9 +1,6 @@
 var express = require("express");
 var router = express.Router();
-const User = require("../../models/user")
-const Tag = require("../../models/tag")
 const TiktokUser = require("../../models/tiktokUserNationalistic");
-const Stats = require("../../models/stats");
 const Video = require("../../models/video");
 
 

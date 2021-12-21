@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <title>log in</title>
+  <title>Nationalistic Tagging</title>
   <%- include('_partial/_head') -%>
     <link rel="stylesheet" type="text/css" href="tagNationalistic.css" />
     <script src="tagNationalistic.js"></script>
@@ -39,7 +39,7 @@
         </form>
       </div>
       <div class="buttons-bottom">
-        <button id="submit" class="submitButton" onclick="submitTag(true)">Submit</button>
+        <button id="submit" class="submitButton" onclick="submitTag()">Submit</button>
         <% if(currentUser.Permissions == 0) { %>
         <button id="expert" class="submitButton" data-toggle="modal" data-target="#passToExpertModal">passToExpert</button>
         <% } %> 
