@@ -9,7 +9,7 @@ const NodeCache = require("node-cache");
 const { ObjectId } = require("bson");
 
 router.get("/getVideos", (req, res) => {
-    TiktokUser.findOne({ userId: req.query.userId }, function (err, user) {
+    TiktokUser.findOne({ userId: req.query.userId }).populate('videos').exec(function (err, user) {
         if (err) {
             console.log(err)
             return
@@ -17,20 +17,9 @@ router.get("/getVideos", (req, res) => {
         res.setHeader('Content-Type', 'application/json');
         ids = []
         for (let i = 0; i < user.videos.length; i++) {
-            Video.findOne({"_id" : user.videos[i]}, function (err, vid) {
-                if (err) {
-                    console.log(err)
-                    return
-                }
-                console.log(vid, "vid")
-                ids.push(vid['Vid'])
-                if (i >= user.videos.length-1){
-                    while (ids.length != user.videos.length){}
-
-                    res.end(JSON.stringify({ videoIds: ids }))
-                }
-            })
+            ids.push(user.videos[i].Vid)
         }
+        res.end(JSON.stringify({ videoIds: ids }))
     })
 })
 
