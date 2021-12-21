@@ -6,8 +6,14 @@ const params = require("../../params/params");
 // const Video=VideoModule.Video
 // const ExpertVideos=VideoModule.ExpertVideos
 const ensureAuthenticated = require("../../auth/auth").ensureAuthenticated;
+
 router.get("/login", (req, res) => {
+    if (!req.isAuthenticated()) {
     res.render("login.ejs");
+    } else {
+        req.flash("info", "You are already logged in!");
+        res.redirect("/");
+    }
     console.log("getting login page");
 })
 
