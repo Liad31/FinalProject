@@ -10,10 +10,6 @@ const locationTaggingStatSchema = new Schema({
     user_pos_tags: {type:Number, default:0},
     user_neg_tags: {type:Number, default:0},
     user_total_tags: {type:Number, default:0},
-    videos_pos_tags: {type:Number, default:0},
-    videos_neg_tags: {type:Number, default:0},
-    videos_total_tags: {type: Number, default:0},
-    video_avg_tagging_time: {type:Number, default:0}
 });
 
 

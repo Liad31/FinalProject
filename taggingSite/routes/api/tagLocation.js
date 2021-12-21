@@ -3,7 +3,7 @@ let router = express.Router();
 const User = require("../../models/user")
 const Tag = require("../../models/locationTag")
 const TiktokUser = require("../../models/tiktokUserLocation");
-const Stats = require("../../models/stats");
+const Stats = require("../../models/locationTaggingStat");
 const Video = require("../../models/video");
 const NodeCache = require("node-cache");
 const { ObjectId } = require("bson");
@@ -118,10 +118,6 @@ router.post("/tag", (req, res) => {
             userStats.user_pos_tags += user_tag == true;
             userStats.user_neg_tags += user_tag == false;
             userStats.user_total_tags += 1;
-            userStats.videos_pos_tags += videos_pos_tags;
-            userStats.videos_neg_tags += (videos_tag.length - videos_pos_tags);
-            userStats.videos_total_tags += videos_tag.length;
-            userStats.video_avg_tagging_time = (old_total_time + total_time) / userStats.videos_total_tags;
             userStats.save();
 
             // update weekly stats
@@ -132,11 +128,6 @@ router.post("/tag", (req, res) => {
             old_total_time = stats.video_avg_tagging_time * stats.videos_total_tags;
             stats.user_pos_tags += user_tag == true;
             stats.user_neg_tags += user_tag == false;
-            stats.user_total_tags += 1;
-            stats.videos_pos_tags += videos_pos_tags;
-            stats.videos_neg_tags += (videos_tag.length - videos_pos_tags);
-            stats.videos_total_tags += videos_tag.length;
-            stats.video_avg_tagging_time = (old_total_time + total_time) / stats.videos_total_tags;
             stats.save();
 
             //update user stats
@@ -147,11 +138,6 @@ router.post("/tag", (req, res) => {
             old_total_time = userStats.video_avg_tagging_time * userStats.videos_total_tags;
             userStats.user_pos_tags += user_tag == true;
             userStats.user_neg_tags += user_tag == false;
-            userStats.user_total_tags += 1;
-            userStats.videos_pos_tags += videos_pos_tags;
-            userStats.videos_neg_tags += (videos_tag.length - videos_pos_tags);
-            userStats.videos_total_tags += videos_tag.length;
-            userStats.video_avg_tagging_time = (old_total_time + total_time) / userStats.videos_total_tags;
             userStats.save();
 
             // update stats
@@ -162,11 +148,6 @@ router.post("/tag", (req, res) => {
             old_total_time = stats.video_avg_tagging_time * stats.videos_total_tags;
             stats.user_pos_tags += user_tag == true;
             stats.user_neg_tags += user_tag == false;
-            stats.user_total_tags += 1;
-            stats.videos_pos_tags += videos_pos_tags;
-            stats.videos_neg_tags += (videos_tag.length - videos_pos_tags);
-            stats.videos_total_tags += videos_tag.length;
-            stats.video_avg_tagging_time = (old_total_time + total_time) / stats.videos_total_tags;
             stats.save();
 
         } catch (err) {
