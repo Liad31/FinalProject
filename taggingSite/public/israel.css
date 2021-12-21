@@ -1,0 +1,93 @@
+form {
+    border: 3px solid #f1f1f1;
+  }
+
+body{
+    background-color: aquamarine;
+}
+/* Full-width inputs */
+input[type=text], input[type=password] {
+width: 100%;
+padding: 12px 20px;
+margin: 8px 0;
+display: inline-block;
+border: 1px solid #ccc;
+box-sizing: border-box;
+}
+
+/* Add a hover effect for buttons */
+button:hover {
+opacity: 0.8;
+}
+
+.tiktok-embed{
+    position: absolute;
+    left:0px;
+    height: 100%;
+    width: 30%;
+    left: 7%;
+    top: 7%;
+}
+
+body{
+    background-color:beige;
+}
+
+.iframe {
+    height: 100%;
+    width: 100%
+}
+
+div.iframe{
+    position: absolute;
+    height: 70%;
+    width: 35%;
+    right: 5%;
+    top: 10%;
+}
+
+div.panel {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+}
+div.tag-panel {
+    position: absolute;
+    left: 10%;
+    top: 30%
+
+}
+
+div.buttons-top {
+    position: relative;
+    padding: 5px;
+ 
+}
+
+div.buttons-bottom {
+    position: relative;
+    padding: 5px;
+}
+
+div.features {
+    position: relative;
+    padding: 5px;
+}
+
+.btn-off{
+    background-color: lightgrey;
+    font-size: 34px;
+}
+
+.btn-on{
+    background-color: tomato;
+    font-size: 34px;
+}
+
+.submitButton {
+    font-size: 34px;
+}
+
+div.expert-message {
+    display: none
+}

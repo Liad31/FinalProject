@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Israel tag</title>
+  <%- include('_partial/_head') -%>
+    <link rel="stylesheet" type="text/css" href="israel.css" />
+    <script src="israel.js"></script>
+</head>
+
+<header>
+  <%- include('_partial/_header') -%>
+</header>
+
+<body>
+    <div class="panel">
+
+        <!-- <div class="iframe">
+          <iframe id="iframe" class="iframe"></iframe>
+        </div> -->
+        <img class="image" id="image" src=<%= imageID %>>
+    
+        <div class="tag-panel">
+          <h1 id="headline">Tag the image</h1>
+          <div class="buttons-top">
+            <button id="sec" class="btn-off" onclick="tag_img(0)">there is not an israel flag</button>
+            <button id="rel" class="btn-off" onclick="tag_img(1)">there is an israel flag</button>
+          </div>
+    
+          <div class="buttons-bottom">
+            <button id="submit" class="submitButton" onclick="submitTag()">Submit</button>
+          </div>
+        </div>
+      </div>
+
+    
+  
+  
+  </body>
+  
+  </html>

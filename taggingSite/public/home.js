@@ -9,5 +9,5 @@ function nationalistic() {
 
 //TODO: change it
 function israel() {
-    window.location.href = "nationalistic";
+    window.location.href = "israel";
 }

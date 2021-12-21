@@ -2,6 +2,7 @@ const router = require("express").Router();
 const ensureAuthenticated = require("../../auth/auth").ensureAuthenticated;
 const params = require("../../params/params");
 
+
 router.use(ensureAuthenticated);
 
 // router.get("/", function(req, res) {

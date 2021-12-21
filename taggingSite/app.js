@@ -49,6 +49,7 @@ app.use(express.json({extended: true}));
 app.use("/", require("./routes/web")); // using the router from web/index.js
 app.use("/api", require("./routes/api"));
 
+
 const job = schedule.scheduleJob(params.WEKKLY_UPDATE_TIME, async function(){
     let res = await User.updateMany({}, {"$inc": {weekly_tags_left: params.WEEKLY_TAGS_NUM}});
 
