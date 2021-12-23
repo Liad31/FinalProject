@@ -114,20 +114,30 @@ function submitTag(){
     $("#headline").text(`Tag the video ${currentVideoPos + 1}/${numOfVideos}`);
   }
   else if(currentVideoPos == numOfVideos){
-    $("div.iframe").hide();
-    $("#iframe").prop("src", "api/tiktokTag/video?id=0")
-    $("div.tag-panel").css("left", `${$(window).width() * 45 / 100}px`);
-    $("#headline").html(`Tag the <a href='https://www.tiktok.com/@${userName}?' target="_blank">user</a>`);
-  }
-  else {
+    // $("div.iframe").hide();
+    // $("#iframe").prop("src", "api/tiktokTag/video?id=0")
+    // $("div.tag-panel").css("left", `${$(window).width() * 45 / 100}px`);
+    // $("#headline").html(`Tag the <a href='https://www.tiktok.com/@${userName}?' target="_blank">user</a>`);
+
     $.ajax({
     url: 'api/tagNationalistic/tag',
     type: 'post',
-    data: { id: userID, user_tag: user_tag, features:features, videos_tag: tags_array, times_array: times },
+    data: { id: userID, user_tag: false, features:features, videos_tag: tags_array, times_array: times },
     success:function(videosJson){
       window.location.href = "/nationalistic";
     }
-  });    }
+    });
+  }
+  else {
+    // $.ajax({
+    // url: 'api/tagNationalistic/tag',
+    // type: 'post',
+    // data: { id: userID, user_tag: user_tag, features:features, videos_tag: tags_array, times_array: times },
+    // success:function(videosJson){
+    //   window.location.href = "/nationalistic";
+    // }
+    // });
+  }
 }
 
 function passToExpert(){
