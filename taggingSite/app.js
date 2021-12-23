@@ -21,6 +21,7 @@ const setUpPassport = require("./setuppassport");
 const User = require('./models/user');
 const LocationTaggingStat = require('./models/locationTaggingStat');
 const NationalisticTaggingStat = require('./models/nationalisticTaggingStat');
+const IsraelTaggingStat = require('./models/israelTaggingStat');
 
 const app = express();
 mongoose.connect(params.DATABASECONNECTION);
@@ -58,9 +59,11 @@ const job = schedule.scheduleJob(params.WEKKLY_UPDATE_TIME, async function(){
     for (let user of users) {
        (new LocationTaggingStat({date: today, userId: user.id, username: user.username})).save();
        (new NationalisticTaggingStat({date: today, userId: user.id, username: user.username})).save();
+       (new IsraelTaggingStat({date: today, userId: user.id, username: user.username})).save();
     }
     (new LocationTaggingStat({date: today, userId: null, username: null})).save();
     (new NationalisticTaggingStat({date: today, userId: null, username: null})).save();
+    (new IsraelTaggingStat({date: today, userId: null, username: null})).save();
 });
 
 app.listen(app.get("port"), () => {

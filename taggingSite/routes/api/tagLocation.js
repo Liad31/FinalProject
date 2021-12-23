@@ -98,7 +98,6 @@ router.post("/tag", (req, res) => {
             tiktokUser.tags.push(tag);
             tiktokUser.save();
             
-            //TODO: fix stats
             //update user
             let user = req.user;
             user.weekly_tags_left -= 1;
@@ -114,7 +113,6 @@ router.post("/tag", (req, res) => {
             if (userStats == null) {
                 userStats = new Stats({ userId: user.id, date: new Date(), username: user.username });
             }
-            let old_total_time = userStats.video_avg_tagging_time * userStats.videos_total_tags;
             userStats.user_pos_tags += user_tag == true;
             userStats.user_neg_tags += user_tag == false;
             userStats.user_total_tags += 1;
@@ -125,9 +123,9 @@ router.post("/tag", (req, res) => {
             if (stats == null) {
                 stats = new Stats({ userId: null, date: new Date(), username: null });
             }
-            old_total_time = stats.video_avg_tagging_time * stats.videos_total_tags;
             stats.user_pos_tags += user_tag == true;
             stats.user_neg_tags += user_tag == false;
+            stats.user_total_tags += 1;
             stats.save();
 
             //update user stats
@@ -135,9 +133,9 @@ router.post("/tag", (req, res) => {
             if (userStats == null) {
                 userStats = new Stats({ userId: user.id, date: null, username: user.username });
             }
-            old_total_time = userStats.video_avg_tagging_time * userStats.videos_total_tags;
             userStats.user_pos_tags += user_tag == true;
             userStats.user_neg_tags += user_tag == false;
+            userStats.user_total_tags += 1;
             userStats.save();
 
             // update stats
@@ -145,9 +143,9 @@ router.post("/tag", (req, res) => {
             if (stats == null) {
                 stats = new Stats({ userId: null, date: null, username: null });
             }
-            old_total_time = stats.video_avg_tagging_time * stats.videos_total_tags;
             stats.user_pos_tags += user_tag == true;
             stats.user_neg_tags += user_tag == false;
+            stats.user_total_tags += 1;
             stats.save();
 
         } catch (err) {
