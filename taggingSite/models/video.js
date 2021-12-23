@@ -7,7 +7,8 @@ const videoSchema = new Schema({
     hashtags: [{type: String}], 
     musicId: String, 
     musicUrl: String,
-    date: String
+    date: String,
+    downloaded: {type: Boolean, default: false},
 });
 
 const Video = mongoose.model("Video", videoSchema);
