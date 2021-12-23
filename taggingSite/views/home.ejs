@@ -5,6 +5,7 @@
   <title>home</title>
   <%- include('_partial/_head') -%>
     <link rel="stylesheet" type="text/css" href="home.css" />
+    <script src="https://kit.fontawesome.com/3ac8441445.js" crossorigin="anonymous"></script>
     <script src="home.js"></script>
 </head>
 
@@ -13,11 +14,15 @@
 </header>
 
 <body>
-  <h1 id="title">What do you want to tag today?</h1>
-  <div class="btn-group">
-    <button onclick="nationalistic()">nationalistic videos</button>
-    <button onclick="israel()">israel flags</button>
-    <button onclick="loc()">location experiment</button>
+  <div id="box">
+    <h1 id="title">WHAT DO YOU WANT TO <span style="color: #EE1D52;"> TAG </span> TODAY?</h1>
+    <div class="btn-group">
+      <button class="nat" onclick="nationalistic()"> <span class="fas fa-globe-americas"></span> nationalistic videos</button>
+      
+      <button class="il" onclick="israel()"><span class="fas fa-star-of-david"></span> israel flags</button>
+      
+      <button class="loc" onclick="loc()"><span class="fas fa-map-marker-alt"></span> location experiment</button>
+    </div>
   </div>
 
 
