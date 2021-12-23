@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Nationalistic Tagging</title>
+  <%- include('_partial/_head') -%>
+    <link rel="stylesheet" type="text/css" href="tagNationalistic.css" />
+    <script src="tagNationalistic.js"></script>
+</head>
+
+<header>
+  <%- include('_partial/_header') -%>
+</header>
+
+<body>
+  <div class="panel">
+
+    <div class="iframe">
+      <iframe id="iframe" class="iframe"></iframe>
+    </div>
+
+    <!-- <blockquote class="tiktok-embed" data-video-id="6991131155013668102"> <section> </section> </blockquote> 
+  <script async src="https://www.tiktok.com/embed.js"></script> -->
+
+    <div class="tag-panel">
+      <h1 id="headline">Tag the video</h1>
+      <div class="buttons-top">
+        <!--TODO: return the hashtagged!!!-->
+        <button id="sec" class="btn-off" onclick="tag(0)">I saw the video</button>
+        <!-- <button id="rel" class="btn-off" onclick="tag(1)">nationalistic</button> -->
+      </div>
+      <div class="features">
+        <form id='feature' name='features'>
+          <% for(let feature of featuresList) { %>
+            <input type="checkbox" id='<%= feature %>' name='<%= feature %>'>
+            <label for='<%= feature %>'>
+              <%= feature %>
+            </label>
+            <% } %>
+        </form>
+      </div>
+      <div class="buttons-bottom">
+        <button id="submit" class="submitButton" onclick="submitTag()">Submit</button>
+        <% if(currentUser.Permissions == 0) { %>
+        <button id="expert" class="submitButton" data-toggle="modal" data-target="#passToExpertModal">passToExpert</button>
+        <% } %> 
+        <button id="error" class="submitButton" onclick="markError()">Error</button>
+        <button id="refresh" class="submitButton" onclick="refresh()">Refresh page</button>
+      </div>
+      <% if(currentUser.Permissions == 1) { %>
+      <div class="expert-message" id="expert-message">
+        <h3>Message passed:</h3>
+        <p> </p>
+      </div>
+      <% } %> 
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <% if(currentUser.Permissions == 0) { %>
+  <div class="modal fade" id="passToExpertModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Insert message to send to expert</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <textarea class="form-control" id="message"></textarea>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" onclick="passToExpert()">Send</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <% } %> 
+
+
+</body>
+
+</html>

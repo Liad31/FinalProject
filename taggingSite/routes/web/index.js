@@ -11,6 +11,5 @@ router.use(function(req, res, next) {
 });
 
 router.use("/", require("./home"));
-router.use("/tag", require("./tag"));
 
 module.exports = router;

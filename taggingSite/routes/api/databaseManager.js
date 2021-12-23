@@ -1,9 +1,6 @@
 var express = require("express");
 var router = express.Router();
-const User = require("../../models/user")
-const Tag = require("../../models/tag")
-const TiktokUser = require("../../models/tiktokUser");
-const Stats = require("../../models/stats");
+const TiktokUser = require("../../models/tiktokUserNationalistic");
 const Video = require("../../models/video");
 
 
@@ -19,7 +16,7 @@ router.post("/postNewUsers", (req, res) => {
       if (user) {
         video_saved = 0
         console.log("adding videos to user");
-        for (let k = 0; k < req.body.users[t]['videos'].length; k++) {
+        for (let k = 0; k < req.body.users[t]['videos'].length && user.videos.length < 6; k++) {
           videoID = req.body.users[t]['videos'][k]['Vid']
           Video.findOne({ Vid: videoID }, async function (err, video) {
             if (err) {
@@ -95,15 +92,14 @@ router.post("/postNewUsers", (req, res) => {
 //gets a list of video ids
 router.post("/addVideoText", (req, res) => {
   for (let t = 0; t < req.body.users.length; t++) {
-    let videoID = req.body.videos[t]['id'];
+    let videoID = req.body.videos[t];
     Video.findOne({ Vid: videoID }, async function (err, video) {
       if (err) {
-        console.log(`Error: ${err}`);
+        console.log("Error:" + String(err));
         res.status(200).send("error occured");
       }
       if (video) {
-        //run the textfromvideo instead
-        let video_text = "aaa";
+        let video_text = req.body.texts[t];
         video.video_text = video_text;
         vid.save().catch(err => {
           res.status(400).send("unable to save to database");
@@ -115,7 +111,6 @@ router.post("/addVideoText", (req, res) => {
 
 
 })
-
 
 
 

@@ -6,8 +6,16 @@ const params = require("../../params/params");
 // const Video=VideoModule.Video
 // const ExpertVideos=VideoModule.ExpertVideos
 const ensureAuthenticated = require("../../auth/auth").ensureAuthenticated;
+const Img = require("../../models/israelTag")
+
+
 router.get("/login", (req, res) => {
+    if (!req.isAuthenticated()) {
     res.render("login.ejs");
+    } else {
+        req.flash("info", "You are already logged in!");
+        res.redirect("/");
+    }
     console.log("getting login page");
 })
 
@@ -74,7 +82,7 @@ router.post("/signup", function (req, res, next) {
 }));
 
 router.get("/", ensureAuthenticated,(req, res) => {
-    res.locals.featuresList= params.FEATURE_LIST
+    res.locals.featuresList= params.FEATURE_LIST   
     res.render("home.ejs");
     console.log("getting home page");
 });
@@ -90,4 +98,59 @@ router.get("/data",ensureAuthenticated,(req, res) => {
 router.post("/submitTag", (req,res) => {
     console.log(req.religiosity, "religiosity")
 })
+
+router.get("/nationalistic", ensureAuthenticated,(req, res) => {
+    //send the url, video-id as parameters
+    res.locals.featuresList= params.FEATURE_LIST
+    res.render("tagNationalistic.ejs");
+    console.log("getting home page");
+});
+
+router.get("/location", ensureAuthenticated, (req, res) => {
+    //send the url, video-id as parameters
+    res.render("tagLocation.ejs");
+    console.log("getting tagLocation page");
+});
+
+async function getImage(){
+    let filter = {
+        "tagged": false,
+    }
+    let options = {}
+
+    return await Img.findOne(filter, null, options, function (err, image) {
+        if (err) {
+            console.log(err)
+            return
+        }
+        if (!image) {
+            console.log("no image found")
+            res.setHeader('Content-Type', 'application/json');
+            res.end(JSON.stringify(null))
+        }
+        else {
+            return image.id;
+        }
+    }).clone().catch((err)=>{
+        console.log(err);
+        return 0;})
+}
+
+router.get("/israel", ensureAuthenticated, async (req, res) => {
+    //send the url, video-id as parameters
+    try {
+        id = await getImage();
+        console.log("image is:" + String(id));
+        res.locals.imageID = "images/" + id['id'] + ".png";
+    } catch {
+        res.locals.imageID = "images/" + "0" + ".png";
+        res.render("israel.ejs");
+    }
+    res.render("israel.ejs");
+    console.log("getting israelTag page");
+
+});
+
+
+
 module.exports = router;
