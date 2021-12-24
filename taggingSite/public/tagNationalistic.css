@@ -41,3 +41,15 @@ button {
   font-size: 15px;
 }
 
+.iframe {
+    height: 100%;
+    width: 100%
+}
+
+div.iframe{
+    position: absolute;
+    height: 70%;
+    width: 35%;
+    right: 5%;
+    top: 10%;
+}

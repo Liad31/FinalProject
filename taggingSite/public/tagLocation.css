@@ -1,49 +1,45 @@
-body{
-    background-color:beige;
-}
-/* button-container {
-    overflow-y: auto;
-    display: 'flex';
-    align-items: 'center';
-    justify-content: 'center';
-}
-.rbutton{
-    width:450px;
-    height: 200px;
-    background-color:green;
-    padding: 15px;	
-    text-align: center;
-    line-height: 50px;
-}
-.sbutton{
-    
-    width:450px;
-    height: 200px;
-    background-color: yellow;
-    padding: 15px;	
-    text-align: center;
-    line-height: 50px;
-}
-.nbutton{
-    
-    width:450px;
-    height: 200px;
-    background-color: red;
-    padding: 15px;	
-    text-align: center;
-    line-height: 50px;
-} */
-.tiktok-embed{
-    position: absolute;
-    left:0px;
-    height: 100%;
-    width: 30%;
-    left: 7%;
-    top: 7%;
+@import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Spartan:wght@100&display=swap');
+
+body {
+  background: #ededed url("https://i.pinimg.com/originals/b6/ea/e8/b6eae8228e172c33c22e7dfc87b88aed.png") fixed no-repeat;
+  background-size: 30%;
+  background-position: left;
+  font-family: 'Permanent Marker', cursive ;
 }
 
-body{
-    background-color:beige;
+#headline {
+  color: #69C9D0;
+}
+
+button {
+  font-family: 'Spartan', sans-serif; font-weight: 600;
+  font-size: 15px;
+  border: 1px solid black; /* Remove borders */
+  color: white; /* White text */
+  padding: 12px 16px; /* Some padding */
+  cursor: pointer; /* Mouse pointer on hover */
+}
+
+/*buttons colors and hovers*/
+#rel {  background-color: #69C9D0;  }
+#sec {  background-color: #EE1D52;}
+.btn-off:hover { color:black; }
+#submit {  background-color:#98e638;  }
+#refresh {  background-color: #fcba03;  }
+#error {  background-color: #fa0909;  }
+#expert { background-color: #bebcbe; }
+.submitButton:hover { color: black; }
+
+#close, #send {  
+  background-color: white; color: black;
+  border: 1px solid black;
+  padding: 8px 12px;
+  font-size: 12px;
+  }
+
+#exampleModalLabel {
+  font-family: 'Spartan', sans-serif; font-weight: 700;
+  font-size: 15px;
 }
 
 .iframe {
@@ -59,48 +55,3 @@ div.iframe{
     top: 10%;
 }
 
-div.panel {
-    position: absolute;
-    height: 100%;
-    width: 100%;
-}
-div.tag-panel {
-    position: absolute;
-    left: 10%;
-    top: 30%
-
-}
-
-div.buttons-top {
-    position: relative;
-    padding: 5px;
- 
-}
-
-div.buttons-bottom {
-    position: relative;
-    padding: 5px;
-}
-
-div.features {
-    position: relative;
-    padding: 5px;
-}
-
-.btn-off{
-    background-color: lightgrey;
-    font-size: 34px;
-}
-
-.btn-on{
-    background-color: tomato;
-    font-size: 34px;
-}
-
-.submitButton {
-    font-size: 34px;
-}
-
-div.expert-message {
-    display: none
-}
