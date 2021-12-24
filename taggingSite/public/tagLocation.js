@@ -34,7 +34,7 @@ $(document).ready(function () {
       $("#headline").text(`Tag the video ${currentVideoPos + 1}/${numOfVideos}`);
 
       $.ajax({
-        url: 'api/tiktokTag/getVideos',
+        url: 'api/tiktokTag/getVideosLoc',
         type: 'get',
         data: { userId: user['userId'] },
         success: function (videosJson) {
