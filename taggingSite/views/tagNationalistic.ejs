@@ -12,9 +12,8 @@
   <%- include('_partial/_header') -%>
 </header>
 
-<body>
+<body style = "text-align: center;">
   <div class="panel">
-
     <div class="iframe">
       <iframe id="iframe" class="iframe"></iframe>
     </div>
@@ -23,10 +22,10 @@
   <script async src="https://www.tiktok.com/embed.js"></script> -->
 
     <div class="tag-panel">
-      <h1 id="headline">Tag the video</h1>
+      <h1 id="headline"> <span style="color: #EE1D52;"> Tag </span> the video</h1>
       <div class="buttons-top">
-        <!--TODO: return the hashtagged!!!-->
-        <button id="sec" class="btn-off" onclick="tag(0)">I saw the video</button>
+        <!--TODO: return the hashtagged btn!-->
+        <button id="sec" class="btn-off" onclick="tag(0)">I already saw this video</button>
         <!-- <button id="rel" class="btn-off" onclick="tag(1)">nationalistic</button> -->
       </div>
       <div class="features">
@@ -42,10 +41,10 @@
       <div class="buttons-bottom">
         <button id="submit" class="submitButton" onclick="submitTag()">Submit</button>
         <% if(currentUser.Permissions == 0) { %>
-        <button id="expert" class="submitButton" data-toggle="modal" data-target="#passToExpertModal">passToExpert</button>
+          <button id="expert" class="submitButton" data-toggle="modal" data-target="#passToExpertModal" onclick="exprtFunc()">Pass To Expert</button>
         <% } %> 
         <button id="error" class="submitButton" onclick="markError()">Error</button>
-        <button id="refresh" class="submitButton" onclick="refresh()">Refresh page</button>
+        <button id="refresh" class="submitButton" onclick="refresh()">Refresh Page</button>
       </div>
       <% if(currentUser.Permissions == 1) { %>
       <div class="expert-message" id="expert-message">
@@ -58,22 +57,22 @@
 
   <!-- Modal -->
   <% if(currentUser.Permissions == 0) { %>
-  <div class="modal fade" id="passToExpertModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    <div class="modal fade" id="passToExpertModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Insert message to send to expert</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <div id="passToExprert" class="modal-content">
+       <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">insert a message to send to expert</h5>
+          <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
-          </button>
+          </button>  -->
         </div>
         <div class="modal-body">
           <textarea class="form-control" id="message"></textarea>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" onclick="passToExpert()">Send</button>
+          <button type="button" id="close" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" id="send" class="btn btn-primary" onclick="passToExpert()">Send</button>
         </div>
       </div>
     </div>
