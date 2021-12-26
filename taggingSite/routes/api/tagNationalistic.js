@@ -13,7 +13,7 @@ const recentlySent = new NodeCache({ stdTTL: 30*60*60, checkperiod: 0});
 
 router.get("/getUser", (req, res) => {
     let perms = req.user.Permissions
-    console.log(perms)
+    // console.log(perms)
     // invalidate cache
     for( key of recentlySent.keys()){
         recentlySent.get(key)
@@ -39,7 +39,7 @@ router.get("/getUser", (req, res) => {
             return
         }
         if (!user) {
-            console.log("no user found")
+            // console.log("no user found")
             res.setHeader('Content-Type', 'application/json');
             res.end(JSON.stringify(null))
         }
@@ -54,14 +54,14 @@ router.get("/getUser", (req, res) => {
 router.post("/expert", (req, res) => {
     let userID = req.body.id;
     let message = req.body.message;
-    console.log(userID + "passed to expert");
+    // console.log(userID + "passed to expert");
     TiktokUser.findOne({ userId: userID }, function (err, user) {
         if (err) {
             console.log(err)
             return
         }
         user.expertNeeded = message;
-        console.log(message)
+        // console.log(message)
         user.save();
     })
     res.status(200).send();
@@ -91,9 +91,9 @@ router.post("/tag", (req, res) => {
         features = [];
     }
 
-    console.log(times_array + " times array");
-    console.log(videos_tag + " videos tag");
-    console.log(features + " features");
+    // console.log(times_array + " times array");
+    // console.log(videos_tag + " videos tag");
+    // console.log(features + " features");
 
     //update tiktokuser
     TiktokUser.findOne({ userId: userID }, async function (err, tiktokUser) {

@@ -7,13 +7,13 @@ module.exports = function () {
     //turns a user object into an id
     passport.serializeUser(function (user, done) {
         //serializing the user
-        console.log("serializing User");
+        // console.log("serializing User");
         done(null, user._id);
     });
     //turns the id into a user object
     passport.deserializeUser(function (id, done) {
         User.findById(id, function (err, user) {
-            console.log("deserializing User");
+            // console.log("deserializing User");
             done(err, user);
         });
     });
@@ -22,7 +22,7 @@ module.exports = function () {
         usernameField: 'username',
         passwordField: 'password'
     }, function (username, password, done) {
-        console.log("logging in user, passport");
+        // console.log("logging in user, passport");
         User.findOne({ username: username }, function (err, user) {
             if (err) {
                 console.log(`Error: ${err}`);
@@ -32,7 +32,7 @@ module.exports = function () {
                 return done(null, false, { message: "no user has that Email!" }); //the message will be flashed
             }
             user.checkPassword(password, function (err, isMatch) {
-                console.log("checkPassword");
+                // console.log("checkPassword");
                 if (err) {
                     console.log(`Error: ${err}`);
                     return done(err);

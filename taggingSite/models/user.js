@@ -20,7 +20,7 @@ userSchema.pre("save", function(done) {
         return done();
     }
 
-    console.log("hashing password");
+    // console.log("hashing password");
     bcyrpt.genSalt(SALT_FACTOR, function(err, salt) {
         if (err) 
         {
@@ -40,7 +40,7 @@ userSchema.pre("save", function(done) {
 })
 
 userSchema.methods.checkPassword = function(guess, done) {
-    console.log("checking if password is correct");
+    // console.log("checking if password is correct");
     if (this.password != null) {
         bcyrpt.compare(guess, this.password, function(err, isMatch) {
             done(err, isMatch);
