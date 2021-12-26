@@ -125,8 +125,7 @@ async function getImage(){
         }
         if (!image) {
             console.log("no image found")
-            res.setHeader('Content-Type', 'application/json');
-            res.end(JSON.stringify(null))
+            throw new Error("no image found")   
         }
         else {
             return image.id;
