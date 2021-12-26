@@ -125,7 +125,7 @@ async function getImage(){
         }
         if (!image) {
             console.log("no image found")
-            return 0;
+            throw new Error("no image found")   
         }
         else {
             return image.id;
