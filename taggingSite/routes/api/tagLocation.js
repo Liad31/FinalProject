@@ -14,7 +14,7 @@ const recentlySent = new NodeCache({ stdTTL: 30*60*60, checkperiod: 0});
 
 router.get("/getUser", (req, res) => {
     let perms = req.user.Permissions
-    console.log(perms)
+    // console.log(perms)
     // invalidate cache
     for( key of recentlySent.keys()){
         recentlySent.get(key)
@@ -55,7 +55,7 @@ router.get("/getUser", (req, res) => {
 router.post("/expert", (req, res) => {
     let userID = req.body.id;
     let message = req.body.message;
-    console.log(userID + "passed to expert");
+    // console.log(userID + "passed to expert");
     TiktokUser.findOne({ userId: userID }, function (err, user) {
         if (err) {
             console.log(err)

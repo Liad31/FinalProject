@@ -1,6 +1,6 @@
 var express = require("express");
 var router = express.Router();
-const TiktokUser = require("../../models/tiktokUserNationalistic");
+const TiktokUser = require("../../models/tiktokUserLocation");
 const Video = require("../../models/video");
 
 
@@ -109,6 +109,18 @@ router.post("/addVideoText", (req, res) => {
     })
   }
   res.status(200).send();
+})
+router.get("/getVideos", (req, res) => {
+numVideos = Number(req.query.num)
+  Video.find().limit(numVideos).exec(function (err, videos) {
+    if (err) {
+      console.log("Error:" + String(err));
+      res.status(200).send("error occured");
+    }
+    if (videos) {
+      res.status(200).send(videos);
+    }
+  })
 })
 
 module.exports = router;
