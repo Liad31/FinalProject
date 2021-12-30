@@ -13,24 +13,28 @@
 </header>
 
 <body>
+
+
   <div class="panel">
 
-      <img class="image" id="image" src=<%= imageID %>> 
+     <img class="image" id="image" style=" position: absolute; top: 10%; left: 68%;" src=<%= imageID %> >
  
      <div class="tag-panel"  style="position: absolute; left: 36%; top: 40%;">
        <h1 id="headline"><span style="color: #EE1D52;"> Tag </span> the image</h1>
        <div class="buttons-top">
          <button id="sec" class="btn-off" onclick="tag_img(0)">NOT CONTAINS AN ISRALI FLAG</button>
-         <button id="rel" class="btn-off" onclick="tag_img(1)">CONTAINS AN ISRALI FLAG</button>
+         <button id="rel" class="btn-off"  onclick="tag_img(1)">CONTAINS AN ISRALI FLAG</button>
        </div>
  
-       <div class="buttons-bottom" style="align-items: center; margin-left: 25%">
-         <button id="submit" class="submitButton" onclick="submitTag()">Submit</button>
+       <div class="buttons-bottom" >
+         <button id="submit" class="submitButton" style="width: 150px; margin-left: 30%; text-align:center; padding-top: 30px" onclick="submitTag()">Submit</button>
        </div>
      </div>
    </div>
 
  
+
+
 
 
     
