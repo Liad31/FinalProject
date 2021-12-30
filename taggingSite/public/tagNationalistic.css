@@ -16,26 +16,33 @@ button {
   font-size: 15px;
   border: 1px solid black; /* Remove borders */
   color: white; /* White text */
-  padding: 12px 16px; /* Some padding */
+   padding: 15px 24px; 
   cursor: pointer; /* Mouse pointer on hover */
+  /*size: 300%;*/
+
+
 }
 
 /*buttons colors and hovers*/
-#sec {  background-color: #69C9D0;  }
+#sec {  background-color: #EE1D52; margin-bottom: 5%; height: 90pd;}
+#rel {  background-color: #98e638;  margin-bottom: 5%; height: 90pd;}
 .btn-off:hover { color:black; }
-#submit {  background-color:#98e638;  }
-#refresh {  background-color: #fcba03;  }
-#error {  background-color: #EE1D52;  }
-#expert { background-color: #bebcbe; }
-.submitButton:hover { color: black; }
+#submit {  background-color:#69C9D0;  align-self: center; margin-bottom: 5%;}
+#refresh {  background-color: #b1528d;  }
+#error {  background-color: #6e52b1;  }
+#expert { background-color: #858585; }
+.submitButton:hover { color: black;}
 
 #close, #send {  
+  transition-duration: 0.4s;
   background-color: white; color: black;
   border: 1px solid black;
-  padding: 8px 12px;
   font-size: 12px;
   }
 
+#close:hover, #send:hover {
+  background-color:lightsteelblue;
+}
 #exampleModalLabel {
   font-family: 'Spartan', sans-serif; font-weight: 700;
   font-size: 15px;
@@ -52,4 +59,10 @@ div.iframe{
     width: 35%;
     right: 5%;
     top: 10%;
+}
+
+.tag_panel{
+  position: absolute;
+  left: 50%;
+
 }
