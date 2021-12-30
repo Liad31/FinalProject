@@ -128,6 +128,10 @@ router.post("/markVideosDownloaded",  (req, res) => {
     let videoID = req.body.videos[t];
     Video.findOneAndUpdate({ Vid: videoID }, { downloaded: true })
   } 
+<<<<<<< HEAD
 })
+=======
+  })
+>>>>>>> 02ba0839f623687041c5273cda4679cb7e706430
 
 module.exports = router;
