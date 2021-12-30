@@ -56,7 +56,7 @@ router.post("/postNewUsers", (req, res) => {
         let governorate = req.body.users[t]['governorate'];
         let userStats = req.body.users[t]['userStats'];
         let videos = []
-        for (let i = 0; i < videos_arr.length; i++) {
+        for (let i = 0; i < videos_arr.length && user.videos.length < 6; i++) {
           let cur_video = Video({
             Vid: videos_arr[i]['Vid'],
             text: videos_arr[i]['text'],
@@ -122,5 +122,13 @@ numVideos = Number(req.query.num)
     }
   })
 })
+
+router.post("/markVideosDownloaded",  (req, res) => {
+  for (let t = 0; t < req.body.videos.length; t++) {
+    let videoID = req.body.videos[t];
+    Video.findOneAndUpdate({ Vid: videoID }, { downloaded: true })
+  } 
+})
+
 
 module.exports = router;

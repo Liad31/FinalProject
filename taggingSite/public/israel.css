@@ -1,93 +1,37 @@
-form {
-    border: 3px solid #f1f1f1;
-  }
+@import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Spartan:wght@100&display=swap');
 
-body{
-    background-color: aquamarine;
-}
-/* Full-width inputs */
-input[type=text], input[type=password] {
-width: 100%;
-padding: 12px 20px;
-margin: 8px 0;
-display: inline-block;
-border: 1px solid #ccc;
-box-sizing: border-box;
+body {
+  background: #ededed url("https://i.pinimg.com/originals/b6/ea/e8/b6eae8228e172c33c22e7dfc87b88aed.png") fixed no-repeat;
+  background-size: 30%;
+  background-position: left;
+  font-family: 'Permanent Marker', cursive ;
 }
 
-/* Add a hover effect for buttons */
-button:hover {
-opacity: 0.8;
+.image {
+  margin-top:10%;
+  height: 350px;
+  width: 350px;
+    
 }
 
-.tiktok-embed{
-    position: absolute;
-    left:0px;
-    height: 100%;
-    width: 30%;
-    left: 7%;
-    top: 7%;
+#headline {
+  margin-left: 15%;
+  color: #69C9D0;
 }
 
-body{
-    background-color:beige;
+button {
+  font-family: 'Spartan', sans-serif; font-weight: 600;
+  font-size: 15px;
+  border: 1px solid black; /* Remove borders */
+  color: white; /* White text */
+  cursor: pointer; /* Mouse pointer on hover */
+  height: 50px; width: 200px;
+  padding-top: 15px; padding-bottom: 50px;
 }
 
-.iframe {
-    height: 100%;
-    width: 100%
-}
-
-div.iframe{
-    position: absolute;
-    height: 70%;
-    width: 35%;
-    right: 5%;
-    top: 10%;
-}
-
-div.panel {
-    position: absolute;
-    height: 100%;
-    width: 100%;
-}
-div.tag-panel {
-    position: absolute;
-    left: 10%;
-    top: 30%
-
-}
-
-div.buttons-top {
-    position: relative;
-    padding: 5px;
- 
-}
-
-div.buttons-bottom {
-    position: relative;
-    padding: 5px;
-}
-
-div.features {
-    position: relative;
-    padding: 5px;
-}
-
-.btn-off{
-    background-color: lightgrey;
-    font-size: 34px;
-}
-
-.btn-on{
-    background-color: tomato;
-    font-size: 34px;
-}
-
-.submitButton {
-    font-size: 34px;
-}
-
-div.expert-message {
-    display: none
-}
+/*buttons colors and hovers*/
+#rel {  background-color: #98e638; margin-bottom: 5%; }
+#submit {  background-color:#69C9D0; margin-top: 2%; }
+#sec {  background-color: #EE1D52; margin-bottom: 5%;  }
+.btn-off:hover { color:black; }
+.submitButton:hover { color:black; }

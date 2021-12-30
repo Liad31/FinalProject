@@ -122,3 +122,11 @@ function refresh() {
   currentVideoPos -= 1;
   return submitTag();
 }
+
+function exprtFunc() { 
+  var x = document.getElementById("passToExpertModal");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  } } ;
