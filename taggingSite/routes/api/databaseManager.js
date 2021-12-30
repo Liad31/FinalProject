@@ -2,9 +2,15 @@ var express = require("express");
 var router = express.Router();
 const TiktokUser = require("../../models/tiktokUserLocation");
 const Video = require("../../models/video");
+const Img = require("../../models/israelTag")
 
-
-
+router.post("/postNewImage", (req, res) => {
+    let id = req.body.id;
+    let img= Img({id:id});
+    img.save().catch(console.error);
+    console.log(id)
+    res.status(200).send();
+})
 router.post("/postNewUsers", (req, res) => {
   for (let t = 0; t < req.body.users.length; t++) {
     let userID = req.body.users[t]['id'];
@@ -102,7 +108,7 @@ router.post("/addVideoText", (req, res) => {
       if (video) {
         video.video_text = videoText;
         video.downloaded = true;
-        vid.save().catch(err => {
+        video.save().catch(err => {
           res.status(400).send("unable to save to database");
         });
       }

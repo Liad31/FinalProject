@@ -1,3 +1,4 @@
+const { Storage } = require('@google-cloud/storage');
 const router = require("express").Router();
 const passport = require("passport");
 const User = require("../../models/user");
@@ -11,7 +12,7 @@ const Img = require("../../models/israelTag")
 
 router.get("/login", (req, res) => {
     if (!req.isAuthenticated()) {
-    res.render("login.ejs");
+        res.render("login.ejs");
     } else {
         req.flash("info", "You are already logged in!");
         res.redirect("/");
@@ -23,13 +24,13 @@ router.post("/login", (req, res, next) => {
     // console.log("logging in");
     next();
 }
- ,passport.authenticate("login", {
-    successRedirect: "/",
-    failureRedirect: "/login",
-    failureFlash: true
-}));
+    , passport.authenticate("login", {
+        successRedirect: "/",
+        failureRedirect: "/login",
+        failureFlash: true
+    }));
 
-router.get("/logout", function(req, res) {
+router.get("/logout", function (req, res) {
     // console.log("logging out");
     req.logout();
     res.redirect("/")
@@ -48,17 +49,16 @@ router.post("/signup", function (req, res, next) {
     // console.log("trying to sign up user", username);
     // console.log("checking if mail already in use");
     User.findOne({ username: username }, function (err, user) {
-        if (err)
-         { 
+        if (err) {
             console.log(`Error: ${err}`);
             return next(err);
-         }
+        }
         if (user) {
             req.flash("error", "There is already an account with that username");
             // console.log("username is taken, redirecting to login");
             return res.redirect("/login");
         }
-        if (username.length < 6  || password.length < 6) {
+        if (username.length < 6 || password.length < 6) {
             req.flash("error", "username and password must be at least 6 chars long");
             // console.log("pasusername or password in bad format");
             return res.redirect("/signup");
@@ -81,27 +81,27 @@ router.post("/signup", function (req, res, next) {
     failureFlash: true
 }));
 
-router.get("/", ensureAuthenticated,(req, res) => {
-    res.locals.featuresList= params.FEATURE_LIST   
+router.get("/", ensureAuthenticated, (req, res) => {
+    res.locals.featuresList = params.FEATURE_LIST
     res.render("home.ejs");
     // console.log("getting home page");
 });
 
-router.get("/data",ensureAuthenticated,(req, res) => {
-    if(req.user.Permissions < 2){
+router.get("/data", ensureAuthenticated, (req, res) => {
+    if (req.user.Permissions < 2) {
         req.flash("error", "you dont have the pernissions for this page");
         // console.log("dont have the pernissions for this page");
         return res.status(404)
     }
     res.render("data.ejs");
 })
-router.post("/submitTag", (req,res) => {
+router.post("/submitTag", (req, res) => {
     // console.log(req.religiosity, "religiosity")
 })
 
-router.get("/nationalistic", ensureAuthenticated,(req, res) => {
+router.get("/nationalistic", ensureAuthenticated, (req, res) => {
     //send the url, video-id as parameters
-    res.locals.featuresList= params.FEATURE_LIST
+    res.locals.featuresList = params.FEATURE_LIST
     res.render("tagNationalistic.ejs");
     // console.log("getting home page");
 });
@@ -112,40 +112,57 @@ router.get("/location", ensureAuthenticated, (req, res) => {
     // console.log("getting tagLocation page");
 });
 
-async function getImage(){
+async function getImage() {
     let filter = {
         "tagged": false,
     }
     let options = {}
 
-    return await Img.findOne(filter, null, options, function (err, image) {
+    return Img.findOne(filter, null, options).then(function (image, err) {
         if (err) {
             console.log(err)
             return
         }
         if (!image) {
-            throw new Error("no image found")   
+            throw new Error("no image found")
         }
         else {
             return image.id;
         }
-    }).clone().catch((err)=>{
+    }).catch((err) => {
         console.log(err);
-        return 0;})
+        return 0;
+    })
+}
+
+
+// Creates a client
+const storage = new Storage();
+
+async function generateV4ReadSignedUrl(fileName) {
+    console.log(fileName)
+    // These options will allow temporary read access to the file
+    const options = {
+        version: 'v4',
+        action: 'read',
+        expires: Date.now() + 15 * 60 * 1000, // 15 minutes
+    };
+
+    // Get a v4 signed URL for reading the file
+    const [url] = await storage
+        .bucket("arabushes-images")
+        .file("images/"+fileName+".png")
+        .getSignedUrl(options);
+    return url
 }
 
 router.get("/israel", ensureAuthenticated, async (req, res) => {
-    //send the url, video-id as parameters
-    try {
-        id = await getImage();
-        // console.log("image is:" + String(id));
-        res.locals.imageID = "images/" + id['id'] + ".png";
-    } catch {
-        res.locals.imageID = "images/" + "0" + ".png";
-        res.render("israel.ejs");
-    }
-    res.render("israel.ejs");
-    // console.log("getting israelTag page");
+    getImage(). 
+    then(generateV4ReadSignedUrl).
+    then((url)=>{
+            res.locals.imageID = url;
+            res.render("israel.ejs");
+        })
 
 });
 
