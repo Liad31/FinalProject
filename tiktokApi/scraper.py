@@ -48,14 +48,15 @@ class Scraper:
         output = self.generate_output_from_mp4(dir_name)
         return output
 
-    def scrap_hashtags(self, hashtags, num_posts, since, before):
+    def scrap_hashtags(self, hashtags, num_posts, since, before, download=False):
         cmds = [f'#{hashtag}' for hashtag in hashtags]
 
         params = {
             'number': num_posts,
             'filetype': 'csv',
             'since': since,
-            'before': before
+            'before': before,
+            'download': download
         }
         dir_name = self.scrap_batch(cmds, params)
 

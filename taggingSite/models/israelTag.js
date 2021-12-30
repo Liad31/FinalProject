@@ -5,6 +5,7 @@ const israelTagSchema = new Schema({
     id: String,
     tagged:  {type: Boolean, default: false},
     decision: Boolean,
+    downloaded: {type: Boolean, default: false},
 });
 
 
