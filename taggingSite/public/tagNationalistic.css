@@ -19,8 +19,10 @@ button {
    padding: 15px 24px; 
   cursor: pointer; /* Mouse pointer on hover */
   /*size: 300%;*/
+}
 
-
+.submitButton {
+  font-size: 40px;
 }
 
 /*buttons colors and hovers*/
