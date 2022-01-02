@@ -2,9 +2,15 @@ var express = require("express");
 var router = express.Router();
 const TiktokUser = require("../../models/tiktokUserLocation");
 const Video = require("../../models/video");
+const Img = require("../../models/israelTag")
 
-
-
+router.post("/postNewImage", (req, res) => {
+    let id = req.body.id;
+    let img= Img({id:id});
+    img.save().catch(console.error);
+    console.log(id)
+    res.status(200).send();
+})
 router.post("/postNewUsers", (req, res) => {
   for (let t = 0; t < req.body.users.length; t++) {
     let userID = req.body.users[t]['id'];
@@ -91,25 +97,24 @@ router.post("/postNewUsers", (req, res) => {
 
 //gets a list of video ids
 router.post("/addVideoText", (req, res) => {
-  for (let t = 0; t < req.body.users.length; t++) {
-    let videoID = req.body.videos[t];
+  for (video of req.body.videos) {
+    videoID=video['Vid']
+    videoText= video['text']
     Video.findOne({ Vid: videoID }, async function (err, video) {
       if (err) {
         console.log("Error:" + String(err));
         res.status(200).send("error occured");
       }
       if (video) {
-        let video_text = req.body.texts[t];
-        video.video_text = video_text;
-        vid.save().catch(err => {
+        video.video_text = videoText;
+        video.downloaded = true;
+        video.save().catch(err => {
           res.status(400).send("unable to save to database");
         });
       }
     })
   }
   res.status(200).send();
-
-
 })
 router.get("/getVideos", (req, res) => {
 numVideos = Number(req.query.num)
@@ -123,11 +128,12 @@ numVideos = Number(req.query.num)
     }
   })
 })
+
 router.post("/markVideosDownloaded",  (req, res) => {
   for (let t = 0; t < req.body.videos.length; t++) {
     let videoID = req.body.videos[t];
     Video.findOneAndUpdate({ Vid: videoID }, { downloaded: true })
   } 
-  })
+})
 
 module.exports = router;

@@ -7,6 +7,8 @@ const Stats = require("../../models/nationalisticTaggingStat");
 const Video = require("../../models/video");
 const NodeCache = require("node-cache");
 const { ObjectId } = require("bson");
+const featureList = require("../../params/params").FEATURE_LIST
+const FeatureCounter = require("../../models/featureCounter")
 
 // TTL=30 mins
 const recentlySent = new NodeCache({ stdTTL: 30*60*60, checkperiod: 0});
@@ -114,6 +116,20 @@ router.post("/tag", (req, res) => {
             tag.save();
             tiktokUser.tags.push(tag);
             tiktokUser.save();
+
+            //update feature counters
+            for (let i = 0; i < featureList.length; i++) {
+                let featureCounter = await FeatureCounter.findOne({feature: featureList[i]})
+                if (featureCounter == null) {
+                    featureCounter = new FeatureCounter({feature: featureList[i]})
+                }
+
+                for (let j = 0; j < videos_tag.length; j++) {
+                    featureCounter.counter += features[j][featureList[i]] == 'true'
+                }
+                console.log(featureCounter.counter)
+                featureCounter.save()
+            }
 
             //update user
             let user = req.user;
