@@ -21,7 +21,7 @@
       <!-- <blockquote class="tiktok-embed" data-video-id="6991131155013668102"> <section> </section> </blockquote> 
     <script async src="https://www.tiktok.com/embed.js"></script> -->
   
-      <div class="tag-panel" style="position: absolute; left: 32%; top: 40%;">
+      <div class="tag-panel" style="position: absolute; left: 32%; top: 20%;">
         <h1 id="headline"> <span style="color: #EE1D52;"> Tag </span> the video</h1>
         <div class="buttons-top" >
           <button id="sec" class="btn-off" onclick="tag(0)" >NOT NATIONALISTIC</button>
@@ -34,6 +34,7 @@
               <label for='<%= feature %>'>
                 <%= feature %>
               </label>
+              <br>
               <% } %>
           </form> 
         </div>
@@ -42,8 +43,8 @@
           <% if(currentUser.Permissions == 0) { %>
             <button id="expert" class="submitButton" data-toggle="modal" data-target="#passToExpertModal" onclick="exprtFunc()">Pass To Expert</button>
           <% } %> 
-          <button id="refresh" class="submitButton" onclick="refresh()">Refresh Page</button>
-          <button id="error" class="submitButton" onclick="markError()">Error</button>
+          <button id="refresh" onclick="refresh()">Refresh Page</button>
+          <button id="error" onclick="markError()">Error</button>
         </div>
         <% if(currentUser.Permissions == 1) { %>
         <div class="expert-message" id="expert-message">
