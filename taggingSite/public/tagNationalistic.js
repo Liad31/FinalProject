@@ -101,6 +101,7 @@ function submitTag(){
       // console.log($(this), "checkbox")
       // console.log($(this).prop('checked'), "is checked")
       this_features[$(this).prop('name')] = $(this).prop('checked')
+      $(this).prop('checked', false);
     });
     features.push(this_features)
   }
