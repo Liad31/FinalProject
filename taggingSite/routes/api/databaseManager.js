@@ -1,6 +1,6 @@
 var express = require("express");
 var router = express.Router();
-const TiktokUser = require("../../models/tiktokUserLocation");
+const TiktokUser = require("../../models/tiktokUserNationalistic");
 const Video = require("../../models/video");
 const Img = require("../../models/israelTag")
 
@@ -22,7 +22,7 @@ router.post("/postNewUsers", (req, res) => {
       if (user) {
         video_saved = 0
         console.log("adding videos to user");
-        for (let k = 0; k < req.body.users[t]['videos'].length && user.videos.length < 6; k++) {
+        for (let k = 0; k < req.body.users[t]['videos'].length && user.videos.length < 3; k++) {
           videoID = req.body.users[t]['videos'][k]['Vid']
           Video.findOne({ Vid: videoID }, async function (err, video) {
             if (err) {
@@ -62,7 +62,7 @@ router.post("/postNewUsers", (req, res) => {
         let governorate = req.body.users[t]['governorate'];
         let userStats = req.body.users[t]['userStats'];
         let videos = []
-        for (let i = 0; i < videos_arr.length && user.videos.length < 6; i++) {
+        for (let i = 0; i < Math.min(videos_arr.length,3); i++) {
           let cur_video = Video({
             Vid: videos_arr[i]['Vid'],
             text: videos_arr[i]['text'],
@@ -118,7 +118,7 @@ router.post("/addVideoText", (req, res) => {
 })
 router.get("/getVideos", (req, res) => {
 numVideos = Number(req.query.num)
-  Video.find().limit(numVideos).exec(function (err, videos) {
+  Video.find({downloaded: false}).limit(numVideos).exec(function (err, videos) {
     if (err) {
       console.log("Error:" + String(err));
       res.status(200).send("error occured");

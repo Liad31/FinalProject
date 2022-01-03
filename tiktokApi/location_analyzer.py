@@ -93,7 +93,7 @@ def create_df_of_users(users_cities_counters):
             rows.append(row)
         elif counter_is_not_empty(cities_counter):
             city, hashtags_freq = norm_cities_counter.most_common(1)[0]
-            if hashtags_freq >= 0.6 and cities_counter[city] >= 3:
+            if hashtags_freq >= 0.5 and cities_counter[city] >= 3:
                 row = [link_of_user(user[0]), city, norm_bio_counter[city], hashtags_freq, 'hashtags']
                 rows.append(row)
     return pd.DataFrame(rows, columns=["link", "city", "bio freq", "hashtags freq", 'classified by'])
