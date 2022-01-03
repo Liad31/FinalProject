@@ -27,7 +27,7 @@ button {
 
 /*buttons colors and hovers*/
 #sec {  background-color: #EE1D52; margin-bottom: 5%; height: 90pd;}
-#rel {  background-color: #98e638;  margin-bottom: 5%; height: 90pd;}
+#rel {  background-color: #98e638;  margin-bottom: 5%; margin-left: 50px; height: 90pd;}
 .btn-off:hover { color:black; }
 #submit {  background-color:#69C9D0;  align-self: center; margin-bottom: 5%;}
 #refresh {  background-color: #b1528d;  }
