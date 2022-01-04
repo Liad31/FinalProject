@@ -14,17 +14,19 @@ body {
 button {
   font-family: 'Spartan', sans-serif; font-weight: 600;
   font-size: 15px;
-  border: 1px solid black; /* Remove borders */
+  border: 1px solid #6e52b1;; /* Remove borders */
+  border-color: #6e52b1;
   color: white; /* White text */
-   padding: 15px 24px; 
+  padding: 15px 24px; 
   cursor: pointer; /* Mouse pointer on hover */
   /*size: 300%;*/
 }
-
 .submitButton {
   font-size: 40px;
 }
-
+button:focus{
+  outline: solid 4px black;
+}
 /*buttons colors and hovers*/
 #sec {  background-color: #EE1D52; margin-bottom: 5%; height: 90pd;}
 #rel {  background-color: #98e638;  margin-bottom: 5%; margin-left: 50px; height: 90pd;}
