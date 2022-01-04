@@ -42,7 +42,7 @@
         <div class="buttons-bottom">
           <button id="submit" class="submitButton" onclick="submitTag()" style="margin-bottom: 2%;">Submit</button> </br>
           <% if(currentUser.Permissions == 0) { %>
-            <button id="expert" class="submitButton" data-toggle="modal" data-target="#passToExpertModal" onclick="exprtFunc()">Pass To Expert</button>
+            <button id="expert" data-toggle="modal" data-target="#passToExpertModal" onclick="exprtFunc()">Pass To Expert</button>
           <% } %> 
           <button id="refresh" onclick="refresh()">Refresh Page</button>
           <button id="error" onclick="markError()">Error</button>
