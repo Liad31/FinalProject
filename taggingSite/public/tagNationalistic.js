@@ -154,7 +154,7 @@ function passToExpert(){
 }
 
 function markError() {
-  user_tag = 2
+  tags_array[currentVideoPos] = 2
   submitTag()
   // $.ajax({
   //   url: 'api/tagNationalistic/markError',
