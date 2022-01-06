@@ -1,33 +1,74 @@
 
-
 import requests
+
 import json
 import time
 import cv2
 import sys
+import pickle
+import pandas as pd
+# Import required packages
+import cv2
+import sys
 from moviepy.editor import *
 import easyocr
+reader = easyocr.Reader(['ar','en']) # this needs to run only once to load the model into memory
+import openai
 
+def roundToN(x, base=1):
+    return base * round(x/base)
+def compareBoxes(b1,b2):
+    if abs(b1[1]-b2[1])>10:
+        return b1[1]-b2[1]
+    else:
+        return b1[0]-b2[0]
+class BoxesComparator(object):
+    def __init__(self, x):
+        self.lst=x[0][0]
+    def __lt__(self, other):
+        if abs(self.lst[1]-other.lst[1])>10:
+            return self.lst[1]<other.lst[1]
+        else:
+            return self.lst[0]>other.lst[0]
 def text_from_video(path):
-    def extract_middle_frame():
-		# loading video gfg
+    def extract_middle_frame(path):
+        # loading video gfg
         clip = VideoFileClip(path)
 
 
-		# getting duration of the video
+        # getting duration of the video
         duration = clip.duration
 
-		# saving a frame at 1 second
+        # saving a frame at 1 second
         clip.save_frame("frame.png", int(duration/2))
 
-    	# showing clip
+        # showing clip
 
-	# Read image from which text needs to be extracted
-    extract_middle_frame()
-    reader=easyocr.Reader(['eng','ar'])
-    res=reader.readtext('frame.png')
-    return res
-
+    # extract_middle_frame(path)
+    image_path="frame.png"
+    img=cv2.imread(image_path)
+    img=img[80:-80,:]
+    results = reader.readtext(img)
+    final=[]
+    results.sort(key=BoxesComparator)
+    for bbox,text,conf in results:
+        # print(f"text: {text}, conf: {conf}, bbox: {bbox}")
+        if conf> 0.4:
+            final.append(text)
+    # final=final[1:]
+    final=" ".join(final)
+    openai.api_key = "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"
+    response = openai.Completion.create(
+      engine="davinci",
+      prompt=f"Correct Mistakes In The Original Text\nOriginal:{final}\nStandard Arabic:",
+      temperature=0,
+      max_tokens=200,
+      top_p=1.0,
+      frequency_penalty=0.0,
+      presence_penalty=0.0,
+      stop=["\n"]
+    )
+    return response['choices'][0]['text']
 
 
 #import grequests
@@ -39,9 +80,9 @@ def create_download_txt(lis_sec_ids,path="async_list.txt"):
 def chunker_list(seq, size):
     return (seq[pos:pos + size] for pos in range(0, len(seq), size))
 
-def async_download_vids_parallel(batch_size =10,iterations=200):
+def async_download_vids_parallel(batch_size =10,iterations=500):
     # request the videos from server
-    num_videos = 10#2
+    num_videos = 20#2
     cur_time = time.time()
     cnt=0
     cnt_failed=0
@@ -68,9 +109,10 @@ def async_download_vids_parallel(batch_size =10,iterations=200):
                 secuid =j["Vid"]
                 id = j["Vid"]
                 vids_to_download.append((secuid,id))
+            videoTexts=[]
             async_list = "async_list.txt"
             create_download_txt(vids_to_download,async_list)
-            os.system(f"tiktok-scraper from-file {async_list} {num_threads}  --proxy-file ../proxies.txt -d > /dev/null")
+            os.system(f"tiktok-scraper from-file {async_list} {num_threads}  --proxy-file ../proxies.txt -d")
             downloaded_paths = []
             for (secuid,id) in vids_to_download:
                 # check in current folder
@@ -80,8 +122,8 @@ def async_download_vids_parallel(batch_size =10,iterations=200):
                     # add to failed
                     cnt_failed+=1
                     id_failed.append(id)
-                    if cnt_failed%15==0:
-                        print("failed to download 15 vids")
+                    # if cnt_failed%15==0:
+                    print("failed to download 15 vids")
                     #continue
                 else:
                     # move the file
@@ -90,7 +132,7 @@ def async_download_vids_parallel(batch_size =10,iterations=200):
                     path =f"./videos/{id}.mp4"
                     new_path = path[:-4]+"_r.mp4"
                     os.system(f"mv {cur_path} {path}")
-                    print(text_from_video(path))
+                    videoTexts.append({"Vid":id, "text": text_from_video(path)})
                     downloaded_paths.append((path,new_path))
                     cnt_batch+=1
                     cnt+=1
@@ -116,15 +158,8 @@ def async_download_vids_parallel(batch_size =10,iterations=200):
                 # reset the counter
                 cnt = 0
                 passed_total=0
+            requests.post(f'http://localhost:8001/api/database/addVideoText', json={"videos":videoTexts})
         
-        #post_vids=[j["id"] for j in rl]
-        # remove one of them and put in failed
-        #id_failed.append(id_success[0])
-        #id_success.remove(id_success[0])
-        # after 100 videos finished, send this list of ids
-        # combined_list = [id_success,id_failed]
-        # print("sending to server that downloaded")
-        # r = requests.post('http://tiktokidentitydata.pythonanywhere.com/api/download_vids',json=combined_list)
         i+=1
     print("finished the iterations!")
 import ffmpeg
@@ -143,7 +178,7 @@ def resize_videos_parallel(paths,scale_percent = 100,size_factor=3,new_path="out
         res = (int(res.split("x")[0]), int(res.split("x")[1]))
         width = int(res[0] * scale_percent / 100)
         height = int(res[1] * scale_percent / 100)
-        width,height = (width//2)*2, (height//2)*2 # align to 2 pixels
+        dim = (width, height)
         # get bit rate
         probe= ffmpeg.probe(path)['streams']
         vid_bit_rate=int(probe[0]['bit_rate'])
@@ -177,10 +212,56 @@ def resize_videos_parallel(paths,scale_percent = 100,size_factor=3,new_path="out
     os.system(f"parallel -a {command_path}")
     #print(os.popen("parallel -a command_resize.txt").read())
     return
+def get_failed_vids():
+    import os 
+    from collections import defaultdict
+    if os.path.exists("failed_vids"):
+        loaded_dict=pickle.load(open("failed_vids",'rb'))
+        cnt = sum([len(val) for val in loaded_dict.values()])
+        print(f"loaded failed vids from cache, {cnt} videos were previously failed")
+        return loaded_dict
+    print("created a new failed cache")
+    loaded_dict=defaultdict(list)
+    pickle.dump(loaded_dict, open("failed_vids",'wb'))
+    return loaded_dict
+def chunker(seq, size):
+    return (seq[pos:pos + size].reset_index(drop=True) for pos in range(0, len(seq), size))
 def cleanup():
     os.system("rm cache_vids")
     os.system("rm failed_vids")
     os.system("rm async_list.txt")
     os.system("rm command_resize.txt")
 
+def create_csv(cache_vids):
+    data = []
+    for videos in cache_vids.values():
+        for vid in videos[0]:
+            data.append(vid[:-4])
+    # initialize list of lists
+    
+    # Create the pandas DataFrame
+    df = pd.DataFrame(data, columns = ['id'])
+    print(df)
+    # convert to df 
+    # save as csv drop index
+    df.to_csv("../downloaded_vids.csv",index=False)
 
+def count_videos():
+    names=list(os.walk(os.getcwd()))[0][1]
+    #print(names)
+    #for each entry, add the video name
+    dict_vids=defaultdict(list)
+    cnt=0
+    for entry,name in zip(list(os.walk(os.getcwd()))[1:],names):
+        # ignore secret checkpoint
+        if name != '.ipynb_checkpoints' :
+            # count only .mp4 videos, not music
+            vids =[entry for  entry in entry[2] if entry.endswith('.mp4')]
+            cnt+= len(vids)
+    print(f"found a total of {cnt} videos")
+# text_from_video.counter=0
+# import glob
+# for i in glob.glob("*.mp4"):
+#     text_from_video(i)
+# async_download_vids_parallel()
+print(text_from_video("a"))
