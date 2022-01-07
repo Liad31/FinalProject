@@ -101,6 +101,7 @@ function submitTag(){
       // console.log($(this), "checkbox")
       // console.log($(this).prop('checked'), "is checked")
       this_features[$(this).prop('name')] = $(this).prop('checked')
+      $(this).prop('checked', false);
     });
     features.push(this_features)
   }
@@ -153,7 +154,7 @@ function passToExpert(){
 }
 
 function markError() {
-  user_tag = 2
+  tags_array[currentVideoPos] = 2
   submitTag()
   // $.ajax({
   //   url: 'api/tagNationalistic/markError',
