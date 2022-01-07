@@ -118,7 +118,7 @@ router.post("/addVideoText", (req, res) => {
 })
 router.get("/getVideos", (req, res) => {
 numVideos = Number(req.query.num)
-  Video.find().limit(numVideos).exec(function (err, videos) {
+  Video.find({downloaded: false}).limit(numVideos).exec(function (err, videos) {
     if (err) {
       console.log("Error:" + String(err));
       res.status(200).send("error occured");
