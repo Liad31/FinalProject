@@ -101,6 +101,7 @@ function submitTag(){
       // console.log($(this), "checkbox")
       // console.log($(this).prop('checked'), "is checked")
       this_features[$(this).prop('name')] = $(this).prop('checked')
+      $(this).prop('checked', false);
     });
     features.push(this_features)
   }
@@ -119,6 +120,7 @@ function submitTag(){
     // $("div.tag-panel").css("left", `${$(window).width() * 45 / 100}px`);
     // $("#headline").html(`Tag the <a href='https://www.tiktok.com/@${userName}?' target="_blank">user</a>`);
 
+    //TODO: delete nd return the previous one's(the hashtagged)
     $.ajax({
     url: 'api/tagNationalistic/tag',
     type: 'post',
@@ -152,14 +154,16 @@ function passToExpert(){
 }
 
 function markError() {
-  $.ajax({
-    url: 'api/tagNationalistic/markError',
-    type: 'post',
-    data: { id: userID },
-    success:function(videosJson){
-      window.location.href = "/nationalistic";
-    }
-  });
+  tags_array[currentVideoPos] = 2
+  submitTag()
+  // $.ajax({
+  //   url: 'api/tagNationalistic/markError',
+  //   type: 'post',
+  //   data: { id: userID , num: currentVideoPos},
+  //   success:function(videosJson){
+  //     window.location.href = "/nationalistic";
+  //   }
+  // });
 }
 
 function calcSeconds(time2, time1){
@@ -171,3 +175,11 @@ function refresh(){
   currentVideoPos-=1;
   return submitTag();
 }
+
+function exprtFunc() { 
+  var x = document.getElementById("passToExprert");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  } } ;
