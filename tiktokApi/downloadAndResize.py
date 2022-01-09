@@ -122,8 +122,10 @@ def async_download_vids_parallel(batch_size =10,iterations=500):
                     # add to failed
                     cnt_failed+=1
                     id_failed.append(id)
-                    # if cnt_failed%15==0:
-                    print("failed to download 15 vids")
+                    if cnt_failed%15==0:
+                        print(id)
+                        exit()
+                    # print("failed to download 15 vids")
                     #continue
                 else:
                     # move the file
