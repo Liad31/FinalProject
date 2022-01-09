@@ -139,10 +139,24 @@ router.get("/getVideos", (req, res) => {
   // })
 })
 router.post("/markVideosDownloaded",  (req, res) => {
-  for (let t = 0; t < req.body.videos.length; t++) {
-    let videoID = req.body.videos[t];
-    Video.findOneAndUpdate({ Vid: videoID }, { downloaded: true })
+  for( video of req.body.videos){
+    let videoID = video.Vid;
+    let text= video.text;
+    Video.findOne({ Vid: videoID },  function (err, video) {
+      if (err) {
+        console.log("Error:" + String(err));
+        res.status(200).send("error occured");
+      }
+      if (video) {
+        video.videoText= text;
+        video.downloaded = true;
+        video.save().catch(err => {
+          res.status(400).send("unable to save to database");
+        });
+      }
+    })
   } 
+  res.status(200).send();
 })
 
 module.exports = router;
