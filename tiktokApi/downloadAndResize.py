@@ -121,10 +121,7 @@ def async_download_vids_parallel(batch_size =15,iterations=50, num_videos=30):
                 if not os.path.exists(f"{cur_path}"):
                     # add to failed
                     cnt_failed+=1
-                    id_failed.append(id)
-                    if cnt_failed%15==0:
-                        print(id)
-                        exit()
+                    videoTexts.append({"Vid":id,"text":"ERROR!!!!!"})
                     # print("failed to download 15 vids")
                     #continue
                 else:
@@ -267,7 +264,7 @@ def count_videos():
 # for i in glob.glob("*.mp4"):
 #     text_from_video(i)
 openai.api_key = "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"
-async_download_vids_parallel()
+async_download_vids_parallel(iterations=45)
 openai.api_key = "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"
 async_download_vids_parallel()
 openai.api_key = "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"
