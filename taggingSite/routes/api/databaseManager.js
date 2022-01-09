@@ -1,6 +1,6 @@
 var express = require("express");
 var router = express.Router();
-const TiktokUser = require("../../models/tiktokUserLocation");
+const TiktokUser = require("../../models/tiktokUserNationalistic");
 const Video = require("../../models/video");
 
 
@@ -16,7 +16,7 @@ router.post("/postNewUsers", (req, res) => {
       if (user) {
         video_saved = 0
         console.log("adding videos to user");
-        for (let k = 0; k < req.body.users[t]['videos'].length && user.videos.length < 6; k++) {
+        for (let k = 0; k < req.body.users[t]['videos'].length && user.videos.length < 3; k++) {
           videoID = req.body.users[t]['videos'][k]['Vid']
           Video.findOne({ Vid: videoID }, async function (err, video) {
             if (err) {
