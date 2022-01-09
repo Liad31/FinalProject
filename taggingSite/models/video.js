@@ -9,6 +9,7 @@ const videoSchema = new Schema({
     musicUrl: String,
     date: String,
     downloaded: {type: Boolean, default: false},
+    videoText: {type: String, default: ""},
 });
 
 const Video = mongoose.model("Video", videoSchema);
