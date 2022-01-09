@@ -44,7 +44,7 @@ def text_from_video(path):
 
         # showing clip
 
-    # extract_middle_frame(path)
+    extract_middle_frame(path)
     image_path="frame.png"
     img=cv2.imread(image_path)
     img=img[80:-80,:]
@@ -57,7 +57,8 @@ def text_from_video(path):
             final.append(text)
     # final=final[1:]
     final=" ".join(final)
-    openai.api_key = "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"
+    if not final:
+        return final
     response = openai.Completion.create(
       engine="davinci",
       prompt=f"Correct Mistakes In The Original Text\nOriginal:{final}\nStandard Arabic:",
@@ -80,9 +81,8 @@ def create_download_txt(lis_sec_ids,path="async_list.txt"):
 def chunker_list(seq, size):
     return (seq[pos:pos + size] for pos in range(0, len(seq), size))
 
-def async_download_vids_parallel(batch_size =10,iterations=500):
+def async_download_vids_parallel(batch_size =15,iterations=50, num_videos=30):
     # request the videos from server
-    num_videos = 20#2
     cur_time = time.time()
     cnt=0
     cnt_failed=0
@@ -112,7 +112,7 @@ def async_download_vids_parallel(batch_size =10,iterations=500):
             videoTexts=[]
             async_list = "async_list.txt"
             create_download_txt(vids_to_download,async_list)
-            os.system(f"tiktok-scraper from-file {async_list} {num_threads}  --proxy-file ../proxies.txt -d")
+            os.system(f'yt-dlp -a {async_list} -o "%(id)s.mp4" -R 10')
             downloaded_paths = []
             for (secuid,id) in vids_to_download:
                 # check in current folder
@@ -160,7 +160,7 @@ def async_download_vids_parallel(batch_size =10,iterations=500):
                 # reset the counter
                 cnt = 0
                 passed_total=0
-            requests.post(f'http://localhost:8001/api/database/addVideoText', json={"videos":videoTexts})
+            requests.post(f'http://localhost:8001/api/database/markVideosDownloaded', json={"videos":videoTexts})
         
         i+=1
     print("finished the iterations!")
@@ -180,7 +180,8 @@ def resize_videos_parallel(paths,scale_percent = 100,size_factor=3,new_path="out
         res = (int(res.split("x")[0]), int(res.split("x")[1]))
         width = int(res[0] * scale_percent / 100)
         height = int(res[1] * scale_percent / 100)
-        dim = (width, height)
+        width = roundToN(width,2)
+        height = roundToN(height,2)
         # get bit rate
         probe= ffmpeg.probe(path)['streams']
         vid_bit_rate=int(probe[0]['bit_rate'])
@@ -265,5 +266,9 @@ def count_videos():
 # import glob
 # for i in glob.glob("*.mp4"):
 #     text_from_video(i)
-# async_download_vids_parallel()
-print(text_from_video("a"))
+openai.api_key = "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"
+async_download_vids_parallel()
+openai.api_key = "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"
+async_download_vids_parallel()
+openai.api_key = "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"
+async_download_vids_parallel()
