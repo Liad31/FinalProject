@@ -33,7 +33,8 @@ router.get("/getImage", (req, res) => {
 router.post("/tag", async (req, res) => {
     let imageId = req.body.id
     let user_tag = req.body.tag
-
+    imageId = imageId.split('images/')[1]
+    imageId = imageId.split('.png')[0]
     let update = { tagged: true, decision: user_tag }
     try {
         Img.findOneAndUpdate({ id: imageId }, update, null, function (err, document) { console.log(document); });
