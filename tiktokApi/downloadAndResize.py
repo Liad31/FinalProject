@@ -111,8 +111,9 @@ def async_download_vids_parallel(batch_size =15,iterations=50, num_videos=30):
                 vids_to_download.append((secuid,id))
             videoTexts=[]
             async_list = "async_list.txt"
+            videosDir="videos"
             create_download_txt(vids_to_download,async_list)
-            os.system(f'yt-dlp -a {async_list} -o "%(id)s.mp4" -R 10')
+            os.system(f'yt-dlp -a {async_list} -o "%(id)s.mp4" -R 10 --proxy frzgcmrj-rotate:rxpxcauy7pn0@p.webshare.io:80')
             downloaded_paths = []
             for (secuid,id) in vids_to_download:
                 # check in current folder
@@ -121,28 +122,28 @@ def async_download_vids_parallel(batch_size =15,iterations=50, num_videos=30):
                 if not os.path.exists(f"{cur_path}"):
                     # add to failed
                     cnt_failed+=1
-                    videoTexts.append({"Vid":id,"text":"ERROR!!!!!"})
+                    videoTexts.append({"Vid":id,"text":"ERROR2!!!!!"})
                     # print("failed to download 15 vids")
                     #continue
                 else:
                     # move the file
-                    if not os.path.exists('videos'):
-                        os.system(f"mkdir videos")
-                    path =f"./videos/{id}.mp4"
+                    if not os.path.exists(videosDir):
+                        os.system(f"mkdir {videosDir}")
+                    path =f"./{videosDir}/{id}.mp4"
                     new_path = path[:-4]+"_r.mp4"
                     os.system(f"mv {cur_path} {path}")
-                    videoTexts.append({"Vid":id, "text": text_from_video(path)})
+                    videoTexts.append({"Vid":id, "text": "Unproced"})
                     downloaded_paths.append((path,new_path))
                     cnt_batch+=1
                     cnt+=1
             # resize the vids
-            resize_videos_parallel(downloaded_paths)
-            # override the old vids
-            for (path,new_path) in downloaded_paths:
-                os.system(f"mv {new_path} {path}")
-                secuid_v = path[2:].split("/")[0]
-                id_v = path[2:].split("/")[1][:-4]
-                id_success.append(id_v)
+            # resize_videos_parallel(downloaded_paths)
+            # # override the old vids
+            # for (path,new_path) in downloaded_paths:
+            #     os.system(f"mv {new_path} {path}")
+            #     secuid_v = path[2:].split("/")[0]
+            #     id_v = path[2:].split("/")[1][:-4]
+            #     id_success.append(id_v)
             # tell the server it changed
             
             passed = time.time()-cur_time
@@ -264,7 +265,7 @@ def count_videos():
 # for i in glob.glob("*.mp4"):
 #     text_from_video(i)
 openai.api_key = "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"
-async_download_vids_parallel(iterations=45)
+async_download_vids_parallel(batch_size=15)
 openai.api_key = "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"
 async_download_vids_parallel()
 openai.api_key = "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"
