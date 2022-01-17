@@ -102,7 +102,8 @@ router.post("/submitTag", (req, res) => {
 
 router.get("/nationalistic", ensureAuthenticated, (req, res) => {
     //send the url, video-id as parameters
-    res.locals.featuresList = params.FEATURE_LIST
+    res.locals.weak = params.WEAK_FEATURES
+    res.locals.strong = params.STRONG_FEATURES
     res.render("tagNationalistic.ejs");
     // console.log("getting home page");
 });

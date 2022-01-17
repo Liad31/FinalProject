@@ -1,13 +1,36 @@
 const DATABASECONNECTION = "mongodb+srv://ourProject:EMGwk59xADuSIIkv@cluster0.lhfaj.mongodb.net/production2?retryWrites=true&w=majority";
-const WEEKLY_TAGS_NUM = "50"
-const WEKKLY_UPDATE_TIME = "0 0 * * 2"
+const WEEKLY_TAGS_NUM = "150"
+const WEKKLY_UPDATE_TIME = "0 0 * * 0"
 // const WEKKLY_UPDATE_TIME = "5 * * * * *"
-const FEATURE_LIST = ["תיעוד מעצר/עצורים","ביזוי דגל ישראל","דגל ישראל", "חיילים/שוטרים", "אדם עם זהות יהודית מובהקת", "הר הבית בצירוף האשטאג לאומני", "חיכוך עם כוחות ביטחון", "שהיד", "דגל פלסטין", "שמחה לאיד ליהודים", "כאפייה פלסטינית","האשטאג לאומני","צילום מקום רגיש – שיח' ג'ראח/באב אל-עמוד","כיתוב לאומני בגוף הסרטון"]
+const STRONG_FEATURES =  ["ביזוי דגל ישראל",
+                          "הר הבית בצירוף השטאג לאומני",
+                          "חיכוך עם כוחות הביטחון",
+                          "תמונה של שהיד", 
+                          "שמחה לאיד כלפי יהודים",
+                          "כיתוב לאומני בתוך הסרט",
+                          "אסירים",
+                          "שהידים",
+                          "עצירים",
+                          "מחאה אלימה",
+                          "שיר לאומני"
+                         ]
+const WEAK_FEATURES =  ["השטאג לאומני ",
+                         "כאפיה",
+                         "דגל פלסטין",
+                         "תמונה של יהודים בעלי חזות דתית מובהקת", 
+                         "תמונה של כוחות הבטחון (ללא חיכוך)",
+                        ]
+
+const FEATURE_LIST = STRONG_FEATURES.slice()
+FEATURE_LIST.push(WEAK_FEATURES)
 
 
 module.exports = {
     DATABASECONNECTION,
     WEEKLY_TAGS_NUM,
     WEKKLY_UPDATE_TIME,
-    FEATURE_LIST
+    FEATURE_LIST,
+    STRONG_FEATURES,
+    WEAK_FEATURES
+
 };

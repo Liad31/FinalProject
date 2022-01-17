@@ -113,7 +113,23 @@ router.post("/addVideoText", (req, res) => {
 })
 router.get("/getVideos", (req, res) => {
   numVideos = Number(req.query.num)
-  Video.aggregate([{$sample: {size: numVideos}}], function(err, videos){
+  agg=[{
+    '$match': {
+      '$or': [
+        {
+          'downloaded': false
+        }, {
+          'videoText': 'ERROR!!!!!'
+        }
+      ]
+    }
+  }, {
+    '$sample': {
+      'size': numVideos
+    }
+  }
+]
+  Video.aggregate(agg ,function(err, videos){
     if (err) {
       console.log(`Error: ${err}`);
       res.status(200).send("error occured");
@@ -136,20 +152,13 @@ router.post("/markVideosDownloaded",  (req, res) => {
   for( video of req.body.videos){
     let videoID = video.Vid;
     let text= video.text;
-    Video.findOne({ Vid: videoID },  function (err, video) {
-      if (err) {
-        console.log("Error:" + String(err));
+    Video.updateMany({Vid: videoID}, {$set: {downloaded: true, videoText: text}}, function(err, video){
+      if(err){
+        console.log(`Error: ${err}`);
         res.status(200).send("error occured");
       }
-      if (video) {
-        video.videoText= text;
-        video.downloaded = true;
-        video.save().catch(err => {
-          res.status(400).send("unable to save to database");
-        });
-      }
     })
-  } 
+  }
   res.status(200).send();
 })
 
