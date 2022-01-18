@@ -1,6 +1,6 @@
 const DATABASECONNECTION = "mongodb+srv://ourProject:EMGwk59xADuSIIkv@cluster0.lhfaj.mongodb.net/production2?retryWrites=true&w=majority";
 const WEEKLY_TAGS_NUM = "150"
-const WEKKLY_UPDATE_TIME = "0 0 * * 0"
+const WEKKLY_UPDATE_TIME = "0 10 * * 2"
 // const WEKKLY_UPDATE_TIME = "5 * * * * *"
 const STRONG_FEATURES =  ["ביזוי דגל ישראל",
                           "הר הבית בצירוף השטאג לאומני",
