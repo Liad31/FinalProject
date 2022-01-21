@@ -6,10 +6,10 @@ const TiktokUser = require("../../models/tiktokUserNationalistic");
 const Stats = require("../../models/nationalisticTaggingStat");
 const Video = require("../../models/video");
 const NodeCache = require("node-cache");
-const { ObjectId } = require("bson");
+const { ObjectId, ObjectID } = require("bson");
 const featureList = require("../../params/params").FEATURE_LIST
+const MAX_VIDEOS_PER_TAG = require("../../params/params").MAX_VIDEOS_PER_TAG
 const FeatureCounter = require("../../models/featureCounter")
-
 // TTL=30 mins
 const recentlySent = new NodeCache({ stdTTL: 30*60*60, checkperiod: 0});
 
@@ -21,7 +21,7 @@ router.get("/getUser", (req, res) => {
         recentlySent.get(key)
     }
     let filter = {
-        "tags.0": { $exists: false },
+        $expr: { $ne: ["$num_videos_tagged", {$size: "$videos"}]},
         userId: { $nin: recentlySent.keys() }
     }
     let options = {}
@@ -48,7 +48,7 @@ router.get("/getUser", (req, res) => {
         else {
             recentlySent.set(user.userId, 1)
             res.setHeader('Content-Type', 'application/json');
-            res.end(JSON.stringify({ userId: user.userId, numOfVideos: user.videos.length, message: user.expertNeeded, userName: user.userName}))
+            res.end(JSON.stringify({ userId: user.userId, numOfVideos: Math.min(MAX_VIDEOS_PER_TAG, user.videos.length - user.num_videos_tagged), message: user.expertNeeded, userName: user.userName}))
         }
     })
 })
@@ -107,14 +107,22 @@ router.post("/tag", (req, res) => {
             let videosTags = [];
             let videos_pos_tags = 0;
             let total_time = 0;
+            let tag;
             for (let i = 0; i < videos_tag.length; i++) {
                 videosTags.push({ timeDelta: times_array[i], features: features[i], decision: videos_tag[i] });
                 videos_pos_tags += videos_tag[i] == true;
                 total_time += parseFloat(times_array[i])
             }
-            let tag = Tag({ videoTag: videosTags, userDecision: user_tag });
-            tag.save();
-            tiktokUser.tags.push(tag);
+            if (tiktokUser.tags.length == 0) {
+                tag = Tag({ videoTag: videosTags, userDecision: user_tag });
+                tiktokUser.tags.push(tag);
+                tag.save();
+            } else {
+                tag = await Tag.findOneAndUpdate({_id: tiktokUser.tags[0]._id}, {$push: {videoTag: {$each: videosTags}}})
+            }
+
+
+            tiktokUser.num_videos_tagged += videos_tag.length
             tiktokUser.save();
 
             //update feature counters
@@ -127,7 +135,7 @@ router.post("/tag", (req, res) => {
                 for (let j = 0; j < videos_tag.length; j++) {
                     featureCounter.counter += features[j][featureList[i]] == 'true'
                 }
-                console.log(featureCounter.counter)
+                // console.log(featureCounter.counter)
                 featureCounter.save()
             }
 
