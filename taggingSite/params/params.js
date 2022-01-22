@@ -23,7 +23,7 @@ const WEAK_FEATURES =  ["השטאג לאומני ",
 
 const FEATURE_LIST = STRONG_FEATURES.slice()
 FEATURE_LIST.push(WEAK_FEATURES)
-
+const MAX_VIDEOS_PER_TAG = 3;
 
 module.exports = {
     DATABASECONNECTION,
@@ -31,6 +31,6 @@ module.exports = {
     WEKKLY_UPDATE_TIME,
     FEATURE_LIST,
     STRONG_FEATURES,
-    WEAK_FEATURES
-
+    WEAK_FEATURES,
+    MAX_VIDEOS_PER_TAG
 };

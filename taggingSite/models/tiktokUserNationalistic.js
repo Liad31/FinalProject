@@ -11,6 +11,7 @@ const tiktokUserNationalisticSchema= new Schema({
     tags: [{ type: Schema.Types.ObjectId, ref: 'Tag'}],
     expertNeeded: {type: String, default: null},
     error: {type: Number, default: 0},
+    num_videos_tagged: {type: Number, default: 0}
 });
 
 
