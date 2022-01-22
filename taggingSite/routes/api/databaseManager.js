@@ -2,10 +2,11 @@ var express = require("express");
 var router = express.Router();
 const TiktokUser = require("../../models/tiktokUserNationalistic");
 const Video = require("../../models/video");
-
+const Img= require("../../models/israelTag");
 
 
 router.post("/postNewUsers", (req, res) => {
+  maxVideosPerUser=100
   for (let t = 0; t < req.body.users.length; t++) {
     let userID = req.body.users[t]['id'];
     TiktokUser.findOne({ userId: userID }, function (err, user) {
@@ -16,7 +17,7 @@ router.post("/postNewUsers", (req, res) => {
       if (user) {
         video_saved = 0
         console.log("adding videos to user");
-        for (let k = 0; k < req.body.users[t]['videos'].length && user.videos.length < 3; k++) {
+        for (let k = 0; k < req.body.users[t]['videos'].length && user.videos.length < maxVideosPerUser; k++) {
           videoID = req.body.users[t]['videos'][k]['Vid']
           Video.findOne({ Vid: videoID }, async function (err, video) {
             if (err) {
@@ -56,7 +57,7 @@ router.post("/postNewUsers", (req, res) => {
         let governorate = req.body.users[t]['governorate'];
         let userStats = req.body.users[t]['userStats'];
         let videos = []
-        for (let i = 0; i < Math.min(videos_arr.length,3); i++) {
+        for (let i = 0; i < Math.min(videos_arr.length,maxVideosPerUser); i++) {
           let cur_video = Video({
             Vid: videos_arr[i]['Vid'],
             text: videos_arr[i]['text'],
@@ -118,9 +119,10 @@ router.get("/getVideos", (req, res) => {
       '$or': [
         {
           'downloaded': false
-        }, {
-          'videoText': 'ERROR!!!!!'
         }
+        // {
+        //   'videoText': 'ERROR2!!!!!'
+        // }
       ]
     }
   }, {
@@ -159,6 +161,14 @@ router.post("/markVideosDownloaded",  (req, res) => {
       }
     })
   }
+  res.status(200).send();
+})
+router.post("/postNewImage", (req, res) => {
+  let id=req.body.id;
+  img=Img({id:id})
+  img.save().catch(err => {
+    console.log(`Error: ${err}`);
+  })
   res.status(200).send();
 })
 

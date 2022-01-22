@@ -18,12 +18,14 @@ def get_posts_per_user(posts_df):
 
 
 def delete_files(files):
-    for file in files:
-        os.remove(file)
+    # for file in files:
+    #     os.remove(file)
+    pass
 
 
 def delete_dir(dir_name):
-    shutil.rmtree(dir_name)
+    # shutil.rmtree(dir_name)
+    pass
 
 
 class Scraper:

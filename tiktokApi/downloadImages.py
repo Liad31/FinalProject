@@ -4,17 +4,13 @@ import requests
 import json
 import os
 from moviepy.editor import *
-# numPosts = 1
+numPosts = 2000
 since = 0
 before = 0
-folder="#israel"
-hashtags= ["israel"]
+folder="#standwithisrael"
+hashtag= "standwithisrael"
 framesFolder="frames"
-# usersWithLocation = [user for user in output if user["governorate"]]
-# for i,user in enumerate(usersWithLocation):
-#     usersWithLocation[i]["posts"]=list(filter(lambda x: isLegal(x["upload_date"]),user["posts"]))
-# usersWithLocation=list(filter(lambda x: len(x["posts"])>0,usersWithLocation)) 
-# os.mkdir(framesFolder)
+
 def extract_middle_frame(path,name,framesFolder):
 
     # loading video gfg
