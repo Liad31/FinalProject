@@ -58,8 +58,9 @@ class Scraper:
             'filetype': 'csv',
             'since': since,
             'before': before,
-            'download': download
         }
+        if download:
+            params.update({'download': True})
         dir_name = self.scrap_batch(cmds, params)
 
         output = self.generate_output_from_csv(dir_name)
