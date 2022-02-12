@@ -2,10 +2,10 @@ from scraper import scraper
 import requests
 import json
 from datetime import datetime
-numPosts = 10000
+numPosts = 2500
 since = 0
 before = 0
-with open("nathashtags.txt", "r") as file:
+with open("hashtags.txt", "r") as file:
     hashtags = file.readlines()
 
 
