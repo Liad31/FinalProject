@@ -3,57 +3,108 @@ import re
 import numpy as np
 import torch
 from nltk import ngrams
+from model import *
+from dataprep import *
+from config import Config
+import random
+import matplotlib.pyplot as plt
 
-# t_model = gensim.models.Word2Vec.load('full_uni_sg_100_wiki.mdl')
+
+# t_model = gensim.models.Word2Vec.load('full_uni_sg_100_twitter.mdl')
 # word_vectors = t_model.wv
 # del t_model
 # key = 'سلاام'
 # print(key in word_vectors)
 # vector = word_vectors[key]
 # print(vector)
-from pandas._libs.internals import defaultdict
+
+# print(word_vectors['ناقص']) # חסר
 
 
-def lengths_clones(samples):
-    d = {}
-    for s in samples:
-        if len(s) in d.keys():
-            d[len(s)].append(s)
-        else:
-            d[len(s)] = [s]
-    return d
+# sen = [("البتاع والتبديع", 1), ("أحمد فؤاد الرأسمال الثقافي", 1), ("عيش البورجوازية عيش قلق", 0),
+#        ("تتفجّر فيه الفتن الفورات", 1), ("نجم البلاغة", 0)]
+# train_df = []
+# for (se, tag) in sen:
+#     se = clean_str(se)
+#     # print(se)
+#     se = se.split(' ')
+#     se = [word_vectors[word] for word in se]
+#     train_df.append((se, tag))
+#
+# train_df = np.array(train_df, dtype=object)
+# train_tmp = split_to_batches(train_df, 2)
+
+data = prep_data()
+random.shuffle(data)
+train_size = int(0.8*len(data))
+train_set, val_set = torch.utils.data.random_split(data, [train_size, len(data) - train_size])
+train_iter = split_to_batches(train_set, 4)
+val_iter = split_to_batches(val_set, 4)
+
+config = Config()
+model = Seq2SeqAttention(config)
+loss = torch.nn.BCELoss()
+if torch.cuda.is_available():
+    model.cuda()
+    loss.cuda()
+model.add_optimizer(torch.optim.Adam(model.parameters()))
+model.add_loss_op(loss)
 
 
-def split_to_batches(samples, batch_size):
-    batches = list()
-    for size in samples.keys():
-        i = 0
-        batch = []
-        for example in samples[size]:
-            if i == batch_size:
-                print(batch)
-                batches.append(np.array(batch))
-                batch = []
-                i = 0
-            batch.append(example)
-            i += 1
-        batches.append(np.array(batch))
-    return batches
+train_losses = []
+train_accuracies = []
+val_losses = []
+val_accuracies = []
+for i in range(100):
+    random.shuffle(train_iter)
+    random.shuffle(val_iter)
+    model.train()
+    model.run_epoch(train_iter, val_iter, i)
+    model.eval()
+    train_acc, train_loss = model.evaluate_model(train_iter)
+    val_acc, val_loss = model.evaluate_model(val_iter)
+    train_losses.append(train_loss)
+    train_accuracies.append(train_acc)
+    val_losses.append(val_loss)
+    val_accuracies.append(val_acc)
+    print("Epoch: {}".format(i))
+    print("\tAverage training loss: {:.7f}".format(train_loss))
+    print("\tTrain Accuracy: {:.7f}".format(train_acc))
+    print("\tAverage val loss: {:.7f}".format(val_loss))
+    print("\tVal Accuracy: {:.4f}".format(val_acc))
 
 
-train_df = list()
-train_df.append([np.array([0]), np.array([0]), np.array([2])])
-train_df.append(list([np.array([0]), np.array([0]), np.array([1])]))
-train_df.append(list([np.array([0]), np.array([0])]))
-train_df.append(list([np.array([0]), np.array([1])]))
-train_df.append(list([np.array([0]), np.array([2])]))
-train_df = np.array(train_df, dtype=object)
+# for graphs
+# Initialise the subplot
+figure, axis = plt.subplots(2, 2)
+X = [i for i in range(100)]
+figure.suptitle('My Model', fontsize=16)
 
-train = lengths_clones(train_df)
-# train_batches = []
-# test_batches = []
-train_tmp = split_to_batches(train, 2)
+# For valid loss Function
+axis[0, 0].plot(X, val_losses)
+axis[0, 0].set_title("loss on validation set")
+axis[0, 0].set_xlabel("Epoch Number")
+axis[0, 0].set_ylabel("loss")
 
-print(train)
-print(train_df)
-print(train_tmp)
+# For train loss Function
+axis[0, 1].plot(X, train_losses)
+axis[0, 1].set_title("loss on training set")
+axis[0, 1].set_xlabel("Epoch Number")
+axis[0, 1].set_ylabel("loss")
+
+# For valid accur Function
+axis[1, 0].plot(X, val_accuracies)
+axis[1, 0].set_title("accuracy on validation set")
+axis[1, 0].set_xlabel("Epoch Number")
+axis[1, 0].set_ylabel("accuracy")
+
+# For train accure Function
+axis[1, 1].plot(X, train_accuracies)
+axis[1, 1].set_title("accuracy on training set")
+axis[1, 1].set_xlabel("Epoch Number")
+axis[1, 1].set_ylabel("accuracy")
+
+# display
+plt.show()
+
+

@@ -41,5 +41,7 @@ tag = np.array(tag)
 np.save('data', data)
 np.save('tag', tag)
 
+print("done!")
+
 
 
