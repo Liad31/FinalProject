@@ -23,7 +23,7 @@ EPOCHS = 100
 class VideoDataset(Dataset):
     """Video dataset."""
 
-    def __init__(self, datas, timesep=75, rgb=3, h=288, w=512):
+    def __init__(self, datas, timesep=3, rgb=3, h=288, w=512):
         """
         Args:
             datas: pandas dataframe contain path to videos files with label of them
@@ -42,6 +42,7 @@ class VideoDataset(Dataset):
     def __getitem__(self, idx):
         if torch.is_tensor(idx):
             idx = idx.tolist()
+        print(self.dataloctions.iloc[idx, 0])
         video = capture(self.dataloctions.iloc[idx, 0], int(self.timesep * self.dataloctions.iloc[idx, 2]), self.rgb, self.h, self.w)
         sample = {'video': torch.from_numpy(video),
                   'label': torch.from_numpy(np.asarray(self.dataloctions.iloc[idx, 1]))}
@@ -76,7 +77,9 @@ def capture(filename, timesep, rgb, h, w):
     vc = cv2.VideoCapture(filename)
     if vc.isOpened():
         rval, frame = vc.read()
+        print('got a frame')
     else:
+        print('no frame:(')
         rval = False
     frm = resize(frame, (h, w, rgb))
     frm = np.expand_dims(frm, axis=0)
@@ -149,7 +152,7 @@ class videoFightModel(nn.Module):
                     param.requires_grad = True
             i +=1
 
-        num_features = 92160 # 12800 in 170
+        num_features = 73728 # 12800 in 170
         self.sequential1 = nn.Sequential(TimeWarp(self.baseModel,method='loop'))
         self.sequential12 = nn.Sequential(nn.LSTM(num_features, hidden_size, num_of_layers , batch_first=True , bidirectional=True ),
                             extractlastcell(),
@@ -159,7 +162,7 @@ class videoFightModel(nn.Module):
                             nn.Linear(fc_size, 1),
                             nn.Sigmoid())
 
-        checkpoint = torch.load(wight, map_location='cpu')
+        checkpoint = torch.load(wight)
         i = 0
         keys_to_drop = []
         for key, value in checkpoint['state_dict'].items():
@@ -188,9 +191,15 @@ def train_epoch(train_batches, model, optimizer, loss_func, train_size):
             labels = sample['label']
             input = input.float()
             labels = labels.to(torch.float32)
-            outputs = model(input).squeeze()
-            preds = np.concatenate((preds, outputs.detach().flatten()), axis=0)
-            reals = np.concatenate((reals, labels.detach().flatten()), axis=0)
+            input = input.cuda()
+            labels = labels.cuda()
+            outputs = model(input)
+            if len(input)>1:
+                outputs=outputs.squeeze()
+            outputs=outputs.reshape(-1)
+            print(outputs)
+            preds = np.concatenate((preds, outputs.cpu().detach().flatten()), axis=0)
+            reals = np.concatenate((reals, labels.cpu().detach().flatten()), axis=0)
 
             # Compute loss
             loss = loss_func(outputs, labels)
@@ -220,10 +229,15 @@ def eval(model, test_batches, loss_func, test_size):
                 labels = sample['label']
                 input = input.float()
                 labels = labels.to(torch.float32)
+                input = input.cuda()
+                labels = labels.cuda()
                 output = model(input)
+                if len(input)>1:
+                    output=output.squeeze()
+                output=output.reshape(-1)
                 test_loss += loss_func(output, labels)
-                preds = np.concatenate((preds, output.detach().flatten()), axis=0)
-                reals = np.concatenate((reals, labels.detach().flatten()), axis=0)
+                preds = np.concatenate((preds, output.cpu().detach().flatten()), axis=0)
+                reals = np.concatenate((reals, labels.cpu().detach().flatten()), axis=0)
 
     fpr, tpr, threshold = metrics.roc_curve(reals, preds)
     roc_auc = metrics.auc(fpr, tpr)
@@ -234,6 +248,8 @@ def train_model(df):
     model = videoFightModel()
     optimizer = optim.Adam(model.parameters(), lr=1e-2)
     loss_func = nn.BCELoss()
+    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+    model.to(device)
     train_loss_list = list()
     train_auc_list = list()
     validation_loss_list = list()
@@ -259,54 +275,39 @@ def train_model(df):
 
         train_loss, train_auc = train_epoch(train_batches, model, optimizer, loss_func, train_size=0.8 * df.shape[0])
         print("train loss:" + str(train_loss))
-        print("train acc:" + str(train_auc))
+        print("train auc:" + str(train_auc))
         train_loss_list.append(train_loss)
         train_auc_list.append(train_auc)
         val_loss, val_auc = eval(model, test_batches, loss_func, test_size=0.2 * df.shape[0])
         print("val loss:" + str(val_loss))
-        print("val acc:" + str(val_auc))
+        print("val auc:" + str(val_auc))
         validation_loss_list.append(val_loss)
         validation_auc_list.append(val_auc)
     return model
 
 if __name__ == "__main__":
-    command_path = './commands'
-    dir = '/mnt/tmp/videos'
-    outputDir= 'resized'
-    widths= []
-    heights = []
-    resizeBatchSize= 100
-    files=os.listdir(dir)
-    if not os.path.exists(outputDir):
-        os.mkdir(outputDir)
-    for i in range(0,len(files),resizeBatchSize):
-        if os.path.exists(command_path):
-            os.remove(command_path)
-        for vid_path in files[i:i+resizeBatchSize]:
-            if vid_path.endswith(".mp4"):
-                if "_r" in vid_path:
-                    continue
-                vid_path = dir + '/' + os.fsdecode(vid_path)
-                vcap = cv2.VideoCapture(vid_path)  # 0=camera
-                if vcap.isOpened():
-                    # get vcap property
-                    width = vcap.get(cv2.CAP_PROP_FRAME_WIDTH)  # float `width`
-                    height = vcap.get(cv2.CAP_PROP_FRAME_HEIGHT)  # flo
-                    bitrate= vcap.get(cv2.CAP_PROP_BITRATE)
-                    newBitrate= min(max(bitrate/2,200),900)
-                    newBitrate= int(newBitrate)
-                # os.system(f"cp {vid_path} .")
-                command = f"ffmpeg -i {vid_path} -s {512}x{288} -b:v {newBitrate}k -map 0:v {outputDir}/{vid_path.split('/')[-1]}"
-                os.system(f"echo {command} >> {command_path}")
-        os.system(f"parallel -a {command_path}")
-
-
-    # dir = 'Data/resized/'
+    # dir = './drive/MyDrive/Collab/'
     # df = pd.DataFrame(['0', 0]).T
+    # vids = list(np.load('./vids.npy', allow_pickle =True).astype(str))
+    # tags = np.load('./tag.npy', allow_pickle =True)
     # for vid_path in os.listdir(dir):
-    #     vid_path = dir + vid_path
-    #     clip = VideoFileClip(vid_path)
-    #     df = df.append({0: vid_path, 1: random.randint(0,1), 2: int(clip.duration/15) if int(clip.duration/15) < 14 else 13},  ignore_index = True)
+    #     name = vid_path.split('.')[0]
+    #     tag = -1
+    #     if name in vids:
+    #         tag = int(tags[vids.index(name)])
+    #     if tag != -1:
+    #         vid_path = dir + vid_path
+    #         clip = VideoFileClip(vid_path)
+    #         df = df.append({0: vid_path, 1: tag, 2: int(clip.duration/15) if int(clip.duration/15) < 14 else 13},  ignore_index = True)
     # df = df.iloc[1:,:]
+    # df.to_csv('my.csv')
+    dir = 'smallResize/'
+    df = pd.DataFrame(['0', 0]).T
+    for vid_path in os.listdir(dir):
+        vid_path = dir + vid_path
+        clip = VideoFileClip(vid_path)
+        df = df.append({0: vid_path, 1: random.randint(0,1), 2: int(clip.duration/15) if int(clip.duration/15) < 14 else 13},  ignore_index = True)
+    df = df.iloc[1:,:]
 
-    # train_model(df)
+
+    train_model(df)
