@@ -115,6 +115,7 @@ def prep_data():
         if embedded:
             embedded_data.append((embedded, tag))
 
+    print(len(embedded_data))
     return embedded_data
 
 
@@ -125,6 +126,7 @@ def lengths_clones(samples):
             d[len(s)].append((s, tag))
         else:
             d[len(s)] = [(s, tag)]
+    # print(d)
     return d
 
 
@@ -150,3 +152,12 @@ def split_to_batches(samples, batch_size):
             batches.append((torch.permute(torch.from_numpy(np.array(batch)), (1, 0, 2)), torch.tensor(tags)))
         # batches.append((np.array(batch), tags))
     return batches
+
+
+def load_my_data():
+    return list(np.load("my_data.npy", allow_pickle=True))
+
+
+if __name__ == '__main__':
+    data = np.array(prep_data(), dtype=object)
+    np.save('my_data', data)

@@ -8,6 +8,7 @@ from dataprep import *
 from config import Config
 import random
 import matplotlib.pyplot as plt
+from early_stopping import EarlyStopping
 
 
 # t_model = gensim.models.Word2Vec.load('full_uni_sg_100_twitter.mdl')
@@ -34,7 +35,7 @@ import matplotlib.pyplot as plt
 # train_df = np.array(train_df, dtype=object)
 # train_tmp = split_to_batches(train_df, 2)
 
-data = prep_data()
+data = load_my_data()
 random.shuffle(data)
 train_size = int(0.8*len(data))
 train_set, val_set = torch.utils.data.random_split(data, [train_size, len(data) - train_size])
@@ -50,16 +51,17 @@ if torch.cuda.is_available():
 model.add_optimizer(torch.optim.Adam(model.parameters()))
 model.add_loss_op(loss)
 
-
+stopper = EarlyStopping(patience=10)
 train_losses = []
 train_accuracies = []
 val_losses = []
 val_accuracies = []
-for i in range(100):
+epoch = 0
+for epoch in range(100):
     random.shuffle(train_iter)
     random.shuffle(val_iter)
     model.train()
-    model.run_epoch(train_iter, val_iter, i)
+    model.run_epoch(train_iter, val_iter, epoch)
     model.eval()
     train_acc, train_loss = model.evaluate_model(train_iter)
     val_acc, val_loss = model.evaluate_model(val_iter)
@@ -67,17 +69,20 @@ for i in range(100):
     train_accuracies.append(train_acc)
     val_losses.append(val_loss)
     val_accuracies.append(val_acc)
-    print("Epoch: {}".format(i))
+    print("Epoch: {}".format(epoch))
     print("\tAverage training loss: {:.7f}".format(train_loss))
     print("\tTrain Accuracy: {:.7f}".format(train_acc))
     print("\tAverage val loss: {:.7f}".format(val_loss))
     print("\tVal Accuracy: {:.4f}".format(val_acc))
+    stopper(val_loss, model)
+    if stopper.early_stop:
+        break
 
 
 # for graphs
 # Initialise the subplot
 figure, axis = plt.subplots(2, 2)
-X = [i for i in range(100)]
+X = [i for i in range(epoch + 1)]
 figure.suptitle('My Model', fontsize=16)
 
 # For valid loss Function
