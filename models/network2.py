@@ -18,12 +18,12 @@ import cv2
 from torchvision import models
 from moviepy.editor import VideoFileClip
 EPOCHS = 100
-
+BATCH_SIZE=1
 
 class VideoDataset(Dataset):
     """Video dataset."""
 
-    def __init__(self, datas, timesep=3, rgb=3, h=288, w=512):
+    def __init__(self, datas, timesep=50, rgb=3, h=288, w=512):
         """
         Args:
             datas: pandas dataframe contain path to videos files with label of them
@@ -187,29 +187,34 @@ def train_epoch(train_batches, model, optimizer, loss_func, train_size):
         train_dataset = VideoDataset(pd.DataFrame(train_batches[i]))
         train_loader = data_utils.DataLoader(dataset=train_dataset, batch_size=len(train_batches[i]), shuffle=True)
         for sample in train_loader: # only one sample of course
-            input = sample['video']
-            labels = sample['label']
-            input = input.float()
-            labels = labels.to(torch.float32)
-            input = input.cuda()
-            labels = labels.cuda()
-            outputs = model(input)
-            if len(input)>1:
-                outputs=outputs.squeeze()
-            outputs=outputs.reshape(-1)
-            print(outputs)
-            preds = np.concatenate((preds, outputs.cpu().detach().flatten()), axis=0)
-            reals = np.concatenate((reals, labels.cpu().detach().flatten()), axis=0)
+            fullInput = sample['video']
+            fullLabels = sample['label']
+            fullInput  = fullInput.float()
+            fullLabels = fullLabels.to(torch.float32)
+            loss=0
+            for i in range(fullInput.shape[0]):
+                torch.cuda.empty_cache()
+                input=fullInput[i,:,:,:,:].unsqueeze(0)
+                labels= fullLabels[i]
+                input = input.cuda()
+                labels = fullLabels.cuda()
+                outputs = model(input)
+                if len(input)>1:
+                    outputs=outputs.squeeze()
+                outputs=outputs.reshape(-1)
+                print(outputs)
+                preds = np.concatenate((preds, outputs.cpu().detach().flatten()), axis=0)
+                reals = np.concatenate((reals, labels.cpu().detach().flatten()), axis=0)
 
-            # Compute loss
-            loss = loss_func(outputs, labels)
-
+                # Compute loss
+                loss += loss_func(outputs, labels)
+                del input
             # Update model weights
             optimizer.zero_grad()
             loss.backward()
             optimizer.step()
 
-            total_loss += loss.item()
+            total_loss += float(loss.item())
     fpr, tpr, threshold = metrics.roc_curve(reals, preds)
     roc_auc = metrics.auc(fpr, tpr)
     # Return average loss
@@ -263,11 +268,11 @@ def train_model(df):
         test_batches = []
         for size in train:
             np.random.shuffle(size)
-            train_tmp = split_to_batches(size, 2)
+            train_tmp = split_to_batches(size, BATCH_SIZE)
             train_batches += train_tmp
         for size in test:
             np.random.shuffle(size)
-            test_tmp = split_to_batches(size, 2)
+            test_tmp = split_to_batches(size, BATCH_SIZE)
             test_batches += test_tmp
         np.random.shuffle(train_batches)
         np.random.shuffle(test_batches)
@@ -307,7 +312,9 @@ if __name__ == "__main__":
         vid_path = dir + vid_path
         clip = VideoFileClip(vid_path)
         df = df.append({0: vid_path, 1: random.randint(0,1), 2: int(clip.duration/15) if int(clip.duration/15) < 14 else 13},  ignore_index = True)
+        
     df = df.iloc[1:,:]
-
+    # remove row with second column bigger than 5
+    df = df[df[2] <= 5]
 
     train_model(df)
