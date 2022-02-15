@@ -2,6 +2,8 @@ import numpy as np
 import re
 import gensim
 import torch
+import random
+
 
 
 def removeUnnecessarySpaces(text):
@@ -155,9 +157,13 @@ def split_to_batches(samples, batch_size):
 
 
 def load_my_data():
-    return list(np.load("my_data.npy", allow_pickle=True))
+    return np.load("my_data.npy", allow_pickle=True)
 
 
 if __name__ == '__main__':
-    data = np.array(prep_data(), dtype=object)
-    np.save('my_data', data)
+    pre_data = load_my_data()
+    data_size = int(0.9 * len(pre_data))
+    data, test_set = torch.utils.data.random_split(pre_data, [data_size, len(pre_data) - data_size])
+    data, test_set = list(data), list(test_set)
+    np.save('train_val', data)
+    np.save('test', data)

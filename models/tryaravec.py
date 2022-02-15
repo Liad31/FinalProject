@@ -34,21 +34,30 @@ from early_stopping import EarlyStopping
 #
 # train_df = np.array(train_df, dtype=object)
 # train_tmp = split_to_batches(train_df, 2)
-
-data = load_my_data()
-random.shuffle(data)
-train_size = int(0.8*len(data))
-train_set, val_set = torch.utils.data.random_split(data, [train_size, len(data) - train_size])
-train_iter = split_to_batches(train_set, 4)
-val_iter = split_to_batches(val_set, 4)
-
 config = Config()
+
+
+data = np.load('train_val.npy', allow_pickle=True)
+train_size = int(0.8 * len(data))
+train_set, val_set = torch.utils.data.random_split(data, [train_size, len(data) - train_size])
+train_iter = split_to_batches(train_set, config.batch_size)
+val_iter = split_to_batches(val_set, config.batch_size)
+test_iter = split_to_batches(np.load('test.npy', allow_pickle=True), config.batch_size)
+
+# data_list = list(load_my_data())
+# train_size = int(0.8 * len(data_list))
+# train_set_, val_set_ = torch.utils.data.random_split(data_list, [train_size, len(data_list) - train_size],
+#                                                    generator=torch.Generator().manual_seed(45))
+# train_iter_list = split_to_batches(train_set_, 4)
+# val_iter_list = split_to_batches(val_set_, 4)
+
+
 model = Seq2SeqAttention(config)
 loss = torch.nn.BCELoss()
 if torch.cuda.is_available():
     model.cuda()
     loss.cuda()
-model.add_optimizer(torch.optim.Adam(model.parameters()))
+model.add_optimizer(torch.optim.Adam(model.parameters(), lr=config.lr))
 model.add_loss_op(loss)
 
 stopper = EarlyStopping(patience=10)
@@ -78,6 +87,11 @@ for epoch in range(100):
     if stopper.early_stop:
         break
 
+
+model.load_state_dict(torch.load('checkpoint.pt'))
+test_acc, test_loss = model.evaluate_model(val_iter)
+print("\tAverage 'test' loss: {:.7f}".format(test_loss))
+print("\t'test' Accuracy: {:.4f}".format(test_acc))
 
 # for graphs
 # Initialise the subplot
