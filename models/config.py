@@ -11,3 +11,12 @@ class Config(object):
     batch_size = 8
     dropout_keep = 0.5
     # max_sen_len = 30 # Sequence length for RNN
+
+    def set(params):
+        embed_size = params['embed_size']
+        hidden_layers = params['hidden_layers']
+        hidden_size = params['hidden_size']
+        bidirectional = params['bidirectional']
+        lr = params['lr']
+        batch_size = params['batch_size']
+        dropout_keep = params['dropout_keep']

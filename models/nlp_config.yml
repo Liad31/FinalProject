@@ -20,7 +20,7 @@ searchSpace:
     _value: [ 16, 32, 64, 128 ]
   bidirectional:
     _type: choice
-    _value: [True, False ]
+    _value: [True]
   lr:
     _type: choice
     _value: [ 0.0001, 0.001, 0.01, 0.1 ]

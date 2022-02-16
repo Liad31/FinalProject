@@ -49,4 +49,5 @@ def main(config):
 
 if __name__ == '__main__':
     params = nni.get_next_parameter()
-    main(params)
+    config = Config().set(params)
+    main(config)
