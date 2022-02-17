@@ -111,7 +111,7 @@ def async_download_vids_parallel(batch_size =15,iterations=50, num_videos=30):
                 vids_to_download.append((secuid,id))
             videoTexts=[]
             async_list = "async_list.txt"
-            videosDir="videos"
+            videosDir="/mnt/tmp/videos"
             create_download_txt(vids_to_download,async_list)
             os.system(f'yt-dlp -a {async_list} -o "%(id)s.mp4" -R 10 --proxy frzgcmrj-rotate:rxpxcauy7pn0@p.webshare.io:80')
             downloaded_paths = []
@@ -129,7 +129,7 @@ def async_download_vids_parallel(batch_size =15,iterations=50, num_videos=30):
                     # move the file
                     if not os.path.exists(videosDir):
                         os.system(f"mkdir {videosDir}")
-                    path =f"./{videosDir}/{id}.mp4"
+                    path =f"{videosDir}/{id}.mp4"
                     new_path = path[:-4]+"_r.mp4"
                     os.system(f"mv {cur_path} {path}")
                     videoTexts.append({"Vid":id, "text": "Unproced"})
@@ -264,9 +264,4 @@ def count_videos():
 # import glob
 # for i in glob.glob("*.mp4"):
 #     text_from_video(i)
-openai.api_key = "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"
-async_download_vids_parallel(batch_size=15)
-openai.api_key = "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"
-async_download_vids_parallel()
-openai.api_key = "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"
-async_download_vids_parallel()
+async_download_vids_parallel(iterations=1000)
