@@ -12,7 +12,7 @@ class Config(object):
     dropout_keep = 0.5
     # max_sen_len = 30 # Sequence length for RNN
 
-    def set(params):
+    def set(self, params):
         embed_size = params['embed_size']
         hidden_layers = params['hidden_layers']
         hidden_size = params['hidden_size']
