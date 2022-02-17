@@ -1,3 +1,4 @@
+from attr import has
 from scraper import scraper
 import requests
 import json
@@ -8,6 +9,10 @@ before = 0
 with open("hashtags.txt", "r") as file:
     hashtags = file.readlines()
 
+for hashtag in hashtags:
+    if " " in hashtag:
+        hashtags.append(hashtag.replace(" ", ""))
+        hashtags.append(hashtag.replace(" ", "_"))
 
 output = scraper.scrap_hashtags(hashtags, numPosts, since, before,download=False)
 usersWithLocation = [user for user in output if user["governorate"]]
