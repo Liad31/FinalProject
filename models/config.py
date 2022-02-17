@@ -1,22 +1,23 @@
 # config.py
 
 class Config(object):
-    embed_size = 100
-    hidden_layers = 2
-    hidden_size = 32
-    bidirectional = True
-    # output_size = 1
-    # max_epochs = 15
-    lr = 0.0001
-    batch_size = 8
-    dropout_keep = 0.5
-    # max_sen_len = 30 # Sequence length for RNN
+    def __init__(self):
+        self.embed_size = 100
+        self.hidden_layers = 2
+        self.hidden_size = 32
+        self.bidirectional = True
+        # self.output_size = 1
+        # self.max_epochs = 15
+        self.lr = 0.0001
+        self.batch_size = 8
+        self.dropout_keep = 0.5
+        # self.max_sen_len = 30 # Sequence length for RNN
 
     def set(self, params):
-        embed_size = params['embed_size']
-        hidden_layers = params['hidden_layers']
-        hidden_size = params['hidden_size']
-        bidirectional = params['bidirectional']
-        lr = params['lr']
-        batch_size = params['batch_size']
-        dropout_keep = params['dropout_keep']
+        self.embed_size = params['embed_size']
+        self.hidden_layers = params['hidden_layers']
+        self.hidden_size = params['hidden_size']
+        self.bidirectional = params['bidirectional']
+        self.lr = params['lr']
+        self.batch_size = params['batch_size']
+        self.dropout_keep = params['dropout_keep']
