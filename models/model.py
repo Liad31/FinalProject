@@ -4,7 +4,7 @@ import torch
 from torch import nn
 import numpy as np
 from torch.nn import functional as F
-from sklearn.metrics import accuracy_score, log_loss
+from sklearn.metrics import accuracy_score, log_loss, auc, roc_curve
 
 
 # from utils import *
@@ -122,3 +122,18 @@ class Seq2SeqAttention(nn.Module):
         score = accuracy_score(all_y, np.array(all_preds).flatten())
         loss = np.mean(losses)
         return score, loss
+
+    def evaluate_auc(self, iterator):
+        all_preds = []
+        all_y = []
+        for batch in iterator:
+            if torch.cuda.is_available():
+                x = batch[0].cuda()
+            else:
+                x = batch[0]
+            y_pred = self(x)
+            all_preds.extend(y_pred.cpu().detach().numpy())
+            all_y.extend(batch[1].numpy())
+        fpr, tpr, thresholds = roc_curve(all_y, np.array(all_preds).flatten(), pos_label=1)
+        return auc(fpr, tpr)
+
