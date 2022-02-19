@@ -97,8 +97,8 @@ def join_sentences(first, second):
 
 def prep_data():
     # load data
-    examples = np.load("data.npy", allow_pickle=True)
-    labels = np.load("tag.npy")
+    examples = np.load("../data.npy", allow_pickle=True)
+    labels = np.load("../tag.npy")
     new_data = [(example['text'], example['videoText'] if 'videoText' in example else "", 1 if label else 0) for (example, label) in zip(examples, labels)]
 
     # clean data
