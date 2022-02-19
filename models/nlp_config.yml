@@ -11,11 +11,14 @@ experimentName: ANLP           # An optional name to help you distinguish experi
 searchSpace:
   embed_size:
     _type: choice
-    _value: [100]
-  hidden_layers:
+    _value: [300]
+  hidden_layers_lstm:
     _type: randint
     _value: [1, 5]
-  hidden_size:
+  hidden_size_lstm:
+    _type: choice
+    _value: [ 16, 32, 64, 128 ]
+  hidden_size_fc:
     _type: choice
     _value: [ 16, 32, 64, 128 ]
   bidirectional:
@@ -26,19 +29,22 @@ searchSpace:
     _value: [ 0.0001, 0.001, 0.01, 0.1 ]
   batch_size:
     _type: choice
-    _value: [4, 8, 16, 32]
+    _value: [64, 8, 16, 32]
   dropout_keep:
     _type: uniform
     _value: [0, 1]
+  patience:
+    _type: choice
+    _value: [5, 10]
 
 
 trialCommand: python trail_nlp.py  # The command to launch a trial. NOTE: change "python3" to "python" if you are using Windows.
 trialCodeDirectory: .           # The path of trial code. By default it's ".", which means the same directory of this config file.
-trialGpuNumber: 0               # How many GPUs should each trial use. CUDA is required when it's greater than zero.
+trialGpuNumber: 1               # How many GPUs should each trial use. CUDA is required when it's greater than zero.
 
-trialConcurrency: 4             # Run 4 trials concurrently.
-maxTrialNumber: 30              # Generate at most 10 trials.
-maxExperimentDuration: 1h       # Stop generating trials after 1 hour.
+trialConcurrency: 2             # Run 4 trials concurrently.
+maxTrialNumber: 9999              # Generate at most 10 trials.
+maxExperimentDuration: 48h       # Stop generating trials after 1 hour.
 
 tuner:                          # Configure the tuning algorithm.
   name: TPE                     # Supported algorithms: TPE, Random, Anneal, Evolution, GridSearch, GPTuner, PBTTuner, etc.

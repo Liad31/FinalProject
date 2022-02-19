@@ -10,11 +10,12 @@ import nni
 
 def main(config):
     # load data
-    data = np.load('train_val.npy', allow_pickle=True)
-    train_size = int(0.8 * len(data))
+    data = np.load('train_val_300_sg.npy', allow_pickle=True)
+    train_size = int(0.85 * len(data))
 
-    results = []
-    for idx in range(5):
+    auces = []
+    ephoces = []
+    for idx in range(10):
         # prep data
         train_set, val_set = torch.utils.data.random_split(data, [train_size, len(data) - train_size])
         train_iter = split_to_batches(train_set, config.batch_size)
@@ -28,30 +29,38 @@ def main(config):
             loss.cuda()
         model.add_optimizer(torch.optim.Adam(model.parameters(), lr=config.lr))
         model.add_loss_op(loss)
-        stopper = EarlyStopping(patience=10)
+        stopper = EarlyStopping(patience=config.patience)
 
         # train
-        for epoch in range(100):
+        for epoch in range(200):
             random.shuffle(train_iter)
             random.shuffle(val_iter)
             model.train()
             model.run_epoch(train_iter, val_iter, epoch)
             model.eval()
             val_acc, val_loss = model.evaluate_model(val_iter)
+            val_auc = model.evaluate_auc(val_iter)
+            train_auc = model.evaluate_auc(train_iter)
+            print(f'epoch num {epoch}:')
+            print(f'train auc: {train_auc}')
+            print(f'valid auc: {val_auc}')
             stopper(val_loss, model, save=False)
             if stopper.early_stop:
+                ephoces.append(epoch)
                 break
 
         auc = model.evaluate_auc(val_iter)
         print(f'auc number {idx}: {auc}')
-        results.append(auc)
-    auc = np.mean(np.array(results))
+        auces.append(auc)
+    auc = np.mean(np.array(auces))
+    ephoce_mean = np.mean(np.array(ephoces))
     print(f'mean auc: {auc}')
+    print(f'mean ephoc: {ephoce_mean}')
     nni.report_final_result(auc)
 
 
 if __name__ == '__main__':
     params = nni.get_next_parameter()
     config = Config()
-    # config.set(params)
+    config.set(params)
     main(config)

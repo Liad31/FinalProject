@@ -23,9 +23,9 @@ def sentTokenize(text):
 
 
 def clean_str(text):
-    search = ["أ", "إ", "آ", "ة", "_", "-", "/", ".", "،", " و ", " يا ", '"', "ـ", "'", "ى", "\\", '\n', '\t',
+    search = ["@" ,"#","أ", "إ", "آ", "ة", "_", "-", "/", ".", "،", " و ", " يا ", '"', "ـ", "'", "ى", "\\", '\n', '\t',
               '&quot;', '?', '؟', '!']
-    replace = ["ا", "ا", "ا", "ه", " ", " ", "", "", "", " و", " يا", "", "", "", "ي", "", ' ', ' ', ' ', ' ? ', ' ؟ ',
+    replace = ["","", "ا", "ا", "ا", "ه", " ", " ", "", "", "", " و", " يا", "", "", "", "ي", "", ' ', ' ', ' ', ' ? ', ' ؟ ',
                ' ! ']
 
     # remove tashkeel
@@ -89,31 +89,38 @@ def clean(text):
 #
 # print(embedded_data)
 
+def join_sentences(first, second):
+    if first not in ["", " "] and second not in ["", " "]:
+        return first + " . " + second
+    return first + second
+
 
 def prep_data():
     # load data
     examples = np.load("data.npy", allow_pickle=True)
     labels = np.load("tag.npy")
-    new_data = [(example['text'], 1 if label else 0) for (example, label) in zip(examples, labels)]
+    new_data = [(example['text'], example['videoText'] if 'videoText' in example else "", 1 if label else 0) for (example, label) in zip(examples, labels)]
 
     # clean data
     cleaner_data = []
-    for (data, tag) in new_data:
-        cleaner = []
-        for word in data.split(' '):
+    for (text, video_text, tag) in new_data:
+        cleaner_text = []
+        for word in text.split(' '):
             if '#' not in word and '@' not in word:
-                cleaner.append(word)
-        cleaner = clean(' '.join(cleaner))
+                cleaner_text.append(word)
+        cleaner_text = clean(' '.join(cleaner_text))
+        cleaner_video_text = clean(video_text)
+        cleaner = join_sentences(cleaner_text, cleaner_video_text)
         if cleaner != '' and cleaner != ' ':
             cleaner_data.append((cleaner, tag))
 
     # embed data
-    t_model = gensim.models.Word2Vec.load('full_uni_sg_100_twitter.mdl')
+    t_model = gensim.models.Word2Vec.load('full_uni_sg_300_twitter.mdl')
     word_vectors = t_model.wv
     del t_model
     embedded_data = []
-    for (data, tag) in cleaner_data:
-        embedded = [word_vectors[word] for word in data.split() if word in word_vectors]
+    for (text, tag) in cleaner_data:
+        embedded = [word_vectors[word] for word in text.split() if word in word_vectors]
         if embedded:
             embedded_data.append((embedded, tag))
 
@@ -156,14 +163,17 @@ def split_to_batches(samples, batch_size):
     return batches
 
 
-def load_my_data():
-    return np.load("my_data.npy", allow_pickle=True)
+def load_my_data(file):
+    return np.load(file, allow_pickle=True)
 
 
 if __name__ == '__main__':
-    pre_data = load_my_data()
-    data_size = int(0.9 * len(pre_data))
+    pre_data = load_my_data("my_data_300_sg.npy")
+    data_size = int(0.8 * len(pre_data))
     data, test_set = torch.utils.data.random_split(pre_data, [data_size, len(pre_data) - data_size])
     data, test_set = list(data), list(test_set)
-    np.save('train_val', data)
-    np.save('test', data)
+    np.save('train_val_300_sg', data)
+    np.save('test_300_sg', data)
+    # data = prep_data()
+    # np.save('my_data_300_sg', data)
+
