@@ -59,8 +59,42 @@ def main(config):
     nni.report_final_result(auc)
 
 
+def train_test(config):
+    # load data
+    data = np.load('train_val_300_sg.npy', allow_pickle=True)
+    test = np.load('test_300_sg.npy', allow_pickle=True)
+    print(len(data))
+    print(len(test))
+
+    # prep data
+    train_iter = split_to_batches(data, config.batch_size)
+    test_iter = split_to_batches(test, config.batch_size)
+
+    # setup model
+    model = Seq2SeqAttention(config)
+    loss = torch.nn.BCELoss()
+    if torch.cuda.is_available():
+        model.cuda()
+        loss.cuda()
+    model.add_optimizer(torch.optim.Adam(model.parameters(), lr=config.lr))
+    model.add_loss_op(loss)
+
+    for epoch in range(15):
+        random.shuffle(train_iter)
+        model.train()
+        model.run_epoch(train_iter, None, epoch)
+        model.eval()
+        train_auc = model.evaluate_auc(train_iter)
+        print(f'epoch num {epoch}:')
+        print(f'train auc: {train_auc}')
+
+    model.eval()
+    test_auc = model.evaluate_auc(test_iter)
+    print(f'test auc: {test_auc}')
+
+
 if __name__ == '__main__':
-    params = nni.get_next_parameter()
+    # params = nni.get_next_parameter()
     config = Config()
-    config.set(params)
-    main(config)
+    # config.set(params)
+    train_test(config)

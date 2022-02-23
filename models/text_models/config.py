@@ -3,7 +3,7 @@
 class Config(object):
     def __init__(self):
         self.embed_size = 300
-        self.hidden_layers = 2
+        self.hidden_layers = 1
         self.hidden_size = 32
         self.bidirectional = True
         # self.output_size = 1

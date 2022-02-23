@@ -169,11 +169,29 @@ def load_my_data(file):
 
 if __name__ == '__main__':
     pre_data = load_my_data("my_data_300_sg.npy")
-    data_size = int(0.8 * len(pre_data))
-    data, test_set = torch.utils.data.random_split(pre_data, [data_size, len(pre_data) - data_size])
-    data, test_set = list(data), list(test_set)
-    np.save('train_val_300_sg', data)
-    np.save('test_300_sg', data)
+    data = np.load('train_val_300_sg.npy', allow_pickle=True)
+    test = np.load('test_300_sg.npy', allow_pickle=True)
+    print("bye")
+    # count = 0
+    # for i in range(len(pre_data)):
+    #     for j in range(len(data)):
+    #         if pre_data[i][0][0][0] == data[j][0][0][1] and pre_data[i][0][0][0] == data[j][0][0][1]:
+    # for i in pre_data:
+    #     for j in data:
+    #         if len(i[0]) == len(j[0]):
+    #             flag = 1
+    #             for k in range(len(i[0])):
+    #                 if not np.array_equal(np.array(i[0][k]), np.array(j[0][k])):
+    #                     flag = 0
+    #                     break
+    #             count += flag
+    # print(count)
+
+    # data_size = int(0.8 * len(pre_data))
+    # data, test_set = torch.utils.data.random_split(pre_data, [data_size, len(pre_data) - data_size])
+    # data, test_set = list(data), list(test_set)
+    # np.save('train_val_300_sg', data)
+    # np.save('test_300_sg', test_set)
     # data = prep_data()
     # np.save('my_data_300_sg', data)
 
