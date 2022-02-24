@@ -18,16 +18,18 @@ class HashtagModel(object):
         self.vid_bucket = vid_bucket
         self.correlations = None
 
-    def calc_correlations(self, limit):
+    def calc_correlations(self, limit_size, limit_pearson):
         correlations = {}
         for hashtag in self.hashtag_bucket:
-            if len(self.hashtag_bucket[hashtag]) >= limit:
+            if len(self.hashtag_bucket[hashtag]) >= limit_size:
                 is_national = []
                 is_in_video = []
                 for vid in self.vid_bucket:
                     is_in_video.append(1 if hashtag in self.vid_bucket[vid][0] else 0)
                     is_national.append(self.vid_bucket[vid][1])
-                correlations[hashtag] = sp.pearsonr(is_national, is_in_video)[0]
+                pearson = sp.pearsonr(is_national, is_in_video)[0]
+                if abs(pearson) >= limit_pearson:
+                    correlations[hashtag] = sp.pearsonr(is_national, is_in_video)[0]
         self.correlations = correlations
 
     def predict(self, x, metric):
@@ -35,7 +37,7 @@ class HashtagModel(object):
         tags = []
         used = []
         for hashtag in x:
-            if hashtag in self.hashtag_bucket:
+            if hashtag in self.correlations:
                 for (vid, tag) in self.hashtag_bucket[hashtag]:
                     if vid not in used:
                         dists.append(metric(x, self.vid_bucket[vid][0], self.correlations))
@@ -45,9 +47,12 @@ class HashtagModel(object):
     def evaluate_auc(self, iterator, metric):
         all_preds = []
         all_y = []
+        preds = []
         for example in iterator:
             y_pred = self.predict(example[0], metric)
             all_preds.append(y_pred)
             all_y.append(example[1])
+            preds.append(1 if y_pred > 0.5 else -1)
         fpr, tpr, thresholds = roc_curve(all_y, np.array(all_preds).flatten(), pos_label=1)
-        return auc(fpr, tpr)
+        acc = accuracy_score(all_y, np.array(preds).flatten())
+        return auc(fpr, tpr), acc
