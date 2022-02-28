@@ -1,0 +1,3022 @@
+starting test on params:
+	pearson_limit=0.05
+	size_limit=5
+	metric=cut_union_corr_sum
+		auc number 0: 0.7743539113402127
+		acc number 0: 0.8345403899721449
+		auc number 1: 0.7560400231633108
+		acc number 1: 0.8194986072423398
+		auc number 2: 0.7646557886557885
+		acc number 2: 0.8284122562674094
+		auc number 3: 0.778318353394573
+		acc number 3: 0.8373259052924791
+		auc number 4: 0.7733656290543826
+		acc number 4: 0.8295264623955432
+		auc number 5: 0.771278080198678
+		acc number 5: 0.83008356545961
+		auc number 6: 0.7780842997251799
+		acc number 6: 0.8284122562674094
+		auc number 7: 0.7749662961557564
+		acc number 7: 0.8289693593314763
+		auc number 8: 0.7632785577991057
+		acc number 8: 0.826740947075209
+		auc number 9: 0.7852053565398606
+		acc number 9: 0.8395543175487465
+	mean auc: 0.7719546296026849
+	mean acc: 0.8303064066852366
+finishing test on params:
+	pearson_limit=0.05
+	size_limit=5
+	metric=cut_union_corr_sum
+starting test on params:
+	pearson_limit=0.1
+	size_limit=5
+	metric=cut_union_corr_sum
+		auc number 0: 0.7435327234342012
+		acc number 0: 0.8334261838440111
+		auc number 1: 0.7561373826505018
+		acc number 1: 0.8278551532033426
+		auc number 2: 0.7978057122551415
+		acc number 2: 0.8445682451253482
+		auc number 3: 0.7354860443039992
+		acc number 3: 0.8206128133704735
+		auc number 4: 0.76019181008978
+		acc number 4: 0.8367688022284122
+		auc number 5: 0.7342980191086144
+		acc number 5: 0.8200557103064067
+		auc number 6: 0.7347812489302841
+		acc number 6: 0.8155988857938719
+		auc number 7: 0.7269321717291618
+		acc number 7: 0.8172701949860725
+		auc number 8: 0.766367794146092
+		acc number 8: 0.826740947075209
+		auc number 9: 0.7521078792921938
+		acc number 9: 0.8311977715877438
+	mean auc: 0.750764078593997
+	mean acc: 0.8274094707520891
+finishing test on params:
+	pearson_limit=0.1
+	size_limit=5
+	metric=cut_union_corr_sum
+starting test on params:
+	pearson_limit=0.15
+	size_limit=5
+	metric=cut_union_corr_sum
+		auc number 0: 0.6828535452899976
+		acc number 0: 0.8016713091922005
+		auc number 1: 0.7355780380794439
+		acc number 1: 0.8334261838440111
+		auc number 2: 0.7314093968064764
+		acc number 2: 0.822841225626741
+		auc number 3: 0.6830110955557731
+		acc number 3: 0.807799442896936
+		auc number 4: 0.6965139657456384
+		acc number 4: 0.8122562674094708
+		auc number 5: 0.7229438375521632
+		acc number 5: 0.8194986072423398
+		auc number 6: 0.7083406247601505
+		acc number 6: 0.8128133704735376
+		auc number 7: 0.7099950425945495
+		acc number 7: 0.8317548746518106
+		auc number 8: 0.7581916250063121
+		acc number 8: 0.7766016713091922
+		auc number 9: 0.690039910967841
+		acc number 9: 0.8050139275766016
+	mean auc: 0.7118877082358346
+	mean acc: 0.8123676880222842
+finishing test on params:
+	pearson_limit=0.15
+	size_limit=5
+	metric=cut_union_corr_sum
+starting test on params:
+	pearson_limit=0.2
+	size_limit=5
+	metric=cut_union_corr_sum
+		auc number 0: 0.7544943002667961
+		acc number 0: 0.7721448467966574
+		auc number 1: 0.7300078305848292
+		acc number 1: 0.7598885793871867
+		auc number 2: 0.7439072007796783
+		acc number 2: 0.7682451253481895
+		auc number 3: 0.7219009636192247
+		acc number 3: 0.7610027855153203
+		auc number 4: 0.6033318555400198
+		acc number 4: 0.8005571030640668
+		auc number 5: 0.7435608189482136
+		acc number 5: 0.7676880222841226
+		auc number 6: 0.7161597390776699
+		acc number 6: 0.7582172701949861
+		auc number 7: 0.7131558459569693
+		acc number 7: 0.7571030640668523
+		auc number 8: 0.6996118843683083
+		acc number 8: 0.7537604456824513
+		auc number 9: 0.7191790995250179
+		acc number 9: 0.7582172701949861
+	mean auc: 0.7145309538666728
+	mean acc: 0.7656824512534819
+finishing test on params:
+	pearson_limit=0.2
+	size_limit=5
+	metric=cut_union_corr_sum
+starting test on params:
+	pearson_limit=0.4
+	size_limit=5
+	metric=cut_union_corr_sum
+		auc number 0: 0.5
+		acc number 0: 0.7376044568245126
+		auc number 1: 0.5
+		acc number 1: 0.7309192200557103
+		auc number 2: 0.5
+		acc number 2: 0.716991643454039
+		auc number 3: 0.5
+		acc number 3: 0.7325905292479109
+		auc number 4: 0.5
+		acc number 4: 0.724233983286908
+		auc number 5: 0.5
+		acc number 5: 0.7381615598885793
+		auc number 6: 0.5
+		acc number 6: 0.7275766016713092
+		auc number 7: 0.5
+		acc number 7: 0.7342618384401114
+		auc number 8: 0.5
+		acc number 8: 0.728690807799443
+		auc number 9: 0.5
+		acc number 9: 0.7331476323119778
+	mean auc: 0.5
+	mean acc: 0.7304178272980502
+finishing test on params:
+	pearson_limit=0.4
+	size_limit=5
+	metric=cut_union_corr_sum
+starting test on params:
+	pearson_limit=0.05
+	size_limit=2
+	metric=cut_union_corr_sum
+		auc number 0: 0.7989037607771476
+		acc number 0: 0.8462395543175487
+		auc number 1: 0.7880159373057288
+		acc number 1: 0.8389972144846797
+		auc number 2: 0.7533710308829926
+		acc number 2: 0.8245125348189415
+		auc number 3: 0.7589016378703656
+		acc number 3: 0.8189415041782729
+		auc number 4: 0.7612693655521003
+		acc number 4: 0.8233983286908078
+		auc number 5: 0.7692688106796117
+		acc number 5: 0.822841225626741
+		auc number 6: 0.7687452901281084
+		acc number 6: 0.8295264623955432
+		auc number 7: 0.7757131841495671
+		acc number 7: 0.8323119777158774
+		auc number 8: 0.7738258369184843
+		acc number 8: 0.8250696378830084
+		auc number 9: 0.7750392658161444
+		acc number 9: 0.8278551532033426
+	mean auc: 0.772305412008025
+	mean acc: 0.8289693593314762
+finishing test on params:
+	pearson_limit=0.05
+	size_limit=2
+	metric=cut_union_corr_sum
+starting test on params:
+	pearson_limit=0.1
+	size_limit=2
+	metric=cut_union_corr_sum
+		auc number 0: 0.736187125358353
+		acc number 0: 0.8239554317548746
+		auc number 1: 0.755541464662536
+		acc number 1: 0.8311977715877438
+		auc number 2: 0.7332845717820532
+		acc number 2: 0.8155988857938719
+		auc number 3: 0.7294500119303269
+		acc number 3: 0.8144846796657381
+		auc number 4: 0.728597288676236
+		acc number 4: 0.8233983286908078
+		auc number 5: 0.7361989781651057
+		acc number 5: 0.8272980501392758
+		auc number 6: 0.7445750067584602
+		acc number 6: 0.8306406685236769
+		auc number 7: 0.7484438973110545
+		acc number 7: 0.8345403899721449
+		auc number 8: 0.7538071345260888
+		acc number 8: 0.8317548746518106
+		auc number 9: 0.752865167162826
+		acc number 9: 0.8289693593314763
+	mean auc: 0.741895064633304
+	mean acc: 0.826183844011142
+finishing test on params:
+	pearson_limit=0.1
+	size_limit=2
+	metric=cut_union_corr_sum
+starting test on params:
+	pearson_limit=0.15
+	size_limit=2
+	metric=cut_union_corr_sum
+		auc number 0: 0.6801626596767476
+		acc number 0: 0.8011142061281337
+		auc number 1: 0.6923857081967515
+		acc number 1: 0.8044568245125349
+		auc number 2: 0.7164096984004034
+		acc number 2: 0.8217270194986073
+		auc number 3: 0.6823538780060519
+		acc number 3: 0.7966573816155988
+		auc number 4: 0.7347698215007175
+		acc number 4: 0.7637883008356546
+		auc number 5: 0.7391215957400046
+		acc number 5: 0.826740947075209
+		auc number 6: 0.7201125064248592
+		acc number 6: 0.8222841225626741
+		auc number 7: 0.7288723126894625
+		acc number 7: 0.8139275766016713
+		auc number 8: 0.6762729296185432
+		acc number 8: 0.7955431754874652
+		auc number 9: 0.7178057498057498
+		acc number 9: 0.8211699164345404
+	mean auc: 0.7088266860059291
+	mean acc: 0.8067409470752089
+finishing test on params:
+	pearson_limit=0.15
+	size_limit=2
+	metric=cut_union_corr_sum
+starting test on params:
+	pearson_limit=0.2
+	size_limit=2
+	metric=cut_union_corr_sum
+		auc number 0: 0.7078708133971292
+		acc number 0: 0.7576601671309192
+		auc number 1: 0.7448494580489763
+		acc number 1: 0.7793871866295264
+		auc number 2: 0.7160644910644911
+		acc number 2: 0.7554317548746519
+		auc number 3: 0.7242954636692092
+		acc number 3: 0.7632311977715878
+		auc number 4: 0.7514710977961897
+		acc number 4: 0.7649025069637883
+		auc number 5: 0.585879854368932
+		acc number 5: 0.7877437325905292
+		auc number 6: 0.7151204608234925
+		acc number 6: 0.7532033426183844
+		auc number 7: 0.7263082365822091
+		acc number 7: 0.7710306406685237
+		auc number 8: 0.7132663390833324
+		acc number 8: 0.7582172701949861
+		auc number 9: 0.7268620414673046
+		acc number 9: 0.7637883008356546
+	mean auc: 0.7111988256301266
+	mean acc: 0.7654596100278551
+finishing test on params:
+	pearson_limit=0.2
+	size_limit=2
+	metric=cut_union_corr_sum
+starting test on params:
+	pearson_limit=0.4
+	size_limit=2
+	metric=cut_union_corr_sum
+		auc number 0: 0.5
+		acc number 0: 0.724233983286908
+		auc number 1: 0.5
+		acc number 1: 0.713091922005571
+		auc number 2: 0.5
+		acc number 2: 0.7392757660167131
+		auc number 3: 0.5
+		acc number 3: 0.7337047353760445
+		auc number 4: 0.5
+		acc number 4: 0.7275766016713092
+		auc number 5: 0.5
+		acc number 5: 0.7292479108635097
+		auc number 6: 0.5
+		acc number 6: 0.7353760445682451
+		auc number 7: 0.5
+		acc number 7: 0.7465181058495822
+		auc number 8: 0.5
+		acc number 8: 0.7292479108635097
+		auc number 9: 0.5
+		acc number 9: 0.7231197771587744
+	mean auc: 0.5
+	mean acc: 0.7301392757660168
+finishing test on params:
+	pearson_limit=0.4
+	size_limit=2
+	metric=cut_union_corr_sum
+starting test on params:
+	pearson_limit=0.05
+	size_limit=1
+	metric=cut_union_corr_sum
+		auc number 0: 0.7812136469111031
+		acc number 0: 0.8272980501392758
+		auc number 1: 0.7625093094682678
+		acc number 1: 0.8183844011142062
+		auc number 2: 0.7560918362992362
+		acc number 2: 0.8217270194986073
+		auc number 3: 0.7817714285714286
+		acc number 3: 0.8295264623955432
+		auc number 4: 0.7913687059209448
+		acc number 4: 0.8462395543175487
+		auc number 5: 0.7997837622256911
+		acc number 5: 0.8395543175487465
+		auc number 6: 0.7700744493053957
+		acc number 6: 0.8289693593314763
+		auc number 7: 0.7912456016889514
+		acc number 7: 0.8395543175487465
+		auc number 8: 0.785484214090314
+		acc number 8: 0.8272980501392758
+		auc number 9: 0.7676123262163648
+		acc number 9: 0.8284122562674094
+	mean auc: 0.7787155280697697
+	mean acc: 0.8306963788300836
+finishing test on params:
+	pearson_limit=0.05
+	size_limit=1
+	metric=cut_union_corr_sum
+starting test on params:
+	pearson_limit=0.1
+	size_limit=1
+	metric=cut_union_corr_sum
+		auc number 0: 0.7442122864343277
+		acc number 0: 0.8250696378830084
+		auc number 1: 0.7716361198743182
+		acc number 1: 0.8456824512534818
+		auc number 2: 0.7354987863227171
+		acc number 2: 0.8328690807799443
+		auc number 3: 0.7517670561583755
+		acc number 3: 0.8323119777158774
+		auc number 4: 0.7723198505276978
+		acc number 4: 0.8467966573816156
+		auc number 5: 0.7509659270821007
+		acc number 5: 0.8289693593314763
+		auc number 6: 0.7414644720995585
+		acc number 6: 0.8256267409470752
+		auc number 7: 0.7353051372800377
+		acc number 7: 0.8278551532033426
+		auc number 8: 0.7528702702702703
+		acc number 8: 0.833983286908078
+		auc number 9: 0.7507658562318948
+		acc number 9: 0.8222841225626741
+	mean auc: 0.7506805762281299
+	mean acc: 0.8321448467966572
+finishing test on params:
+	pearson_limit=0.1
+	size_limit=1
+	metric=cut_union_corr_sum
+starting test on params:
+	pearson_limit=0.15
+	size_limit=1
+	metric=cut_union_corr_sum
+		auc number 0: 0.703392189612662
+		acc number 0: 0.8200557103064067
+		auc number 1: 0.6799436293436294
+		acc number 1: 0.8011142061281337
+		auc number 2: 0.6927702406469213
+		acc number 2: 0.8033426183844011
+		auc number 3: 0.7110485117029413
+		acc number 3: 0.8128133704735376
+		auc number 4: 0.705012518172824
+		acc number 4: 0.8133704735376045
+		auc number 5: 0.7156741166413967
+		acc number 5: 0.8200557103064067
+		auc number 6: 0.6928634119945096
+		acc number 6: 0.8172701949860725
+		auc number 7: 0.7032611636040422
+		acc number 7: 0.8217270194986073
+		auc number 8: 0.686089099860683
+		acc number 8: 0.8194986072423398
+		auc number 9: 0.6955046166198314
+		acc number 9: 0.8189415041782729
+	mean auc: 0.6985559498199441
+	mean acc: 0.8148189415041782
+finishing test on params:
+	pearson_limit=0.15
+	size_limit=1
+	metric=cut_union_corr_sum
+starting test on params:
+	pearson_limit=0.2
+	size_limit=1
+	metric=cut_union_corr_sum
+		auc number 0: 0.6062095811286676
+		acc number 0: 0.7916434540389972
+		auc number 1: 0.7260761784843
+		acc number 1: 0.766016713091922
+		auc number 2: 0.6109985417146366
+		acc number 2: 0.8050139275766016
+		auc number 3: 0.7474246332170513
+		acc number 3: 0.7682451253481895
+		auc number 4: 0.7333864153803273
+		acc number 4: 0.777715877437326
+		auc number 5: 0.7230797686306161
+		acc number 5: 0.7715877437325905
+		auc number 6: 0.7324506177697332
+		acc number 6: 0.7743732590529248
+		auc number 7: 0.7152369335123651
+		acc number 7: 0.7649025069637883
+		auc number 8: 0.7689646704689479
+		acc number 8: 0.7832869080779944
+		auc number 9: 0.7454772163384965
+		acc number 9: 0.7676880222841226
+	mean auc: 0.7109304556645142
+	mean acc: 0.7770473537604456
+finishing test on params:
+	pearson_limit=0.2
+	size_limit=1
+	metric=cut_union_corr_sum
+starting test on params:
+	pearson_limit=0.4
+	size_limit=1
+	metric=cut_union_corr_sum
+		auc number 0: 0.5
+		acc number 0: 0.7214484679665738
+		auc number 1: 0.5
+		acc number 1: 0.7303621169916434
+		auc number 2: 0.5
+		acc number 2: 0.7175487465181059
+		auc number 3: 0.5
+		acc number 3: 0.7220055710306407
+		auc number 4: 0.5
+		acc number 4: 0.735933147632312
+		auc number 5: 0.5
+		acc number 5: 0.7264623955431755
+		auc number 6: 0.5
+		acc number 6: 0.7325905292479109
+		auc number 7: 0.5
+		acc number 7: 0.7348189415041783
+		auc number 8: 0.5
+		acc number 8: 0.7387186629526462
+		auc number 9: 0.5
+		acc number 9: 0.743175487465181
+	mean auc: 0.5
+	mean acc: 0.7303064066852367
+finishing test on params:
+	pearson_limit=0.4
+	size_limit=1
+	metric=cut_union_corr_sum
+starting test on params:
+	pearson_limit=0.05
+	size_limit=10
+	metric=cut_union_corr_sum
+		auc number 0: 0.7761165206901008
+		acc number 0: 0.8233983286908078
+		auc number 1: 0.7843253666839248
+		acc number 1: 0.8323119777158774
+		auc number 2: 0.784246401260631
+		acc number 2: 0.8389972144846797
+		auc number 3: 0.7754548333688712
+		acc number 3: 0.841225626740947
+		auc number 4: 0.7758469340797196
+		acc number 4: 0.8373259052924791
+		auc number 5: 0.7481771587091486
+		acc number 5: 0.826740947075209
+		auc number 6: 0.7845642373234347
+		acc number 6: 0.8328690807799443
+		auc number 7: 0.7640242971493381
+		acc number 7: 0.826740947075209
+		auc number 8: 0.788341492415305
+		acc number 8: 0.8222841225626741
+		auc number 9: 0.7740770391211395
+		acc number 9: 0.8261838440111421
+	mean auc: 0.7755174280801613
+	mean acc: 0.8308077994428968
+finishing test on params:
+	pearson_limit=0.05
+	size_limit=10
+	metric=cut_union_corr_sum
+starting test on params:
+	pearson_limit=0.1
+	size_limit=10
+	metric=cut_union_corr_sum
+		auc number 0: 0.7753758610458966
+		acc number 0: 0.8473537604456824
+		auc number 1: 0.7641301504567958
+		acc number 1: 0.8384401114206128
+		auc number 2: 0.7594814394839999
+		acc number 2: 0.8334261838440111
+		auc number 3: 0.7355892785755531
+		acc number 3: 0.8289693593314763
+		auc number 4: 0.7440148397194366
+		acc number 4: 0.8334261838440111
+		auc number 5: 0.7343505403221735
+		acc number 5: 0.8183844011142062
+		auc number 6: 0.7427166152656349
+		acc number 6: 0.8233983286908078
+		auc number 7: 0.7371598963316645
+		acc number 7: 0.8178272980501393
+		auc number 8: 0.7391609921137481
+		acc number 8: 0.8233983286908078
+		auc number 9: 0.7439695570219684
+		acc number 9: 0.8183844011142062
+	mean auc: 0.7475949170336872
+	mean acc: 0.8283008356545961
+finishing test on params:
+	pearson_limit=0.1
+	size_limit=10
+	metric=cut_union_corr_sum
+starting test on params:
+	pearson_limit=0.15
+	size_limit=10
+	metric=cut_union_corr_sum
+		auc number 0: 0.7048421052631579
+		acc number 0: 0.8189415041782729
+		auc number 1: 0.7114813531438637
+		acc number 1: 0.8250696378830084
+		auc number 2: 0.6981316435750822
+		acc number 2: 0.8139275766016713
+		auc number 3: 0.7120530186816403
+		acc number 3: 0.8172701949860725
+		auc number 4: 0.7077914327257846
+		acc number 4: 0.811142061281337
+		auc number 5: 0.7089650837030244
+		acc number 5: 0.8194986072423398
+		auc number 6: 0.6943348984779658
+		acc number 6: 0.8128133704735376
+		auc number 7: 0.6684351526812393
+		acc number 7: 0.8055710306406685
+		auc number 8: 0.7083533671536928
+		acc number 8: 0.8200557103064067
+		auc number 9: 0.7621313418223742
+		acc number 9: 0.7732590529247911
+	mean auc: 0.7076519397227826
+	mean acc: 0.8117548746518107
+finishing test on params:
+	pearson_limit=0.15
+	size_limit=10
+	metric=cut_union_corr_sum
+starting test on params:
+	pearson_limit=0.2
+	size_limit=10
+	metric=cut_union_corr_sum
+		auc number 0: 0.5802905074768314
+		acc number 0: 0.7844011142061281
+		auc number 1: 0.7289754513713492
+		acc number 1: 0.7665738161559889
+		auc number 2: 0.7389093845786758
+		acc number 2: 0.7632311977715878
+		auc number 3: 0.5978027913911239
+		acc number 3: 0.7821727019498608
+		auc number 4: 0.7313970293054998
+		acc number 4: 0.7727019498607243
+		auc number 5: 0.753725921263196
+		acc number 5: 0.7771587743732591
+		auc number 6: 0.5712936482991906
+		acc number 6: 0.7838440111420613
+		auc number 7: 0.728661486861019
+		acc number 7: 0.7727019498607243
+		auc number 8: 0.7130089242038457
+		acc number 8: 0.758774373259053
+		auc number 9: 0.7222469874548674
+		acc number 9: 0.762116991643454
+	mean auc: 0.6866312132205599
+	mean acc: 0.7723676880222842
+finishing test on params:
+	pearson_limit=0.2
+	size_limit=10
+	metric=cut_union_corr_sum
+starting test on params:
+	pearson_limit=0.4
+	size_limit=10
+	metric=cut_union_corr_sum
+		auc number 0: 0.5
+		acc number 0: 0.724233983286908
+		auc number 1: 0.5
+		acc number 1: 0.7353760445682451
+		auc number 2: 0.5
+		acc number 2: 0.735933147632312
+		auc number 3: 0.5
+		acc number 3: 0.7325905292479109
+		auc number 4: 0.5
+		acc number 4: 0.7175487465181059
+		auc number 5: 0.5
+		acc number 5: 0.7353760445682451
+		auc number 6: 0.5
+		acc number 6: 0.7270194986072424
+		auc number 7: 0.5
+		acc number 7: 0.7220055710306407
+		auc number 8: 0.5
+		acc number 8: 0.7309192200557103
+		auc number 9: 0.5
+		acc number 9: 0.7314763231197772
+	mean auc: 0.5
+	mean acc: 0.7292479108635097
+finishing test on params:
+	pearson_limit=0.4
+	size_limit=10
+	metric=cut_union_corr_sum
+starting test on params:
+	pearson_limit=0.05
+	size_limit=20
+	metric=cut_union_corr_sum
+		auc number 0: 0.8004673806884173
+		acc number 0: 0.8495821727019499
+		auc number 1: 0.7783006428748308
+		acc number 1: 0.8440111420612814
+		auc number 2: 0.7854787644787643
+		acc number 2: 0.8401114206128134
+		auc number 3: 0.783217953582788
+		acc number 3: 0.8306406685236769
+		auc number 4: 0.7795809863293971
+		acc number 4: 0.8323119777158774
+		auc number 5: 0.7781476162404205
+		acc number 5: 0.8345403899721449
+		auc number 6: 0.7641332325415766
+		acc number 6: 0.8167130919220056
+		auc number 7: 0.7874065908895697
+		acc number 7: 0.8389972144846797
+		auc number 8: 0.7898260591251254
+		acc number 8: 0.83008356545961
+		auc number 9: 0.7760317229424635
+		acc number 9: 0.8272980501392758
+	mean auc: 0.7822590949693354
+	mean acc: 0.8344289693593316
+finishing test on params:
+	pearson_limit=0.05
+	size_limit=20
+	metric=cut_union_corr_sum
+starting test on params:
+	pearson_limit=0.1
+	size_limit=20
+	metric=cut_union_corr_sum
+		auc number 0: 0.753697824844861
+		acc number 0: 0.8306406685236769
+		auc number 1: 0.7316390509761748
+		acc number 1: 0.8272980501392758
+		auc number 2: 0.7510930551708901
+		acc number 2: 0.8356545961002786
+		auc number 3: 0.7342097102371075
+		acc number 3: 0.8272980501392758
+		auc number 4: 0.7434373416463012
+		acc number 4: 0.8328690807799443
+		auc number 5: 0.7701933408266837
+		acc number 5: 0.8350974930362117
+		auc number 6: 0.7293766632955174
+		acc number 6: 0.8194986072423398
+		auc number 7: 0.7604180711736734
+		acc number 7: 0.8317548746518106
+		auc number 8: 0.7698686493184634
+		acc number 8: 0.8423398328690808
+		auc number 9: 0.7708751426743764
+		acc number 9: 0.8451253481894151
+	mean auc: 0.751480885016405
+	mean acc: 0.8327576601671309
+finishing test on params:
+	pearson_limit=0.1
+	size_limit=20
+	metric=cut_union_corr_sum
+starting test on params:
+	pearson_limit=0.15
+	size_limit=20
+	metric=cut_union_corr_sum
+		auc number 0: 0.6985730704405888
+		acc number 0: 0.8061281337047354
+		auc number 1: 0.70003885003885
+		acc number 1: 0.8016713091922005
+		auc number 2: 0.7109464224031965
+		acc number 2: 0.8122562674094708
+		auc number 3: 0.7158595621643948
+		acc number 3: 0.8217270194986073
+		auc number 4: 0.6803116879738005
+		acc number 4: 0.8100278551532033
+		auc number 5: 0.7059835332076184
+		acc number 5: 0.8105849582172702
+		auc number 6: 0.697422532671214
+		acc number 6: 0.8128133704735376
+		auc number 7: 0.697366758796215
+		acc number 7: 0.8083565459610028
+		auc number 8: 0.6841166113231627
+		acc number 8: 0.796100278551532
+		auc number 9: 0.7230890908387297
+		acc number 9: 0.8278551532033426
+	mean auc: 0.7013708119857771
+	mean acc: 0.8107520891364903
+finishing test on params:
+	pearson_limit=0.15
+	size_limit=20
+	metric=cut_union_corr_sum
+starting test on params:
+	pearson_limit=0.2
+	size_limit=20
+	metric=cut_union_corr_sum
+		auc number 0: 0.5933783783783784
+		acc number 0: 0.7916434540389972
+		auc number 1: 0.7572511038227603
+		acc number 1: 0.7715877437325905
+		auc number 2: 0.7493499063865195
+		acc number 2: 0.7710306406685237
+		auc number 3: 0.7514113118449723
+		acc number 3: 0.7710306406685237
+		auc number 4: 0.7078322911656245
+		acc number 4: 0.7465181058495822
+		auc number 5: 0.7305908511336666
+		acc number 5: 0.7715877437325905
+		auc number 6: 0.5953268585049806
+		acc number 6: 0.7977715877437326
+		auc number 7: 0.731356692212174
+		acc number 7: 0.7671309192200557
+		auc number 8: 0.744315057915058
+		acc number 8: 0.766016713091922
+		auc number 9: 0.7163221068449827
+		acc number 9: 0.7626740947075209
+	mean auc: 0.7077134558209117
+	mean acc: 0.7716991643454039
+finishing test on params:
+	pearson_limit=0.2
+	size_limit=20
+	metric=cut_union_corr_sum
+starting test on params:
+	pearson_limit=0.4
+	size_limit=20
+	metric=cut_union_corr_sum
+		auc number 0: 0.5
+		acc number 0: 0.7292479108635097
+		auc number 1: 0.5
+		acc number 1: 0.7091922005571031
+		auc number 2: 0.5
+		acc number 2: 0.724233983286908
+		auc number 3: 0.5
+		acc number 3: 0.7253481894150418
+		auc number 4: 0.5
+		acc number 4: 0.7342618384401114
+		auc number 5: 0.5
+		acc number 5: 0.7342618384401114
+		auc number 6: 0.5
+		acc number 6: 0.7325905292479109
+		auc number 7: 0.5
+		acc number 7: 0.728690807799443
+		auc number 8: 0.5
+		acc number 8: 0.7331476323119778
+		auc number 9: 0.5
+		acc number 9: 0.7415041782729805
+	mean auc: 0.5
+	mean acc: 0.7292479108635097
+finishing test on params:
+	pearson_limit=0.4
+	size_limit=20
+	metric=cut_union_corr_sum
+starting test on params:
+	pearson_limit=0.05
+	size_limit=5
+	metric=cut_union_corr
+		auc number 0: 0.7423720386449487
+		acc number 0: 0.8222841225626741
+		auc number 1: 0.7189240753772773
+		acc number 1: 0.8105849582172702
+		auc number 2: 0.7362713465019282
+		acc number 2: 0.8161559888579387
+		auc number 3: 0.7057071772053518
+		acc number 3: 0.7938718662952646
+		auc number 4: 0.7197761053444605
+		acc number 4: 0.8094707520891364
+		auc number 5: 0.7332769750516486
+		acc number 5: 0.8128133704735376
+		auc number 6: 0.72905113536863
+		acc number 6: 0.8133704735376045
+		auc number 7: 0.7497439025159016
+		acc number 7: 0.8295264623955432
+		auc number 8: 0.7042456913512237
+		acc number 8: 0.8105849582172702
+		auc number 9: 0.7251674751674752
+		acc number 9: 0.8083565459610028
+	mean auc: 0.7264535922528845
+	mean acc: 0.8127019498607243
+finishing test on params:
+	pearson_limit=0.05
+	size_limit=5
+	metric=cut_union_corr
+starting test on params:
+	pearson_limit=0.1
+	size_limit=5
+	metric=cut_union_corr
+		auc number 0: 0.6867067814780233
+		acc number 0: 0.8245125348189415
+		auc number 1: 0.6899524430046765
+		acc number 1: 0.8022284122562674
+		auc number 2: 0.6722349191993572
+		acc number 2: 0.7977715877437326
+		auc number 3: 0.6871776061776063
+		acc number 3: 0.8072423398328691
+		auc number 4: 0.664308738423238
+		acc number 4: 0.811142061281337
+		auc number 5: 0.6699834478639484
+		acc number 5: 0.8105849582172702
+		auc number 6: 0.6924837099659109
+		acc number 6: 0.8272980501392758
+		auc number 7: 0.6778372038470559
+		acc number 7: 0.8133704735376045
+		auc number 8: 0.6769304136785159
+		acc number 8: 0.8005571030640668
+		auc number 9: 0.6722445363794418
+		acc number 9: 0.8122562674094708
+	mean auc: 0.6789859800017775
+	mean acc: 0.8106963788300835
+finishing test on params:
+	pearson_limit=0.1
+	size_limit=5
+	metric=cut_union_corr
+starting test on params:
+	pearson_limit=0.15
+	size_limit=5
+	metric=cut_union_corr
+		auc number 0: 0.7147048727083798
+		acc number 0: 0.8261838440111421
+		auc number 1: 0.6754935902035349
+		acc number 1: 0.796100278551532
+		auc number 2: 0.6824607549643638
+		acc number 2: 0.8155988857938719
+		auc number 3: 0.6685970527763184
+		acc number 3: 0.807799442896936
+		auc number 4: 0.7314629919183167
+		acc number 4: 0.8189415041782729
+		auc number 5: 0.6667258672100653
+		acc number 5: 0.8027855153203343
+		auc number 6: 0.6868598185542875
+		acc number 6: 0.8189415041782729
+		auc number 7: 0.6598328784134362
+		acc number 7: 0.7955431754874652
+		auc number 8: 0.6546385693362944
+		acc number 8: 0.8116991643454039
+		auc number 9: 0.6976372536173558
+		acc number 9: 0.8239554317548746
+	mean auc: 0.6838413649702353
+	mean acc: 0.8117548746518105
+finishing test on params:
+	pearson_limit=0.15
+	size_limit=5
+	metric=cut_union_corr
+starting test on params:
+	pearson_limit=0.2
+	size_limit=5
+	metric=cut_union_corr
+		auc number 0: 0.616584223780908
+		acc number 0: 0.8139275766016713
+		auc number 1: 0.583909294314246
+		acc number 1: 0.8033426183844011
+		auc number 2: 0.5572956273764258
+		acc number 2: 0.7860724233983287
+		auc number 3: 0.6081339381992976
+		acc number 3: 0.8105849582172702
+		auc number 4: 0.5323346226130685
+		acc number 4: 0.7821727019498608
+		auc number 5: 0.5830074905328415
+		acc number 5: 0.7983286908077994
+		auc number 6: 0.5871502731738952
+		acc number 6: 0.7944289693593315
+		auc number 7: 0.5907361997817553
+		acc number 7: 0.7938718662952646
+		auc number 8: 0.6030558974310795
+		acc number 8: 0.8022284122562674
+		auc number 9: 0.6057475934491812
+		acc number 9: 0.7816155988857939
+	mean auc: 0.5867955160652698
+	mean acc: 0.7966573816155988
+finishing test on params:
+	pearson_limit=0.2
+	size_limit=5
+	metric=cut_union_corr
+starting test on params:
+	pearson_limit=0.4
+	size_limit=5
+	metric=cut_union_corr
+		auc number 0: 0.5
+		acc number 0: 0.747075208913649
+		auc number 1: 0.5
+		acc number 1: 0.7236768802228413
+		auc number 2: 0.5
+		acc number 2: 0.7225626740947075
+		auc number 3: 0.5
+		acc number 3: 0.7103064066852368
+		auc number 4: 0.5
+		acc number 4: 0.7231197771587744
+		auc number 5: 0.5
+		acc number 5: 0.7253481894150418
+		auc number 6: 0.5
+		acc number 6: 0.7303621169916434
+		auc number 7: 0.5
+		acc number 7: 0.7225626740947075
+		auc number 8: 0.5
+		acc number 8: 0.7309192200557103
+		auc number 9: 0.5
+		acc number 9: 0.7353760445682451
+	mean auc: 0.5
+	mean acc: 0.7271309192200557
+finishing test on params:
+	pearson_limit=0.4
+	size_limit=5
+	metric=cut_union_corr
+starting test on params:
+	pearson_limit=0.05
+	size_limit=2
+	metric=cut_union_corr
+		auc number 0: 0.7203593115184396
+		acc number 0: 0.811142061281337
+		auc number 1: 0.7209604292123282
+		acc number 1: 0.8100278551532033
+		auc number 2: 0.7009363936365904
+		acc number 2: 0.7894150417827298
+		auc number 3: 0.7193344969663901
+		acc number 3: 0.8055710306406685
+		auc number 4: 0.7408661128908093
+		acc number 4: 0.8089136490250697
+		auc number 5: 0.7059058531661271
+		acc number 5: 0.8094707520891364
+		auc number 6: 0.7282745888514214
+		acc number 6: 0.8128133704735376
+		auc number 7: 0.7273502851711028
+		acc number 7: 0.8155988857938719
+		auc number 8: 0.7374494847994816
+		acc number 8: 0.8144846796657381
+		auc number 9: 0.7098947080881075
+		acc number 9: 0.8033426183844011
+	mean auc: 0.7211331664300797
+	mean acc: 0.8080779944289693
+finishing test on params:
+	pearson_limit=0.05
+	size_limit=2
+	metric=cut_union_corr
+starting test on params:
+	pearson_limit=0.1
+	size_limit=2
+	metric=cut_union_corr
+		auc number 0: 0.7007502470112434
+		acc number 0: 0.8222841225626741
+		auc number 1: 0.6860463320463321
+		acc number 1: 0.8155988857938719
+		auc number 2: 0.703014426870636
+		acc number 2: 0.8222841225626741
+		auc number 3: 0.6580382775119618
+		acc number 3: 0.8044568245125349
+		auc number 4: 0.694403861003861
+		acc number 4: 0.8250696378830084
+		auc number 5: 0.7129902665150625
+		acc number 5: 0.8311977715877438
+		auc number 6: 0.7033948454779578
+		acc number 6: 0.8206128133704735
+		auc number 7: 0.6860656995932151
+		acc number 7: 0.8072423398328691
+		auc number 8: 0.662196262715962
+		acc number 8: 0.8133704735376045
+		auc number 9: 0.6857257679175489
+		acc number 9: 0.8206128133704735
+	mean auc: 0.689262598666378
+	mean acc: 0.8182729805013927
+finishing test on params:
+	pearson_limit=0.1
+	size_limit=2
+	metric=cut_union_corr
+starting test on params:
+	pearson_limit=0.15
+	size_limit=2
+	metric=cut_union_corr
+		auc number 0: 0.6897756923781186
+		acc number 0: 0.8072423398328691
+		auc number 1: 0.6560279100668526
+		acc number 1: 0.8027855153203343
+		auc number 2: 0.7034387660391084
+		acc number 2: 0.8233983286908078
+		auc number 3: 0.6756125591079559
+		acc number 3: 0.8066852367688022
+		auc number 4: 0.6975060305461677
+		acc number 4: 0.826740947075209
+		auc number 5: 0.678554634548155
+		acc number 5: 0.807799442896936
+		auc number 6: 0.6913514502108615
+		acc number 6: 0.8183844011142062
+		auc number 7: 0.690947130547071
+		acc number 7: 0.8050139275766016
+		auc number 8: 0.6770216592384082
+		acc number 8: 0.803899721448468
+		auc number 9: 0.6982030221758673
+		acc number 9: 0.8133704735376045
+	mean auc: 0.6858438854858566
+	mean acc: 0.8115320334261839
+finishing test on params:
+	pearson_limit=0.15
+	size_limit=2
+	metric=cut_union_corr
+starting test on params:
+	pearson_limit=0.2
+	size_limit=2
+	metric=cut_union_corr
+		auc number 0: 0.6023738400409744
+		acc number 0: 0.8094707520891364
+		auc number 1: 0.5788848194463607
+		acc number 1: 0.7905292479108635
+		auc number 2: 0.5836842302550198
+		acc number 2: 0.8027855153203343
+		auc number 3: 0.6048041958041959
+		acc number 3: 0.8027855153203343
+		auc number 4: 0.5728906277158198
+		acc number 4: 0.7927576601671309
+		auc number 5: 0.5856425377698842
+		acc number 5: 0.8083565459610028
+		auc number 6: 0.5592731533202427
+		acc number 6: 0.7832869080779944
+		auc number 7: 0.6262569867946798
+		acc number 7: 0.8206128133704735
+		auc number 8: 0.5635108237847964
+		acc number 8: 0.8
+		auc number 9: 0.5605004575664858
+		acc number 9: 0.7910863509749304
+	mean auc: 0.583782167249846
+	mean acc: 0.8001671309192201
+finishing test on params:
+	pearson_limit=0.2
+	size_limit=2
+	metric=cut_union_corr
+starting test on params:
+	pearson_limit=0.4
+	size_limit=2
+	metric=cut_union_corr
+		auc number 0: 0.5
+		acc number 0: 0.7225626740947075
+		auc number 1: 0.5
+		acc number 1: 0.7108635097493036
+		auc number 2: 0.5
+		acc number 2: 0.7331476323119778
+		auc number 3: 0.5
+		acc number 3: 0.7181058495821727
+		auc number 4: 0.5
+		acc number 4: 0.713091922005571
+		auc number 5: 0.5
+		acc number 5: 0.7409470752089137
+		auc number 6: 0.5
+		acc number 6: 0.7387186629526462
+		auc number 7: 0.5
+		acc number 7: 0.7147632311977716
+		auc number 8: 0.5
+		acc number 8: 0.7153203342618384
+		auc number 9: 0.5
+		acc number 9: 0.7186629526462396
+	mean auc: 0.5
+	mean acc: 0.7226183844011143
+finishing test on params:
+	pearson_limit=0.4
+	size_limit=2
+	metric=cut_union_corr
+starting test on params:
+	pearson_limit=0.05
+	size_limit=1
+	metric=cut_union_corr
+		auc number 0: 0.7181277151783696
+		acc number 0: 0.8089136490250697
+		auc number 1: 0.7156858054226475
+		acc number 1: 0.8116991643454039
+		auc number 2: 0.7192673018614282
+		acc number 2: 0.8217270194986073
+		auc number 3: 0.7277790909807201
+		acc number 3: 0.8033426183844011
+		auc number 4: 0.726834671577196
+		acc number 4: 0.8155988857938719
+		auc number 5: 0.7316835889974538
+		acc number 5: 0.8172701949860725
+		auc number 6: 0.703812028527039
+		acc number 6: 0.7933147632311978
+		auc number 7: 0.7556140350877193
+		acc number 7: 0.8289693593314763
+		auc number 8: 0.7380485905719972
+		acc number 8: 0.8122562674094708
+		auc number 9: 0.7157454226056641
+		acc number 9: 0.826740947075209
+	mean auc: 0.7252598250810236
+	mean acc: 0.8139832869080781
+finishing test on params:
+	pearson_limit=0.05
+	size_limit=1
+	metric=cut_union_corr
+starting test on params:
+	pearson_limit=0.1
+	size_limit=1
+	metric=cut_union_corr
+		auc number 0: 0.6838652514969323
+		acc number 0: 0.815041782729805
+		auc number 1: 0.6902159775190686
+		acc number 1: 0.8217270194986073
+		auc number 2: 0.6880512312300755
+		acc number 2: 0.8200557103064067
+		auc number 3: 0.6757838437173365
+		acc number 3: 0.8161559888579387
+		auc number 4: 0.6858544956892367
+		acc number 4: 0.8239554317548746
+		auc number 5: 0.6728888930970056
+		acc number 5: 0.8194986072423398
+		auc number 6: 0.636928375425265
+		acc number 6: 0.7955431754874652
+		auc number 7: 0.659037073506052
+		acc number 7: 0.803899721448468
+		auc number 8: 0.6914202915615912
+		acc number 8: 0.822841225626741
+		auc number 9: 0.6843281529363224
+		acc number 9: 0.8295264623955432
+	mean auc: 0.6768373586178885
+	mean acc: 0.8168245125348189
+finishing test on params:
+	pearson_limit=0.1
+	size_limit=1
+	metric=cut_union_corr
+starting test on params:
+	pearson_limit=0.15
+	size_limit=1
+	metric=cut_union_corr
+		auc number 0: 0.6869638478017567
+		acc number 0: 0.8133704735376045
+		auc number 1: 0.6740792015252048
+		acc number 1: 0.8027855153203343
+		auc number 2: 0.6937796214061436
+		acc number 2: 0.83008356545961
+		auc number 3: 0.7103993884594103
+		acc number 3: 0.8272980501392758
+		auc number 4: 0.6425585847962678
+		acc number 4: 0.7905292479108635
+		auc number 5: 0.7068360442810958
+		acc number 5: 0.8155988857938719
+		auc number 6: 0.6624446900942242
+		acc number 6: 0.7994428969359332
+		auc number 7: 0.6563991251325556
+		acc number 7: 0.8089136490250697
+		auc number 8: 0.6979201602161769
+		acc number 8: 0.815041782729805
+		auc number 9: 0.6753649551001611
+		acc number 9: 0.8116991643454039
+	mean auc: 0.6806745618812997
+	mean acc: 0.8114763231197772
+finishing test on params:
+	pearson_limit=0.15
+	size_limit=1
+	metric=cut_union_corr
+starting test on params:
+	pearson_limit=0.2
+	size_limit=1
+	metric=cut_union_corr
+		auc number 0: 0.5786674641148326
+		acc number 0: 0.8011142061281337
+		auc number 1: 0.6035940050260368
+		acc number 1: 0.8089136490250697
+		auc number 2: 0.5981025102723926
+		acc number 2: 0.796100278551532
+		auc number 3: 0.6102329900554223
+		acc number 3: 0.8172701949860725
+		auc number 4: 0.6137577389131404
+		acc number 4: 0.8100278551532033
+		auc number 5: 0.5959866150823131
+		acc number 5: 0.807799442896936
+		auc number 6: 0.6302826966879844
+		acc number 6: 0.8011142061281337
+		auc number 7: 0.5903661642428025
+		acc number 7: 0.7983286908077994
+		auc number 8: 0.5699347609179523
+		acc number 8: 0.7866295264623956
+		auc number 9: 0.564393829301453
+		acc number 9: 0.8
+	mean auc: 0.595531877461433
+	mean acc: 0.8027298050139275
+finishing test on params:
+	pearson_limit=0.2
+	size_limit=1
+	metric=cut_union_corr
+starting test on params:
+	pearson_limit=0.4
+	size_limit=1
+	metric=cut_union_corr
+		auc number 0: 0.5
+		acc number 0: 0.7298050139275766
+		auc number 1: 0.5
+		acc number 1: 0.7342618384401114
+		auc number 2: 0.5
+		acc number 2: 0.7403899721448468
+		auc number 3: 0.5
+		acc number 3: 0.7387186629526462
+		auc number 4: 0.5
+		acc number 4: 0.7481894150417827
+		auc number 5: 0.5
+		acc number 5: 0.7281337047353761
+		auc number 6: 0.5
+		acc number 6: 0.7376044568245126
+		auc number 7: 0.5
+		acc number 7: 0.7164345403899721
+		auc number 8: 0.5
+		acc number 8: 0.7398328690807799
+		auc number 9: 0.5
+		acc number 9: 0.7197771587743732
+	mean auc: 0.5
+	mean acc: 0.7333147632311977
+finishing test on params:
+	pearson_limit=0.4
+	size_limit=1
+	metric=cut_union_corr
+starting test on params:
+	pearson_limit=0.05
+	size_limit=10
+	metric=cut_union_corr
+		auc number 0: 0.7504640176152192
+		acc number 0: 0.8233983286908078
+		auc number 1: 0.6952420714572461
+		acc number 1: 0.7988857938718663
+		auc number 2: 0.7471518853739408
+		acc number 2: 0.8323119777158774
+		auc number 3: 0.7199198009817301
+		acc number 3: 0.8066852367688022
+		auc number 4: 0.7324132143129627
+		acc number 4: 0.8155988857938719
+		auc number 5: 0.7412325728770597
+		acc number 5: 0.83008356545961
+		auc number 6: 0.730228111876286
+		acc number 6: 0.815041782729805
+		auc number 7: 0.7300885024599576
+		acc number 7: 0.8128133704735376
+		auc number 8: 0.7144370397795056
+		acc number 8: 0.811142061281337
+		auc number 9: 0.7348484848484849
+		acc number 9: 0.8245125348189415
+	mean auc: 0.7296025701582393
+	mean acc: 0.8170473537604458
+finishing test on params:
+	pearson_limit=0.05
+	size_limit=10
+	metric=cut_union_corr
+starting test on params:
+	pearson_limit=0.1
+	size_limit=10
+	metric=cut_union_corr
+		auc number 0: 0.6866712786809639
+		acc number 0: 0.8211699164345404
+		auc number 1: 0.6921616161616162
+		acc number 1: 0.8239554317548746
+		auc number 2: 0.6876965759621836
+		acc number 2: 0.8183844011142062
+		auc number 3: 0.6900207457674504
+		acc number 3: 0.8211699164345404
+		auc number 4: 0.6880732643682509
+		acc number 4: 0.8239554317548746
+		auc number 5: 0.6783305961388153
+		acc number 5: 0.8072423398328691
+		auc number 6: 0.6614710024324671
+		acc number 6: 0.8
+		auc number 7: 0.6954564596086736
+		acc number 7: 0.8189415041782729
+		auc number 8: 0.7048121459239562
+		acc number 8: 0.8278551532033426
+		auc number 9: 0.6773166128855654
+		acc number 9: 0.8200557103064067
+	mean auc: 0.6862010297929942
+	mean acc: 0.8182729805013927
+finishing test on params:
+	pearson_limit=0.1
+	size_limit=10
+	metric=cut_union_corr
+starting test on params:
+	pearson_limit=0.15
+	size_limit=10
+	metric=cut_union_corr
+		auc number 0: 0.6981328586577791
+		acc number 0: 0.8183844011142062
+		auc number 1: 0.6791979430501189
+		acc number 1: 0.8072423398328691
+		auc number 2: 0.7043406814354347
+		acc number 2: 0.8022284122562674
+		auc number 3: 0.7193737373737373
+		acc number 3: 0.8311977715877438
+		auc number 4: 0.7040394694775187
+		acc number 4: 0.8239554317548746
+		auc number 5: 0.6430093472750316
+		acc number 5: 0.7977715877437326
+		auc number 6: 0.6684979266678612
+		acc number 6: 0.8016713091922005
+		auc number 7: 0.6811244124041371
+		acc number 7: 0.8161559888579387
+		auc number 8: 0.6834563626347683
+		acc number 8: 0.8161559888579387
+		auc number 9: 0.688157488687299
+		acc number 9: 0.8133704735376045
+	mean auc: 0.6869330227663686
+	mean acc: 0.8128133704735376
+finishing test on params:
+	pearson_limit=0.15
+	size_limit=10
+	metric=cut_union_corr
+starting test on params:
+	pearson_limit=0.2
+	size_limit=10
+	metric=cut_union_corr
+		auc number 0: 0.5826347418194149
+		acc number 0: 0.7972144846796657
+		auc number 1: 0.5222643855586999
+		acc number 1: 0.7743732590529248
+		auc number 2: 0.5850764371282731
+		acc number 2: 0.8066852367688022
+		auc number 3: 0.5927566214714942
+		acc number 3: 0.7988857938718663
+		auc number 4: 0.5703627921618006
+		acc number 4: 0.7871866295264623
+		auc number 5: 0.5860444100180738
+		acc number 5: 0.7938718662952646
+		auc number 6: 0.5581186628643853
+		acc number 6: 0.7927576601671309
+		auc number 7: 0.5564712368647933
+		acc number 7: 0.7827298050139275
+		auc number 8: 0.5733285486443381
+		acc number 8: 0.7966573816155988
+		auc number 9: 0.6021251770460911
+		acc number 9: 0.8027855153203343
+	mean auc: 0.5729183013577364
+	mean acc: 0.7933147632311977
+finishing test on params:
+	pearson_limit=0.2
+	size_limit=10
+	metric=cut_union_corr
+starting test on params:
+	pearson_limit=0.4
+	size_limit=10
+	metric=cut_union_corr
+		auc number 0: 0.5
+		acc number 0: 0.716991643454039
+		auc number 1: 0.5
+		acc number 1: 0.7264623955431755
+		auc number 2: 0.5
+		acc number 2: 0.7298050139275766
+		auc number 3: 0.5
+		acc number 3: 0.7303621169916434
+		auc number 4: 0.5
+		acc number 4: 0.7164345403899721
+		auc number 5: 0.5
+		acc number 5: 0.7270194986072424
+		auc number 6: 0.5
+		acc number 6: 0.7153203342618384
+		auc number 7: 0.5
+		acc number 7: 0.7543175487465181
+		auc number 8: 0.5
+		acc number 8: 0.7275766016713092
+		auc number 9: 0.5
+		acc number 9: 0.7353760445682451
+	mean auc: 0.5
+	mean acc: 0.727966573816156
+finishing test on params:
+	pearson_limit=0.4
+	size_limit=10
+	metric=cut_union_corr
+starting test on params:
+	pearson_limit=0.05
+	size_limit=20
+	metric=cut_union_corr
+		auc number 0: 0.7038116196915711
+		acc number 0: 0.803899721448468
+		auc number 1: 0.7214836379993252
+		acc number 1: 0.8161559888579387
+		auc number 2: 0.7184086232480943
+		acc number 2: 0.8100278551532033
+		auc number 3: 0.7236039594879655
+		acc number 3: 0.826740947075209
+		auc number 4: 0.7085306915306915
+		acc number 4: 0.7988857938718663
+		auc number 5: 0.7357850494865331
+		acc number 5: 0.8116991643454039
+		auc number 6: 0.7271755315066389
+		acc number 6: 0.8094707520891364
+		auc number 7: 0.7229272293022226
+		acc number 7: 0.8033426183844011
+		auc number 8: 0.7101981362834936
+		acc number 8: 0.8033426183844011
+		auc number 9: 0.6993801652892562
+		acc number 9: 0.796100278551532
+	mean auc: 0.7171304643825792
+	mean acc: 0.8079665738161561
+finishing test on params:
+	pearson_limit=0.05
+	size_limit=20
+	metric=cut_union_corr
+starting test on params:
+	pearson_limit=0.1
+	size_limit=20
+	metric=cut_union_corr
+		auc number 0: 0.6853888979388457
+		acc number 0: 0.8289693593314763
+		auc number 1: 0.7126083751902225
+		acc number 1: 0.8317548746518106
+		auc number 2: 0.694718476575928
+		acc number 2: 0.8217270194986073
+		auc number 3: 0.658186039190997
+		acc number 3: 0.8083565459610028
+		auc number 4: 0.6817959884082885
+		acc number 4: 0.8189415041782729
+		auc number 5: 0.6801098146011813
+		acc number 5: 0.8122562674094708
+		auc number 6: 0.6795185786331226
+		acc number 6: 0.8233983286908078
+		auc number 7: 0.6615458623317881
+		acc number 7: 0.8094707520891364
+		auc number 8: 0.6685148354757862
+		acc number 8: 0.815041782729805
+		auc number 9: 0.6732173720432523
+		acc number 9: 0.8122562674094708
+	mean auc: 0.6795604240389412
+	mean acc: 0.8182172701949861
+finishing test on params:
+	pearson_limit=0.1
+	size_limit=20
+	metric=cut_union_corr
+starting test on params:
+	pearson_limit=0.15
+	size_limit=20
+	metric=cut_union_corr
+		auc number 0: 0.6871670732706722
+		acc number 0: 0.8211699164345404
+		auc number 1: 0.6801094184287373
+		acc number 1: 0.815041782729805
+		auc number 2: 0.6936886106504694
+		acc number 2: 0.8139275766016713
+		auc number 3: 0.6834943034216582
+		acc number 3: 0.8033426183844011
+		auc number 4: 0.6935315200622124
+		acc number 4: 0.8105849582172702
+		auc number 5: 0.6565196653373992
+		acc number 5: 0.8094707520891364
+		auc number 6: 0.6697924606099984
+		acc number 6: 0.8133704735376045
+		auc number 7: 0.6937989306699153
+		acc number 7: 0.8200557103064067
+		auc number 8: 0.6919388555834072
+		acc number 8: 0.8172701949860725
+		auc number 9: 0.6877180723560608
+		acc number 9: 0.8206128133704735
+	mean auc: 0.6837758910390531
+	mean acc: 0.8144846796657381
+finishing test on params:
+	pearson_limit=0.15
+	size_limit=20
+	metric=cut_union_corr
+starting test on params:
+	pearson_limit=0.2
+	size_limit=20
+	metric=cut_union_corr
+		auc number 0: 0.6013432356483339
+		acc number 0: 0.8144846796657381
+		auc number 1: 0.6026703542169727
+		acc number 1: 0.7977715877437326
+		auc number 2: 0.6172983929080665
+		acc number 2: 0.8027855153203343
+		auc number 3: 0.5745040019403347
+		acc number 3: 0.8033426183844011
+		auc number 4: 0.5915849531754152
+		acc number 4: 0.8005571030640668
+		auc number 5: 0.585545247184951
+		acc number 5: 0.7972144846796657
+		auc number 6: 0.553764728804735
+		acc number 6: 0.7916434540389972
+		auc number 7: 0.5326771953917754
+		acc number 7: 0.7766016713091922
+		auc number 8: 0.5788324806799142
+		acc number 8: 0.803899721448468
+		auc number 9: 0.5915062820876655
+		acc number 9: 0.8027855153203343
+	mean auc: 0.5829726872038163
+	mean acc: 0.799108635097493
+finishing test on params:
+	pearson_limit=0.2
+	size_limit=20
+	metric=cut_union_corr
+starting test on params:
+	pearson_limit=0.4
+	size_limit=20
+	metric=cut_union_corr
+		auc number 0: 0.5
+		acc number 0: 0.7175487465181059
+		auc number 1: 0.5
+		acc number 1: 0.7364902506963789
+		auc number 2: 0.5
+		acc number 2: 0.7281337047353761
+		auc number 3: 0.5
+		acc number 3: 0.7353760445682451
+		auc number 4: 0.5
+		acc number 4: 0.7253481894150418
+		auc number 5: 0.5
+		acc number 5: 0.7331476323119778
+		auc number 6: 0.5
+		acc number 6: 0.7225626740947075
+		auc number 7: 0.5
+		acc number 7: 0.7415041782729805
+		auc number 8: 0.5
+		acc number 8: 0.7314763231197772
+		auc number 9: 0.5
+		acc number 9: 0.7197771587743732
+	mean auc: 0.5
+	mean acc: 0.7291364902506963
+finishing test on params:
+	pearson_limit=0.4
+	size_limit=20
+	metric=cut_union_corr
+starting test on params:
+	pearson_limit=0.05
+	size_limit=5
+	metric=cut_union
+		auc number 0: 0.7286291279847064
+		acc number 0: 0.8094707520891364
+		auc number 1: 0.7313205319902416
+		acc number 1: 0.7983286908077994
+		auc number 2: 0.7221021541887682
+		acc number 2: 0.7927576601671309
+		auc number 3: 0.7231586746984218
+		acc number 3: 0.8066852367688022
+		auc number 4: 0.7298084313841422
+		acc number 4: 0.8050139275766016
+		auc number 5: 0.7409608063202835
+		acc number 5: 0.8016713091922005
+		auc number 6: 0.7396629916334349
+		acc number 6: 0.8144846796657381
+		auc number 7: 0.7156581681882284
+		acc number 7: 0.796100278551532
+		auc number 8: 0.7244247290244882
+		acc number 8: 0.8055710306406685
+		auc number 9: 0.7553348873348873
+		acc number 9: 0.8139275766016713
+	mean auc: 0.7311060502747602
+	mean acc: 0.8044011142061281
+finishing test on params:
+	pearson_limit=0.05
+	size_limit=5
+	metric=cut_union
+starting test on params:
+	pearson_limit=0.1
+	size_limit=5
+	metric=cut_union
+		auc number 0: 0.7457487144063243
+		acc number 0: 0.8027855153203343
+		auc number 1: 0.7345919007176738
+		acc number 1: 0.8061281337047354
+		auc number 2: 0.7772022576809505
+		acc number 2: 0.8116991643454039
+		auc number 3: 0.7264148600660557
+		acc number 3: 0.7871866295264623
+		auc number 4: 0.7414104641159442
+		acc number 4: 0.8022284122562674
+		auc number 5: 0.7438536833091032
+		acc number 5: 0.8061281337047354
+		auc number 6: 0.7381992872486444
+		acc number 6: 0.7899721448467967
+		auc number 7: 0.733257195492723
+		acc number 7: 0.7910863509749304
+		auc number 8: 0.7384181441399953
+		acc number 8: 0.7977715877437326
+		auc number 9: 0.7647345374931582
+		acc number 9: 0.8011142061281337
+	mean auc: 0.7443831044670572
+	mean acc: 0.7996100278551531
+finishing test on params:
+	pearson_limit=0.1
+	size_limit=5
+	metric=cut_union
+starting test on params:
+	pearson_limit=0.15
+	size_limit=5
+	metric=cut_union
+		auc number 0: 0.7831382674765605
+		acc number 0: 0.7933147632311978
+		auc number 1: 0.7656425592193281
+		acc number 1: 0.7760445682451254
+		auc number 2: 0.7688099965362823
+		acc number 2: 0.7799442896935933
+		auc number 3: 0.7838528133139566
+		acc number 3: 0.7955431754874652
+		auc number 4: 0.7800389361083696
+		acc number 4: 0.7899721448467967
+		auc number 5: 0.7782203456095081
+		acc number 5: 0.7877437325905292
+		auc number 6: 0.7832672868374462
+		acc number 6: 0.7983286908077994
+		auc number 7: 0.7589393225068649
+		acc number 7: 0.7754874651810585
+		auc number 8: 0.7663937670498832
+		acc number 8: 0.7805013927576602
+		auc number 9: 0.8036831873223416
+		acc number 9: 0.8066852367688022
+	mean auc: 0.7771986481980541
+	mean acc: 0.7883565459610027
+finishing test on params:
+	pearson_limit=0.15
+	size_limit=5
+	metric=cut_union
+starting test on params:
+	pearson_limit=0.2
+	size_limit=5
+	metric=cut_union
+		auc number 0: 0.7502878429259594
+		acc number 0: 0.7782729805013927
+		auc number 1: 0.73824835508288
+		acc number 1: 0.7710306406685237
+		auc number 2: 0.7572205642473633
+		acc number 2: 0.7860724233983287
+		auc number 3: 0.7294788564342017
+		acc number 3: 0.7643454038997215
+		auc number 4: 0.7536067877413417
+		acc number 4: 0.7754874651810585
+		auc number 5: 0.7509150570512342
+		acc number 5: 0.7732590529247911
+		auc number 6: 0.7364443664003413
+		acc number 6: 0.7704735376044568
+		auc number 7: 0.7803795853269538
+		acc number 7: 0.8022284122562674
+		auc number 8: 0.7619444885852006
+		acc number 8: 0.7877437325905292
+		auc number 9: 0.7459208131067963
+		acc number 9: 0.7665738161559889
+	mean auc: 0.7504446716902272
+	mean acc: 0.7775487465181059
+finishing test on params:
+	pearson_limit=0.2
+	size_limit=5
+	metric=cut_union
+starting test on params:
+	pearson_limit=0.4
+	size_limit=5
+	metric=cut_union
+		auc number 0: 0.5
+		acc number 0: 0.7364902506963789
+		auc number 1: 0.5
+		acc number 1: 0.7236768802228413
+		auc number 2: 0.5
+		acc number 2: 0.7259052924791086
+		auc number 3: 0.5
+		acc number 3: 0.7309192200557103
+		auc number 4: 0.5
+		acc number 4: 0.7376044568245126
+		auc number 5: 0.5
+		acc number 5: 0.7225626740947075
+		auc number 6: 0.5
+		acc number 6: 0.732033426183844
+		auc number 7: 0.5
+		acc number 7: 0.7348189415041783
+		auc number 8: 0.5
+		acc number 8: 0.7108635097493036
+		auc number 9: 0.5
+		acc number 9: 0.7153203342618384
+	mean auc: 0.5
+	mean acc: 0.7270194986072424
+finishing test on params:
+	pearson_limit=0.4
+	size_limit=5
+	metric=cut_union
+starting test on params:
+	pearson_limit=0.05
+	size_limit=2
+	metric=cut_union
+		auc number 0: 0.7286965900980763
+		acc number 0: 0.8100278551532033
+		auc number 1: 0.7126638860470607
+		acc number 1: 0.7966573816155988
+		auc number 2: 0.7170175303558026
+		acc number 2: 0.8033426183844011
+		auc number 3: 0.7358054615566224
+		acc number 3: 0.8089136490250697
+		auc number 4: 0.7263838188184459
+		acc number 4: 0.8022284122562674
+		auc number 5: 0.7335744680851063
+		acc number 5: 0.8122562674094708
+		auc number 6: 0.7129352368759578
+		acc number 6: 0.7966573816155988
+		auc number 7: 0.7639399120664387
+		acc number 7: 0.8250696378830084
+		auc number 8: 0.748892213301015
+		acc number 8: 0.8005571030640668
+		auc number 9: 0.7245451339579301
+		acc number 9: 0.8116991643454039
+	mean auc: 0.7304454251162456
+	mean acc: 0.8067409470752089
+finishing test on params:
+	pearson_limit=0.05
+	size_limit=2
+	metric=cut_union
+starting test on params:
+	pearson_limit=0.1
+	size_limit=2
+	metric=cut_union
+		auc number 0: 0.7681704374057314
+		acc number 0: 0.8011142061281337
+		auc number 1: 0.7551421284297997
+		acc number 1: 0.8033426183844011
+		auc number 2: 0.7649306684800283
+		acc number 2: 0.8194986072423398
+		auc number 3: 0.7698956686787267
+		acc number 3: 0.8133704735376045
+		auc number 4: 0.7634826254826255
+		acc number 4: 0.8066852367688022
+		auc number 5: 0.7293616191423552
+		acc number 5: 0.7905292479108635
+		auc number 6: 0.7235582275662436
+		acc number 6: 0.7899721448467967
+		auc number 7: 0.7550560521133162
+		acc number 7: 0.803899721448468
+		auc number 8: 0.7202754357408051
+		acc number 8: 0.796100278551532
+		auc number 9: 0.7274516035557715
+		acc number 9: 0.781058495821727
+	mean auc: 0.7477324466595403
+	mean acc: 0.8005571030640668
+finishing test on params:
+	pearson_limit=0.1
+	size_limit=2
+	metric=cut_union
+starting test on params:
+	pearson_limit=0.15
+	size_limit=2
+	metric=cut_union
+		auc number 0: 0.7836852288915822
+		acc number 0: 0.784958217270195
+		auc number 1: 0.7738658034970588
+		acc number 1: 0.7972144846796657
+		auc number 2: 0.7634325625196191
+		acc number 2: 0.7732590529247911
+		auc number 3: 0.7690306128783928
+		acc number 3: 0.7805013927576602
+		auc number 4: 0.7593411005323154
+		acc number 4: 0.7749303621169916
+		auc number 5: 0.7805756768879853
+		acc number 5: 0.7938718662952646
+		auc number 6: 0.7965683779272983
+		acc number 6: 0.7966573816155988
+		auc number 7: 0.7677887788778878
+		acc number 7: 0.777715877437326
+		auc number 8: 0.7621126905910579
+		acc number 8: 0.7799442896935933
+		auc number 9: 0.7760895569371213
+		acc number 9: 0.7760445682451254
+	mean auc: 0.7732490389540319
+	mean acc: 0.7835097493036212
+finishing test on params:
+	pearson_limit=0.15
+	size_limit=2
+	metric=cut_union
+starting test on params:
+	pearson_limit=0.2
+	size_limit=2
+	metric=cut_union
+		auc number 0: 0.7563622530942792
+		acc number 0: 0.784958217270195
+		auc number 1: 0.7175920745920744
+		acc number 1: 0.7610027855153203
+		auc number 2: 0.7616196685232317
+		acc number 2: 0.7877437325905292
+		auc number 3: 0.7644344736910283
+		acc number 3: 0.7894150417827298
+		auc number 4: 0.7534353016880537
+		acc number 4: 0.7877437325905292
+		auc number 5: 0.7409202548161792
+		acc number 5: 0.766016713091922
+		auc number 6: 0.7486401626673337
+		acc number 6: 0.7738161559888579
+		auc number 7: 0.7405861244019138
+		acc number 7: 0.7738161559888579
+		auc number 8: 0.7520631801453719
+		acc number 8: 0.781058495821727
+		auc number 9: 0.744403725977958
+		acc number 9: 0.7738161559888579
+	mean auc: 0.7480057219597425
+	mean acc: 0.7779387186629526
+finishing test on params:
+	pearson_limit=0.2
+	size_limit=2
+	metric=cut_union
+starting test on params:
+	pearson_limit=0.4
+	size_limit=2
+	metric=cut_union
+		auc number 0: 0.5
+		acc number 0: 0.7364902506963789
+		auc number 1: 0.5
+		acc number 1: 0.7220055710306407
+		auc number 2: 0.5
+		acc number 2: 0.7041782729805014
+		auc number 3: 0.5
+		acc number 3: 0.7181058495821727
+		auc number 4: 0.5
+		acc number 4: 0.7331476323119778
+		auc number 5: 0.5
+		acc number 5: 0.728690807799443
+		auc number 6: 0.5
+		acc number 6: 0.7225626740947075
+		auc number 7: 0.5
+		acc number 7: 0.7353760445682451
+		auc number 8: 0.5
+		acc number 8: 0.735933147632312
+		auc number 9: 0.5
+		acc number 9: 0.7186629526462396
+	mean auc: 0.5
+	mean acc: 0.7255153203342618
+finishing test on params:
+	pearson_limit=0.4
+	size_limit=2
+	metric=cut_union
+starting test on params:
+	pearson_limit=0.05
+	size_limit=1
+	metric=cut_union
+		auc number 0: 0.7324363831865193
+		acc number 0: 0.7994428969359332
+		auc number 1: 0.7349543689349914
+		acc number 1: 0.8011142061281337
+		auc number 2: 0.741031372349944
+		acc number 2: 0.8100278551532033
+		auc number 3: 0.7168080808080809
+		acc number 3: 0.796100278551532
+		auc number 4: 0.7157280773562957
+		acc number 4: 0.8016713091922005
+		auc number 5: 0.7227429571239583
+		acc number 5: 0.7910863509749304
+		auc number 6: 0.7355547785547786
+		acc number 6: 0.8105849582172702
+		auc number 7: 0.7185551349430948
+		acc number 7: 0.8050139275766016
+		auc number 8: 0.7319610984986265
+		acc number 8: 0.8044568245125349
+		auc number 9: 0.7217725645674988
+		acc number 9: 0.8100278551532033
+	mean auc: 0.7271544816323788
+	mean acc: 0.8029526462395543
+finishing test on params:
+	pearson_limit=0.05
+	size_limit=1
+	metric=cut_union
+starting test on params:
+	pearson_limit=0.1
+	size_limit=1
+	metric=cut_union
+		auc number 0: 0.7694781212364512
+		acc number 0: 0.8027855153203343
+		auc number 1: 0.7588373331820388
+		acc number 1: 0.8066852367688022
+		auc number 2: 0.7331601511977126
+		acc number 2: 0.7838440111420613
+		auc number 3: 0.7809831612089138
+		acc number 3: 0.8200557103064067
+		auc number 4: 0.7465465422981763
+		acc number 4: 0.8055710306406685
+		auc number 5: 0.7533036908790431
+		acc number 5: 0.811142061281337
+		auc number 6: 0.7481277196246201
+		acc number 6: 0.807799442896936
+		auc number 7: 0.7544631564609966
+		acc number 7: 0.807799442896936
+		auc number 8: 0.7297743955408726
+		acc number 8: 0.8027855153203343
+		auc number 9: 0.7770394751992842
+		acc number 9: 0.807799442896936
+	mean auc: 0.755171374682811
+	mean acc: 0.8056267409470751
+finishing test on params:
+	pearson_limit=0.1
+	size_limit=1
+	metric=cut_union
+starting test on params:
+	pearson_limit=0.15
+	size_limit=1
+	metric=cut_union
+		auc number 0: 0.795083808782439
+		acc number 0: 0.7966573816155988
+		auc number 1: 0.7560161144182149
+		acc number 1: 0.7727019498607243
+		auc number 2: 0.7927727645611158
+		acc number 2: 0.8
+		auc number 3: 0.7800634483101145
+		acc number 3: 0.7938718662952646
+		auc number 4: 0.773306424198524
+		acc number 4: 0.7916434540389972
+		auc number 5: 0.777163789605695
+		acc number 5: 0.7955431754874652
+		auc number 6: 0.7770564025273898
+		acc number 6: 0.7899721448467967
+		auc number 7: 0.7691003638627828
+		acc number 7: 0.7844011142061281
+		auc number 8: 0.7732777732161918
+		acc number 8: 0.781058495821727
+		auc number 9: 0.7776823797906665
+		acc number 9: 0.7844011142061281
+	mean auc: 0.7771523269273134
+	mean acc: 0.789025069637883
+finishing test on params:
+	pearson_limit=0.15
+	size_limit=1
+	metric=cut_union
+starting test on params:
+	pearson_limit=0.2
+	size_limit=1
+	metric=cut_union
+		auc number 0: 0.7553241918510395
+		acc number 0: 0.7754874651810585
+		auc number 1: 0.7579169544861463
+		acc number 1: 0.7905292479108635
+		auc number 2: 0.7701851953820458
+		acc number 2: 0.7944289693593315
+		auc number 3: 0.7449804893116732
+		acc number 3: 0.7782729805013927
+		auc number 4: 0.7602977633693847
+		acc number 4: 0.7844011142061281
+		auc number 5: 0.7452169296116504
+		acc number 5: 0.781058495821727
+		auc number 6: 0.7392674911487619
+		acc number 6: 0.7699164345403899
+		auc number 7: 0.7462963313639347
+		acc number 7: 0.7821727019498608
+		auc number 8: 0.7576299434319614
+		acc number 8: 0.7832869080779944
+		auc number 9: 0.7623506787330316
+		acc number 9: 0.7877437325905292
+	mean auc: 0.7539465968689629
+	mean acc: 0.7827298050139275
+finishing test on params:
+	pearson_limit=0.2
+	size_limit=1
+	metric=cut_union
+starting test on params:
+	pearson_limit=0.4
+	size_limit=1
+	metric=cut_union
+		auc number 0: 0.5
+		acc number 0: 0.724233983286908
+		auc number 1: 0.5
+		acc number 1: 0.7420612813370474
+		auc number 2: 0.5
+		acc number 2: 0.7281337047353761
+		auc number 3: 0.5
+		acc number 3: 0.7220055710306407
+		auc number 4: 0.5
+		acc number 4: 0.7298050139275766
+		auc number 5: 0.5
+		acc number 5: 0.7314763231197772
+		auc number 6: 0.5
+		acc number 6: 0.7392757660167131
+		auc number 7: 0.5
+		acc number 7: 0.7331476323119778
+		auc number 8: 0.5
+		acc number 8: 0.7364902506963789
+		auc number 9: 0.5
+		acc number 9: 0.7203342618384401
+	mean auc: 0.5
+	mean acc: 0.7306963788300835
+finishing test on params:
+	pearson_limit=0.4
+	size_limit=1
+	metric=cut_union
+starting test on params:
+	pearson_limit=0.05
+	size_limit=10
+	metric=cut_union
+		auc number 0: 0.7309216344213249
+		acc number 0: 0.7944289693593315
+		auc number 1: 0.7204992866892831
+		acc number 1: 0.7988857938718663
+		auc number 2: 0.7353413837219511
+		acc number 2: 0.8122562674094708
+		auc number 3: 0.7407560352765832
+		acc number 3: 0.8155988857938719
+		auc number 4: 0.7043055960064764
+		acc number 4: 0.7983286908077994
+		auc number 5: 0.7253642100220007
+		acc number 5: 0.8122562674094708
+		auc number 6: 0.7274490484709245
+		acc number 6: 0.7905292479108635
+		auc number 7: 0.7243389595901819
+		acc number 7: 0.8061281337047354
+		auc number 8: 0.7187262187731941
+		acc number 8: 0.8027855153203343
+		auc number 9: 0.751552015596259
+		acc number 9: 0.8194986072423398
+	mean auc: 0.7279254388568179
+	mean acc: 0.8050696378830084
+finishing test on params:
+	pearson_limit=0.05
+	size_limit=10
+	metric=cut_union
+starting test on params:
+	pearson_limit=0.1
+	size_limit=10
+	metric=cut_union
+		auc number 0: 0.7415820089109123
+		acc number 0: 0.8016713091922005
+		auc number 1: 0.7168119633589246
+		acc number 1: 0.7860724233983287
+		auc number 2: 0.7573983346181536
+		acc number 2: 0.8089136490250697
+		auc number 3: 0.762530501930502
+		acc number 3: 0.8144846796657381
+		auc number 4: 0.7566451960282663
+		acc number 4: 0.8122562674094708
+		auc number 5: 0.7634934336678549
+		acc number 5: 0.8289693593314763
+		auc number 6: 0.7721427304440371
+		acc number 6: 0.8
+		auc number 7: 0.7624431597034336
+		acc number 7: 0.8133704735376045
+		auc number 8: 0.748191466010059
+		acc number 8: 0.8066852367688022
+		auc number 9: 0.7537538364680885
+		acc number 9: 0.811142061281337
+	mean auc: 0.7534992631140232
+	mean acc: 0.8083565459610028
+finishing test on params:
+	pearson_limit=0.1
+	size_limit=10
+	metric=cut_union
+starting test on params:
+	pearson_limit=0.15
+	size_limit=10
+	metric=cut_union
+		auc number 0: 0.7594459958762624
+		acc number 0: 0.777715877437326
+		auc number 1: 0.7772208737864078
+		acc number 1: 0.7944289693593315
+		auc number 2: 0.7648309330890143
+		acc number 2: 0.7782729805013927
+		auc number 3: 0.7774239727043465
+		acc number 3: 0.7732590529247911
+		auc number 4: 0.7969121310161192
+		acc number 4: 0.7871866295264623
+		auc number 5: 0.7774418304114582
+		acc number 5: 0.7816155988857939
+		auc number 6: 0.7820558446800576
+		acc number 6: 0.7899721448467967
+		auc number 7: 0.7667638801905635
+		acc number 7: 0.7793871866295264
+		auc number 8: 0.798856806348791
+		acc number 8: 0.796100278551532
+		auc number 9: 0.7684726679207701
+		acc number 9: 0.7799442896935933
+	mean auc: 0.7769424936023791
+	mean acc: 0.7837883008356545
+finishing test on params:
+	pearson_limit=0.15
+	size_limit=10
+	metric=cut_union
+starting test on params:
+	pearson_limit=0.2
+	size_limit=10
+	metric=cut_union
+		auc number 0: 0.7241910475513044
+		acc number 0: 0.7610027855153203
+		auc number 1: 0.7295104484839453
+		acc number 1: 0.7715877437325905
+		auc number 2: 0.746060429373093
+		acc number 2: 0.7766016713091922
+		auc number 3: 0.7378712361965294
+		acc number 3: 0.7665738161559889
+		auc number 4: 0.7426303490266701
+		acc number 4: 0.7743732590529248
+		auc number 5: 0.7441522921522922
+		acc number 5: 0.7688022284122563
+		auc number 6: 0.7532004613154977
+		acc number 6: 0.7977715877437326
+		auc number 7: 0.7487351192827549
+		acc number 7: 0.7838440111420613
+		auc number 8: 0.7442761344647236
+		acc number 8: 0.7676880222841226
+		auc number 9: 0.7445685576994712
+		acc number 9: 0.7710306406685237
+	mean auc: 0.7415196075546282
+	mean acc: 0.7739275766016714
+finishing test on params:
+	pearson_limit=0.2
+	size_limit=10
+	metric=cut_union
+starting test on params:
+	pearson_limit=0.4
+	size_limit=10
+	metric=cut_union
+		auc number 0: 0.5
+		acc number 0: 0.7259052924791086
+		auc number 1: 0.5
+		acc number 1: 0.7309192200557103
+		auc number 2: 0.5
+		acc number 2: 0.7125348189415042
+		auc number 3: 0.5
+		acc number 3: 0.7253481894150418
+		auc number 4: 0.5
+		acc number 4: 0.7376044568245126
+		auc number 5: 0.5
+		acc number 5: 0.732033426183844
+		auc number 6: 0.5
+		acc number 6: 0.728690807799443
+		auc number 7: 0.5
+		acc number 7: 0.7136490250696379
+		auc number 8: 0.5
+		acc number 8: 0.7153203342618384
+		auc number 9: 0.5
+		acc number 9: 0.7387186629526462
+	mean auc: 0.5
+	mean acc: 0.7260724233983288
+finishing test on params:
+	pearson_limit=0.4
+	size_limit=10
+	metric=cut_union
+starting test on params:
+	pearson_limit=0.05
+	size_limit=20
+	metric=cut_union
+		auc number 0: 0.724160778792184
+		acc number 0: 0.8128133704735376
+		auc number 1: 0.7460086685018337
+		acc number 1: 0.8172701949860725
+		auc number 2: 0.7362168031054229
+		acc number 2: 0.8189415041782729
+		auc number 3: 0.7178381993664713
+		acc number 3: 0.7966573816155988
+		auc number 4: 0.7452830639458208
+		acc number 4: 0.8128133704735376
+		auc number 5: 0.7397527902648148
+		acc number 5: 0.8128133704735376
+		auc number 6: 0.73729346092504
+		acc number 6: 0.803899721448468
+		auc number 7: 0.7265186319550793
+		acc number 7: 0.8066852367688022
+		auc number 8: 0.7104631103401606
+		acc number 8: 0.796100278551532
+		auc number 9: 0.7087230037010667
+		acc number 9: 0.7994428969359332
+	mean auc: 0.7292258510897895
+	mean acc: 0.8077437325905293
+finishing test on params:
+	pearson_limit=0.05
+	size_limit=20
+	metric=cut_union
+starting test on params:
+	pearson_limit=0.1
+	size_limit=20
+	metric=cut_union
+		auc number 0: 0.7535067040630492
+		acc number 0: 0.8005571030640668
+		auc number 1: 0.7430949769404942
+		acc number 1: 0.8105849582172702
+		auc number 2: 0.7618399054537068
+		acc number 2: 0.8044568245125349
+		auc number 3: 0.7653554304969671
+		acc number 3: 0.8083565459610028
+		auc number 4: 0.7322895927601809
+		acc number 4: 0.7905292479108635
+		auc number 5: 0.7360025145458216
+		acc number 5: 0.7988857938718663
+		auc number 6: 0.7508699536441219
+		acc number 6: 0.8033426183844011
+		auc number 7: 0.7490867601875549
+		acc number 7: 0.7938718662952646
+		auc number 8: 0.7245917777222983
+		acc number 8: 0.7899721448467967
+		auc number 9: 0.7600070951339206
+		acc number 9: 0.8128133704735376
+	mean auc: 0.7476644710948117
+	mean acc: 0.8013370473537605
+finishing test on params:
+	pearson_limit=0.1
+	size_limit=20
+	metric=cut_union
+starting test on params:
+	pearson_limit=0.15
+	size_limit=20
+	metric=cut_union
+		auc number 0: 0.7853541951772365
+		acc number 0: 0.7933147632311978
+		auc number 1: 0.7772526131074997
+		acc number 1: 0.7905292479108635
+		auc number 2: 0.761870756084535
+		acc number 2: 0.7805013927576602
+		auc number 3: 0.7970746225319395
+		acc number 3: 0.7977715877437326
+		auc number 4: 0.7880434614324684
+		acc number 4: 0.7966573816155988
+		auc number 5: 0.7706986692015207
+		acc number 5: 0.7760445682451254
+		auc number 6: 0.7769297393480401
+		acc number 6: 0.7838440111420613
+		auc number 7: 0.7729741444468097
+		acc number 7: 0.7910863509749304
+		auc number 8: 0.7699566292343271
+		acc number 8: 0.7905292479108635
+		auc number 9: 0.7689114205472624
+		acc number 9: 0.7805013927576602
+	mean auc: 0.7769066251111638
+	mean acc: 0.7880779944289693
+finishing test on params:
+	pearson_limit=0.15
+	size_limit=20
+	metric=cut_union
+starting test on params:
+	pearson_limit=0.2
+	size_limit=20
+	metric=cut_union
+		auc number 0: 0.753816250391593
+		acc number 0: 0.7844011142061281
+		auc number 1: 0.7519767161782417
+		acc number 1: 0.7766016713091922
+		auc number 2: 0.7647926093514328
+		acc number 2: 0.7771587743732591
+		auc number 3: 0.7638994091804273
+		acc number 3: 0.7972144846796657
+		auc number 4: 0.7370797917329962
+		acc number 4: 0.7715877437325905
+		auc number 5: 0.7519598455598455
+		acc number 5: 0.7760445682451254
+		auc number 6: 0.7571080031080033
+		acc number 6: 0.7866295264623956
+		auc number 7: 0.7450088570329885
+		acc number 7: 0.7793871866295264
+		auc number 8: 0.7624349894876619
+		acc number 8: 0.7894150417827298
+		auc number 9: 0.7567122655066735
+		acc number 9: 0.7910863509749304
+	mean auc: 0.7544788737529864
+	mean acc: 0.7829526462395544
+finishing test on params:
+	pearson_limit=0.2
+	size_limit=20
+	metric=cut_union
+starting test on params:
+	pearson_limit=0.4
+	size_limit=20
+	metric=cut_union
+		auc number 0: 0.5
+		acc number 0: 0.7158774373259053
+		auc number 1: 0.5
+		acc number 1: 0.7370473537604457
+		auc number 2: 0.5
+		acc number 2: 0.7247910863509749
+		auc number 3: 0.5
+		acc number 3: 0.7103064066852368
+		auc number 4: 0.5
+		acc number 4: 0.7292479108635097
+		auc number 5: 0.5
+		acc number 5: 0.7520891364902507
+		auc number 6: 0.5
+		acc number 6: 0.7331476323119778
+		auc number 7: 0.5
+		acc number 7: 0.7225626740947075
+		auc number 8: 0.5
+		acc number 8: 0.7342618384401114
+		auc number 9: 0.5
+		acc number 9: 0.7175487465181059
+	mean auc: 0.5
+	mean acc: 0.7276880222841224
+finishing test on params:
+	pearson_limit=0.4
+	size_limit=20
+	metric=cut_union
+starting test on params:
+	pearson_limit=0.05
+	size_limit=5
+	metric=cut
+		auc number 0: 0.6373272581459222
+		acc number 0: 0.7610027855153203
+		auc number 1: 0.6433916080668085
+		acc number 1: 0.762116991643454
+		auc number 2: 0.6417274996320271
+		acc number 2: 0.7615598885793872
+		auc number 3: 0.6456601546718075
+		acc number 3: 0.7721448467966574
+		auc number 4: 0.6663628932484976
+		acc number 4: 0.7827298050139275
+		auc number 5: 0.6658254838341915
+		acc number 5: 0.777715877437326
+		auc number 6: 0.6259495351076113
+		acc number 6: 0.7715877437325905
+		auc number 7: 0.6533871989860583
+		acc number 7: 0.7821727019498608
+		auc number 8: 0.6495982152594074
+		acc number 8: 0.7743732590529248
+		auc number 9: 0.6416588660683149
+		acc number 9: 0.7693593314763231
+	mean auc: 0.6470888713020647
+	mean acc: 0.7714763231197772
+finishing test on params:
+	pearson_limit=0.05
+	size_limit=5
+	metric=cut
+starting test on params:
+	pearson_limit=0.1
+	size_limit=5
+	metric=cut
+		auc number 0: 0.5936866032237837
+		acc number 0: 0.7487465181058496
+		auc number 1: 0.6056596822472945
+		acc number 1: 0.7532033426183844
+		auc number 2: 0.5725919103538262
+		acc number 2: 0.7454038997214485
+		auc number 3: 0.5837665063374236
+		acc number 3: 0.7493036211699164
+		auc number 4: 0.6463987696864409
+		acc number 4: 0.7782729805013927
+		auc number 5: 0.6148212647770059
+		acc number 5: 0.7637883008356546
+		auc number 6: 0.6138831514648508
+		acc number 6: 0.766016713091922
+		auc number 7: 0.6092336389774113
+		acc number 7: 0.7643454038997215
+		auc number 8: 0.6115368042979779
+		acc number 8: 0.7576601671309192
+		auc number 9: 0.6006530861371786
+		acc number 9: 0.7520891364902507
+	mean auc: 0.6052231417503193
+	mean acc: 0.757883008356546
+finishing test on params:
+	pearson_limit=0.1
+	size_limit=5
+	metric=cut
+starting test on params:
+	pearson_limit=0.15
+	size_limit=5
+	metric=cut
+		auc number 0: 0.7373895053015644
+		acc number 0: 0.7615598885793872
+		auc number 1: 0.757763840361119
+		acc number 1: 0.7827298050139275
+		auc number 2: 0.7536357356665899
+		acc number 2: 0.7743732590529248
+		auc number 3: 0.7600079533404029
+		acc number 3: 0.7838440111420613
+		auc number 4: 0.7424446881330329
+		acc number 4: 0.7766016713091922
+		auc number 5: 0.7462742107390937
+		acc number 5: 0.7805013927576602
+		auc number 6: 0.7486136244235596
+		acc number 6: 0.7749303621169916
+		auc number 7: 0.7351466771579596
+		acc number 7: 0.7610027855153203
+		auc number 8: 0.759737159474567
+		acc number 8: 0.7838440111420613
+		auc number 9: 0.7546307693278795
+		acc number 9: 0.7754874651810585
+	mean auc: 0.7495644163925769
+	mean acc: 0.7754874651810585
+finishing test on params:
+	pearson_limit=0.15
+	size_limit=5
+	metric=cut
+starting test on params:
+	pearson_limit=0.2
+	size_limit=5
+	metric=cut
+		auc number 0: 0.7197252260293064
+		acc number 0: 0.7615598885793872
+		auc number 1: 0.7151969111969113
+		acc number 1: 0.7626740947075209
+		auc number 2: 0.7236043471893764
+		acc number 2: 0.7626740947075209
+		auc number 3: 0.7278474205515311
+		acc number 3: 0.7743732590529248
+		auc number 4: 0.7303942467177226
+		acc number 4: 0.7693593314763231
+		auc number 5: 0.6861592916914946
+		acc number 5: 0.7448467966573816
+		auc number 6: 0.704097271092345
+		acc number 6: 0.758774373259053
+		auc number 7: 0.7252215104323289
+		acc number 7: 0.7699164345403899
+		auc number 8: 0.7221749811035525
+		acc number 8: 0.7682451253481895
+		auc number 9: 0.7182798802265594
+		acc number 9: 0.7571030640668523
+	mean auc: 0.7172701086231127
+	mean acc: 0.7629526462395543
+finishing test on params:
+	pearson_limit=0.2
+	size_limit=5
+	metric=cut
+starting test on params:
+	pearson_limit=0.4
+	size_limit=5
+	metric=cut
+		auc number 0: 0.5
+		acc number 0: 0.7392757660167131
+		auc number 1: 0.5
+		acc number 1: 0.7108635097493036
+		auc number 2: 0.5
+		acc number 2: 0.7292479108635097
+		auc number 3: 0.5
+		acc number 3: 0.7348189415041783
+		auc number 4: 0.5
+		acc number 4: 0.7281337047353761
+		auc number 5: 0.5
+		acc number 5: 0.7225626740947075
+		auc number 6: 0.5
+		acc number 6: 0.7203342618384401
+		auc number 7: 0.5
+		acc number 7: 0.7337047353760445
+		auc number 8: 0.5
+		acc number 8: 0.7175487465181059
+		auc number 9: 0.5
+		acc number 9: 0.7353760445682451
+	mean auc: 0.5
+	mean acc: 0.7271866295264624
+finishing test on params:
+	pearson_limit=0.4
+	size_limit=5
+	metric=cut
+starting test on params:
+	pearson_limit=0.05
+	size_limit=2
+	metric=cut
+		auc number 0: 0.6408585858585859
+		acc number 0: 0.7754874651810585
+		auc number 1: 0.6627437392101608
+		acc number 1: 0.7799442896935933
+		auc number 2: 0.6406373373215297
+		acc number 2: 0.7598885793871867
+		auc number 3: 0.6392221054748052
+		acc number 3: 0.7749303621169916
+		auc number 4: 0.6246472802002908
+		acc number 4: 0.7637883008356546
+		auc number 5: 0.6552023692323635
+		acc number 5: 0.7827298050139275
+		auc number 6: 0.6425312592080147
+		acc number 6: 0.7754874651810585
+		auc number 7: 0.6444166098029869
+		acc number 7: 0.7693593314763231
+		auc number 8: 0.6392125474977768
+		acc number 8: 0.7749303621169916
+		auc number 9: 0.675317803253603
+		acc number 9: 0.7905292479108635
+	mean auc: 0.6464789637060117
+	mean acc: 0.7747075208913649
+finishing test on params:
+	pearson_limit=0.05
+	size_limit=2
+	metric=cut
+starting test on params:
+	pearson_limit=0.1
+	size_limit=2
+	metric=cut
+		auc number 0: 0.5951407259232948
+		acc number 0: 0.7571030640668523
+		auc number 1: 0.6360518292682927
+		acc number 1: 0.7749303621169916
+		auc number 2: 0.6103667270008657
+		acc number 2: 0.758774373259053
+		auc number 3: 0.6207662846431745
+		acc number 3: 0.7654596100278551
+		auc number 4: 0.6261929688449351
+		acc number 4: 0.7649025069637883
+		auc number 5: 0.6392494172494172
+		acc number 5: 0.7665738161559889
+		auc number 6: 0.6236003908158281
+		acc number 6: 0.7793871866295264
+		auc number 7: 0.5966469057394376
+		acc number 7: 0.7398328690807799
+		auc number 8: 0.6255307163809712
+		acc number 8: 0.7615598885793872
+		auc number 9: 0.6256103310897831
+		acc number 9: 0.7598885793871867
+	mean auc: 0.6199156296956
+	mean acc: 0.762841225626741
+finishing test on params:
+	pearson_limit=0.1
+	size_limit=2
+	metric=cut
+starting test on params:
+	pearson_limit=0.15
+	size_limit=2
+	metric=cut
+		auc number 0: 0.765105883393957
+		acc number 0: 0.7844011142061281
+		auc number 1: 0.7441652759358086
+		acc number 1: 0.7676880222841226
+		auc number 2: 0.7435631656777044
+		acc number 2: 0.7727019498607243
+		auc number 3: 0.7666259325958323
+		acc number 3: 0.7860724233983287
+		auc number 4: 0.7524205248665135
+		acc number 4: 0.7805013927576602
+		auc number 5: 0.7678296358764825
+		acc number 5: 0.7916434540389972
+		auc number 6: 0.7647729712740433
+		acc number 6: 0.7832869080779944
+		auc number 7: 0.7478207216078372
+		acc number 7: 0.7754874651810585
+		auc number 8: 0.7422438255066252
+		acc number 8: 0.7693593314763231
+		auc number 9: 0.7485217806499661
+		acc number 9: 0.7715877437325905
+	mean auc: 0.754306971738477
+	mean acc: 0.7782729805013927
+finishing test on params:
+	pearson_limit=0.15
+	size_limit=2
+	metric=cut
+starting test on params:
+	pearson_limit=0.2
+	size_limit=2
+	metric=cut
+		auc number 0: 0.715082458865877
+		acc number 0: 0.7637883008356546
+		auc number 1: 0.7168940149907801
+		acc number 1: 0.7654596100278551
+		auc number 2: 0.7316553914166017
+		acc number 2: 0.7699164345403899
+		auc number 3: 0.715250181268224
+		acc number 3: 0.7637883008356546
+		auc number 4: 0.7147982402912622
+		acc number 4: 0.7571030640668523
+		auc number 5: 0.7324968789013734
+		acc number 5: 0.7743732590529248
+		auc number 6: 0.7307731249979587
+		acc number 6: 0.7721448467966574
+		auc number 7: 0.7079647073419799
+		acc number 7: 0.7626740947075209
+		auc number 8: 0.7274773485357526
+		acc number 8: 0.7693593314763231
+		auc number 9: 0.7100081641703792
+		acc number 9: 0.7643454038997215
+	mean auc: 0.7202400510780188
+	mean acc: 0.7662952646239555
+finishing test on params:
+	pearson_limit=0.2
+	size_limit=2
+	metric=cut
+starting test on params:
+	pearson_limit=0.4
+	size_limit=2
+	metric=cut
+		auc number 0: 0.5
+		acc number 0: 0.728690807799443
+		auc number 1: 0.5
+		acc number 1: 0.7175487465181059
+		auc number 2: 0.5
+		acc number 2: 0.7225626740947075
+		auc number 3: 0.5
+		acc number 3: 0.7119777158774373
+		auc number 4: 0.5
+		acc number 4: 0.732033426183844
+		auc number 5: 0.5
+		acc number 5: 0.7192200557103064
+		auc number 6: 0.5
+		acc number 6: 0.7186629526462396
+		auc number 7: 0.5
+		acc number 7: 0.7264623955431755
+		auc number 8: 0.5
+		acc number 8: 0.7225626740947075
+		auc number 9: 0.5
+		acc number 9: 0.7264623955431755
+	mean auc: 0.5
+	mean acc: 0.7226183844011144
+finishing test on params:
+	pearson_limit=0.4
+	size_limit=2
+	metric=cut
+starting test on params:
+	pearson_limit=0.05
+	size_limit=1
+	metric=cut
+		auc number 0: 0.6499593628833409
+		acc number 0: 0.7710306406685237
+		auc number 1: 0.6509854245880862
+		acc number 1: 0.7838440111420613
+		auc number 2: 0.6440623207317612
+		acc number 2: 0.7710306406685237
+		auc number 3: 0.6234741432585165
+		acc number 3: 0.7676880222841226
+		auc number 4: 0.6274174853478656
+		acc number 4: 0.7693593314763231
+		auc number 5: 0.6593615394096064
+		acc number 5: 0.7888579387186629
+		auc number 6: 0.6482190918391438
+		acc number 6: 0.7710306406685237
+		auc number 7: 0.6410908475171523
+		acc number 7: 0.7754874651810585
+		auc number 8: 0.6545008900282896
+		acc number 8: 0.7738161559888579
+		auc number 9: 0.6615042908748032
+		acc number 9: 0.7827298050139275
+	mean auc: 0.6460575396478565
+	mean acc: 0.7754874651810585
+finishing test on params:
+	pearson_limit=0.05
+	size_limit=1
+	metric=cut
+starting test on params:
+	pearson_limit=0.1
+	size_limit=1
+	metric=cut
+		auc number 0: 0.6255548829701372
+		acc number 0: 0.7598885793871867
+		auc number 1: 0.6176331738437002
+		acc number 1: 0.7699164345403899
+		auc number 2: 0.6089665877704441
+		acc number 2: 0.7771587743732591
+		auc number 3: 0.6095154691045102
+		acc number 3: 0.7682451253481895
+		auc number 4: 0.6068035710265736
+		acc number 4: 0.7688022284122563
+		auc number 5: 0.6244035171102661
+		acc number 5: 0.7676880222841226
+		auc number 6: 0.6243164314140923
+		acc number 6: 0.7693593314763231
+		auc number 7: 0.6291117366486825
+		acc number 7: 0.7604456824512534
+		auc number 8: 0.6084178130614416
+		acc number 8: 0.7654596100278551
+		auc number 9: 0.613829735629396
+		acc number 9: 0.7771587743732591
+	mean auc: 0.6168552918579243
+	mean acc: 0.7684122562674094
+finishing test on params:
+	pearson_limit=0.1
+	size_limit=1
+	metric=cut
+starting test on params:
+	pearson_limit=0.15
+	size_limit=1
+	metric=cut
+		auc number 0: 0.7371470018419369
+		acc number 0: 0.7598885793871867
+		auc number 1: 0.7298115334063173
+		acc number 1: 0.7665738161559889
+		auc number 2: 0.7630596606458675
+		acc number 2: 0.784958217270195
+		auc number 3: 0.755992840453313
+		acc number 3: 0.7771587743732591
+		auc number 4: 0.7553842040143409
+		acc number 4: 0.7788300835654596
+		auc number 5: 0.7509569528606281
+		acc number 5: 0.7799442896935933
+		auc number 6: 0.7629253672374932
+		acc number 6: 0.7827298050139275
+		auc number 7: 0.754776629350741
+		acc number 7: 0.7816155988857939
+		auc number 8: 0.7593780965043211
+		acc number 8: 0.7793871866295264
+		auc number 9: 0.7242617346796593
+		acc number 9: 0.7615598885793872
+	mean auc: 0.7493694020994618
+	mean acc: 0.7752646239554318
+finishing test on params:
+	pearson_limit=0.15
+	size_limit=1
+	metric=cut
+starting test on params:
+	pearson_limit=0.2
+	size_limit=1
+	metric=cut
+		auc number 0: 0.7350156404974441
+		acc number 0: 0.7721448467966574
+		auc number 1: 0.7113237639553429
+		acc number 1: 0.758774373259053
+		auc number 2: 0.7252991452991453
+		acc number 2: 0.7615598885793872
+		auc number 3: 0.7152793798371219
+		acc number 3: 0.762116991643454
+		auc number 4: 0.7305378701520765
+		acc number 4: 0.7721448467966574
+		auc number 5: 0.7278932925134023
+		acc number 5: 0.7704735376044568
+		auc number 6: 0.704442558007923
+		acc number 6: 0.7682451253481895
+		auc number 7: 0.7248662612811976
+		acc number 7: 0.7727019498607243
+		auc number 8: 0.7416429565293351
+		acc number 8: 0.7782729805013927
+		auc number 9: 0.7201281649837391
+		acc number 9: 0.7604456824512534
+	mean auc: 0.7236429033056728
+	mean acc: 0.7676880222841226
+finishing test on params:
+	pearson_limit=0.2
+	size_limit=1
+	metric=cut
+starting test on params:
+	pearson_limit=0.4
+	size_limit=1
+	metric=cut
+		auc number 0: 0.5
+		acc number 0: 0.7325905292479109
+		auc number 1: 0.5
+		acc number 1: 0.7275766016713092
+		auc number 2: 0.5
+		acc number 2: 0.735933147632312
+		auc number 3: 0.5
+		acc number 3: 0.7136490250696379
+		auc number 4: 0.5
+		acc number 4: 0.7331476323119778
+		auc number 5: 0.5
+		acc number 5: 0.7192200557103064
+		auc number 6: 0.5
+		acc number 6: 0.7337047353760445
+		auc number 7: 0.5
+		acc number 7: 0.7292479108635097
+		auc number 8: 0.5
+		acc number 8: 0.7353760445682451
+		auc number 9: 0.5
+		acc number 9: 0.7203342618384401
+	mean auc: 0.5
+	mean acc: 0.7280779944289695
+finishing test on params:
+	pearson_limit=0.4
+	size_limit=1
+	metric=cut
+starting test on params:
+	pearson_limit=0.05
+	size_limit=10
+	metric=cut
+		auc number 0: 0.6309904835061665
+		acc number 0: 0.7593314763231198
+		auc number 1: 0.6484200842705449
+		acc number 1: 0.7760445682451254
+		auc number 2: 0.6254520485236896
+		acc number 2: 0.7559888579387186
+		auc number 3: 0.6619740060592515
+		acc number 3: 0.7760445682451254
+		auc number 4: 0.6274963542865915
+		acc number 4: 0.7559888579387186
+		auc number 5: 0.6541355158574014
+		acc number 5: 0.7760445682451254
+		auc number 6: 0.6408429118773946
+		acc number 6: 0.7593314763231198
+		auc number 7: 0.6616723717306201
+		acc number 7: 0.7832869080779944
+		auc number 8: 0.6443734424655343
+		acc number 8: 0.7766016713091922
+		auc number 9: 0.6527583221846227
+		acc number 9: 0.7760445682451254
+	mean auc: 0.6448115540761817
+	mean acc: 0.7694707520891366
+finishing test on params:
+	pearson_limit=0.05
+	size_limit=10
+	metric=cut
+starting test on params:
+	pearson_limit=0.1
+	size_limit=10
+	metric=cut
+		auc number 0: 0.6169095872952407
+		acc number 0: 0.7604456824512534
+		auc number 1: 0.6110927567620481
+		acc number 1: 0.750974930362117
+		auc number 2: 0.6327141779788839
+		acc number 2: 0.7654596100278551
+		auc number 3: 0.6105386391757629
+		acc number 3: 0.7554317548746519
+		auc number 4: 0.612281076190901
+		acc number 4: 0.7637883008356546
+		auc number 5: 0.6199547051182286
+		acc number 5: 0.7593314763231198
+		auc number 6: 0.6458965250965252
+		acc number 6: 0.7754874651810585
+		auc number 7: 0.6004051325147064
+		acc number 7: 0.7598885793871867
+		auc number 8: 0.5818506603293588
+		acc number 8: 0.7487465181058496
+		auc number 9: 0.6178740031897926
+		acc number 9: 0.7682451253481895
+	mean auc: 0.6149517263651447
+	mean acc: 0.7607799442896936
+finishing test on params:
+	pearson_limit=0.1
+	size_limit=10
+	metric=cut
+starting test on params:
+	pearson_limit=0.15
+	size_limit=10
+	metric=cut
+		auc number 0: 0.7497745103997084
+		acc number 0: 0.7766016713091922
+		auc number 1: 0.7514413954724753
+		acc number 1: 0.7632311977715878
+		auc number 2: 0.7498843837816138
+		acc number 2: 0.7715877437325905
+		auc number 3: 0.7712738618467438
+		acc number 3: 0.7883008356545961
+		auc number 4: 0.7453966537983003
+		acc number 4: 0.7721448467966574
+		auc number 5: 0.7549221942129941
+		acc number 5: 0.7743732590529248
+		auc number 6: 0.7472182803082322
+		acc number 6: 0.7699164345403899
+		auc number 7: 0.7372178672898767
+		acc number 7: 0.7732590529247911
+		auc number 8: 0.7492219991971095
+		acc number 8: 0.7894150417827298
+		auc number 9: 0.7522077191007284
+		acc number 9: 0.7710306406685237
+	mean auc: 0.7508558865407783
+	mean acc: 0.7749860724233983
+finishing test on params:
+	pearson_limit=0.15
+	size_limit=10
+	metric=cut
+starting test on params:
+	pearson_limit=0.2
+	size_limit=10
+	metric=cut
+		auc number 0: 0.724139669464415
+		acc number 0: 0.7654596100278551
+		auc number 1: 0.7069334455072517
+		acc number 1: 0.7526462395543175
+		auc number 2: 0.7329014032657595
+		acc number 2: 0.7766016713091922
+		auc number 3: 0.7125384649690051
+		acc number 3: 0.7571030640668523
+		auc number 4: 0.730646141316969
+		acc number 4: 0.7743732590529248
+		auc number 5: 0.6955339576611317
+		acc number 5: 0.7403899721448468
+		auc number 6: 0.6913452345476669
+		acc number 6: 0.7381615598885793
+		auc number 7: 0.7284097307718002
+		acc number 7: 0.7632311977715878
+		auc number 8: 0.7153185628306998
+		acc number 8: 0.7598885793871867
+		auc number 9: 0.7062435622551323
+		acc number 9: 0.7571030640668523
+	mean auc: 0.7144010172589831
+	mean acc: 0.7584958217270195
+finishing test on params:
+	pearson_limit=0.2
+	size_limit=10
+	metric=cut
+starting test on params:
+	pearson_limit=0.4
+	size_limit=10
+	metric=cut
+		auc number 0: 0.5
+		acc number 0: 0.7314763231197772
+		auc number 1: 0.5
+		acc number 1: 0.7398328690807799
+		auc number 2: 0.5
+		acc number 2: 0.7220055710306407
+		auc number 3: 0.5
+		acc number 3: 0.7220055710306407
+		auc number 4: 0.5
+		acc number 4: 0.7314763231197772
+		auc number 5: 0.5
+		acc number 5: 0.747075208913649
+		auc number 6: 0.5
+		acc number 6: 0.7364902506963789
+		auc number 7: 0.5
+		acc number 7: 0.7259052924791086
+		auc number 8: 0.5
+		acc number 8: 0.7208913649025069
+		auc number 9: 0.5
+		acc number 9: 0.7220055710306407
+	mean auc: 0.5
+	mean acc: 0.7299164345403899
+finishing test on params:
+	pearson_limit=0.4
+	size_limit=10
+	metric=cut
+starting test on params:
+	pearson_limit=0.05
+	size_limit=20
+	metric=cut
+		auc number 0: 0.6635808555825242
+		acc number 0: 0.7738161559888579
+		auc number 1: 0.6616117515551798
+		acc number 1: 0.7782729805013927
+		auc number 2: 0.6568242420729233
+		acc number 2: 0.7838440111420613
+		auc number 3: 0.66185326953748
+		acc number 3: 0.7821727019498608
+		auc number 4: 0.6261267972882366
+		acc number 4: 0.7526462395543175
+		auc number 5: 0.6189419510772179
+		acc number 5: 0.7387186629526462
+		auc number 6: 0.6650761716403126
+		acc number 6: 0.7938718662952646
+		auc number 7: 0.6403171191883348
+		acc number 7: 0.7754874651810585
+		auc number 8: 0.6717462402950066
+		acc number 8: 0.7871866295264623
+		auc number 9: 0.6520109247808146
+		acc number 9: 0.7743732590529248
+	mean auc: 0.651808932301803
+	mean acc: 0.7740389972144847
+finishing test on params:
+	pearson_limit=0.05
+	size_limit=20
+	metric=cut
+starting test on params:
+	pearson_limit=0.1
+	size_limit=20
+	metric=cut
+		auc number 0: 0.6302305815692139
+		acc number 0: 0.766016713091922
+		auc number 1: 0.5980390800781971
+		acc number 1: 0.7610027855153203
+		auc number 2: 0.5978451983999901
+		acc number 2: 0.7571030640668523
+		auc number 3: 0.6233589276924273
+		acc number 3: 0.7799442896935933
+		auc number 4: 0.6126074575036577
+		acc number 4: 0.762116991643454
+		auc number 5: 0.622178626324731
+		acc number 5: 0.7598885793871867
+		auc number 6: 0.6372618038875899
+		acc number 6: 0.7866295264623956
+		auc number 7: 0.614992477888826
+		acc number 7: 0.7671309192200557
+		auc number 8: 0.649757613913591
+		acc number 8: 0.7771587743732591
+		auc number 9: 0.5945025413887849
+		acc number 9: 0.7615598885793872
+	mean auc: 0.6180774308647009
+	mean acc: 0.7678551532033426
+finishing test on params:
+	pearson_limit=0.1
+	size_limit=20
+	metric=cut
+starting test on params:
+	pearson_limit=0.15
+	size_limit=20
+	metric=cut
+		auc number 0: 0.7570236852669612
+		acc number 0: 0.7738161559888579
+		auc number 1: 0.7394473352134365
+		acc number 1: 0.7671309192200557
+		auc number 2: 0.7612249994432831
+		acc number 2: 0.7955431754874652
+		auc number 3: 0.757603758255421
+		acc number 3: 0.7782729805013927
+		auc number 4: 0.7538826254826255
+		acc number 4: 0.7816155988857939
+		auc number 5: 0.7558280430748163
+		acc number 5: 0.7727019498607243
+		auc number 6: 0.7539968119454962
+		acc number 6: 0.7799442896935933
+		auc number 7: 0.7270215311004784
+		acc number 7: 0.7576601671309192
+		auc number 8: 0.759012064839566
+		acc number 8: 0.7799442896935933
+		auc number 9: 0.7316472416472416
+		acc number 9: 0.754874651810585
+	mean auc: 0.7496688096269326
+	mean acc: 0.774150417827298
+finishing test on params:
+	pearson_limit=0.15
+	size_limit=20
+	metric=cut
+starting test on params:
+	pearson_limit=0.2
+	size_limit=20
+	metric=cut
+		auc number 0: 0.7295299145299144
+		acc number 0: 0.7676880222841226
+		auc number 1: 0.7345839667481285
+		acc number 1: 0.7749303621169916
+		auc number 2: 0.7029918544894259
+		acc number 2: 0.7465181058495822
+		auc number 3: 0.706504302060485
+		acc number 3: 0.7532033426183844
+		auc number 4: 0.7293683170730143
+		acc number 4: 0.7682451253481895
+		auc number 5: 0.7370527733879115
+		acc number 5: 0.7766016713091922
+		auc number 6: 0.7473258564126039
+		acc number 6: 0.7838440111420613
+		auc number 7: 0.720346015850833
+		acc number 7: 0.7537604456824513
+		auc number 8: 0.7301967914030215
+		acc number 8: 0.7688022284122563
+		auc number 9: 0.738973517579605
+		acc number 9: 0.7766016713091922
+	mean auc: 0.7276873309534944
+	mean acc: 0.7670194986072423
+finishing test on params:
+	pearson_limit=0.2
+	size_limit=20
+	metric=cut
+starting test on params:
+	pearson_limit=0.4
+	size_limit=20
+	metric=cut
+		auc number 0: 0.5
+		acc number 0: 0.7259052924791086
+		auc number 1: 0.5
+		acc number 1: 0.7364902506963789
+		auc number 2: 0.5
+		acc number 2: 0.7342618384401114
+		auc number 3: 0.5
+		acc number 3: 0.7136490250696379
+		auc number 4: 0.5
+		acc number 4: 0.713091922005571
+		auc number 5: 0.5
+		acc number 5: 0.732033426183844
+		auc number 6: 0.5
+		acc number 6: 0.7403899721448468
+		auc number 7: 0.5
+		acc number 7: 0.728690807799443
+		auc number 8: 0.5
+		acc number 8: 0.7214484679665738
+		auc number 9: 0.5
+		acc number 9: 0.7415041782729805
+	mean auc: 0.5
+	mean acc: 0.7287465181058496
+finishing test on params:
+	pearson_limit=0.4
+	size_limit=20
+	metric=cut
+		auc number 0: 0.6530125317754092
+		acc number 0: 0.7910863509749304
+		auc number 1: 0.6591107120962698
+		acc number 1: 0.7888579387186629
+		auc number 2: 0.6505403873527461
+		acc number 2: 0.792200557103064
+		auc number 3: 0.6627689333168786
+		acc number 3: 0.7877437325905292
+		auc number 4: 0.6732823995472552
+		acc number 4: 0.807799442896936
+		auc number 5: 0.6481890865356155
+		acc number 5: 0.7827298050139275
+		auc number 6: 0.6597304625199362
+		acc number 6: 0.8
+		auc number 7: 0.6574021541262136
+		acc number 7: 0.7871866295264623
+		auc number 8: 0.6532085468792355
+		acc number 8: 0.7955431754874652
+		auc number 9: 0.660061419674534
+		acc number 9: 0.7877437325905292
+	mean auc: 0.6577306633824093
+	mean acc: 0.7920891364902507

@@ -51,6 +51,21 @@ def cut_union_corr_sum(hashtags1, hashtags2, correlation_dict):
     return np.tanh(cut_corr_sum / abs(sum_corr_first - sum_corr_second))
 
 
+def union_corr_sum(hashtags1, hashtags2, correlation_dict):
+    sum_corr_first = 0
+    for hash in hashtags1:
+        if hash in correlation_dict:
+            sum_corr_first += correlation_dict[hash]
+
+    sum_corr_second = 0
+    for hash in hashtags2:
+        if hash in correlation_dict:
+            sum_corr_second += correlation_dict[hash]
+
+    if sum_corr_first - sum_corr_second == 0:
+        return 1
+    return np.tanh(1 / abs(sum_corr_first - sum_corr_second))
+
 
 # def cut_union_corr_avg(hashtags1, hashtags2, correlation_dict):
 #     cut = list(set(hashtags1).intersection(hashtags2))

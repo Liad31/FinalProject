@@ -56,7 +56,8 @@ def main(limit_size, limit_pearson, metric):
     print(f'\tmean acc: {acc}')
 
 
-if __name__ == '__main__':
+def search():
+    sys.stdout = Logger()
     pearson_limits = [0.05, 0.1, 0.15, 0.2, 0.4]
     size_limits = [5, 2, 1, 10, 20]
     metrics = {'cut_union_corr_sum': cut_union_corr_sum, 'cut_union_corr': cut_union_corr, 'cut_union': cut_union, 'cut': cut}
@@ -66,3 +67,8 @@ if __name__ == '__main__':
                 print(f'starting test on params:\n\tpearson_limit={pearson_limit}\n\tsize_limit={size_limit}\n\tmetric={metric}')
                 main(size_limit, pearson_limit, metrics[metric])
                 print(f'finishing test on params:\n\tpearson_limit={pearson_limit}\n\tsize_limit={size_limit}\n\tmetric={metric}')
+
+
+
+if __name__ == '__main__':
+    main(10, 0, union_corr_sum)
