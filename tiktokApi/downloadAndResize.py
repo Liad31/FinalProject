@@ -111,7 +111,7 @@ def async_download_vids_parallel(batch_size =15,iterations=50, num_videos=30):
                 vids_to_download.append((secuid,id))
             videoTexts=[]
             async_list = "async_list.txt"
-            videosDir="/mnt/tmp/videos"
+            videosDir="/mnt/videos"
             create_download_txt(vids_to_download,async_list)
             os.system(f'yt-dlp -a {async_list} -o "%(id)s.mp4" -R 10 --proxy frzgcmrj-rotate:rxpxcauy7pn0@p.webshare.io:80')
             downloaded_paths = []
