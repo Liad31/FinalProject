@@ -18,12 +18,14 @@ def get_posts_per_user(posts_df):
 
 
 def delete_files(files):
-    for file in files:
-        os.remove(file)
+    # for file in files:
+    #     os.remove(file)
+    pass
 
 
 def delete_dir(dir_name):
-    shutil.rmtree(dir_name)
+    # shutil.rmtree(dir_name)
+    pass
 
 
 class Scraper:
@@ -56,8 +58,9 @@ class Scraper:
             'filetype': 'csv',
             'since': since,
             'before': before,
-            'download': download
         }
+        if download:
+            params.update({'download': True})
         dir_name = self.scrap_batch(cmds, params)
 
         output = self.generate_output_from_csv(dir_name)

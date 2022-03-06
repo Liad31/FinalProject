@@ -43,6 +43,15 @@ for user in tqdm(tagged):
                 data.append(video)
                 vids.append(video['Vid'])
                 tag.append(user_tag['videoTag'][x]['decision'])
+    # else:
+    #     videos_prod1 = myclient['production1']['videos']
+    #     tags_prod1 = myclient['production1']['nationalistictags']
+    #     user_tag = tags_prod1.find_one({'_id': ObjectId(user['tags'][0])})
+    #     for x in range(len(user['videos'])):
+    #         video = videos_prod1.find_one({'_id': ObjectId(user['videos'][x])})
+    #         if video and ('videoText' not in video or video['videoText'] != 'ERROR2!!!!!'):
+    #             data.append(video)
+    #             tag.append(user_tag['videoTag'][x]['decision'])
 data = np.array(data)
 tag = np.array(tag)
 vids = np.array(vids)
