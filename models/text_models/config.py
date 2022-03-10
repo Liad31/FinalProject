@@ -11,7 +11,7 @@ class Config(object):
         self.lr = 0.0001
         self.batch_size = 8
         self.dropout_keep = 0.5
-        self.patience = 10
+        self.patience = 5
         # self.max_sen_len = 30 # Sequence length for RNN
 
     def set(self, params):

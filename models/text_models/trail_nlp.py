@@ -91,6 +91,7 @@ def train_test(config):
     model.eval()
     test_auc = model.evaluate_auc(test_iter)
     print(f'test auc: {test_auc}')
+    torch.save(model.state_dict(), "text_model")
 
 
 if __name__ == '__main__':
