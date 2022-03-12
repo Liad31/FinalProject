@@ -108,6 +108,17 @@ router.get("/nationalistic", ensureAuthenticated, (req, res) => {
     // console.log("getting home page");
 });
 
+router.get("/expert-nationalistic", ensureAuthenticated, (req, res) => {
+    if (req.user.Permissions < 1) {
+        req.flash("error", "you dont have the pernissions for this page");
+        // console.log("dont have the pernissions for this page");
+        res.redirect("/");
+    } else {
+        res.render("expertTagNationalistic.ejs");
+        // console.log("getting home page");
+    }
+});
+
 router.get("/location", ensureAuthenticated, (req, res) => {
     //send the url, video-id as parameters
     res.render("tagLocation.ejs");

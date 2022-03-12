@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Nationalistic Tagging</title>
+    <%- include('_partial/_head') -%>
+    <link rel="stylesheet" type="text/css" href="expertTagNationalistic.css" />
+    <script src="expertTagNationalistic.js"></script>
+</head>
+
+<header>
+  <%- include('_partial/_header') -%>
+</header>
+
+<body style="text-align: center;">
+  <div class="panel">
+    <div class="iframe">
+      <iframe id="iframe" class="iframe"></iframe>
+    </div>
+
+    <!-- <blockquote class="tiktok-embed" data-video-id="6991131155013668102"> <section> </section> </blockquote> 
+    <script async src="https://www.tiktok.com/embed.js"></script> -->
+
+    <div class="tag-panel" style="position: absolute; left: 20%; top: 10%;">
+      <h1 id="headline"> <span style="color: #EE1D52;"> Tag </span> the video</h1>
+      <div class="buttons-top">
+        <button id="sec" class="btn-off" onclick="tag(0)">NOT NATIONALISTIC</button>
+        &nbsp;
+        <button id="rel" class="btn-off" onclick="tag(1)">NATIONALISTIC</button>
+      </div>
+      <div class="buttons-bottom">
+        <button id="submit" class="submitButton" onclick="submitTag()" style="margin-bottom: 2%;">Submit</button> </br>
+            <button id="refresh" onclick="refresh()">Refresh Page</button>
+            <button id="error" onclick="markError()">Error</button>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
