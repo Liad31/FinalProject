@@ -97,8 +97,8 @@ def join_sentences(first, second):
 
 def prep_data():
     # load data
-    examples = np.load("../data.npy", allow_pickle=True)
-    labels = np.load("../tag.npy")
+    examples = np.load("x_train.npy", allow_pickle=True)
+    labels = np.load("y_train.npy")
     new_data = [(example['text'], example['videoText'] if 'videoText' in example else "", 1 if label else 0) for (example, label) in zip(examples, labels)]
 
     # clean data
@@ -168,10 +168,10 @@ def load_my_data(file):
 
 
 if __name__ == '__main__':
-    pre_data = load_my_data("my_data_300_sg.npy")
-    data = np.load('train_val_300_sg.npy', allow_pickle=True)
-    test = np.load('test_300_sg.npy', allow_pickle=True)
-    print("bye")
+    # pre_data = load_my_data("my_data_300_sg.npy")
+    # data = np.load('train_val_300_sg.npy', allow_pickle=True)
+    # test = np.load('test_300_sg.npy', allow_pickle=True)
+    # print("bye")
     # count = 0
     # for i in range(len(pre_data)):
     #     for j in range(len(data)):
@@ -192,6 +192,7 @@ if __name__ == '__main__':
     # data, test_set = list(data), list(test_set)
     # np.save('train_val_300_sg', data)
     # np.save('test_300_sg', test_set)
-    # data = prep_data()
-    # np.save('my_data_300_sg', data)
+    data = prep_data()
+    np.save('roy_train', np.array(data, dtype=object))
+
 
