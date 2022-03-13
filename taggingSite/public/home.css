@@ -45,3 +45,6 @@ button {
 .loc:hover {  color: black; }
 
 .fas {    size: 5px } /*icons*/
+
+.exp-nat {  background-color:#420313; }
+.exp-nat:hover {  color: black;  }
