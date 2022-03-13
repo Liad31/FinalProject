@@ -20,6 +20,10 @@
       <button class="nat" onclick="nationalistic()"> <span class="fas fa-globe-americas"></span> nationalistic videos</button>
       
       <button class="il" onclick="israel()"><span class="fas fa-star-of-david"></span> israel flags</button>
+
+      <% if(currentUser.Permissions==1) { %>
+        <button class="exp-nat" onclick="expert()"><span class="fas fa-globe-americas"></span>expert nationalistic re-tagging</button>
+        <% } %>
       
       <!-- <button class="loc" onclick="loc()"><span class="fas fa-map-marker-alt"></span> location experiment</button> -->
     </div>
