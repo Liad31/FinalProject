@@ -37,10 +37,10 @@ def remove_emoji(string):
     return emoji_pattern.sub(r'', string)
 
 
-def get_vids_and_hashtags():
+def get_vids_and_hashtags(examples, labels):
     # load data
-    examples = np.load("../data.npy", allow_pickle=True)
-    labels = np.load("../tag.npy")
+    # examples = np.load("../data.npy", allow_pickle=True)
+    # labels = np.load("../tag.npy")
     new_data = [(example['Vid'], example['text'], example['videoText'] if 'videoText' in example else "", 1 if label else -1) for (example, label) in zip(examples, labels)]
 
     # clean data

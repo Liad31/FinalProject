@@ -3020,3 +3020,603 @@ finishing test on params:
 		acc number 9: 0.7877437325905292
 	mean auc: 0.6577306633824093
 	mean acc: 0.7920891364902507
+starting test on params:
+	pearson_limit=0.05
+	size_limit=5
+	starting test on params:
+	pearson_limit=0.05
+	size_limit=5
+	
+
+		auc number 0: 0.7732552509589793		auc number 0: 0.7732552509589793
+
+		acc number 0: 0.8278551532033426		acc number 0: 0.8278551532033426
+
+		auc number 1: 0.7726390256224255		auc number 1: 0.7726390256224255
+
+		acc number 1: 0.8356545961002786		acc number 1: 0.8356545961002786
+
+		auc number 2: 0.7695024772526045		auc number 2: 0.7695024772526045
+
+		acc number 2: 0.8306406685236769		acc number 2: 0.8306406685236769
+
+		auc number 3: 0.7952873135396684		auc number 3: 0.7952873135396684
+
+		acc number 3: 0.8406685236768803		acc number 3: 0.8406685236768803
+
+		auc number 4: 0.7792955289983113		auc number 4: 0.7792955289983113
+
+		acc number 4: 0.8373259052924791		acc number 4: 0.8373259052924791
+
+		auc number 5: 0.7806563366917285		auc number 5: 0.7806563366917285
+
+		acc number 5: 0.8440111420612814		acc number 5: 0.8440111420612814
+
+		auc number 6: 0.7765648524915905		auc number 6: 0.7765648524915905
+
+		acc number 6: 0.8250696378830084		acc number 6: 0.8250696378830084
+
+		auc number 7: 0.7974991706789272		auc number 7: 0.7974991706789272
+
+		acc number 7: 0.8373259052924791		acc number 7: 0.8373259052924791
+
+		auc number 8: 0.7793861295859258		auc number 8: 0.7793861295859258
+
+		acc number 8: 0.8278551532033426		acc number 8: 0.8278551532033426
+
+		auc number 9: 0.777625873647576		auc number 9: 0.777625873647576
+
+		acc number 9: 0.833983286908078		acc number 9: 0.833983286908078
+
+	mean auc: 0.7801711959467736	mean auc: 0.7801711959467736
+
+	mean acc: 0.8340389972144846	mean acc: 0.8340389972144846
+
+finishing test on params:
+	pearson_limit=0.05
+	size_limit=5
+	finishing test on params:
+	pearson_limit=0.05
+	size_limit=5
+	
+
+starting test on params:
+	pearson_limit=0
+	size_limit=5
+	starting test on params:
+	pearson_limit=0
+	size_limit=5
+	
+
+		auc number 0: 0.7943220955614844		auc number 0: 0.7943220955614844
+
+		acc number 0: 0.8456824512534818		acc number 0: 0.8456824512534818
+
+		auc number 1: 0.7820137690897595		auc number 1: 0.7820137690897595
+
+		acc number 1: 0.8323119777158774		acc number 1: 0.8323119777158774
+
+		auc number 2: 0.7778121921822709		auc number 2: 0.7778121921822709
+
+		acc number 2: 0.8334261838440111		acc number 2: 0.8334261838440111
+
+		auc number 3: 0.78176346007272		auc number 3: 0.78176346007272
+
+		acc number 3: 0.8350974930362117		acc number 3: 0.8350974930362117
+
+		auc number 4: 0.7963829696113162		auc number 4: 0.7963829696113162
+
+		acc number 4: 0.8373259052924791		acc number 4: 0.8373259052924791
+
+		auc number 5: 0.7880632722121665		auc number 5: 0.7880632722121665
+
+		acc number 5: 0.8362116991643455		acc number 5: 0.8362116991643455
+
+		auc number 6: 0.7912000950570343		auc number 6: 0.7912000950570343
+
+		acc number 6: 0.8495821727019499		acc number 6: 0.8495821727019499
+
+		auc number 7: 0.788422129534902		auc number 7: 0.788422129534902
+
+		acc number 7: 0.8406685236768803		acc number 7: 0.8406685236768803
+
+		auc number 8: 0.7911984593099017		auc number 8: 0.7911984593099017
+
+		acc number 8: 0.8362116991643455		acc number 8: 0.8362116991643455
+
+		auc number 9: 0.7839980290997624		auc number 9: 0.7839980290997624
+
+		acc number 9: 0.8406685236768803		acc number 9: 0.8406685236768803
+
+	mean auc: 0.7875176471731318	mean auc: 0.7875176471731318
+
+	mean acc: 0.8387186629526463	mean acc: 0.8387186629526463
+
+finishing test on params:
+	pearson_limit=0
+	size_limit=5
+	finishing test on params:
+	pearson_limit=0
+	size_limit=5
+	
+
+starting test on params:
+	pearson_limit=0.05
+	size_limit=2
+	starting test on params:
+	pearson_limit=0.05
+	size_limit=2
+	
+
+		auc number 0: 0.770912067164156		auc number 0: 0.770912067164156
+
+		acc number 0: 0.8334261838440111		acc number 0: 0.8334261838440111
+
+		auc number 1: 0.7930727325799063		auc number 1: 0.7930727325799063
+
+		acc number 1: 0.8384401114206128		acc number 1: 0.8384401114206128
+
+		auc number 2: 0.7677704686152743		auc number 2: 0.7677704686152743
+
+		acc number 2: 0.8345403899721449		acc number 2: 0.8345403899721449
+
+		auc number 3: 0.7801438371958954		auc number 3: 0.7801438371958954
+
+		acc number 3: 0.8406685236768803		acc number 3: 0.8406685236768803
+
+		auc number 4: 0.7687783596652089		auc number 4: 0.7687783596652089
+
+		acc number 4: 0.822841225626741		acc number 4: 0.822841225626741
+
+		auc number 5: 0.8015758264061867		auc number 5: 0.8015758264061867
+
+		acc number 5: 0.8428969359331476		acc number 5: 0.8428969359331476
+
+		auc number 6: 0.8041166507788133		auc number 6: 0.8041166507788133
+
+		acc number 6: 0.8506963788300835		acc number 6: 0.8506963788300835
+
+		auc number 7: 0.789476700010675		auc number 7: 0.789476700010675
+
+		acc number 7: 0.8284122562674094		acc number 7: 0.8284122562674094
+
+		auc number 8: 0.7898468704353571		auc number 8: 0.7898468704353571
+
+		acc number 8: 0.8373259052924791		acc number 8: 0.8373259052924791
+
+		auc number 9: 0.7572270059076599		auc number 9: 0.7572270059076599
+
+		acc number 9: 0.8284122562674094		acc number 9: 0.8284122562674094
+
+	mean auc: 0.7822920518759133	mean auc: 0.7822920518759133
+
+	mean acc: 0.835766016713092	mean acc: 0.835766016713092
+
+finishing test on params:
+	pearson_limit=0.05
+	size_limit=2
+	finishing test on params:
+	pearson_limit=0.05
+	size_limit=2
+	
+
+starting test on params:
+	pearson_limit=0
+	size_limit=2
+	starting test on params:
+	pearson_limit=0
+	size_limit=2
+	
+
+		auc number 0: 0.764345848884282		auc number 0: 0.764345848884282
+
+		acc number 0: 0.8334261838440111		acc number 0: 0.8334261838440111
+
+		auc number 1: 0.7753452026178863		auc number 1: 0.7753452026178863
+
+		acc number 1: 0.8350974930362117		acc number 1: 0.8350974930362117
+
+		auc number 2: 0.7739069986722342		auc number 2: 0.7739069986722342
+
+		acc number 2: 0.8389972144846797		acc number 2: 0.8389972144846797
+
+		auc number 3: 0.8067267877050486		auc number 3: 0.8067267877050486
+
+		acc number 3: 0.849025069637883		acc number 3: 0.849025069637883
+
+		auc number 4: 0.7843580570969858		auc number 4: 0.7843580570969858
+
+		acc number 4: 0.8328690807799443		acc number 4: 0.8328690807799443
+
+		auc number 5: 0.779223431425504		auc number 5: 0.779223431425504
+
+		acc number 5: 0.841225626740947		acc number 5: 0.841225626740947
+
+		auc number 6: 0.8132261415731836		auc number 6: 0.8132261415731836
+
+		acc number 6: 0.8534818941504179		acc number 6: 0.8534818941504179
+
+		auc number 7: 0.7880185369210831		auc number 7: 0.7880185369210831
+
+		acc number 7: 0.8428969359331476		acc number 7: 0.8428969359331476
+
+		auc number 8: 0.8026623005454422		auc number 8: 0.8026623005454422
+
+		acc number 8: 0.8557103064066852		acc number 8: 0.8557103064066852
+
+		auc number 9: 0.7856812125709486		auc number 9: 0.7856812125709486
+
+		acc number 9: 0.8317548746518106		acc number 9: 0.8317548746518106
+
+	mean auc: 0.7873494518012599	mean auc: 0.7873494518012599
+
+	mean acc: 0.8414484679665739	mean acc: 0.8414484679665739
+
+finishing test on params:
+	pearson_limit=0
+	size_limit=2
+	finishing test on params:
+	pearson_limit=0
+	size_limit=2
+	
+
+starting test on params:
+	pearson_limit=0.05
+	size_limit=1
+	starting test on params:
+	pearson_limit=0.05
+	size_limit=1
+	
+
+		auc number 0: 0.7642155960683034		auc number 0: 0.7642155960683034
+
+		acc number 0: 0.8183844011142062		acc number 0: 0.8183844011142062
+
+		auc number 1: 0.758670537934752		auc number 1: 0.758670537934752
+
+		acc number 1: 0.815041782729805		acc number 1: 0.815041782729805
+
+		auc number 2: 0.7945395954490366		auc number 2: 0.7945395954490366
+
+		acc number 2: 0.8423398328690808		acc number 2: 0.8423398328690808
+
+		auc number 3: 0.7708093928376316		auc number 3: 0.7708093928376316
+
+		acc number 3: 0.8256267409470752		acc number 3: 0.8256267409470752
+
+		auc number 4: 0.7512931384110465		auc number 4: 0.7512931384110465
+
+		acc number 4: 0.826740947075209		acc number 4: 0.826740947075209
+
+		auc number 5: 0.7802473193377429		auc number 5: 0.7802473193377429
+
+		acc number 5: 0.8356545961002786		acc number 5: 0.8356545961002786
+
+		auc number 6: 0.7746107965540007		auc number 6: 0.7746107965540007
+
+		acc number 6: 0.8284122562674094		acc number 6: 0.8284122562674094
+
+		auc number 7: 0.7821432220787545		auc number 7: 0.7821432220787545
+
+		acc number 7: 0.83008356545961		acc number 7: 0.83008356545961
+
+		auc number 8: 0.7742528852650187		auc number 8: 0.7742528852650187
+
+		acc number 8: 0.8256267409470752		acc number 8: 0.8256267409470752
+
+		auc number 9: 0.7662909440354222		auc number 9: 0.7662909440354222
+
+		acc number 9: 0.8272980501392758		acc number 9: 0.8272980501392758
+
+	mean auc: 0.7717073427971708	mean auc: 0.7717073427971708
+
+	mean acc: 0.8275208913649026	mean acc: 0.8275208913649026
+
+finishing test on params:
+	pearson_limit=0.05
+	size_limit=1
+	finishing test on params:
+	pearson_limit=0.05
+	size_limit=1
+	
+
+starting test on params:
+	pearson_limit=0
+	size_limit=1
+	starting test on params:
+	pearson_limit=0
+	size_limit=1
+	
+
+		auc number 0: 0.7979096118999053		auc number 0: 0.7979096118999053
+
+		acc number 0: 0.8551532033426184		acc number 0: 0.8551532033426184
+
+		auc number 1: 0.8002595662731307		auc number 1: 0.8002595662731307
+
+		acc number 1: 0.8467966573816156		acc number 1: 0.8467966573816156
+
+		auc number 2: 0.7820335929222609		auc number 2: 0.7820335929222609
+
+		acc number 2: 0.8272980501392758		acc number 2: 0.8272980501392758
+
+		auc number 3: 0.7694745484400656		auc number 3: 0.7694745484400656
+
+		acc number 3: 0.8334261838440111		acc number 3: 0.8334261838440111
+
+		auc number 4: 0.7817587335164156		auc number 4: 0.7817587335164156
+
+		acc number 4: 0.8373259052924791		acc number 4: 0.8373259052924791
+
+		auc number 5: 0.7933216045038706		auc number 5: 0.7933216045038706
+
+		acc number 5: 0.8479108635097493		acc number 5: 0.8479108635097493
+
+		auc number 6: 0.7858031232748064		auc number 6: 0.7858031232748064
+
+		acc number 6: 0.8362116991643455		acc number 6: 0.8362116991643455
+
+		auc number 7: 0.7799108640127965		auc number 7: 0.7799108640127965
+
+		acc number 7: 0.8456824512534818		acc number 7: 0.8456824512534818
+
+		auc number 8: 0.7919190389662831		auc number 8: 0.7919190389662831
+
+		acc number 8: 0.8350974930362117		acc number 8: 0.8350974930362117
+
+		auc number 9: 0.8043872460660068		auc number 9: 0.8043872460660068
+
+		acc number 9: 0.8534818941504179		acc number 9: 0.8534818941504179
+
+	mean auc: 0.788677792987554	mean auc: 0.788677792987554
+
+	mean acc: 0.8418384401114206	mean acc: 0.8418384401114206
+
+finishing test on params:
+	pearson_limit=0
+	size_limit=1
+	finishing test on params:
+	pearson_limit=0
+	size_limit=1
+	
+
+starting test on params:
+	pearson_limit=0.05
+	size_limit=10
+	starting test on params:
+	pearson_limit=0.05
+	size_limit=10
+	
+
+		auc number 0: 0.7550370803335065		auc number 0: 0.7550370803335065
+
+		acc number 0: 0.8272980501392758		acc number 0: 0.8272980501392758
+
+		auc number 1: 0.787416929420325		auc number 1: 0.787416929420325
+
+		acc number 1: 0.8378830083565459		acc number 1: 0.8378830083565459
+
+		auc number 2: 0.7764811518456799		auc number 2: 0.7764811518456799
+
+		acc number 2: 0.8278551532033426		acc number 2: 0.8278551532033426
+
+		auc number 3: 0.773528813742403		auc number 3: 0.773528813742403
+
+		acc number 3: 0.833983286908078		acc number 3: 0.833983286908078
+
+		auc number 4: 0.759370077997529		auc number 4: 0.759370077997529
+
+		acc number 4: 0.8222841225626741		acc number 4: 0.8222841225626741
+
+		auc number 5: 0.777067599067599		auc number 5: 0.777067599067599
+
+		acc number 5: 0.8272980501392758		acc number 5: 0.8272980501392758
+
+		auc number 6: 0.7909279400473378		auc number 6: 0.7909279400473378
+
+		acc number 6: 0.8384401114206128		acc number 6: 0.8384401114206128
+
+		auc number 7: 0.79994871337466		auc number 7: 0.79994871337466
+
+		acc number 7: 0.8473537604456824		acc number 7: 0.8473537604456824
+
+		auc number 8: 0.7768886216648692		auc number 8: 0.7768886216648692
+
+		acc number 8: 0.8323119777158774		acc number 8: 0.8323119777158774
+
+		auc number 9: 0.766257018226462		auc number 9: 0.766257018226462
+
+		acc number 9: 0.8222841225626741		acc number 9: 0.8222841225626741
+
+	mean auc: 0.7762923945720371	mean auc: 0.7762923945720371
+
+	mean acc: 0.831699164345404	mean acc: 0.831699164345404
+
+finishing test on params:
+	pearson_limit=0.05
+	size_limit=10
+	finishing test on params:
+	pearson_limit=0.05
+	size_limit=10
+	
+
+starting test on params:
+	pearson_limit=0
+	size_limit=10
+	starting test on params:
+	pearson_limit=0
+	size_limit=10
+	
+
+		auc number 0: 0.7742785768219018		auc number 0: 0.7742785768219018
+
+		acc number 0: 0.8272980501392758		acc number 0: 0.8272980501392758
+
+		auc number 1: 0.8028564927184465		auc number 1: 0.8028564927184465
+
+		acc number 1: 0.8440111420612814		acc number 1: 0.8440111420612814
+
+		auc number 2: 0.7751116425744462		auc number 2: 0.7751116425744462
+
+		acc number 2: 0.83008356545961		acc number 2: 0.83008356545961
+
+		auc number 3: 0.7826127107700712		auc number 3: 0.7826127107700712
+
+		acc number 3: 0.8284122562674094		acc number 3: 0.8284122562674094
+
+		auc number 4: 0.7955989103538507		auc number 4: 0.7955989103538507
+
+		acc number 4: 0.8479108635097493		acc number 4: 0.8479108635097493
+
+		auc number 5: 0.8004351932005981		auc number 5: 0.8004351932005981
+
+		acc number 5: 0.8451253481894151		acc number 5: 0.8451253481894151
+
+		auc number 6: 0.7745538387830877		auc number 6: 0.7745538387830877
+
+		acc number 6: 0.8362116991643455		acc number 6: 0.8362116991643455
+
+		auc number 7: 0.7782922357027726		auc number 7: 0.7782922357027726
+
+		acc number 7: 0.83008356545961		acc number 7: 0.83008356545961
+
+		auc number 8: 0.7776886379061538		auc number 8: 0.7776886379061538
+
+		acc number 8: 0.8406685236768803		acc number 8: 0.8406685236768803
+
+		auc number 9: 0.7943307646381772		auc number 9: 0.7943307646381772
+
+		acc number 9: 0.8384401114206128		acc number 9: 0.8384401114206128
+
+	mean auc: 0.7855759003469507	mean auc: 0.7855759003469507
+
+	mean acc: 0.836824512534819	mean acc: 0.836824512534819
+
+finishing test on params:
+	pearson_limit=0
+	size_limit=10
+	finishing test on params:
+	pearson_limit=0
+	size_limit=10
+	
+
+starting test on params:
+	pearson_limit=0.05
+	size_limit=20
+	starting test on params:
+	pearson_limit=0.05
+	size_limit=20
+	
+
+		auc number 0: 0.7885573483746707		auc number 0: 0.7885573483746707
+
+		acc number 0: 0.8456824512534818		acc number 0: 0.8456824512534818
+
+		auc number 1: 0.7434834755634258		auc number 1: 0.7434834755634258
+
+		acc number 1: 0.8089136490250697		acc number 1: 0.8089136490250697
+
+		auc number 2: 0.7584009695832354		auc number 2: 0.7584009695832354
+
+		acc number 2: 0.8183844011142062		acc number 2: 0.8183844011142062
+
+		auc number 3: 0.7718057981249781		auc number 3: 0.7718057981249781
+
+		acc number 3: 0.8367688022284122		acc number 3: 0.8367688022284122
+
+		auc number 4: 0.7742209351913405		auc number 4: 0.7742209351913405
+
+		acc number 4: 0.8278551532033426		acc number 4: 0.8278551532033426
+
+		auc number 5: 0.7906952163831318		auc number 5: 0.7906952163831318
+
+		acc number 5: 0.8401114206128134		acc number 5: 0.8401114206128134
+
+		auc number 6: 0.788399518541659		auc number 6: 0.788399518541659
+
+		acc number 6: 0.8272980501392758		acc number 6: 0.8272980501392758
+
+		auc number 7: 0.7641117081908484		auc number 7: 0.7641117081908484
+
+		acc number 7: 0.8233983286908078		acc number 7: 0.8233983286908078
+
+		auc number 8: 0.7910167807428082		auc number 8: 0.7910167807428082
+
+		acc number 8: 0.8373259052924791		acc number 8: 0.8373259052924791
+
+		auc number 9: 0.7819482077022165		auc number 9: 0.7819482077022165
+
+		acc number 9: 0.8373259052924791		acc number 9: 0.8373259052924791
+
+	mean auc: 0.7752639958398314	mean auc: 0.7752639958398314
+
+	mean acc: 0.8303064066852368	mean acc: 0.8303064066852368
+
+finishing test on params:
+	pearson_limit=0.05
+	size_limit=20
+	finishing test on params:
+	pearson_limit=0.05
+	size_limit=20
+	
+
+starting test on params:
+	pearson_limit=0
+	size_limit=20
+	starting test on params:
+	pearson_limit=0
+	size_limit=20
+	
+
+		auc number 0: 0.7802956773062428		auc number 0: 0.7802956773062428
+
+		acc number 0: 0.8272980501392758		acc number 0: 0.8272980501392758
+
+		auc number 1: 0.7850310983009708		auc number 1: 0.7850310983009708
+
+		acc number 1: 0.8311977715877438		acc number 1: 0.8311977715877438
+
+		auc number 2: 0.7790089971949733		auc number 2: 0.7790089971949733
+
+		acc number 2: 0.8362116991643455		acc number 2: 0.8362116991643455
+
+		auc number 3: 0.7728906499772329		auc number 3: 0.7728906499772329
+
+		acc number 3: 0.8272980501392758		acc number 3: 0.8272980501392758
+
+		auc number 4: 0.7748835371109735		auc number 4: 0.7748835371109735
+
+		acc number 4: 0.8362116991643455		acc number 4: 0.8362116991643455
+
+		auc number 5: 0.770346480389677		auc number 5: 0.770346480389677
+
+		acc number 5: 0.8356545961002786		acc number 5: 0.8356545961002786
+
+		auc number 6: 0.77741053093842		auc number 6: 0.77741053093842
+
+		acc number 6: 0.8245125348189415		acc number 6: 0.8245125348189415
+
+		auc number 7: 0.7756234443998393		auc number 7: 0.7756234443998393
+
+		acc number 7: 0.8389972144846797		acc number 7: 0.8389972144846797
+
+		auc number 8: 0.7955046434876046		auc number 8: 0.7955046434876046
+
+		acc number 8: 0.8440111420612814		acc number 8: 0.8440111420612814
+
+		auc number 9: 0.7756751896160763		auc number 9: 0.7756751896160763
+
+		acc number 9: 0.8306406685236769		acc number 9: 0.8306406685236769
+
+	mean auc: 0.7786670248722011	mean auc: 0.7786670248722011
+
+	mean acc: 0.8332033426183845	mean acc: 0.8332033426183845
+
+finishing test on params:
+	pearson_limit=0
+	size_limit=20
+	finishing test on params:
+	pearson_limit=0
+	size_limit=20
+	
+

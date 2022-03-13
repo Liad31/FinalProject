@@ -104,74 +104,74 @@ class CNN(nn.Module):
         return F.sigmoid(out)
 
 def get_data():
-    # myclient = pymongo.MongoClient("mongodb+srv://ourProject:EMGwk59xADuSIIkv@cluster0.lhfaj.mongodb.net/production2?retryWrites=true&w=majority")
-    # db = myclient['production2']
-    # tags = db['israeltags']
-    # tagged_videos = []
-    # videos = []
+    myclient = pymongo.MongoClient("mongodb+srv://ourProject:EMGwk59xADuSIIkv@cluster0.lhfaj.mongodb.net/production2?retryWrites=true&w=majority")
+    db = myclient['production2']
+    tags = db['israeltags']
+    tagged_videos = []
+    videos = []
+
+    # get tags of images
+    for file in os.listdir('images/'):
+        fileName=file.split(".")[0]
+        tag = tags.find_one({'id':  fileName})
+        try:
+            if tag['tagged']:
+                tagged_videos.append((fileName, tag['decision']))
+        except:
+            pass
+
+    sizes = [[], []]
+    minsizes = [np.inf, np.inf]
+    for im in tagged_videos:
+        img = Image.open('images/'+ im[0] +'.png').convert('RGBA')
+        arr = np.array(img)[:,:,:-1]
+        sizes[0].append(arr.shape[0])
+        sizes[1].append(arr.shape[1])
+    avg = [np.average(np.array(sizes[0])), np.average(np.array(sizes[1]))]
+    std = [np.std(np.array(sizes[0])), np.std(np.array(sizes[1]))]
+    tags = []
+    for im in tagged_videos:
+        img = Image.open('images/'+ im[0] +'.png').convert('RGBA')
+        arr = np.array(img)[:,:,:-1]
+        if arr.shape[0] > avg[0] - 3 * std[0] and  arr.shape[1] > avg[1] - 3 * std[1] and arr.shape[0] < avg[0] + 3 * std[0] and arr.shape[1] < avg[1] + 3 * std[1]:
+            videos.append(arr)
+            tags.append(1 if im[1] else 0)
+            if arr.shape[0] < minsizes[0]:
+                minsizes[0] = arr.shape[0]
+            if arr.shape[1] < minsizes[1]:
+                minsizes[1] = arr.shape[1]
+
+    np.save('tagged_images.npy', np.array(videos, dtype=object))
+    np.save('images_tags.npy', tags)
+
+    # videos = np.load('tagged_images.npy', allow_pickle=True)[:1000]
+    # tags = np.load('images_tags.npy', allow_pickle=True)[:1000]
     #
-    # # get tags of images
-    # for file in os.listdir('images/'):
-    #     fileName=file.split(".")[0]
-    #     tag = tags.find_one({'id':  fileName})
-    #     try:
-    #         if tag['tagged']:
-    #             tagged_videos.append((fileName, tag['decision']))
-    #     except:
-    #         pass
-    #
-    # sizes = [[], []]
-    # minsizes = [np.inf, np.inf]
-    # for im in tagged_videos:
-    #     img = Image.open('images/'+ im[0] +'.png').convert('RGBA')
-    #     arr = np.array(img)[:,:,:-1]
-    #     sizes[0].append(arr.shape[0])
-    #     sizes[1].append(arr.shape[1])
-    # avg = [np.average(np.array(sizes[0])), np.average(np.array(sizes[1]))]
-    # std = [np.std(np.array(sizes[0])), np.std(np.array(sizes[1]))]
-    # tags = []
-    # for im in tagged_videos:
-    #     img = Image.open('images/'+ im[0] +'.png').convert('RGBA')
-    #     arr = np.array(img)[:,:,:-1]
-    #     if arr.shape[0] > avg[0] - 3 * std[0] and  arr.shape[1] > avg[1] - 3 * std[1] and arr.shape[0] < avg[0] + 3 * std[0] and arr.shape[1] < avg[1] + 3 * std[1]:
-    #         videos.append(arr)
-    #         tags.append(1 if im[1] else 0)
-    #         if arr.shape[0] < minsizes[0]:
-    #             minsizes[0] = arr.shape[0]
-    #         if arr.shape[1] < minsizes[1]:
-    #             minsizes[1] = arr.shape[1]
-    #
+    # minsizes = [960, 540]
+    # for i in range(len(videos)):
+    #     videos[i] = cv2.resize(videos[i], dsize=(minsizes[0], minsizes[1]), interpolation=cv2.INTER_CUBIC)
+    #     videos[i] = videos[i].reshape(3, minsizes[0], minsizes[1]) # am I doing it right????????????????????????????????
+    #     videos[i] = videos[i].astype(float)
+    #     videos[i] /= 255
+    #     videos[i] = list(videos[i])
+    # videos = videos.tolist()
+    # videos=np.array(videos).astype(float)
     # np.save('tagged_images.npy', videos)
     # np.save('images_tags.npy', tags)
-
-    videos = np.load('tagged_images.npy', allow_pickle=True)[:1000]
-    tags = np.load('images_tags.npy', allow_pickle=True)[:1000]
-
-    minsizes = [960, 540]
-    for i in range(len(videos)):
-        videos[i] = cv2.resize(videos[i], dsize=(minsizes[0], minsizes[1]), interpolation=cv2.INTER_CUBIC)
-        videos[i] = videos[i].reshape(3, minsizes[0], minsizes[1]) # am I doing it right????????????????????????????????
-        videos[i] = videos[i].astype(float)
-        videos[i] /= 255
-        videos[i] = list(videos[i])
-    videos = videos.tolist()
-    videos=np.array(videos).astype(float)
-    np.save('tagged_images.npy', videos)
-    np.save('images_tags.npy', tags)
-    videos = np.load('tagged_images.npy', allow_pickle=True)
-    tags = np.load('images_tags.npy', allow_pickle=True)
-
-
-    x_train, x_test, y_train, y_test = train_test_split(videos, tags, test_size=0.2, shuffle=True)
-    x_train = torch.tensor(x_train)
-    x_test = torch.tensor(x_test)
-    y_train = torch.tensor(y_train)
-    y_test = torch.tensor(y_test)
-    train_tensor = data_utils.TensorDataset(x_train, y_train)
-    test_tensor = data_utils.TensorDataset(x_test, y_test)
-    train_loader = data_utils.DataLoader(dataset=train_tensor, batch_size=32, shuffle=True)
-    test_loader = data_utils.DataLoader(dataset=test_tensor, batch_size=32, shuffle=False)
-    return  train_loader, test_loader
+    # videos = np.load('tagged_images.npy', allow_pickle=True)
+    # tags = np.load('images_tags.npy', allow_pickle=True)
+    #
+    #
+    # x_train, x_test, y_train, y_test = train_test_split(videos, tags, test_size=0.2, shuffle=True)
+    # x_train = torch.tensor(x_train)
+    # x_test = torch.tensor(x_test)
+    # y_train = torch.tensor(y_train)
+    # y_test = torch.tensor(y_test)
+    # train_tensor = data_utils.TensorDataset(x_train, y_train)
+    # test_tensor = data_utils.TensorDataset(x_test, y_test)
+    # train_loader = data_utils.DataLoader(dataset=train_tensor, batch_size=32, shuffle=True)
+    # test_loader = data_utils.DataLoader(dataset=test_tensor, batch_size=32, shuffle=False)
+    # return  train_loader, test_loader
 
 def train_epoch(train_loader, model, optimizer):
     model.train()
@@ -254,4 +254,4 @@ def train_model(train_loader, validation_loader):
 
 if __name__ == "__main__":
     train_loader, test_loader = get_data()
-    train_model(train_loader, test_loader)
+    # train_model(train_loader, test_loader)

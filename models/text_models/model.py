@@ -78,6 +78,33 @@ class Seq2SeqAttention(nn.Module):
         final_out = self.fc(final_feature_map)
         return self.softmax(final_out)
 
+    def forward_to_last_layer(self, x):
+        # x.shape = (max_sen_len, batch_size)
+        # embedded_sent.shape = (max_sen_len=20, batch_size=64,embed_size=300)
+
+        ##################################### Encoder #######################################
+        lstm_output, (h_n, c_n) = self.lstm(x)
+        # lstm_output.shape = (seq_len, batch_size, num_directions * hidden_size)
+
+        # Final hidden state of last layer (num_directions, batch_size, hidden_size)
+        batch_size = h_n.shape[1]
+        h_n_final_layer = h_n.view(self.config.hidden_layers,
+                                   self.config.bidirectional + 1,
+                                   batch_size,
+                                   self.config.hidden_size)[-1, :, :, :]
+
+        ##################################### Attention #####################################
+        # Convert input to (batch_size, num_directions * hidden_size) for attention
+        final_hidden_state = torch.cat([h_n_final_layer[i, :, :] for i in range(h_n_final_layer.shape[0])], dim=1)
+
+        attention_out = self.apply_attention(lstm_output.permute(1, 0, 2), final_hidden_state)
+        # Attention_out.shape = (batch_size, num_directions * hidden_size)
+
+        #################################### Linear #########################################
+        concatenated_vector = torch.cat([final_hidden_state, attention_out], dim=1)
+        final_feature_map = self.dropout(concatenated_vector)  # shape=(batch_size, num_directions * hidden_size)
+        return final_feature_map
+
     def add_optimizer(self, optimizer):
         self.optimizer = optimizer
 

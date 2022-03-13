@@ -44,6 +44,8 @@ class HashtagModel(object):
                         tags.append(tag)
         return sigmoid(torch.FloatTensor([np.dot(dists, tags)]))
 
+
+
     def evaluate_auc(self, iterator, metric):
         all_preds = []
         all_y = []
