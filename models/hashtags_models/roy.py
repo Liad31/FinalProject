@@ -23,7 +23,16 @@ def add_grade(train, train_labels, test, test_lables):
 
     # predict
     for sample in train:
-        sample['hash_score']model.predict(train_vid_bucket[sample['Vid']], metric)
+        sample['hash_score'] = model.predict(train_vid_bucket[sample['Vid']], metric)
     for sample in test:
-        sample['hash_score']model.predict(train_vid_bucket[sample['Vid']], metric)
+        sample['hash_score'] = model.predict(train_vid_bucket[sample['Vid']], metric)
     return train, test
+
+
+if __name__ == '__main__':
+    train = np.load("../vids.npy", allow_pickle=True)
+    train_labels = np.load("../tag.npy", allow_pickle=True)
+    test = np.load("test.npy", allow_pickle=True)
+    test_lables = np.zeros(len(test))
+    add_grade(train, train_labels, test, test_lables)
+    print("1")
