@@ -56,6 +56,32 @@ def main(limit_size, limit_pearson, metric):
     print(f'\tmean acc: {acc}')
 
 
+def test(limit_size, limit_pearson, metric):
+    # load data
+    train = np.load("x_train.npy", allow_pickle=True)
+    train_labels = np.load("y_train.npy", allow_pickle=True)
+    test = np.load("x_test.npy", allow_pickle=True)
+    test_lables = np.load("y_test.npy", allow_pickle=True)
+
+    # prep data
+    train_data = get_vids_and_hashtags(train, train_labels)
+    train_vid_bucket = train_data
+    hash_bucket = to_hashtags_bucket(train_vid_bucket)
+    test_set = get_vids_and_hashtags(test, test_lables)
+    test_iter = dict(test_set).values()
+
+
+    # setup model
+    model = HashtagModel(hash_bucket, train_vid_bucket)
+
+    # train
+    model.calc_correlations(limit_size, limit_pearson)
+
+    auc, acc = model.evaluate_auc(test_iter, metric)
+    print(f'\t\tauc {auc}')
+    print(f'\t\tacc {acc}')
+
+
 def search():
     sys.stdout = Logger()
     pearson_limits = [0.05, 0]
@@ -68,6 +94,7 @@ def search():
             print(f'finishing test on params:\n\tpearson_limit={pearson_limit}\n\tsize_limit={size_limit}\n\t')
 
 
-
 if __name__ == '__main__':
-    search()
+    test(5, 0, cut_union_corr_sum)
+
+

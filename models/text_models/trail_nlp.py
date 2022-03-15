@@ -61,14 +61,14 @@ def main(config):
 
 def train_test(config):
     # load data
-    data = np.load('roy_train.npy', allow_pickle=True)
-    # test = np.load('test_300_sg.npy', allow_pickle=True)
-    print(len(data))
+    train = np.load('train.npy', allow_pickle=True)
+    test = np.load('test.npy', allow_pickle=True)
+    # print(len(data))
     # print(len(test))
 
     # prep data
-    train_iter = split_to_batches(data, config.batch_size)
-    # test_iter = split_to_batches(test, config.batch_size)
+    train_iter = split_to_batches(train, config.batch_size)
+    test_iter = split_to_batches(test, config.batch_size)
 
     # setup model
     model = Seq2SeqAttention(config)
@@ -89,8 +89,8 @@ def train_test(config):
         print(f'train auc: {train_auc}')
 
     model.eval()
-    # test_auc = model.evaluate_auc(test_iter)
-    # print(f'test auc: {test_auc}')
+    test_auc = model.evaluate_auc(test_iter)
+    print(f'test auc: {test_auc}')
     torch.save(model.state_dict(), "text_model.pt")
 
 

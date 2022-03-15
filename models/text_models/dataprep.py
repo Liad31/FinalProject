@@ -95,10 +95,8 @@ def join_sentences(first, second):
     return first + second
 
 
-def prep_data():
+def prep_data(examples, labels):
     # load data
-    examples = np.load("../hashtags_models/x_train.npy", allow_pickle=True)
-    labels = np.load("../hashtags_models/y_train.npy")
     new_data = [(example['text'], example['videoText'] if 'videoText' in example else "", 1 if label else 0) for (example, label) in zip(examples, labels)]
 
     # clean data
@@ -113,6 +111,8 @@ def prep_data():
         cleaner = join_sentences(cleaner_text, cleaner_video_text)
         if cleaner != '' and cleaner != ' ':
             cleaner_data.append((cleaner, tag))
+        else:
+            cleaner_data.append((None, tag))
 
     # embed data
     t_model = gensim.models.Word2Vec.load('full_uni_sg_300_twitter.mdl')
@@ -120,12 +120,27 @@ def prep_data():
     del t_model
     embedded_data = []
     for (text, tag) in cleaner_data:
-        embedded = [word_vectors[word] for word in text.split() if word in word_vectors]
-        if embedded:
-            embedded_data.append((embedded, tag))
+        if text:
+            embedded = [word_vectors[word] for word in text.split() if word in word_vectors]
+            if embedded:
+                embedded_data.append((embedded, tag))
+            else:
+                embedded_data.append((None, tag))
+        else:
+            embedded_data.append((None, tag))
 
     print(len(embedded_data))
     return embedded_data
+
+
+def embed_text(model, data, labels):
+    embedded_data = prep_data(data, labels)
+    for x, embed_x in zip(data, embedded_data):
+        if embed_x[0]:
+            y = model(torch.unsqueeze(embed_x[0], 0))
+            x["text_embedded"] = y
+        else:
+            x["text_embedded"] = None
 
 
 def lengths_clones(samples):
@@ -192,7 +207,40 @@ if __name__ == '__main__':
     # data, test_set = list(data), list(test_set)
     # np.save('train_val_300_sg', data)
     # np.save('test_300_sg', test_set)
-    data = prep_data()
-    np.save('roy_train', np.array(data, dtype=object))
+    x_train = np.load('../hashtags_models/x_train.npy', allow_pickle=True)
+    y_train = np.load('../hashtags_models/y_train.npy', allow_pickle=True)
+    x_val = np.load('../hashtags_models/x_val.npy', allow_pickle=True)
+    y_val = np.load('../hashtags_models/y_val.npy', allow_pickle=True)
+    x_test = np.load('../hashtags_models/x_test.npy', allow_pickle=True)
+    y_test = np.load('../hashtags_models/y_test.npy', allow_pickle=True)
+    train = prep_data(x_train, y_train)
+    train = [x for x in train if x[0] is not None]
+    val = prep_data(x_val, y_val)
+    val = [x for x in val if x[0] is not None]
+    test = prep_data(x_test, y_test)
+    test = [x for x in test if x[0] is not None]
+    np.save('train', np.array(train, dtype=object))
+    np.save('val', np.array(val, dtype=object))
+    np.save('test', np.array(test, dtype=object))
+
+# if __name__ == '__main__':
+#     x_train = np.load('../hashtags_models/x_train.npy', allow_pickle=True)
+#     y_train = np.load('../hashtags_models/y_train.npy', allow_pickle=True)
+#     x_val = np.load('../hashtags_models/x_val.npy', allow_pickle=True)
+#     y_val = np.load('../hashtags_models/y_val.npy', allow_pickle=True)
+#     x_test = np.load('../hashtags_models/x_test.npy', allow_pickle=True)
+#     y_test = np.load('../hashtags_models/y_test.npy', allow_pickle=True)
+#     x_train = x_train[y_train != 2]
+#     y_train = y_train[y_train != 2]
+#     x_val = x_val[y_val != 2]
+#     y_val = y_val[y_val != 2]
+#     x_test = x_test[y_test != 2]
+#     y_test = y_test[y_test != 2]
+#     np.save('../hashtags_models/x_train.npy', x_train)
+#     np.save('../hashtags_models/y_train.npy', y_train)
+#     np.save('../hashtags_models/x_val.npy', x_val)
+#     np.save('../hashtags_models/y_val.npy', y_val)
+#     np.save('../hashtags_models/x_test.npy', x_test)
+#     np.save('../hashtags_models/y_test.npy', y_test)
 
 
