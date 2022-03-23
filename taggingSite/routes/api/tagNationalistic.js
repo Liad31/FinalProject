@@ -123,6 +123,7 @@ router.post("/tag", (req, res) => {
 
 
             tiktokUser.num_videos_tagged += videos_tag.length
+            tiktokUser.expertNeeded = null // if was needed for expert, now not
             tiktokUser.save();
 
             //update feature counters

@@ -1,0 +1,71 @@
+@import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Spartan:wght@100&display=swap');
+
+body {
+  background: #ededed url("https://i.pinimg.com/originals/b6/ea/e8/b6eae8228e172c33c22e7dfc87b88aed.png") fixed no-repeat;
+  background-size: 30%;
+  background-position: left;
+  font-family: 'Permanent Marker', cursive ;
+}
+
+#headline {
+  color: #69C9D0;
+}
+
+button {
+  font-family: 'Spartan', sans-serif; font-weight: 600;
+  font-size: 15px;
+  border: 1px solid #6e52b1;; /* Remove borders */
+  border-color: #6e52b1;
+  color: white; /* White text */
+  padding: 15px 24px; 
+  cursor: pointer; /* Mouse pointer on hover */
+  /*size: 300%;*/
+}
+.submitButton {
+  font-size: 40px;
+}
+button:focus{
+  outline: solid 4px black;
+}
+/*buttons colors and hovers*/
+#sec {  background-color: #EE1D52; margin-bottom: 5%; height: 90pd;}
+#rel {  background-color: #98e638;  margin-bottom: 5%; margin-left: 50px; height: 90pd;}
+.btn-off:hover { color:black; }
+#submit {  background-color:#69C9D0;  align-self: center; margin-bottom: 5%;}
+#refresh {  background-color: #b1528d;  }
+#error {  background-color: #6e52b1;  }
+#expert { background-color: #858585; }
+.submitButton:hover { color: black;}
+
+#close, #send {  
+  transition-duration: 0.4s;
+  background-color: white; color: black;
+  border: 1px solid black;
+  font-size: 12px;
+  }
+
+#close:hover, #send:hover {
+  background-color:lightsteelblue;
+}
+#exampleModalLabel {
+  font-family: 'Spartan', sans-serif; font-weight: 700;
+  font-size: 15px;
+}
+
+.iframe {
+    height: 100%;
+    width: 100%
+}
+
+div.iframe{
+    position: absolute;
+    height: 90%;
+    width: 35%;
+    right: 5%;
+    top: 10%;
+}
+
+.tag_panel{
+  position: absolute;
+  left: 50%;
+}

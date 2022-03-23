@@ -1,4 +1,4 @@
-const DATABASECONNECTION = "mongodb+srv://ourProject:EMGwk59xADuSIIkv@cluster0.lhfaj.mongodb.net/test?retryWrites=true&w=majority";
+const DATABASECONNECTION = "mongodb+srv://ourProject:EMGwk59xADuSIIkv@cluster0.lhfaj.mongodb.net/production2?retryWrites=true&w=majority";
 const WEEKLY_TAGS_NUM = "150"
 const WEKKLY_UPDATE_TIME = "0 10 * * 2"
 // const WEKKLY_UPDATE_TIME = "5 * * * * *"
@@ -12,7 +12,8 @@ const STRONG_FEATURES =  ["ביזוי דגל ישראל",
                           "שהידים",
                           "עצירים",
                           "מחאה אלימה",
-                          "שיר לאומני"
+                          "שיר לאומני",
+                          "האם הסרטון הועלה בלייב?"
                          ]
 const WEAK_FEATURES =  ["השטאג לאומני ",
                          "כאפיה",
