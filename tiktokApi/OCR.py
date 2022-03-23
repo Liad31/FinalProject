@@ -54,25 +54,27 @@ def text_from_video(path):
     results.sort(key=BoxesComparator)
     for bbox,text,conf in results:
         # print(f"text: {text}, conf: {conf}, bbox: {bbox}")
-        if conf> 0.4:
+        if conf> 0.15:
             final.append(text)
     # final=final[1:]
     final=" ".join(final)
+    final=' '.join(final.split())
     if not final:
         return final
     response = openai.Completion.create(
       engine="davinci",
-      prompt=f"Correct Mistakes In The Original Text\nOriginal:{final}\nStandard Arabic:",
+      prompt=f"Fix Spelling Mistakes\nOriginal:{final}\nStandard Arabic:",
       temperature=0,
-      max_tokens=1000,
+      max_tokens=300,
       top_p=1.0,
       frequency_penalty=0.0,
       presence_penalty=0.0,
       stop=["\n"]
     )
-    
-    return response['choices'][0]['text']
-
+    aifinal=response['choices'][0]['text']
+    if not aifinal:
+        aifinal=final
+    return aifinal
 
 #import grequests
 def create_download_txt(lis_sec_ids,path="async_list.txt"):
