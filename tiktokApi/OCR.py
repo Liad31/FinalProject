@@ -1,4 +1,5 @@
 
+from matplotlib.pyplot import text
 import requests
 
 import json
@@ -63,12 +64,13 @@ def text_from_video(path):
       engine="davinci",
       prompt=f"Correct Mistakes In The Original Text\nOriginal:{final}\nStandard Arabic:",
       temperature=0,
-      max_tokens=200,
+      max_tokens=1000,
       top_p=1.0,
       frequency_penalty=0.0,
       presence_penalty=0.0,
       stop=["\n"]
     )
+    
     return response['choices'][0]['text']
 
 
@@ -80,7 +82,70 @@ def create_download_txt(lis_sec_ids,path="async_list.txt"):
         os.system(f'echo "https://www.tiktok.com/@{sec}/video/{id}" >> {path}')
 def chunker_list(seq, size):
     return (seq[pos:pos + size] for pos in range(0, len(seq), size))
-
+def ocr(batch_size=50,iterations=50,num_videos=50,tokens=None):
+    cur_time = time.time()
+    cnt=0
+    cnt_failed=0
+    batch_size =batch_size
+    num_threads=10
+    passed_total = 0
+    
+    id_success=[]
+    i=0
+    while i<iterations:
+        id_failed=[]
+        # get from the server a list of videos to download
+        r = requests.get(f'http://localhost:8001/api/database/getDownloadedVideos?num={num_videos}')
+        rl = r.json()
+        if len(rl) ==0:
+            print("finished downloading!")
+            break
+        # print(rl)
+        # take chunks of batch_size each time
+        for chunk in chunker_list(rl,batch_size):
+            cnt_batch=0
+            vids_to_download=[]
+            for j in chunk:
+                secuid =j["Vid"]
+                id = j["Vid"]
+                vids_to_download.append((secuid,id))
+            videoTexts=[]
+            async_list = "async_list.txt"
+            videosDir="/mnt/videos"
+            create_download_txt(vids_to_download,async_list)
+            # a=os.system(f'yt-dlp -a {async_list} -o "%(id)s.mp4" -R 10 --proxy frzgcmrj-rotate:rxpxcauy7pn0@p.webshare.io:80')
+            downloaded_paths = []
+            for (secuid,id) in vids_to_download:
+                path =f"{videosDir}/{id}.mp4"
+                new_path = path[:-4]+"_r.mp4"
+                try:
+                    videoTexts.append({"Vid":id, "text": text_from_video(path)})
+                except:
+                    if not tokens:
+                        print("no tokens")
+                        return
+                    openai.api_key = tokens.pop()
+                    videoTexts.append({"Vid":id, "text": text_from_video(path)})
+                downloaded_paths.append((path,new_path))
+                cnt_batch+=1
+                cnt+=1
+            
+            passed = time.time()-cur_time
+            passed_total+=passed
+                #print(f"Downloaded no videos in {passed} seconds")
+            if cnt_batch!=0:
+                print(f"Downloaded  and resized {cnt_batch} new vids in {passed:0.2f} secs, approx {passed/cnt_batch:0.2f}s per video")
+            cur_time= time.time()
+            # put an average of 50-100 vids
+            if cnt >50:
+                print(f"SUMMARY - Downloaded  and resized {cnt} vids in {passed_total:0.2f} secs, approx {passed_total/cnt:0.2f}s per video")
+                # reset the counter
+                cnt = 0
+                passed_total=0
+            requests.post(f'http://localhost:8001/api/database/markVideosDownloaded', json={"videos":videoTexts})
+        
+        i+=1
+    print("finished the iterations!")
 def async_download_vids_parallel(batch_size =15,iterations=50, num_videos=30,tokens=None):
     # request the videos from server
     cur_time = time.time()
@@ -95,7 +160,7 @@ def async_download_vids_parallel(batch_size =15,iterations=50, num_videos=30,tok
     while i<iterations:
         id_failed=[]
         # get from the server a list of videos to download
-        r = requests.get(f'http://localhost:8001/api/database/getVideos?num={num_videos}')
+        r = requests.get(f'http://localhost:8001/api/database/getDownloadedVideos?num={num_videos}')
         rl = r.json()
         if len(rl) ==0:
             print("finished downloading!")
@@ -268,4 +333,5 @@ tokens=[]
 with open("tokens.txt") as f:
     for line in f:
         tokens.append(line.strip())
-async_download_vids_parallel(iterations=1000,tokens=tokens)
+openai.api_key=tokens.pop()
+ocr(iterations=1000,tokens=tokens)

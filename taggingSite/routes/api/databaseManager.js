@@ -143,15 +143,33 @@ router.get("/getVideos", (req, res) => {
       res.status(200).send(videos);
     }
   })
-  // Video.find({downloaded: false}).limit(numVideos).exec(function (err, videos) {
-  //   if (err) {
-  //     console.log("Error:" + String(err));
-  //     res.status(200).send("error occured");
-  //   }
-  //   if (videos) {
-  //     res.status(200).send(videos);
-  //   }
-  // })
+})
+
+router.get("/getDownloadedVideos", (req, res) => {
+  numVideos = Number(req.query.num)
+  agg=[{
+    '$match': {
+      '$and': [
+        {
+        'videoText': "Unproced"
+        }
+      ]
+    }
+  }, {
+    '$sample': {
+      'size': numVideos
+    }
+  }
+]
+  Video.aggregate(agg ,function(err, videos){
+    if (err) {
+      console.log(`Error: ${err}`);
+      res.status(200).send("error occured");
+    }
+    if (videos) {
+      res.status(200).send(videos);
+    }
+  })
 })
 router.post("/markVideosDownloaded",  (req, res) => {
   for( video of req.body.videos){
