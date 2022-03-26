@@ -35,6 +35,7 @@ router.post("/postNewUsers", (req, res) => {
                 musicId: videos[k]['musicId'],
                 musicUrl: videos[k]['musicUrl'],
                 date: videos[k]['date']
+                stats:  videos[k]['stats']
               });
               console.log(vid)
               console.log(user.videos)
@@ -65,6 +66,22 @@ router.post("/postNewUsers", (req, res) => {
             hashtags: videos_arr[i]['hashtags'],
             musicId: videos_arr[i]['musicId'],
             musicUrl: videos_arr[i]['musicUrl'],
+            stats:  videos[k]['stats']
+          });Vid'],
+                text: videos[k]['text'],
+                hashtags: videos[k]['hashtags'],
+                musicId: videos[k]['musicId'],
+                musicUrl: videos[k]['musicUrl'],
+                date: videos[k]['date']
+                stats:  videos[k]['stats']
+              });
+              console.log(vid)
+              console.log(user.videos)
+              user.videos.push(vid);
+              await vid.save().catch(err => {
+                res.status(400).send("unable to save to database");
+              });
+            stats:  videos[k]['stats']
           });
           videos.push(cur_video);
           cur_video.save().catch(err => {
@@ -119,6 +136,8 @@ router.get("/getVideos", (req, res) => {
       '$or': [
         {
           'downloaded': false
+        }, {
+          'videoText': 'ERROR!!!!!'
         }
         // {
         // 'videoText': "Unproced"

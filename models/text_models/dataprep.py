@@ -3,7 +3,7 @@ import re
 import gensim
 import torch
 import random
-
+import os
 
 
 def removeUnnecessarySpaces(text):
@@ -115,7 +115,8 @@ def prep_data(examples, labels):
             cleaner_data.append((None, tag))
 
     # embed data
-    t_model = gensim.models.Word2Vec.load('full_uni_sg_300_twitter.mdl')
+    print(os.getcwd())
+    t_model = gensim.models.Word2Vec.load('../text_models/full_uni_sg_300_twitter.mdl')
     word_vectors = t_model.wv
     del t_model
     embedded_data = []
@@ -137,10 +138,13 @@ def embed_text(model, data, labels):
     embedded_data = prep_data(data, labels)
     for x, embed_x in zip(data, embedded_data):
         if embed_x[0]:
-            y = model(torch.unsqueeze(embed_x[0], 0))
-            x["text_embedded"] = y
+            n = torch.unsqueeze(torch.Tensor(embed_x[0]), 0)
+            y = model.forward_to_last_layer(n)
+            x["text_embeded"] = y
+            x["text"] = 1
         else:
-            x["text_embedded"] = None
+            x["text_embeded"] = np.random.rand(64)
+            x["text"] = 0
 
 
 def lengths_clones(samples):
