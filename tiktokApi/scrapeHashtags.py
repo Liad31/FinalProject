@@ -34,7 +34,8 @@ for user in usersWithLocation:
                        "hashtags": video["hashtags"],
                        "musicId": video["music"]["id"],
                        "musicUrl": video["music"]["url"],
-                       "date": epoch_time
+                       "date": epoch_time,
+                       "stats": video["stats"]
                        })
     res.append({
         "id": user["id"],

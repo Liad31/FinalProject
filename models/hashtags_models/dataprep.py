@@ -4,7 +4,7 @@ import gensim
 import torch
 import random
 import scipy.stats as sp
-from metrics import *
+from models.hashtags_models.metrics import *
 import math
 
 
@@ -37,6 +37,20 @@ def remove_emoji(string):
     return emoji_pattern.sub(r'', string)
 
 
+def get_hashtags(text):
+    hashtags = []
+    text = remove_emoji(text)
+    text = text.replace("#", " # ").strip()
+    flag = False
+    for word in text.split():
+        if flag:
+            hashtags.append(word.lower() if word[-1].isnumeric() else word.lower().strip(word[-1]))
+            flag = False
+        if word == "#":
+            flag = True
+    return hashtags
+
+
 def get_vids_and_hashtags(examples, labels):
     # load data
     # examples = np.load("../data.npy", allow_pickle=True)
@@ -46,17 +60,8 @@ def get_vids_and_hashtags(examples, labels):
     # clean data
     vids_hashtags = {}
     for (video, dis_text, video_text, tag) in new_data:
-        hashtags = []
-        text = dis_text + " " + video_text
-        text = remove_emoji(text)
-        text = text.replace("#", " # ").strip()
-        flag = False
-        for word in text.split():
-            if flag:
-                hashtags.append(word.lower() if word[-1].isnumeric() else word.lower().strip(word[-1]))
-                flag = False
-            if word == "#":
-                flag = True
+        hashtags = get_hashtags(dis_text)
+        hashtags.extend(get_hashtags(video_text))
         vids_hashtags[video] = (hashtags, tag)
     return vids_hashtags
 

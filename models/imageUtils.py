@@ -3,6 +3,10 @@ import cv2
 import numpy as np
 videosDir='videos'
 tmpDir='tmp'
+import numpy as np
+import pymongo
+from bson.objectid import ObjectId
+from  tqdm import tqdm
 def extractFps(video,fps):
     if not os.path.exists(tmpDir):
         os.mkdir(tmpDir)
