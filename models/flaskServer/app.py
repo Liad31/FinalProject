@@ -11,6 +11,8 @@ from models.text_models.config import Config
 from models.final_model.final_model import postsModel
 import requests
 import  json
+from models.text_models.trail_nlp import embed_text2
+from models.hashtags_models.roy import add_grade
 
 app = Flask(__name__)
 model = torch.load('../final_model/final_model', map_location='cpu')
@@ -20,9 +22,9 @@ nationalistic_sounds = np.load('../nationalistic_songs.npy', allow_pickle=True)
 @app.route("/get_text_vector", methods=['POST'])
 def get_text_vector():
     request_json = request.json
-    text = request_json['text']
-    #implement!!!!
-    return jsonify(vector=list(np.random.rand(128)))
+    data = [request_json['data']]
+    embed_text2(data, [0])
+    return jsonify(vector=list(data[0]['text_embeded']), is_text=data[0]['text'])
 
 @app.route("/get_video_vector", methods=['POST'])
 def get_video_vector():
@@ -34,10 +36,12 @@ def get_video_vector():
 @app.route("/get_hashtags_score", methods=['POST'])
 def get_hashtags_score():
     request_json = request.json
-    hashtags = request_json['hashtags']
-    # implement!!!!
+    data = [request_json['data']]
+    train = np.load("x_train.npy", allow_pickle=True)
+    train_labels = np.load("y_train.npy", allow_pickle=True)
+    add_grade(train, train_labels, data, [0])
     return jsonify(
-        score=list(np.random.rand(1))
+        score=list(data[0]['hash_score'])
     )
 @app.route("/get_sound_score", methods=['POST'])
 def get_sound_score():
@@ -58,7 +62,7 @@ def final_score():
     is_text = 0
     if 'text' in request_json:
         is_text = 1
-        text_embeded = (requests.post(root_url + 'get_text_vector', json={"text": request_json['text']})).json()['vector']
+        text_embeded = (requests.post(root_url + 'get_text_vector', json={"data": request_json})).json()['vector'] # todo: fix this, you get is_text as well!
         x['text_embeded'] = torch.tensor(text_embeded)
     else:
         x['text_embeded'] = torch.tensor(np.random.rand(128))
@@ -68,7 +72,7 @@ def final_score():
     sound_score = (requests.post(root_url + 'get_sound_score', json={"sound":  request_json['sound']})).json()['score']
     x['sound'] = torch.tensor(sound_score)
     x['text'] = torch.tensor([is_text])
-    hashtags_score = (requests.post(root_url + 'get_hashtags_score', json={"hashtags":  request_json['hashtags']})).json()['score']
+    hashtags_score = (requests.post(root_url + 'get_hashtags_score', json={"data":  request_json})).json()['score']
     x['hashtags_score'] = torch.tensor(hashtags_score)
     return str(final_model.get_predict(model, sample=x)[0])
 

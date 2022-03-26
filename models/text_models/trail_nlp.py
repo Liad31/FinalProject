@@ -94,12 +94,19 @@ def train_test(config):
     torch.save(model.state_dict(), "text_model.pt")
 
 
+def embed_text2(data, labels):
+    config = Config()
+    nlp_model = Seq2SeqAttention(config)
+    nlp_model.load_state_dict(torch.load('text_model.pt'))
+    embed_text(nlp_model, data, labels)
+
+
 if __name__ == '__main__':
     # x_train = np.load('../hashtags_models/x_train.npy', allow_pickle=True)
     # x_val = np.load('../hashtags_models/x_val.npy', allow_pickle=True)
     # x_test = np.load('../hashtags_models/x_test.npy', allow_pickle=True)
     #
-    # config = Config()
+    config = Config()
     # nlp_model = Seq2SeqAttention(config)
     # nlp_model.load_state_dict(torch.load('text_model.pt'))
     # embed_text(nlp_model, x_train, torch.tensor(np.zeros(len(x_train))))
@@ -109,7 +116,8 @@ if __name__ == '__main__':
     # np.save("x_train_new.npy", np.array(x_train, dtype=object))
     # np.save("x_val_new.npy", np.array(x_val, dtype=object))
     # np.save("x_test_new.npy", np.array(x_test, dtype=object))
-    x_train = np.load('x_train_new.npy', allow_pickle=True)
-    x_val = np.load('x_val_new.npy', allow_pickle=True)
-    x_test = np.load('x_test_new.npy', allow_pickle=True)
+    # x_train = np.load('x_train_new.npy', allow_pickle=True)
+    # x_val = np.load('x_val_new.npy', allow_pickle=True)
+    # x_test = np.load('x_test_new.npy', allow_pickle=True)
+    train_test(config)
     print(1)
