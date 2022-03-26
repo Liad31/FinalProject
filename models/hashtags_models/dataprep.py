@@ -4,7 +4,7 @@ import gensim
 import torch
 import random
 import scipy.stats as sp
-from metrics import *
+from models.hashtags_models.metrics import *
 import math
 
 
