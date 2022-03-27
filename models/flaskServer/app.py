@@ -12,7 +12,7 @@ from models.final_model.final_model import postsModel
 import requests
 import  json
 from models.text_models.trail_nlp import embed_text2
-from models.hashtags_models.roy import add_grade
+from models.hashtags_models.roy import predict
 
 app = Flask(__name__)
 model = torch.load('../final_model/final_model', map_location='cpu')
@@ -37,9 +37,7 @@ def get_video_vector():
 def get_hashtags_score():
     request_json = request.json
     data = [request_json['data']]
-    train = np.load("x_train.npy", allow_pickle=True)
-    train_labels = np.load("y_train.npy", allow_pickle=True)
-    add_grade(train, train_labels, data, [0])
+    predict(data, [0])
     return jsonify(
         score=list(data[0]['hash_score'])
     )

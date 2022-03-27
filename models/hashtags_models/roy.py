@@ -29,10 +29,26 @@ def add_grade(train, train_labels, test, test_lables):
     return train, test
 
 
+def predict(test, test_lables):
+    model = HashtagModel()
+    test_data = get_vids_and_hashtags(test, test_lables)
+    for sample in test:
+        sample['hash_score'] = model.predict(test_data[sample['Vid']][0], metric)
+    return test
+
+
 if __name__ == '__main__':
-    train = np.load("x_train.npy", allow_pickle=True)
-    train_labels = np.load("y_train.npy", allow_pickle=True)
-    test = np.load("x_val.npy", allow_pickle=True)
-    test_lables = np.load("y_val.npy", allow_pickle=True)
-    add_grade(train, train_labels, test, test_lables)
+    # train = np.load("../text_models/x_train.npy", allow_pickle=True)
+    # train_labels = np.load("../text_models/y_train.npy", allow_pickle=True)
+    test = [np.load("../text_models/x_test.npy", allow_pickle=True)[0]]
+    test_lables = [0]
+    # add_grade(train, train_labels, test, test_lables)
+    # train_data = get_vids_and_hashtags(train, train_labels)
+    # train_vid_bucket = train_data
+    # hash_bucket = to_hashtags_bucket(train_vid_bucket)
+    # model = HashtagModel(hash_bucket, train_vid_bucket)
+    # model.calc_correlations(limit_size, limit_pearson)
+    # model.to_file()
+    # model2 = HashtagModel()
+    predict(test, test_lables)
     print("1")
