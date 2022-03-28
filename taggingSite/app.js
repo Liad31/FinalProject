@@ -52,7 +52,7 @@ app.use("/api", require("./routes/api"));
 
 
 const job = schedule.scheduleJob(params.WEKKLY_UPDATE_TIME, async function(){
-    let res = await User.updateMany({}, {"$inc": {weekly_tags_left: params.WEEKLY_TAGS_NUM}});
+    // let res = await User.updateMany({}, {"$inc": {weekly_tags_left: params.WEEKLY_TAGS_NUM}});
 
     let today = new Date();
     let users = await User.find({});

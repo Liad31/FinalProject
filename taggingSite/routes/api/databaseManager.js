@@ -34,8 +34,13 @@ router.post("/postNewUsers", (req, res) => {
                 hashtags: videos[k]['hashtags'],
                 musicId: videos[k]['musicId'],
                 musicUrl: videos[k]['musicUrl'],
+<<<<<<< HEAD
                 date: videos[k]['date'],
                 videoStats: videos[k]['videoStats']
+=======
+                date: videos[k]['date']
+                stats:  videos[k]['stats']
+>>>>>>> develop
               });
               console.log(vid)
               console.log(user.videos)
@@ -121,6 +126,8 @@ router.get("/getVideos", (req, res) => {
       '$or': [
         {
           'downloaded': false
+        }, {
+          'videoText': 'ERROR!!!!!'
         }
         // {
         // 'videoText': "Unproced"

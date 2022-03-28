@@ -11,6 +11,7 @@ router.use(function(req, res, next) {
 
 router.use("/tagLocation", require("./tagLocation"));
 router.use("/tagNationalistic", require("./tagNationalistic"));
+router.use("/expertTagNationalistic", require("./expertTagNationalistic"));
 router.use("/tagIsrael", require("./tagIsrael"));
 router.use("/tiktokTag", require("./tiktokTag"));
 router.use("/database", require("./databaseManager"));

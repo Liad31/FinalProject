@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import pymongo
 from bson.objectid import ObjectId
-
+from  tqdm import tqdm
 myclient = pymongo.MongoClient("mongodb+srv://ourProject:EMGwk59xADuSIIkv@cluster0.lhfaj.mongodb.net/production2?retryWrites=true&w=majority")\
 
 db = myclient['production2']
@@ -19,27 +19,41 @@ for user in tagged_uesrs:
 
 data = []
 tag = []
-for user in tagged:
+vids = []
+nationalistic_sounds = []
+for user in tqdm(tagged):
     user_tag = tags.find_one({'_id':  ObjectId(user['tags'][0])})
     if user_tag:
-        for x in range(len(user_tag['videoTag'])):
-            video = videos.find_one({'_id': ObjectId(user['videos'][x])})
-            if video['videoText'] != 'ERROR!!!!!':
+        for x in range(len(user['videos'])):
+                video = videos.find_one({'_id': ObjectId(user['videos'][x])})
+                if video['videoText'] != 'ERROR2!!!!!':
+                    data.append(video)
+                    vids.append(video['Vid'])
+                    try:
+                        tag.append(user_tag['videoTag'][x]['decision'])
+                        if 'שיר לאומני' in user_tag['videoTag'][x]['features'] and user_tag['videoTag'][x]['features']['שיר לאומני'] == 'true':
+                            nationalistic_sounds.append(video['musicId'])
+                    except:
+                        data.pop(-1)
+                        vids.pop(-1)
+    else:
+        videos_prod1 = myclient['production1']['videos']
+        tags_prod1 = myclient['production1']['nationalistictags']
+        user_tag = tags_prod1.find_one({'_id': ObjectId(user['tags'][0])})
+        for x in range(len(user['videos'])):
+            video = videos_prod1.find_one({'_id': ObjectId(user['videos'][x])})
+            if video and ('videoText' not in video or video['videoText'] != 'ERROR2!!!!!'):
                 data.append(video)
+                vids.append(video['Vid'])
                 tag.append(user_tag['videoTag'][x]['decision'])
-    # else:
-    #     videos_prod1 = myclient['production1']['videos']
-    #     tags_prod1 = myclient['production1']['nationalistictags']
-    #     user_tag = tags_prod1.find_one({'_id': ObjectId(user['tags'][0])})
-    #     for x in range(len(user['videos'])):
-    #         video = videos_prod1.find_one({'_id': ObjectId(user['videos'][x])})
-    #         if video and ('videoText' not in video or video['videoText'] != 'ERROR2!!!!!'):
-    #             data.append(video)
-    #             tag.append(user_tag['videoTag'][x]['decision'])
 data = np.array(data)
 tag = np.array(tag)
+vids = np.array(vids)
+nationalistic_sounds = np.array(nationalistic_sounds)
 np.save('data', data)
 np.save('tag', tag)
+np.save('vids', vids)
+np.save('nationalistic_songs', nationalistic_sounds)
+### for the nationalistic_songs run also  get_nat_songs.py
 
-
-
+print("done!")
