@@ -34,8 +34,8 @@ router.post("/postNewUsers", (req, res) => {
                 hashtags: videos[k]['hashtags'],
                 musicId: videos[k]['musicId'],
                 musicUrl: videos[k]['musicUrl'],
-                date: videos[k]['date']
-                stats:  videos[k]['stats']
+                date: videos[k]['date'],
+                videoStats: videos[k]['videoStats']
               });
               console.log(vid)
               console.log(user.videos)
@@ -66,22 +66,7 @@ router.post("/postNewUsers", (req, res) => {
             hashtags: videos_arr[i]['hashtags'],
             musicId: videos_arr[i]['musicId'],
             musicUrl: videos_arr[i]['musicUrl'],
-            stats:  videos[k]['stats']
-          });Vid'],
-                text: videos[k]['text'],
-                hashtags: videos[k]['hashtags'],
-                musicId: videos[k]['musicId'],
-                musicUrl: videos[k]['musicUrl'],
-                date: videos[k]['date']
-                stats:  videos[k]['stats']
-              });
-              console.log(vid)
-              console.log(user.videos)
-              user.videos.push(vid);
-              await vid.save().catch(err => {
-                res.status(400).send("unable to save to database");
-              });
-            stats:  videos[k]['stats']
+            videoStats: videos[k]['videoStats']
           });
           videos.push(cur_video);
           cur_video.save().catch(err => {
@@ -162,15 +147,33 @@ router.get("/getVideos", (req, res) => {
       res.status(200).send(videos);
     }
   })
-  // Video.find({downloaded: false}).limit(numVideos).exec(function (err, videos) {
-  //   if (err) {
-  //     console.log("Error:" + String(err));
-  //     res.status(200).send("error occured");
-  //   }
-  //   if (videos) {
-  //     res.status(200).send(videos);
-  //   }
-  // })
+})
+
+router.get("/getDownloadedVideos", (req, res) => {
+  numVideos = Number(req.query.num)
+  agg=[{
+    '$match': {
+      '$and': [
+        {
+        'videoText': "Unproced"
+        }
+      ]
+    }
+  }, {
+    '$sample': {
+      'size': numVideos
+    }
+  }
+]
+  Video.aggregate(agg ,function(err, videos){
+    if (err) {
+      console.log(`Error: ${err}`);
+      res.status(200).send("error occured");
+    }
+    if (videos) {
+      res.status(200).send(videos);
+    }
+  })
 })
 router.post("/markVideosDownloaded",  (req, res) => {
   for( video of req.body.videos){
