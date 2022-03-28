@@ -34,13 +34,8 @@ router.post("/postNewUsers", (req, res) => {
                 hashtags: videos[k]['hashtags'],
                 musicId: videos[k]['musicId'],
                 musicUrl: videos[k]['musicUrl'],
-<<<<<<< HEAD
                 date: videos[k]['date'],
-                videoStats: videos[k]['videoStats']
-=======
-                date: videos[k]['date']
-                stats:  videos[k]['stats']
->>>>>>> develop
+                videoStats: videos[k]['stats']
               });
               console.log(vid)
               console.log(user.videos)
@@ -71,7 +66,7 @@ router.post("/postNewUsers", (req, res) => {
             hashtags: videos_arr[i]['hashtags'],
             musicId: videos_arr[i]['musicId'],
             musicUrl: videos_arr[i]['musicUrl'],
-            videoStats: videos[k]['videoStats']
+            videoStats: videos_arr[i]['stats']
           });
           videos.push(cur_video);
           cur_video.save().catch(err => {

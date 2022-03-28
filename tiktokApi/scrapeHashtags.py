@@ -3,7 +3,7 @@ from scraper import scraper
 import requests
 import json
 from datetime import datetime
-numPosts = 1000
+numPosts = 2000
 since = 0
 before = 0
 with open("hashtags.txt", "r") as file:
@@ -34,7 +34,7 @@ for user in usersWithLocation:
                        "hashtags": video["hashtags"],
                        "musicId": video["music"]["id"],
                        "musicUrl": video["music"]["url"],
-                       "videoStats": video['stats'],
+                       "stats": video['stats'],
                        "date": epoch_time
                        })
     res.append({
