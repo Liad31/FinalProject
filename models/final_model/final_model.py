@@ -24,7 +24,7 @@ class postsModel(nn.Module):
         super().__init__()
         self.video_embed_size = 2048
         self.text_embed_size = 128
-        self.video_size = 2
+        self.video_size = 30
         self.text_size = 16
         self.hash_score_size = 1
         self.sound_size = 1
@@ -204,44 +204,193 @@ def get_predict(model, sample):
         return  model(sample)
 
 
+# if __name__ == "__main__":
+#     # vids = np.load('../vids.npy', allow_pickle=True)
+#     # tags = np.load('../tag.npy', allow_pickle=True)
+#     # data = np.load('../data.npy', allow_pickle=True)
+#     # x_train_val, x_test, y_train_val, y_test = train_test_split(data, tags, test_size = 0.15, random_state = 19)
+#     # x_train, x_val, y_train, y_val = train_test_split(x_train_val, y_train_val, test_size = 0.15, random_state = 17)
+#     # np.save('../data/x_train.npy', x_train)
+#     # np.save('../data/y_train.npy', y_train)
+#     # np.save('../data/x_val.npy', x_val)
+#     # np.save('../data/y_val.npy', y_val)
+#     # np.save('../data/x_test.npy', x_test)
+#     # np.save('../data/y_test.npy', y_test)
+#     ########################################################################################################################3
+#     x_train = np.load('../data/x_train.npy', allow_pickle=True)
+#     y_train = np.load('../data/y_train.npy', allow_pickle=True)
+#     x_val = np.load('../data/x_val.npy', allow_pickle=True)
+#     y_val = np.load('../data/y_val.npy', allow_pickle=True)
+#     x_test = np.load('../data/x_test.npy', allow_pickle=True)
+#     y_test = np.load('../data/y_test.npy', allow_pickle=True)
+#     x_train_new = np.load('../data/x_train_new.npy', allow_pickle=True)
+#     x_val_new = np.load('../data/x_val_new.npy', allow_pickle=True)
+#     x_test_new = np.load('../data/x_test_new.npy', allow_pickle=True)
+#     nationalistic_sounds = np.load('../nationalistic_songs.npy', allow_pickle=True)
+#     nationalistic_sounds = get_train_sounds.get_train_sounds(x_train, nationalistic_sounds)
+#
+#     with open("../../../Downloads/train2.txt", "r") as f1:
+#         with open("../../../Downloads/trainVecs.json", "r") as f2:
+#             videos_id = f1.read().split('\n')[:-1]
+#             vectors = json.load(f2)
+#     with open("../../../Downloads/val2.txt", "r") as f1:
+#         with open("../../../Downloads/testVecs.json", "r") as f2:
+#             videos_id += f1.read().split('\n')[:-1]
+#             vectors += json.load(f2)
+#
+#     for i in range(len(videos_id)):
+#         videos_id[i] = videos_id[i].split(' ')[0]
+#     c = 0
+#     i = 0
+#     for x in x_train:
+#         try:
+#             id = x['Vid']
+#             x['text_embeded'] = x_train_new[i]['text_embedded'] if x_train_new[i]['text_embedded'] != None else np.random.rand(128)
+#             x['text'] = 1 if x_train_new[i]['text_embedded'] != None else 0
+#             x['video_vector'] = vectors[videos_id.index(id)]
+#         except:
+#             x['video_vector'] = x_train[i-1]['video_vector']
+#             c+=1
+#         i+=1
+#     i = 0
+#     for x in x_val:
+#         try:
+#             id = x['Vid']
+#             x['text_embeded'] = x_val_new[i]['text_embedded'] if x_val_new[i]['text_embedded'] != None else np.random.rand(128)
+#             x['text'] = 1 if x_val_new[i]['text_embedded'] != None else 0
+#             x['video_vector'] = vectors[videos_id.index(id)]
+#         except:
+#             x['video_vector'] = x_val[i-1]['video_vector']
+#             c+=1
+#         i+=1
+#     i = 0
+#     for x in x_test:
+#         try:
+#             id = x['Vid']
+#             x['text_embeded'] = x_test_new[i]['text_embedded'] if x_test_new[i]['text_embedded'] != None else np.random.rand( 128)
+#             x['text'] = 1 if x_test_new[i]['text_embedded'] != None else 0
+#             x['video_vector'] = vectors[videos_id.index(id)]
+#         except:
+#             x['video_vector'] = x_test[i-1]['video_vector']
+#             c+=1
+#         i+=1
+#     del x_train_new
+#     del x_val_new
+#     del x_test_new
+#
+#     # get_hash_score.add_grade(x_train, y_train, x_val, y_val)
+#     # get_hash_score.add_grade(x_train, y_train, x_test, y_test)
+#     # #
+#     # # config = Config()
+#     # # nlp_model = nlp.Seq2SeqAttention(config)
+#     # # nlp_model.load_state_dict(torch.load('../text_models/text_model.pt', map_location='cpu'))
+#     # # dataprep.embed_text(nlp_model, x_train, torch.tensor(np.zeros(len(x_train))))
+#     # # dataprep.embed_text(nlp_model, x_val, torch.tensor(np.zeros(len(x_val))))
+#     # # dataprep.embed_text(nlp_model, x_test, torch.tensor(np.zeros(len(x_test))))
+#     #
+#     # train_x = []
+#     # val_x = []
+#     # test_x = []
+#     # for x in x_train:
+#     #     sound = 0
+#     #     if x['musicId'] in nationalistic_sounds:
+#     #         sound = 1
+#     #     train_x.append({
+#     #         'video_embeded':  torch.tensor(x['video_vector']),
+#     #         'hashtags_score': torch.tensor(x['hash_score']),
+#     #         'text_embeded':  torch.tensor(x['text_embeded'].reshape(128)),
+#     #         'text': torch.tensor(x['text']),
+#     #         'sound': torch.tensor([sound])
+#     #     })
+#     # for x in x_val:
+#     #     sound = 0
+#     #     if x['musicId'] in nationalistic_sounds:
+#     #         sound = 1
+#     #     val_x.append({
+#     #         'video_embeded':  torch.tensor(x['video_vector']),
+#     #         'hashtags_score': torch.tensor(x['hash_score']),
+#     #         'text_embeded':  torch.tensor(x['text_embeded'].reshape(128)),
+#     #         'text': torch.tensor(x['text']),
+#     #         'sound': torch.tensor([sound])
+#     #     })
+#     # for x in x_test:
+#     #     sound = 0
+#     #     if x['musicId'] in nationalistic_sounds:
+#     #         sound = 1
+#     #     test_x.append({
+#     #         'video_embeded':  torch.tensor(x['video_vector']),
+#     #         'hashtags_score': torch.tensor(x['hash_score']),
+#     #         'text_embeded': torch.tensor(x['text_embeded'].reshape(128)),
+#     #         'text': torch.tensor(x['text']),
+#     #         'sound':  torch.tensor([sound])
+#     #     })
+#     #
+#     # np.save('../data/final_train', train_x)
+#     # np.save('../data/final_val', val_x)
+#     # np.save('../data/final_test', test_x)
+#
+#     train_x = np.load('../data/final_train.npy', allow_pickle=True)
+#     val_x = np.load('../data/final_val.npy', allow_pickle=True)
+#     test_x = np.load('../data/final_test.npy', allow_pickle=True)
+#     for x in train_x:
+#         # x['text_embeded'] =  torch.tensor(x['text_embeded'].reshape(128))
+#         # x['video_embeded'] = torch.tensor(x['video_embeded'])
+#         # x['sound']= torch.tensor(x['sound'])
+#         x['text'] = torch.tensor(x['text'])
+#         # x['hashtags_score'] = torch.tensor(np.random.rand(1))
+#         # x['text_embeded'] = torch.tensor(np.random.rand(128))
+#         # x['sound'] = torch.tensor(np.random.rand(1))
+#         # x['video_embeded'] = torch.tensor(np.random.rand(2048))
+#     for x in val_x:
+#         # x['text_embeded'] =  torch.tensor(x['text_embeded'].reshape(128))
+#         # x['video_embeded'] = torch.tensor( x['video_embeded'])
+#         # x['sound']= torch.tensor(x['sound'])
+#         x['text'] = torch.tensor(x['text'])
+#         # x['hashtags_score'] = torch.tensor(np.random.rand(1))
+#         # x['text_embeded'] = torch.tensor(np.random.rand(128))
+#         # x['sound'] = torch.tensor(np.random.rand(1))
+#         # x['video_embeded'] = torch.tensor(np.random.rand(2048))
+#     for x in test_x:
+#         # x['text_embeded'] =  torch.tensor(x['text_embeded'].reshape(128))
+#         # x['video_embeded'] = torch.tensor( x['video_embeded'])
+#         # x['sound']= torch.tensor(x['sound'])
+#         x['text'] = torch.tensor(x['text'])
+#         # x['hashtags_score'] = torch.tensor(np.random.rand(1))
+#         # x['text_embeded'] = torch.tensor(np.random.rand(128))
+#         # x['sound'] = torch.tensor(np.random.rand(1))
+#         # x['video_embeded'] = torch.tensor(np.random.rand(2048))
+#
+#
+#     train_dataset = postsDataset(train_x, y_train)
+#     val_dataset = postsDataset(val_x, y_val)
+#     test_dataset = postsDataset(test_x, y_test)
+#
+#     train_loader = data_utils.DataLoader(dataset = train_dataset, batch_size = 64, shuffle = True)
+#     val_loader = data_utils.DataLoader(dataset = val_dataset, batch_size = 32, shuffle = True)
+#     test_loader = data_utils.DataLoader(dataset = test_dataset, batch_size = 32, shuffle = True)
+#
+#     model =  postsModel(dropout_squeeze_fc=0.2, dropout_final_fc=0.2)
+#     train_model(model, train_loader, val_loader)
+#     model =  postsModel(dropout_squeeze_fc=0.2, dropout_final_fc=0.2)
+#     train_model(model, train_loader, test_loader)
+#     torch.save(model, 'final_model')
+
+
 if __name__ == "__main__":
-    # vids = np.load('../vids.npy', allow_pickle=True)
-    # tags = np.load('../tag.npy', allow_pickle=True)
-    # data = np.load('../data.npy', allow_pickle=True)
-    # x_train_val, x_test, y_train_val, y_test = train_test_split(data, tags, test_size = 0.15, random_state = 19)
-    # x_train, x_val, y_train, y_val = train_test_split(x_train_val, y_train_val, test_size = 0.15, random_state = 17)
-    # np.save('../data/x_train.npy', x_train)
-    # np.save('../data/y_train.npy', y_train)
-    # np.save('../data/x_val.npy', x_val)
-    # np.save('../data/y_val.npy', y_val)
-    # np.save('../data/x_test.npy', x_test)
-    # np.save('../data/y_test.npy', y_test)
-    ########################################################################################################################3
-    # x_train = np.load('../data/x_train.npy', allow_pickle=True)
+    # x_train = np.load('../data/x_train_new.npy', allow_pickle=True)
     y_train = np.load('../data/y_train.npy', allow_pickle=True)
-    # x_val = np.load('../data/x_val.npy', allow_pickle=True)
-    y_val = np.load('../data/y_val.npy', allow_pickle=True)
-    # x_test = np.load('../data/x_test.npy', allow_pickle=True)
+    # x_test = np.load('../data/x_test_new.npy', allow_pickle=True)
     y_test = np.load('../data/y_test.npy', allow_pickle=True)
-    # x_train_new = np.load('../data/x_train_new.npy', allow_pickle=True)
-    # x_val_new = np.load('../data/x_val_new.npy', allow_pickle=True)
-    # x_test_new = np.load('../data/x_test_new.npy', allow_pickle=True)
     # nationalistic_sounds = np.load('../nationalistic_songs.npy', allow_pickle=True)
     # nationalistic_sounds = get_train_sounds.get_train_sounds(x_train, nationalistic_sounds)
-
-    # with open("../../../Downloads/train.txt", "r") as f1:
-    #     with open("../../../Downloads/train.json", "r") as f2:
-    #         videos_id = f1.read().split('\n')[:-1]
+    # with open("../../../Downloads/train2.txt", "r") as f1:
+    #     with open("../../../Downloads/trainVecs.json", "r") as f2:
+    #         videos_id = f1.read().split('\n')
     #         vectors = json.load(f2)
-    # with open("../../../Downloads/val.txt", "r") as f1:
-    #     with open("../../../Downloads/val.json", "r") as f2:
+    # with open("../../../Downloads/test2.txt", "r") as f1:
+    #     with open("../../../Downloads/testVecs.json", "r") as f2:
     #         videos_id += f1.read().split('\n')[:-1]
     #         vectors += json.load(f2)
-    # with open("../../../Downloads/test.txt", "r") as f1:
-    #     with open("../../../Downloads/test.json", "r") as f2:
-    #         videos_id += f1.read().split('\n')[:-1]
-    #         vectors += json.load(f2)
-    #
     #
     # for i in range(len(videos_id)):
     #     videos_id[i] = videos_id[i].split(' ')[0]
@@ -250,71 +399,33 @@ if __name__ == "__main__":
     # for x in x_train:
     #     try:
     #         id = x['Vid']
-    #         x['text_embeded'] = x_train_new[i]['text_embedded'] if x_train_new[i]['text_embedded'] != None else np.random.rand(128)
-    #         x['text'] = 1 if x_train_new[i]['text_embedded'] != None else 0
+    #         x['text_embeded'] = x_train[i]['text_embeded'] if x_train[i]['text'] != 0 else np.random.rand(128)
     #         x['video_vector'] = vectors[videos_id.index(id)]
     #     except:
     #         x['video_vector'] = x_train[i-1]['video_vector']
     #         c+=1
     #     i+=1
     # i = 0
-    # for x in x_val:
-    #     try:
-    #         id = x['Vid']
-    #         x['text_embeded'] = x_val_new[i]['text_embedded'] if x_val_new[i]['text_embedded'] != None else np.random.rand(128)
-    #         x['text'] = 1 if x_val_new[i]['text_embedded'] != None else 0
-    #         x['video_vector'] = vectors[videos_id.index(id)]
-    #     except:
-    #         x['video_vector'] = x_val[i-1]['video_vector']
-    #         c+=1
-    #     i+=1
-    # i = 0
     # for x in x_test:
     #     try:
     #         id = x['Vid']
-    #         x['text_embeded'] = x_test_new[i]['text_embedded'] if x_test_new[i]['text_embedded'] != None else np.random.rand( 128)
-    #         x['text'] = 1 if x_test_new[i]['text_embedded'] != None else 0
+    #         x['text_embeded'] = x_test[i]['text_embeded'] if x_test[i]['text'] != 0 else np.random.rand(128)
     #         x['video_vector'] = vectors[videos_id.index(id)]
     #     except:
-    #         x['video_vector'] = x_test[i-1]['video_vector']
-    #         c+=1
-    #     i+=1
-    # del x_train_new
-    # del x_val_new
-    # del x_test_new
-    #
-    # # get_hash_score.add_grade(x_train, y_train, x_val, y_val)
-    # # get_hash_score.add_grade(x_train, y_train, x_test, y_test)
-    # #
-    # # config = Config()
-    # # nlp_model = nlp.Seq2SeqAttention(config)
-    # # nlp_model.load_state_dict(torch.load('../text_models/text_model.pt', map_location='cpu'))
-    # # dataprep.embed_text(nlp_model, x_train, torch.tensor(np.zeros(len(x_train))))
-    # # dataprep.embed_text(nlp_model, x_val, torch.tensor(np.zeros(len(x_val))))
-    # # dataprep.embed_text(nlp_model, x_test, torch.tensor(np.zeros(len(x_test))))
+    #         x['video_vector'] = x_test[i - 1]['video_vector']
+    #         c += 1
+    #     i += 1
     #
     # train_x = []
-    # val_x = []
     # test_x = []
     # for x in x_train:
     #     sound = 0
     #     if x['musicId'] in nationalistic_sounds:
     #         sound = 1
     #     train_x.append({
-    #         'video_embeded':  torch.tensor(x['video_vector']),
+    #         'video_embeded':  torch.tensor(np.array(x['video_vector'])[:,0]),
     #         'hashtags_score': torch.tensor(x['hash_score']),
-    #         'text_embeded':  torch.tensor(x['text_embeded'].reshape(128)),
-    #         'text': torch.tensor(x['text']),
-    #         'sound': torch.tensor([sound])
-    #     })
-    # for x in x_val:
-    #     sound = 0
-    #     if x['musicId'] in nationalistic_sounds:
-    #         sound = 1
-    #     val_x.append({
-    #         'video_embeded':  torch.tensor(x['video_vector']),
-    #         'hashtags_score': torch.tensor(x['hash_score']),
-    #         'text_embeded':  torch.tensor(x['text_embeded'].reshape(128)),
+    #         'text_embeded':  torch.tensor(x['text_embeded']).reshape(-1),
     #         'text': torch.tensor(x['text']),
     #         'sound': torch.tensor([sound])
     #     })
@@ -323,70 +434,31 @@ if __name__ == "__main__":
     #     if x['musicId'] in nationalistic_sounds:
     #         sound = 1
     #     test_x.append({
-    #         'video_embeded':  torch.tensor(x['video_vector']),
+    #         'video_embeded':   torch.tensor(np.array(x['video_vector'])[:,0]),
     #         'hashtags_score': torch.tensor(x['hash_score']),
-    #         'text_embeded': torch.tensor(x['text_embeded'].reshape(128)),
+    #         'text_embeded': torch.tensor(x['text_embeded']).reshape(-1),
     #         'text': torch.tensor(x['text']),
     #         'sound':  torch.tensor([sound])
     #     })
     #
     # np.save('../data/final_train', train_x)
-    # np.save('../data/final_val', val_x)
     # np.save('../data/final_test', test_x)
 
     train_x = np.load('../data/final_train.npy', allow_pickle=True)
-    val_x = np.load('../data/final_val.npy', allow_pickle=True)
     test_x = np.load('../data/final_test.npy', allow_pickle=True)
-    for x in train_x:
-        # x['text_embeded'] =  torch.tensor(x['text_embeded'].reshape(128))
-        # x['video_embeded'] = torch.tensor(x['video_embeded'])
-        # x['sound']= torch.tensor(x['sound'])
-        x['text'] = torch.tensor(x['text'])
-        # x['hashtags_score'] = torch.tensor(np.random.rand(1))
-        # x['text_embeded'] = torch.tensor(np.random.rand(128))
-        # x['sound'] = torch.tensor(np.random.rand(1))
-        # x['video_embeded'] = torch.tensor(np.random.rand(2048))
-    for x in val_x:
-        # x['text_embeded'] =  torch.tensor(x['text_embeded'].reshape(128))
-        # x['video_embeded'] = torch.tensor( x['video_embeded'])
-        # x['sound']= torch.tensor(x['sound'])
-        x['text'] = torch.tensor(x['text'])
-        # x['hashtags_score'] = torch.tensor(np.random.rand(1))
-        # x['text_embeded'] = torch.tensor(np.random.rand(128))
-        # x['sound'] = torch.tensor(np.random.rand(1))
-        # x['video_embeded'] = torch.tensor(np.random.rand(2048))
-    for x in test_x:
-        # x['text_embeded'] =  torch.tensor(x['text_embeded'].reshape(128))
-        # x['video_embeded'] = torch.tensor( x['video_embeded'])
-        # x['sound']= torch.tensor(x['sound'])
-        x['text'] = torch.tensor(x['text'])
-        # x['hashtags_score'] = torch.tensor(np.random.rand(1))
-        # x['text_embeded'] = torch.tensor(np.random.rand(128))
-        # x['sound'] = torch.tensor(np.random.rand(1))
-        # x['video_embeded'] = torch.tensor(np.random.rand(2048))
 
+    # for x in train_x:
+        # x['hashtags_score'] = torch.tensor(np.random.rand(1))
+        # x['text_embeded'] = torch.tensor(np.random.rand(128))
+        # x['sound'] = torch.tensor(np.random.rand(1))
+        # x['video_embeded'] = torch.tensor(np.random.rand(30))
 
     train_dataset = postsDataset(train_x, y_train)
-    val_dataset = postsDataset(val_x, y_val)
     test_dataset = postsDataset(test_x, y_test)
 
     train_loader = data_utils.DataLoader(dataset = train_dataset, batch_size = 64, shuffle = True)
-    val_loader = data_utils.DataLoader(dataset = val_dataset, batch_size = 32, shuffle = True)
     test_loader = data_utils.DataLoader(dataset = test_dataset, batch_size = 32, shuffle = True)
 
-    model =  postsModel(dropout_squeeze_fc=0.2, dropout_final_fc=0.2)
-    train_model(model, train_loader, val_loader)
-    model =  postsModel(dropout_squeeze_fc=0.2, dropout_final_fc=0.2)
+    model =  postsModel(dropout_squeeze_fc=0.3, dropout_final_fc=0.3)
     train_model(model, train_loader, test_loader)
     torch.save(model, 'final_model')
-
-
-    # model.eval()
-    # with torch.no_grad():
-        # x = {}
-        # x['text_embeded'] =  torch.tensor(np.random.rand(128))
-        # x['video_embeded'] = torch.tensor([0.8,0.2])
-        # x['sound']= torch.tensor([0])
-        # x['text'] = torch.tensor([0])
-        # x['hashtags_score'] = torch.tensor([0.4])
-        # print(get_predict(model, x))
