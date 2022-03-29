@@ -38,17 +38,11 @@ def predict(test, test_lables):
 
 
 if __name__ == '__main__':
-    # train = np.load("../text_models/x_train.npy", allow_pickle=True)
+    train = np.load("../text_models/x_train.npy", allow_pickle=True)
     # train_labels = np.load("../text_models/y_train.npy", allow_pickle=True)
-    test = [np.load("../text_models/x_test.npy", allow_pickle=True)[0]]
-    test_lables = [0]
-    # add_grade(train, train_labels, test, test_lables)
-    # train_data = get_vids_and_hashtags(train, train_labels)
-    # train_vid_bucket = train_data
-    # hash_bucket = to_hashtags_bucket(train_vid_bucket)
-    # model = HashtagModel(hash_bucket, train_vid_bucket)
-    # model.calc_correlations(limit_size, limit_pearson)
-    # model.to_file()
-    # model2 = HashtagModel()
-    predict(test, test_lables)
+    test = np.load("../text_models/x_test.npy", allow_pickle=True)
+    predict(train, np.zeros(len(train)))
+    predict(test, np.zeros(len(test)))
+    np.save("x_train_new.npy", np.array(train, dtype=object))
+    np.save("x_test_new.npy", np.array(test, dtype=object))
     print("1")
