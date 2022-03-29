@@ -138,8 +138,9 @@ def embed_text(model, data, labels):
     embedded_data = prep_data(data, labels)
     for x, embed_x in zip(data, embedded_data):
         if embed_x[0]:
-            n = torch.unsqueeze(torch.Tensor(embed_x[0]), 0)
-            y = model.forward_to_last_layer(n)
+            m = torch.from_numpy(np.array(embed_x[0]))
+            z = torch.permute(torch.unsqueeze(m, 0), (1, 0, 2))
+            y = model.forward_to_last_layer(z)
             x["text_embeded"] = y
             x["text"] = 1
         else:
@@ -211,20 +212,20 @@ if __name__ == '__main__':
     # data, test_set = list(data), list(test_set)
     # np.save('train_val_300_sg', data)
     # np.save('test_300_sg', test_set)
-    x_train = np.load('../hashtags_models/x_train.npy', allow_pickle=True)
-    y_train = np.load('../hashtags_models/y_train.npy', allow_pickle=True)
-    x_val = np.load('../hashtags_models/x_val.npy', allow_pickle=True)
-    y_val = np.load('../hashtags_models/y_val.npy', allow_pickle=True)
-    x_test = np.load('../hashtags_models/x_test.npy', allow_pickle=True)
-    y_test = np.load('../hashtags_models/y_test.npy', allow_pickle=True)
+    x_train = np.load('x_train.npy', allow_pickle=True)
+    y_train = np.load('y_train.npy', allow_pickle=True)
+    # x_val = np.load('../hashtags_models/x_val.npy', allow_pickle=True)
+    # y_val = np.load('../hashtags_models/y_val.npy', allow_pickle=True)
+    x_test = np.load('x_test.npy', allow_pickle=True)
+    y_test = np.load('y_test.npy', allow_pickle=True)
     train = prep_data(x_train, y_train)
     train = [x for x in train if x[0] is not None]
-    val = prep_data(x_val, y_val)
-    val = [x for x in val if x[0] is not None]
+    # val = prep_data(x_val, y_val)
+    # val = [x for x in val if x[0] is not None]
     test = prep_data(x_test, y_test)
     test = [x for x in test if x[0] is not None]
     np.save('train', np.array(train, dtype=object))
-    np.save('val', np.array(val, dtype=object))
+    # np.save('val', np.array(val, dtype=object))
     np.save('test', np.array(test, dtype=object))
 
 # if __name__ == '__main__':

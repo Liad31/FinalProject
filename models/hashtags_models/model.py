@@ -13,10 +13,15 @@ sigmoid = torch.nn.Sigmoid()
 
 
 class HashtagModel(object):
-    def __init__(self, hashtag_bucket, vid_bucket):
-        self.hashtag_bucket = hashtag_bucket
-        self.vid_bucket = vid_bucket
-        self.correlations = None
+    def __init__(self, hashtag_bucket=None, vid_bucket=None):
+        if hashtag_bucket is None or vid_bucket is None:
+            self.hashtag_bucket = dict(np.load("hashtag_bucket.npy", allow_pickle=True))
+            self.vid_bucket = dict(np.load("vid_bucket.npy", allow_pickle=True))
+            self.correlations = dict(np.load("correlations.npy", allow_pickle=True))
+        else:
+            self.hashtag_bucket = hashtag_bucket
+            self.vid_bucket = vid_bucket
+            self.correlations = None
 
     def calc_correlations(self, limit_size, limit_pearson):
         correlations = {}
@@ -44,8 +49,6 @@ class HashtagModel(object):
                         tags.append(tag)
         return sigmoid(torch.FloatTensor([np.dot(dists, tags)]))
 
-
-
     def evaluate_auc(self, iterator, metric):
         all_preds = []
         all_y = []
@@ -58,3 +61,11 @@ class HashtagModel(object):
         fpr, tpr, thresholds = roc_curve(all_y, np.array(all_preds).flatten(), pos_label=1)
         acc = accuracy_score(all_y, np.array(preds).flatten())
         return auc(fpr, tpr), acc
+
+    def to_file(self):
+        hashtag_bucket = np.array(list(self.hashtag_bucket.items()), dtype=object)
+        vid_bucket = np.array(list(self.vid_bucket.items()), dtype=object)
+        correlations = np.array(list(self.correlations.items()), dtype=object)
+        np.save("hashtag_bucket.npy", hashtag_bucket)
+        np.save("vid_bucket.npy", vid_bucket)
+        np.save("correlations.npy", correlations)
