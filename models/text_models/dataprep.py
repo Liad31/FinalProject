@@ -138,8 +138,9 @@ def embed_text(model, data, labels):
     embedded_data = prep_data(data, labels)
     for x, embed_x in zip(data, embedded_data):
         if embed_x[0]:
-            n = torch.unsqueeze(torch.Tensor(embed_x[0]), 0)
-            y = model.forward_to_last_layer(n)
+            m = torch.from_numpy(np.array(embed_x[0]))
+            z = torch.permute(torch.unsqueeze(m, 0), (1, 0, 2))
+            y = model.forward_to_last_layer(z)
             x["text_embeded"] = y
             x["text"] = 1
         else:

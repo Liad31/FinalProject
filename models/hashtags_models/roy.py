@@ -29,10 +29,20 @@ def add_grade(train, train_labels, test, test_lables):
     return train, test
 
 
+def predict(test, test_lables):
+    model = HashtagModel()
+    test_data = get_vids_and_hashtags(test, test_lables)
+    for sample in test:
+        sample['hash_score'] = model.predict(test_data[sample['Vid']][0], metric)
+    return test
+
+
 if __name__ == '__main__':
-    train = np.load("x_train.npy", allow_pickle=True)
-    train_labels = np.load("y_train.npy", allow_pickle=True)
-    test = np.load("x_val.npy", allow_pickle=True)
-    test_lables = np.load("y_val.npy", allow_pickle=True)
-    add_grade(train, train_labels, test, test_lables)
+    train = np.load("../text_models/x_train.npy", allow_pickle=True)
+    # train_labels = np.load("../text_models/y_train.npy", allow_pickle=True)
+    test = np.load("../text_models/x_test.npy", allow_pickle=True)
+    predict(train, np.zeros(len(train)))
+    predict(test, np.zeros(len(test)))
+    np.save("x_train_new.npy", np.array(train, dtype=object))
+    np.save("x_test_new.npy", np.array(test, dtype=object))
     print("1")
