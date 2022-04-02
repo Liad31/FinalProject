@@ -1,6 +1,5 @@
 from flask import Flask, request,jsonify
 import tempfile
-import openai
 import torch
 import os
 from  models.final_model import final_model
