@@ -42,7 +42,7 @@ def apply_video_model(vids,vidsRoot):
         createIfNotExists(root)
         dataRootTest=root+"/test"
         annoFileTest=root+"/anno/test.txt"
-        organize(vids,[0 for _ in vids],annoFileTest,dataRootTest)
+        organize(vids,[0 for _ in vids],annoFileTest,dataRootTest,vidsRoot=vidsRoot)
         confFile="models/videoModel/mmaction2/configs/recognition/tanet/myConf.py"
         with open(confFile) as f:
             lines=f.readlines()
@@ -50,7 +50,10 @@ def apply_video_model(vids,vidsRoot):
         with open(confFile,"w") as f:
             f.writelines(lines)
         prefix="models/videoModel/mmaction2/"
-        os.system(f"python3 {prefix}tools/test.py {prefix}configs/recognition/tanet/myConf.py {prefix}tanet/epoch_12.pth --out results.json")
+        a=os.system(f"python3 {prefix}tools/test.py {prefix}configs/recognition/tanet/myConf.py {prefix}tanet/epoch_12.pth --out results.json")
+        with open("results.json") as f:
+            results=json.load(f)
+        return results
 @app.route("/get_hashtags_score", methods=['POST'])
 def get_hashtags_score():
     request_json = request.json
