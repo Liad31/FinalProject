@@ -1,5 +1,8 @@
 from flask import Flask, request,jsonify
+import tempfile
+import openai
 import torch
+import os
 from  models.final_model import final_model
 import  numpy as np
 from  models.final_model.dataset import  postsDataset
@@ -13,7 +16,7 @@ import requests
 import  json
 from models.text_models.trail_nlp import embed_text2
 from models.hashtags_models.roy import predict
-
+from models.videoModel.prepareTannet import organize, createIfNotExists
 app = Flask(__name__)
 model = torch.load('../final_model/final_model', map_location='cpu')
 nationalistic_sounds = np.load('../nationalistic_songs.npy', allow_pickle=True)
@@ -32,7 +35,22 @@ def get_video_vector():
     video = np.array(request_json['video'])
     # implement!!!!
     return jsonify(vector=[0.6])
+def apply_video_model(vids,vidsRoot):
+    # pick a unique directoryimport tempfile
 
+    with tempfile.TemporaryDirectory() as root:
+        createIfNotExists(root)
+        dataRootTest=root+"/test"
+        annoFileTest=root+"/anno/test.txt"
+        organize(vids,[0 for _ in vids],annoFileTest,dataRootTest)
+        confFile="models/videoModel/mmaction2/configs/recognition/tanet/myConf.py"
+        with open(confFile) as f:
+            lines=f.readlines()
+        lines[6]=f'root="{root}"\n'
+        with open(confFile,"w") as f:
+            f.writelines(lines)
+        prefix="models/videoModel/mmaction2/"
+        os.system(f"python3 {prefix}tools/test.py {prefix}configs/recognition/tanet/myConf.py {prefix}tanet/epoch_12.pth --out results.json")
 @app.route("/get_hashtags_score", methods=['POST'])
 def get_hashtags_score():
     request_json = request.json
