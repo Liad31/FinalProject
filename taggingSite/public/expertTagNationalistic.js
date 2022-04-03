@@ -3,7 +3,7 @@ let id;
 let vidId;
 $(document).ready(function () {
     $.ajax({
-        url: 'api/expertTagNationalistic/getNegVid',
+        url: 'api/expertTagNationalistic/getVid',
         type: 'get',
         data: { expert: false },
         success: function (vid) {

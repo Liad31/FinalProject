@@ -1,19 +1,12 @@
 let express = require("express");
 let router = express.Router();
-const User = require("../../models/user")
-const Tag = require("../../models/nationalisticTag")
-const NegVid = require("../../models/negVid");
-const Stats = require("../../models/nationalisticTaggingStat");
+const mlTaggedVid = require("../../models/mlTaggedVid");
 const Video = require("../../models/video");
 const NodeCache = require("node-cache");
-const { ObjectId, ObjectID } = require("bson");
-const featureList = require("../../params/params").FEATURE_LIST
-const MAX_VIDEOS_PER_TAG = require("../../params/params").MAX_VIDEOS_PER_TAG
-const FeatureCounter = require("../../models/featureCounter")
 // TTL=30 mins
 const recentlySent = new NodeCache({ stdTTL: 30 * 60 * 60, checkperiod: 0 });
 
-router.get("/getNegVid", (req, res) => {
+router.get("/getVid", (req, res) => {
     for (key of recentlySent.keys()) {
         recentlySent.get(key)
     }
@@ -21,7 +14,7 @@ router.get("/getNegVid", (req, res) => {
         expertTag: null,
         _id: { $nin: recentlySent.keys() }
     }
-    NegVid.findOne(filter, function (err, vid) {
+    mlTaggedVid.findOne(filter, function (err, vid) {
         if (err) {
             console.log(err)
             return
@@ -68,17 +61,17 @@ router.post("/markError", (req, res) => {
 router.post("/tag", (req, res) => {
     let id = req.body.id
     let decision = req.body.tag
-    NegVid.findById(id, function (err, negvid) {
+    mlTaggedVid.findById(id, function (err, vid) {
         if (err) {
             console.log(err)
             return
         }
         
-        console.log(negvid)
+        console.log(vid)
         console.log(decision)
-        negvid.expertTag = decision;
-        console.log(negvid)
-        negvid.save()
+        vid.expertTag = decision;
+        console.log(vid)
+        vid.save()
 
         //update user
         let user = req.user;
