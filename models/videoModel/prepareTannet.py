@@ -23,8 +23,7 @@ def makeList(videos,tags,videosRoots):
         with open("vids2.txt","a") as f:
             f.write(f"{id} {tag}\n")
             # continue
-def organize(videos,tags,annoFile,videosRoot,fps=10):
-    vid_root="/mnt/videos"
+def organize(videos,tags,annoFile,videosRoot,fps=10,vid_root="/mnt/videos"):
     # find last occurence of slash
     lastOcc=annoFile.rfind('/')
     # get the path to the videos

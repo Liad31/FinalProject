@@ -121,8 +121,6 @@ router.get("/getVideos", (req, res) => {
       '$or': [
         {
           'downloaded': false
-        }, {
-          'videoText': 'ERROR!!!!!'
         }
         // {
         // 'videoText': "Unproced"

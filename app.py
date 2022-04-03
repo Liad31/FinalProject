@@ -35,8 +35,6 @@ def get_video_vector():
     # implement!!!!
     return jsonify(vector=[0.6])
 def apply_video_model(vids,vidsRoot):
-    # pick a unique directoryimport tempfile
-
     with tempfile.TemporaryDirectory() as root:
         createIfNotExists(root)
         dataRootTest=root+"/test"
