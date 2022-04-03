@@ -9,5 +9,5 @@ const mlTaggedVidSchema= new Schema({
 });
 
 
-const mlTaggedVid = mongoose.model("negVid", mlTaggedVidSchema);
+const mlTaggedVid = mongoose.model("mlTaggedVid", mlTaggedVidSchema);
 module.exports=mlTaggedVid
