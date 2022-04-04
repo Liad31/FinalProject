@@ -89,6 +89,7 @@ def async_download_vids_parallel(batch_size =15,iterations=50, num_videos=30,tok
     batch_size =batch_size
     num_threads=10
     passed_total = 0
+    videosDir="/mnt/videos"
     
     id_success=[]
     i=0
@@ -111,7 +112,6 @@ def async_download_vids_parallel(batch_size =15,iterations=50, num_videos=30,tok
                 vids_to_download.append((secuid,id))
             videoTexts=[]
             async_list = "async_list.txt"
-            videosDir="/mnt/videos"
             create_download_txt(vids_to_download,async_list)
             a=os.system(f'yt-dlp -a {async_list} -o "%(id)s.mp4" -R 10 --proxy frzgcmrj-rotate:rxpxcauy7pn0@p.webshare.io:80')
             downloaded_paths = []
@@ -264,8 +264,4 @@ def count_videos():
 # import glob
 # for i in glob.glob("*.mp4"):
 #     text_from_video(i)
-tokens=[]
-with open("tokens.txt") as f:
-    for line in f:
-        tokens.append(line.strip())
-async_download_vids_parallel(iterations=1000,tokens=tokens)
+async_download_vids_parallel(iterations=1000)
