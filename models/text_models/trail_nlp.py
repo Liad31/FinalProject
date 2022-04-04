@@ -1,12 +1,12 @@
 import numpy as np
 import torch
-from model import *
-from dataprep import *
-from config import Config
+from .model import *
+from .dataprep import *
+from .config import Config
 import random
-from early_stopping import EarlyStopping
+from .early_stopping import EarlyStopping
 import nni
-
+import os.path as osp
 
 def main(config):
     # load data
@@ -93,11 +93,12 @@ def train_test(config):
     print(f'test auc: {test_auc}')
     torch.save(model.state_dict(), "text_model.pt")
 
+config = Config()
+nlp_model = Seq2SeqAttention(config)
+this_dir, this_filename = os.path.split(__file__)
+nlp_model.load_state_dict(torch.load(osp.join(this_dir,'text_model.pt')))
 
 def embed_text2(data, labels):
-    config = Config()
-    nlp_model = Seq2SeqAttention(config)
-    nlp_model.load_state_dict(torch.load('text_model.pt'))
     embed_text(nlp_model, data, labels)
 
 
