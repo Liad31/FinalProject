@@ -118,9 +118,8 @@ def prep_data(examples, labels):
 
     # embed data
     print(os.getcwd())
-    global t_model
+    
     word_vectors = t_model.wv
-    del t_model
     embedded_data = []
     for (text, tag) in cleaner_data:
         if text:
@@ -146,7 +145,7 @@ def embed_text(model, data, labels):
             x["text_embeded"] = y
             x["text"] = 1
         else:
-            x["text_embeded"] = np.random.rand(64)
+            x["text_embeded"] = torch.tensor([0]*64)
             x["text"] = 0
 
 
