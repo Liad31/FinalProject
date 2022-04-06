@@ -42,12 +42,12 @@ class Scraper:
     def scrap_posts(self, usernames, post_ids):
         cmds = [f'https://www.tiktok.com/@{username}/video/{post_id}' for username, post_id in zip(usernames, post_ids)]
 
-        params = {
-            'download': True,
+        params= { 
+            'filetype': 'csv'
         }
         dir_name = self.scrap_batch(cmds, params)
 
-        output = self.generate_output_from_mp4(dir_name)
+        output = self.generate_output_from_csv(dir_name)
         return output
 
     def scrap_hashtags(self, hashtags, num_posts, since, before, download=False):
@@ -112,7 +112,7 @@ class Scraper:
         params['filepath'] = dir_name
 
         scrap_params = ' '.join(f'--{param_name} {param_value}' for param_name, param_value in params.items())
-        scrap_cmd = f'tiktok-scraper from-file {cmds_name} {self.async_workers}'
+        scrap_cmd = f'ts-node tiktok-scraper/bin/cli.js from-file {cmds_name} {self.async_workers}'
         print(scrap_cmd)
         os.system(f'{scrap_cmd} {scrap_params}')
 
