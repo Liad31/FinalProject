@@ -21,25 +21,12 @@ model = torch.load('models/final_model/final_model', map_location='cpu')
 nationalistic_sounds = np.load('models/nationalistic_songs.npy', allow_pickle=True)
 # nationalistic_sounds = get_train_sounds.get_train_sounds(x_train, nationalistic_sounds) # important to do!!!! x_train is data in data format
 
-@app.route("/get_text_vector", methods=['POST'])
-def get_text_vector():
-    request_json = request.json
-    data = [request_json['data']]
-    embed_text2(data, [0])
-    return jsonify(vector=list(data[0]['text_embeded']), is_text=data[0]['text'])
-
-@app.route("/get_video_vector", methods=['POST'])
-def get_video_vector():
-    request_json = request.json
-    video = np.array(request_json['video'])
-    # implement!!!!
-    return jsonify(vector=[0.6])
 def apply_video_model(vids,vidsRoot):
     with tempfile.TemporaryDirectory() as root:
         createIfNotExists(root)
         dataRootTest=root+"/test"
         annoFileTest=root+"/anno/test.txt"
-        organize(vids,[0 for _ in vids],annoFileTest,dataRootTest,vidsRoot=vidsRoot)
+        organize(vids,[0 for _ in vids],annoFileTest,dataRootTest,vid_root=vidsRoot)
         confFile="models/videoModel/mmaction2/configs/recognition/tanet/myConf.py"
         with open(confFile) as f:
             lines=f.readlines()
@@ -51,48 +38,7 @@ def apply_video_model(vids,vidsRoot):
         with open("results.json") as f:
             results=json.load(f)
         return results
-@app.route("/get_hashtags_score", methods=['POST'])
-def get_hashtags_score():
-    request_json = request.json
-    data = [request_json['data']]
-    predict(data, [0])
-    return jsonify(
-        score=list(data[0]['hash_score'])
-    )
-@app.route("/get_sound_score", methods=['POST'])
-def get_sound_score():
-    request_json = request.json
-    sound = request_json['sound']
-    res = 0
-    if sound in nationalistic_sounds:
-        res = 1
-    return jsonify(
-        score=[res]
-    )
-@app.route("/get_final_score", methods=['POST'])
-def final_score():
-    request_json =request.json
-    root_url = request.url_root
-    x = {}
-
-    is_text = 0
-    if 'text' in request_json:
-        is_text = 1
-        text_embeded = (requests.post(root_url + 'get_text_vector', json={"data": request_json})).json()['vector'] # todo: fix this, you get is_text as well!
-        x['text_embeded'] = torch.tensor(text_embeded)
-    else:
-        x['text_embeded'] = torch.tensor(np.random.rand(128))
-
-    video_embeded = (requests.post(root_url + 'get_video_vector', json={"video": request_json['video']})).json()['vector']
-    x['video_embeded'] = torch.tensor(video_embeded)
-    sound_score = (requests.post(root_url + 'get_sound_score', json={"sound":  request_json['sound']})).json()['score']
-    x['sound'] = torch.tensor(sound_score)
-    x['text'] = torch.tensor([is_text])
-    hashtags_score = (requests.post(root_url + 'get_hashtags_score', json={"data":  request_json})).json()['score']
-    x['hashtags_score'] = torch.tensor(hashtags_score)
-    return str(final_model.get_predict(model, sample=x)[0])
-
-@app.route("/get_final_score", methods=['POST'])
+    
 def score_from_url():
     #implement!!!!!!
     return requests.post(request.url_root + 'get_final_score', json={
@@ -101,9 +47,28 @@ def score_from_url():
     "sound": 123,
     "video": [[1,2,3],[4,5,6]]
     })
+def get_hash_score(data):
+    res=predict(data,np.zeros(1))
+    res=[i["hash_score"] for i in data]
+    res=torch.tensor(res)
+    return res
+def get_sound_score(data):
+    return [i["musicId"] in nationalistic_sounds for i in data]
+def predictSample(videoPath,data,root):
+    videoVec=apply_video_model([videoPath],root)
+    x={}
+    x["video_embeded"]=torch.tensor(videoVec)
+    x["sound"]=get_sound_score(data)
+    x["sound"]=torch.tensor(x["sound"])
+    x["hashtags_score"]=get_hash_score(data)
+    x["text"]=[d['text'] for d in data]
+    x["text_embeded"]=[d['text_embeded'] for d in data]
+    x["text_embeded"]= x["text_embeded"][0]
+    res=final_model.get_predict(model,sample=x)
+    return res
 def predictAll():
-    videoResultsFile="models/videoModel/mmaction2/trainVecs.json"
-    dataFile="models/data.npy"
+    videoResultsFile="testVecs.json"
+    dataFile="x_test.npy"
     batchSize=1
     with open(videoResultsFile) as f:
         videoVecs=json.load(f)
@@ -125,8 +90,10 @@ def predictAll():
         embed_text2(dataBatch,np.zeros(batchSize))
         x["text"]=[d['text'] for d in dataBatch]
         x["text_embeded"]=[d['text_embeded'] for d in dataBatch]
-        x["text_embeded"]= torch.tensor(x["text_embeded"])
+        x["text_embeded"]= x["text_embeded"][0]
         res=final_model.get_predict(model,sample=x)
-        preds.extend(res)
+        preds.extend([float(i) for i in res])
+    with open("preds.txt","w+") as f:
+        f.writelines([str(p)+'\n' for p in preds])
 if __name__ == "__main__":
     predictAll()

@@ -1,3 +1,4 @@
+import json
 import os
 import shutil
 from zipfile import ZipFile
@@ -5,9 +6,14 @@ from zipfile import ZipFile
 import pandas as pd
 
 import location_analyzer
-from response_api import User
+from .response_api import User
 
 
+from apify_client import ApifyClient
+# Initialize the ApifyClient with your API token
+client = ApifyClient("apify_api_VSGPCD3k3P8Eo08ordUwyhXf9Iyvxz0fLN7O")
+
+# Prepare the actor input
 def get_posts_per_user(posts_df):
     map_post_index_to_user = {i: post_series['authorMeta.secUid'] for i, post_series in posts_df.iterrows()}
     users = set(map_post_index_to_user.values())
@@ -118,7 +124,45 @@ class Scraper:
 
         os.remove(cmds_name)
         return dir_name
-
+    def csv_from_json(self,jsonArr, filename):
+        banList=['coverThumb', 'coverMedium', 'coverLarge', 'duration', 'covers', 'musicId', 'videoUrl', 'videoUrlNoWaterMark', 'videoApiUrlNoWaterMark']
+        keyTranslate={'secretID': 'id', 'secUid': 'id'}
+        firstCsvRow='"id","secretID","text","createTime","authorMeta.id","authorMeta.secUid","authorMeta.name","authorMeta.nickName","authorMeta.verified","authorMeta.signature","authorMeta.avatar","authorMeta.following","authorMeta.fans","authorMeta.heart","authorMeta.video","authorMeta.digg","musicMeta.musicId","musicMeta.musicName","musicMeta.musicAuthor","musicMeta.musicOriginal","musicMeta.musicAlbum","musicMeta.playUrl","musicMeta.coverThumb","musicMeta.coverMedium","musicMeta.coverLarge","musicMeta.duration","covers.default","covers.origin","covers.dynamic","webVideoUrl","videoUrl","videoUrlNoWaterMark","videoApiUrlNoWaterMark","videoMeta.height","videoMeta.width","videoMeta.duration","diggCount","shareCount","playCount","commentCount","downloaded","mentions","hashtags","effectStickers"'
+        keys=firstCsvRow.split(',')
+        with open(filename, "w") as f:
+            f.write(firstCsvRow+'\n')
+            for row in jsonArr:
+                for key in keys:
+                    l=row
+                    key=key.split(".")
+                    for subKey in key:
+                        subKey=subKey.strip("\"")
+                        if subKey in banList:
+                            l=""
+                            break
+                        if subKey in keyTranslate:
+                            subKey=keyTranslate[subKey]
+                        l=l[subKey]
+                    f.write("\""+str(l)+"\""+',')
+                f.write('\n')
+    def scrap_batch2(self,json,numResults):
+        dir_name = os.path.join(self.results_dir, str(self.counter))
+        
+        if os.path.exists(dir_name):
+            shutil.rmtree(dir_name)
+        os.mkdir(dir_name)
+        self.counter += 1
+        run_input = {
+            "resultsPerPage":numResults ,
+            "proxyConfiguration": {
+                "useApifyProxy": 'true'
+            },
+        }
+        run_input.update(json)
+        run = client.actor("sauermar/free-tiktok-scraper").call(run_input=run_input)
+        lst=list(client.dataset(run["defaultDatasetId"]).iterate_items())
+        self.csv_from_json(lst, os.path.join(dir_name, 'output.csv'))
+        return dir_name
     def generate_cmds_file(self, cmds, path):
         with open(path, 'w', encoding='utf8') as cmds_file:
             file_content = '\n'.join(cmds)

@@ -73,10 +73,10 @@ if "__main__"==__name__:
 # vids=[i["Vid"] for i in vids]
 # organize(vids,tag,ann_file_train,data_root)
 
-    vids=np.load("data.npy",allow_pickle=True)
-    tag=np.load("tag.npy",allow_pickle=True)
-    vids=[i["Vid"] for i in vids]
-    organize(vids,tag,ann_file_train,data_root)
+    # vids=np.load("data.npy",allow_pickle=True)
+    # tag=np.load("tag.npy",allow_pickle=True)
+    # vids=[i["Vid"] for i in vids]
+    # organize(vids,tag,ann_file_train,data_root)
 
 
 # vids=np.load("x_test.npy",allow_pickle=True)
