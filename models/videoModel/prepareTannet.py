@@ -37,7 +37,7 @@ def organize(videos,tags,annoFile,videosRoot,fps=10,vid_root="/mnt/videos"):
         if not os.path.exists(f"{vid_root}/{vid}"):
             with open("failed_vids.txt","a") as f:
                 f.write(f"{vid}\n")
-            # continue
+            continue
         # # save each frame seperately
         if os.path.exists(f"{videosRoot}/{id}"):
             # with open("vids2.txt","a+") as f:
