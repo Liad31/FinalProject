@@ -67,7 +67,7 @@ def predictSample(videoPath,data,root):
     res=final_model.get_predict(model,sample=x)
     return res
 def predictAll():
-    videoResultsFile="testVecs.json"
+    videoResultsFile="models/videoModel/mmaction2/finalVecs.json"
     dataFile="x_test.npy"
     batchSize=1
     with open(videoResultsFile) as f:
