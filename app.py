@@ -75,6 +75,7 @@ def predictAll():
     data=np.load(dataFile,allow_pickle=True)
     # make data and vids in the same order
     # apply models
+    with open("")
     preds=[]
     from tqdm import tqdm
     for i in tqdm(range(0,len(videoVecs),batchSize)):
