@@ -50,7 +50,7 @@ def organize(videos,tags,annoFile,videosRoot,fps=10,vid_root="/mnt/videos"):
         with open(annoFile,"a") as f:
             if(int(tag) in [0,1]):
                 f.write(f"{id} {numFrames} {int(tag)}\n")
-root="/mnt/tannetFinal2/"
+root="/mnt/tannetFinalFinal/"
 createIfNotExists(root)
 data_root = root+'train'
 data_root_val = root+'val'
@@ -72,13 +72,10 @@ ann_file_test = root+'anno/test.txt'
 # vids=[i["Vid"] for i in vids]
 # organize(vids,tag,ann_file_train,data_root)
 
-vids=np.load("x_train.npy",allow_pickle=True)
-tag=np.load("y_train.npy",allow_pickle=True)
+vids=np.load("data.npy",allow_pickle=True)
+tag=np.load("tag.npy",allow_pickle=True)
 vids=[i["Vid"] for i in vids]
-vidstags=[i for i in zip(vids,tag) if i[0] in ["6960755902567697665","6960771676841757953","6966970808208067841","6960754585589894401"]]
-vids=[i[0] for i in vidstags]
-tag=[i[1] for i in vidstags]
-organize(vids,tag,ann_file_train,data_root)
+organize(vids,tag,ann_file_test,data_root_test)
 
 
 # vids=np.load("x_test.npy",allow_pickle=True)
