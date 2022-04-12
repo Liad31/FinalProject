@@ -1,3 +1,4 @@
+import 'package:final_site/helpers/local_nagivator.dart';
 import 'package:final_site/widgets/side_menu.dart';
 import 'package:flutter/material.dart';
 
@@ -12,9 +13,7 @@ class LargeScreen extends StatelessWidget {
       ),
       Expanded(
         flex: 5,
-        child: Container(
-          color: Colors.blue,
-        ),
+        child: localNavgator(),
       ),
     ]);
   }
