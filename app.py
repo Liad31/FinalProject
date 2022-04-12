@@ -68,17 +68,21 @@ def predictSample(videoPath,data,root):
     return res
 def predictAll():
     videoResultsFile="models/videoModel/mmaction2/finalVecs.json"
-    dataFile="x_test.npy"
+    dataFile="data.npy"
     batchSize=1
     with open(videoResultsFile) as f:
         videoVecs=json.load(f)
     data=np.load(dataFile,allow_pickle=True)
     # make data and vids in the same order
     # apply models
-    with open("")
+    with open("/mnt/tannetFinalFinal/anno/test.txt") as f:
+        lines=f.readlines()
+        allowedVids=[line.strip() for line in lines]
+        allowedVids=[lines.split()[0] for lines in allowedVids]
+    allowedVids=set(allowedVids)
     preds=[]
     from tqdm import tqdm
-    for i in tqdm(range(0,len(videoVecs),batchSize)):
+    for i in tqdm(range(0,len(data),batchSize)):
         x={}
         x["video_embeded"]=torch.tensor(videoVecs[i:i+batchSize])
         dataBatch=data[i:i+batchSize]

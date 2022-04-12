@@ -35,7 +35,7 @@ router.post("/postNewUsers", (req, res) => {
                 musicId: videos[k]['musicId'],
                 musicUrl: videos[k]['musicUrl'],
                 date: videos[k]['date'],
-                videoStats: videos[k]['videoStats']
+                stats: videos[k]['videoStats']
               });
               console.log(vid)
               console.log(user.videos)
@@ -66,7 +66,7 @@ router.post("/postNewUsers", (req, res) => {
             hashtags: videos_arr[i]['hashtags'],
             musicId: videos_arr[i]['musicId'],
             musicUrl: videos_arr[i]['musicUrl'],
-            videoStats: videos[k]['videoStats']
+            stats: videos[k]['videoStats']
           });
           videos.push(cur_video);
           cur_video.save().catch(err => {
