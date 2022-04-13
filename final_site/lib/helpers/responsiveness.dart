@@ -10,13 +10,15 @@ class ResponsiveWidget extends StatelessWidget {
   final Widget largeScreen;
   final Widget meduimScreen;
   final Widget smallScreen;
+  final GlobalKey<ScaffoldState> scaffoldKey;
 
-  const ResponsiveWidget({
-    Key? key,
-    this.largeScreen = const LargeScreen(),
-    this.meduimScreen = const LargeScreen(),
-    this.smallScreen = const LargeScreen(),
-  }) : super(key: key);
+  const ResponsiveWidget(
+      {Key? key,
+      this.largeScreen = const LargeScreen(),
+      this.meduimScreen = const LargeScreen(),
+      this.smallScreen = const LargeScreen(),
+      required this.scaffoldKey})
+      : super(key: key);
 
   static bool isSmallScreen(BuildContext context) =>
       MediaQuery.of(context).size.width < meduimScreenSize;
@@ -30,6 +32,7 @@ class ResponsiveWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance!.addPostFrameCallback((_) => afterBuild(context));
     return LayoutBuilder(builder: (context, constraints) {
       double _width = constraints.maxWidth;
       if (_width >= largeScreenSize) {
@@ -40,5 +43,11 @@ class ResponsiveWidget extends StatelessWidget {
         return smallScreen;
       }
     });
+  }
+
+  void afterBuild(BuildContext context) {
+    if (!isSmallScreen(context)) {
+      scaffoldKey.currentState?.openEndDrawer();
+    }
   }
 }
