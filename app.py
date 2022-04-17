@@ -16,6 +16,7 @@ import torch
 import  numpy as np
 import requests
 import  json
+from tiktokApi.scraper import scraper
 app = Flask(__name__)
 model = torch.load('models/final_model/final_model', map_location='cpu')
 nationalistic_sounds = np.load('models/nationalistic_songs.npy', allow_pickle=True)
@@ -39,14 +40,9 @@ def apply_video_model(vids,vidsRoot):
             results=json.load(f)
         return results
     
-def score_from_url():
-    #implement!!!!!!
-    return requests.post(request.url_root + 'get_final_score', json={
-    "text":"abc. abc",
-    "hashtags":["#abc", "#def"],
-    "sound": 123,
-    "video": [[1,2,3],[4,5,6]]
-    })
+def score_from_url(url):
+    postMeta=scraper.scrap_postsUrl([url])
+    
 def get_hash_score(data):
     res=predict(data,np.zeros(1))
     res=[i["hash_score"] for i in data]
@@ -66,39 +62,38 @@ def predictSample(videoPath,data,root):
     x["text_embeded"]= x["text_embeded"][0]
     res=final_model.get_predict(model,sample=x)
     return res
-def predictAll():
-    videoResultsFile="models/videoModel/mmaction2/finalVecs.json"
-    dataFile="data.npy"
-    batchSize=1
-    with open(videoResultsFile) as f:
-        videoVecs=json.load(f)
-    data=np.load(dataFile,allow_pickle=True)
-    # make data and vids in the same order
-    # apply models
-    with open("/mnt/tannetFinalFinal/anno/test.txt") as f:
-        lines=f.readlines()
-        allowedVids=[line.strip() for line in lines]
-        allowedVids=[lines.split()[0] for lines in allowedVids]
-    allowedVids=set(allowedVids)
-    preds=[]
-    from tqdm import tqdm
-    for i in tqdm(range(0,len(data),batchSize)):
-        x={}
-        x["video_embeded"]=torch.tensor(videoVecs[i:i+batchSize])
-        dataBatch=data[i:i+batchSize]
-        x["hashtags_score"]=predict(dataBatch,np.zeros(batchSize))
-        # make tensor
-        x["hashtags_score"]=[i["hash_score"] for i in dataBatch]
-        x["hashtags_score"]=torch.tensor(x["hashtags_score"])
-        x["sound"]=[i["musicId"] in nationalistic_sounds for i in dataBatch]
-        x["sound"]= torch.tensor(x["sound"])
-        embed_text2(dataBatch,np.zeros(batchSize))
-        x["text"]=[d['text'] for d in dataBatch]
-        x["text_embeded"]=[d['text_embeded'] for d in dataBatch]
-        x["text_embeded"]= x["text_embeded"][0]
-        res=final_model.get_predict(model,sample=x)
-        preds.extend([float(i) for i in res])
-    with open("preds.txt","w+") as f:
-        f.writelines([str(p)+'\n' for p in preds])
+# def predictAll():
+#     videoResultsFile="models/videoModel/mmaction2/finalVecs.json"
+#     dataFile="data.npy"
+#     batchSize=1
+#     with open(videoResultsFile) as f:
+#         videoVecs=json.load(f)
+#     data=np.load(dataFile,allow_pickle=True)
+#     # make data and vids in the same order
+#     # apply models
+#     with open("/mnt/tannetFinalFinal/anno/test.txt") as f:
+#         lines=f.readlines()
+#         allowedVids=[line.strip() for line in lines]
+#         allowedVids=[lines.split()[0] for lines in allowedVids]
+#     allowedVids=set(allowedVids)
+#     preds=[]
+#     from tqdm import tqdm
+#     for i in tqdm(range(0,len(data),batchSize)):
+#         x={}
+#         x["video_embeded"]=torch.tensor(videoVecs[i:i+batchSize])
+#         dataBatch=data[i:i+batchSize]
+#         x["hashtags_score"]=predict(dataBatch,np.zeros(batchSize))
+#         # make tensor
+#         x["hashtags_score"]=[i["hash_score"] for i in dataBatch]
+#         x["hashtags_score"]=torch.tensor(x["hashtags_score"])
+#         x["sound"]=[i["musicId"] in nationalistic_sounds for i in dataBatch]
+#         x["sound"]= torch.tensor(x["sound"])
+#         embed_text2(dataBatch,np.zeros(batchSize))
+#         x["text"]=[d['text'] for d in dataBatch]
+#         x["text_embeded"]=[d['text_embeded'] for d in dataBatch]
+#         x["text_embeded"]= x["text_embeded"][0]
+#         res=final_model.get_predict(model,sample=x)
+#         preds.extend([float(i) for i in res])
+#     with open("preds.txt","w+") as f:
+#         f.writelines([str(p)+'\n' for p in preds])
 if __name__ == "__main__":
-    predictAll()

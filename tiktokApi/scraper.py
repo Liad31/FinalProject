@@ -5,8 +5,13 @@ from zipfile import ZipFile
 
 import pandas as pd
 
-import location_analyzer
-from .response_api import User
+if __package__ is None or __package__ == '':
+    from response_api import User
+    import location_analyzer
+else:
+    # uses current package visibility
+    from .response_api import User
+    from . import location_analyzer
 
 
 from apify_client import ApifyClient
@@ -44,16 +49,16 @@ class Scraper:
         self.counter = 0
 
     # EXTERNAL FUNCTIONS
-
+    def scrap_postsUrl(self,urls):
+        json= {"postURLs": urls}
+        json = self.scrap_batch2(json, len(urls))
+        output= self.generate_output_from_json(json)
+        return output
     def scrap_posts(self, usernames, post_ids):
         cmds = [f'https://www.tiktok.com/@{username}/video/{post_id}' for username, post_id in zip(usernames, post_ids)]
-
-        params= { 
-            'filetype': 'csv'
-        }
-        dir_name = self.scrap_batch(cmds, params)
-
-        output = self.generate_output_from_csv(dir_name)
+        json= {"postURLs": cmds}
+        json = self.scrap_batch2(json, len(usernames))
+        output= self.generate_output_from_json(json)
         return output
 
     def scrap_hashtags(self, hashtags, num_posts, since, before, download=False):
@@ -88,17 +93,9 @@ class Scraper:
 
     def scrap_users(self, usernames, num_posts, since, before):
         cmds = usernames
-
-        params = {
-            'number': num_posts,
-            'filetype': 'csv',
-            'since': since,
-            'before': before
-        }
-        dir_name = self.scrap_batch(cmds, params)
-
-        output = self.generate_output_from_csv(dir_name)
-        print("dasdasd")
+        json= {"profiles": cmds}
+        json = self.scrap_batch2(json, num_posts)
+        output= self.generate_output_from_json(json)
         return output
 
     # INTERNAL FUNCTIONS
@@ -124,27 +121,35 @@ class Scraper:
 
         os.remove(cmds_name)
         return dir_name
-    def csv_from_json(self,jsonArr, filename):
+    def correctJson(self,jsonArr):
         banList=['coverThumb', 'coverMedium', 'coverLarge', 'duration', 'covers', 'musicId', 'videoUrl', 'videoUrlNoWaterMark', 'videoApiUrlNoWaterMark']
-        keyTranslate={'secretID': 'id', 'secUid': 'id'}
-        firstCsvRow='"id","secretID","text","createTime","authorMeta.id","authorMeta.secUid","authorMeta.name","authorMeta.nickName","authorMeta.verified","authorMeta.signature","authorMeta.avatar","authorMeta.following","authorMeta.fans","authorMeta.heart","authorMeta.video","authorMeta.digg","musicMeta.musicId","musicMeta.musicName","musicMeta.musicAuthor","musicMeta.musicOriginal","musicMeta.musicAlbum","musicMeta.playUrl","musicMeta.coverThumb","musicMeta.coverMedium","musicMeta.coverLarge","musicMeta.duration","covers.default","covers.origin","covers.dynamic","webVideoUrl","videoUrl","videoUrlNoWaterMark","videoApiUrlNoWaterMark","videoMeta.height","videoMeta.width","videoMeta.duration","diggCount","shareCount","playCount","commentCount","downloaded","mentions","hashtags","effectStickers"'
+        keyTranslate={'secUid': 'id',"secretID":'id'}
+        firstCsvRow="'id','secretID','text','createTime','authorMeta.id','authorMeta.secUid','authorMeta.name','authorMeta.nickName','authorMeta.verified','authorMeta.signature','authorMeta.avatar','authorMeta.following','authorMeta.fans','authorMeta.heart','authorMeta.video','authorMeta.digg','musicMeta.musicId','musicMeta.musicName','musicMeta.musicAuthor','musicMeta.musicOriginal','musicMeta.musicAlbum','musicMeta.playUrl','musicMeta.coverThumb','musicMeta.coverMedium','musicMeta.coverLarge','musicMeta.duration','covers.default','covers.origin','covers.dynamic','webVideoUrl','videoUrl','videoUrlNoWaterMark','videoApiUrlNoWaterMark','videoMeta.height','videoMeta.width','videoMeta.duration','diggCount','shareCount','playCount','commentCount','downloaded','mentions','hashtags','effectStickers'"
         keys=firstCsvRow.split(',')
-        with open(filename, "w") as f:
-            f.write(firstCsvRow+'\n')
-            for row in jsonArr:
-                for key in keys:
-                    l=row
-                    key=key.split(".")
-                    for subKey in key:
-                        subKey=subKey.strip("\"")
-                        if subKey in banList:
-                            l=""
-                            break
-                        if subKey in keyTranslate:
-                            subKey=keyTranslate[subKey]
-                        l=l[subKey]
-                    f.write("\""+str(l)+"\""+',')
-                f.write('\n')
+        newJsonArr=[]
+        for row in jsonArr:
+            jsonRow={}
+            for key in keys:
+                l=row
+                origKey=key
+                key=key.split(".")
+                for subKey in key:
+                    subKey=subKey.strip("\'")
+                    if subKey in banList:
+                        l=""
+                        break
+                    if subKey in keyTranslate:
+                        subKey=keyTranslate[subKey]
+                    l=l[subKey]
+                if type(l)==list:
+                    l=json.dumps(l)
+                # if l is number convert to int else convert to string
+                if type(l)==int:
+                    l=int(l)
+                jsonRow[origKey.strip("'")]=l
+            jsonRow["musicId"]=row["musicMeta"]["playUrl"].split("/")[-1].split(".")[0]
+            newJsonArr.append(jsonRow)
+        return newJsonArr 
     def scrap_batch2(self,json,numResults):
         dir_name = os.path.join(self.results_dir, str(self.counter))
         
@@ -161,13 +166,23 @@ class Scraper:
         run_input.update(json)
         run = client.actor("sauermar/free-tiktok-scraper").call(run_input=run_input)
         lst=list(client.dataset(run["defaultDatasetId"]).iterate_items())
-        self.csv_from_json(lst, os.path.join(dir_name, 'output.csv'))
-        return dir_name
+        return self.correctJson(lst)
     def generate_cmds_file(self, cmds, path):
         with open(path, 'w', encoding='utf8') as cmds_file:
             file_content = '\n'.join(cmds)
             cmds_file.write(file_content)
+    def generate_output_from_json(self, json):
+        posts_df = pd.DataFrame.from_dict(json).reset_index()
 
+        map_secure_id_to_posts_df = get_posts_per_user(posts_df)
+        output = [User.from_scraper_pandas_series(user_posts_df.iloc[0])
+                      .add_posts_from_scraper_pandas_df(user_posts_df)
+                  for user_posts_df in map_secure_id_to_posts_df.values()]
+
+        user_location_by_secure_id = location_analyzer.find_users_locations(output, map_secure_id_to_posts_df)
+        output = [user.set_governorate(user_location_by_secure_id.get(user.secure_id, '')).as_dict()
+                  for user in output]
+        return output
     def generate_output_from_csv(self, dir_name):
         files = self.get_result_files('csv')
         posts_df = pd.concat([pd.read_csv(file) for file in files]).reset_index()
