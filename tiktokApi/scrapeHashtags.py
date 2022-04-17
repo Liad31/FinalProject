@@ -3,7 +3,7 @@ from scraper import scraper
 import requests
 import json
 from datetime import datetime
-numPosts = 2500
+numPosts = 100000
 since = 0
 before = 0
 with open("hashtags.txt", "r") as file:
@@ -13,7 +13,7 @@ for hashtag in hashtags:
     if " " in hashtag:
         hashtags.append(hashtag.replace(" ", ""))
         hashtags.append(hashtag.replace(" ", "_"))
-
+hashtags=list(set(hashtags))
 output = scraper.scrap_hashtags(hashtags, numPosts, since, before,download=False)
 usersWithLocation = [user for user in output if user["governorate"]]
 for i,user in enumerate(usersWithLocation):
@@ -34,8 +34,8 @@ for user in usersWithLocation:
                        "hashtags": video["hashtags"],
                        "musicId": video["music"]["id"],
                        "musicUrl": video["music"]["url"],
-                       "date": epoch_time,
-                       "stats": video["stats"]
+                       "stats": video['stats'],
+                       "date": epoch_time
                        })
     res.append({
         "id": user["id"],

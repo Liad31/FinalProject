@@ -1,4 +1,5 @@
 
+from matplotlib.pyplot import text
 import requests
 
 import json
@@ -47,21 +48,23 @@ def text_from_video(path):
     extract_middle_frame(path)
     image_path="frame.png"
     img=cv2.imread(image_path)
-    img=img[80:-80,:]
+    height=img.shape[0]
+    img=img[int(height*0.1):-int(height*0.1),:]
     results = reader.readtext(img)
     final=[]
     results.sort(key=BoxesComparator)
     for bbox,text,conf in results:
         # print(f"text: {text}, conf: {conf}, bbox: {bbox}")
-        if conf> 0.4:
+        if conf> 0.25:
             final.append(text)
     # final=final[1:]
     final=" ".join(final)
-    if not final:
+    final=' '.join(final.split())
+    if not final or len(final)>150:
         return final
     response = openai.Completion.create(
       engine="davinci",
-      prompt=f"Correct Mistakes In The Original Text\nOriginal:{final}\nStandard Arabic:",
+      prompt=f"Fix Spelling Mistakes\nOriginal:{final}\nStandard Arabic:",
       temperature=0,
       max_tokens=200,
       top_p=1.0,
@@ -69,8 +72,10 @@ def text_from_video(path):
       presence_penalty=0.0,
       stop=["\n"]
     )
-    return response['choices'][0]['text']
-
+    aifinal=response['choices'][0]['text']
+    if not aifinal:
+        aifinal=final
+    return aifinal.strip()
 
 #import grequests
 def create_download_txt(lis_sec_ids,path="async_list.txt"):
@@ -80,23 +85,20 @@ def create_download_txt(lis_sec_ids,path="async_list.txt"):
         os.system(f'echo "https://www.tiktok.com/@{sec}/video/{id}" >> {path}')
 def chunker_list(seq, size):
     return (seq[pos:pos + size] for pos in range(0, len(seq), size))
-
-def async_download_vids_parallel(batch_size =15,iterations=50, num_videos=30,tokens=None):
-    # request the videos from server
+def ocr(batch_size=25,iterations=50000,num_videos=25,tokens=None):
     cur_time = time.time()
     cnt=0
     cnt_failed=0
     batch_size =batch_size
     num_threads=10
     passed_total = 0
-    videosDir="/mnt/videos"
     
     id_success=[]
     i=0
     while i<iterations:
         id_failed=[]
         # get from the server a list of videos to download
-        r = requests.get(f'http://localhost:8001/api/database/getVideos?num={num_videos}')
+        r = requests.get(f'http://localhost:8001/api/database/getDownloadedVideos?num={num_videos}')
         rl = r.json()
         if len(rl) ==0:
             print("finished downloading!")
@@ -112,39 +114,30 @@ def async_download_vids_parallel(batch_size =15,iterations=50, num_videos=30,tok
                 vids_to_download.append((secuid,id))
             videoTexts=[]
             async_list = "async_list.txt"
+            videosDir="/mnt/videos"
             create_download_txt(vids_to_download,async_list)
-            a=os.system(f'yt-dlp -a {async_list} -o "%(id)s.mp4" -R 10 --proxy frzgcmrj-rotate:rxpxcauy7pn0@p.webshare.io:80')
+            # a=os.system(f'yt-dlp -a {async_list} -o "%(id)s.mp4" -R 10 --proxy frzgcmrj-rotate:rxpxcauy7pn0@p.webshare.io:80')
             downloaded_paths = []
             for (secuid,id) in vids_to_download:
-                # check in current folder
-                cur_path = f"./{id}.mp4"
-                # or get_file_size(cur_path)==0
-                if not os.path.exists(f"{cur_path}"):
-                    # add to failed
-                    cnt_failed+=1
-                    videoTexts.append({"Vid":id,"text":"ERROR2!!!!!"})
-                    # print("failed to download 15 vids")
-                    #continue
-                else:
-                    # move the file
-                    if not os.path.exists(videosDir):
-                        os.system(f"mkdir {videosDir}")
-                    path =f"{videosDir}/{id}.mp4"
-                    new_path = path[:-4]+"_r.mp4"
-                    os.system(f"mv {cur_path} {path}")
-                    videoTexts.append({"Vid":id, "text": "Unproced"})
-                    downloaded_paths.append((path,new_path))
-                    cnt_batch+=1
-                    cnt+=1
-            # resize the vids
-            # resize_videos_parallel(downloaded_paths)
-            # # override the old vids
-            # for (path,new_path) in downloaded_paths:
-            #     os.system(f"mv {new_path} {path}")
-            #     secuid_v = path[2:].split("/")[0]
-            #     id_v = path[2:].split("/")[1][:-4]
-            #     id_success.append(id_v)
-            # tell the server it changed
+                path =f"{videosDir}/{id}.mp4"
+                new_path = path[:-4]+"_r.mp4"
+                while True:
+                    try:
+                        videoTexts.append({"Vid":id, "text": text_from_video(path)})
+                        break
+                    except OSError as e:
+                        with open("failed_vids",'a') as f:
+                            f.write(f"{id}\n")
+                        videoTexts.append({"Vid":id, "text": ""})
+                        break
+                    except Exception as e:
+                        if not tokens:
+                            print("no tokens")
+                            return
+                        openai.api_key = tokens.pop()
+                downloaded_paths.append((path,new_path))
+                cnt_batch+=1
+                cnt+=1
             
             passed = time.time()-cur_time
             passed_total+=passed
@@ -264,4 +257,9 @@ def count_videos():
 # import glob
 # for i in glob.glob("*.mp4"):
 #     text_from_video(i)
-async_download_vids_parallel(iterations=1000)
+tokens=[]
+with open("tokens.txt") as f:
+    for line in f:
+        tokens.append(line.strip())
+openai.api_key=tokens.pop()
+ocr(iterations=1000,tokens=tokens)
