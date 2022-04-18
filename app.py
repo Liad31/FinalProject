@@ -17,6 +17,8 @@ import  numpy as np
 import requests
 import  json
 from tiktokApi.scraper import scraper
+from tiktokApi.OCR import ocr
+from tiktokApi.scrapeHashtags import addToDB
 app = Flask(__name__)
 model = torch.load('models/final_model/final_model', map_location='cpu')
 nationalistic_sounds = np.load('models/nationalistic_songs.npy', allow_pickle=True)
@@ -41,8 +43,19 @@ def apply_video_model(vids,vidsRoot):
         return results
     
 def score_from_url(url):
-    postMeta=scraper.scrap_postsUrl([url])
-    
+    id=url.split("/")[-1]
+
+    with tempfile.TemporaryDirectory() as videoRoot:
+        os.chdir(videoRoot)
+        userMeta=scraper.scrap_postsUrl([url])
+        videoText=ocr([id],'.')
+        for user in addToDB(userMeta,yieldRes=True):
+            data=user["videos"][0]
+        data["videoText"]=videoText
+        # find the path of the video in directory
+        videoPath=videoRoot+"/"+id+".mp4"
+        return predictSample(videoPath,data,videoRoot)        
+
 def get_hash_score(data):
     res=predict(data,np.zeros(1))
     res=[i["hash_score"] for i in data]
