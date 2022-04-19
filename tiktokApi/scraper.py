@@ -106,7 +106,7 @@ class Scraper:
         
         if os.path.exists(dir_name):
             shutil.rmtree(dir_name)
-        os.mkdir(dir_name)
+        os.system("mkdir -p" + dir_name)
         self.counter += 1
 
         self.generate_cmds_file(cmds, cmds_name)
@@ -147,7 +147,8 @@ class Scraper:
                 if type(l)==int:
                     l=int(l)
                 jsonRow[origKey.strip("'")]=l
-            jsonRow["musicId"]=row["musicMeta"]["playUrl"].split("/")[-1].split(".")[0]
+            jsonRow["musicMeta.musicId"]=int(row["musicMeta"]["playUrl"].split("/")[-1].split(".")[0])
+            jsonRow["hashtags"]=jsonRow["hashtags"].encode('utf-8').decode('unicode-escape')
             newJsonArr.append(jsonRow)
         return newJsonArr 
     def scrap_batch2(self,json,numResults):
@@ -155,7 +156,7 @@ class Scraper:
         
         if os.path.exists(dir_name):
             shutil.rmtree(dir_name)
-        os.mkdir(dir_name)
+        os.system("mkdir -p " + dir_name)
         self.counter += 1
         run_input = {
             "resultsPerPage":numResults ,

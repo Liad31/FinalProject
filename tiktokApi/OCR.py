@@ -89,11 +89,10 @@ def chunker_list(seq, size):
 def ocr(videos,videosDir="/mnt/videos"):
     cur_time = time.time()
     cnt=0
-    batch_size =batch_size
     passed_total = 0
     # get from the server a list of videos to download
-    r = {"Vid":v for v in videos}
-    rl = r.json()
+    r = [{"Vid":v} for v in videos]
+    rl = r
     # print(rl)
     # take chunks of batch_size each time
     cnt_batch=0
@@ -156,4 +155,4 @@ with open(osp.join(this_dir, "tokens.txt")) as f:
     for line in f:
         tokens.append(line.strip())
 openai.api_key=tokens.pop()
-ocr(iterations=1000,tokens=tokens)
+# ocr(iterations=1000,tokens=tokens)

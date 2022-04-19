@@ -87,9 +87,8 @@ class postsModel(nn.Module):
         sounds_score = post['sound'].float().reshape(-1,1)
 
         final_tensor = squeezed_video_embeded
-        final_tensor= final_tensor[:,:,0]
-        if len(final_tensor.shape)!=1:
-            final_tensor = final_tensor.reshape(1,-1)
+        final_tensor= final_tensor.squeeze()[:,0]
+        final_tensor = final_tensor.reshape(1,-1)
         if post['text'][0]:
             final_tensor = torch.concat((final_tensor, squeezed_text_embeded,hashtags_score, sounds_score), dim=-1)
             out = self.final_fc(final_tensor)

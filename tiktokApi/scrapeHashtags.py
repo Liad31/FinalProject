@@ -1,10 +1,13 @@
 from attr import has
-from scraper import scraper
+from .scraper import scraper
 import requests
 import json
 from datetime import datetime
-def addToDB(output,yieldRes=False):
-    usersWithLocation = [user for user in output if user["governorate"]]
+def addToDB(output,yieldRes=False,locationFilter=True):
+    usersWithLocation=output
+    if locationFilter:
+        usersWithLocation = [user for user in output if user["governorate"]]
+    
     for i,user in enumerate(usersWithLocation):
         posts=user["posts"]
         postsDic=dict([(k["id"],j) for j,k in enumerate(posts)])
@@ -37,8 +40,9 @@ def addToDB(output,yieldRes=False):
         x = {"users": res}
         headers = {'Content-Type': 'application/json',
                    'Accept': 'application/json'}
-        requests.post("http://localhost:8001/api/database/postNewUsers",
-                      data=json.dumps(x), headers=headers)
+        if user["governorate"]:
+            requests.post("http://localhost:8001/api/database/postNewUsers",
+                          data=json.dumps(x), headers=headers)
         if yieldRes:
             yield res
 

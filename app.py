@@ -1,5 +1,4 @@
 from  models.final_model import final_model
-from  models.final_model.dataset import  postsDataset
 from models.hashtags_models import  get_hash_score
 from  models.text_models import model as nlp
 from  models.text_models import dataprep
@@ -9,52 +8,48 @@ from models.final_model.final_model import postsModel
 from models.text_models.trail_nlp import embed_text2
 from models.hashtags_models.roy import predict
 from models.prepareTannet import organize, createIfNotExists
-from flask import Flask, request,jsonify
+# from flask import Flask, request,jsonify
 import os
 import tempfile
 import torch
 import  numpy as np
-import requests
+# import requests
 import  json
 from tiktokApi.scraper import scraper
 from tiktokApi.OCR import ocr
 from tiktokApi.scrapeHashtags import addToDB
-app = Flask(__name__)
-model = torch.load('models/final_model/final_model', map_location='cpu')
-nationalistic_sounds = np.load('models/nationalistic_songs.npy', allow_pickle=True)
+# app = Flask(__name__)
 # nationalistic_sounds = get_train_sounds.get_train_sounds(x_train, nationalistic_sounds) # important to do!!!! x_train is data in data format
 
 def apply_video_model(vids,vidsRoot):
     with tempfile.TemporaryDirectory() as root:
-        createIfNotExists(root)
         dataRootTest=root+"/test"
         annoFileTest=root+"/anno/test.txt"
         organize(vids,[0 for _ in vids],annoFileTest,dataRootTest,vid_root=vidsRoot)
-        confFile="models/videoModel/mmaction2/configs/recognition/tanet/myConf.py"
+        confFile="./models/videoModel/mmaction2/configs/recognition/tanet/conf.py"
         with open(confFile) as f:
             lines=f.readlines()
-        lines[6]=f'root="{root}"\n'
+        lines[5]=f'root="{root}/"\n'
         with open(confFile,"w") as f:
             f.writelines(lines)
         prefix="models/videoModel/mmaction2/"
-        a=os.system(f"python3 {prefix}tools/test.py {prefix}configs/recognition/tanet/myConf.py {prefix}tanet/epoch_12.pth --out results.json")
+        a=os.system(f"python3.8 {prefix}tools/test.py {confFile} {prefix}/work_dirs/tanet/epoch_12.pth --out results.json")
         with open("results.json") as f:
             results=json.load(f)
         return results
     
-def score_from_url(url):
-    id=url.split("/")[-1]
-
+def score_from_url(urls):
     with tempfile.TemporaryDirectory() as videoRoot:
-        os.chdir(videoRoot)
-        userMeta=scraper.scrap_postsUrl([url])
-        videoText=ocr([id],'.')
-        for user in addToDB(userMeta,yieldRes=True):
-            data=user["videos"][0]
-        data["videoText"]=videoText
+        userMeta=scraper.scrap_postsUrl(urls)
+        data=[]
+        for user in addToDB(userMeta,yieldRes=True,locationFilter=False):
+            data.extend(user[0]["videos"])
+        ids=[i["Vid"] for i in data]
+        videoText=ocr(ids,videoRoot)
+        for video,text in zip(data,videoText):
+            video["videoText"]=text["text"]
         # find the path of the video in directory
-        videoPath=videoRoot+"/"+id+".mp4"
-        return predictSample(videoPath,data,videoRoot)        
+        return predictSamples(ids,data,videoRoot)        
 
 def get_hash_score(data):
     res=predict(data,np.zeros(1))
@@ -62,18 +57,25 @@ def get_hash_score(data):
     res=torch.tensor(res)
     return res
 def get_sound_score(data):
+    nationalistic_sounds = np.load('models/nationalistic_songs.npy', allow_pickle=True)
     return [i["musicId"] in nationalistic_sounds for i in data]
-def predictSample(videoPath,data,root):
-    videoVec=apply_video_model([videoPath],root)
-    x={}
-    x["video_embeded"]=torch.tensor(videoVec)
-    x["sound"]=get_sound_score(data)
-    x["sound"]=torch.tensor(x["sound"])
-    x["hashtags_score"]=get_hash_score(data)
-    x["text"]=[d['text'] for d in data]
-    x["text_embeded"]=[d['text_embeded'] for d in data]
-    x["text_embeded"]= x["text_embeded"][0]
-    res=final_model.get_predict(model,sample=x)
+def predictSamples(ids,dataArray,root):
+    videoVecs=apply_video_model(ids,root)
+    res=[]
+    for data,videoVec in zip(dataArray,videoVecs):
+        id=data["Vid"]
+        data=[data]
+        x={}
+        x["video_embeded"]=torch.tensor(videoVec)
+        x["sound"]=get_sound_score(data)
+        x["sound"]=torch.tensor(x["sound"])
+        x["hashtags_score"]=get_hash_score(data)
+        x["text"]=[d['text'] for d in data]
+        embed_text2(data,np.zeros(1))
+        x["text_embeded"]=[d['text_embeded'] for d in data]
+        x["text_embeded"]= x["text_embeded"][0]
+        model = torch.load('models/final_model/final_model', map_location='cpu')
+        res.append({"Vid":id,"result": final_model.get_predict(model,sample=x)})
     return res
 # def predictAll():
 #     videoResultsFile="models/videoModel/mmaction2/finalVecs.json"
@@ -110,3 +112,4 @@ def predictSample(videoPath,data,root):
 #     with open("preds.txt","w+") as f:
 #         f.writelines([str(p)+'\n' for p in preds])
 if __name__ == "__main__":
+    print(score_from_url(["https://www.tiktok.com/@al_king540/video/7087276450801388801","https://www.tiktok.com/@x_qx3/video/7088016276987055362"]))

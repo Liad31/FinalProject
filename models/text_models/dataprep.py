@@ -95,8 +95,6 @@ def join_sentences(first, second):
     return first + second
 
 
-this_dir, this_filename = osp.split(__file__)
-t_model = gensim.models.Word2Vec.load(osp.join(this_dir,'full_uni_sg_300_twitter.mdl'))
 def prep_data(examples, labels):
     # load data
     new_data = [(example['text'], example['videoText'] if 'videoText' in example else "", 1 if label else 0) for (example, label) in zip(examples, labels)]
@@ -118,7 +116,8 @@ def prep_data(examples, labels):
 
     # embed data
     print(os.getcwd())
-    
+    this_dir, this_filename = osp.split(__file__)
+    t_model = gensim.models.Word2Vec.load(osp.join(this_dir,'full_uni_sg_300_twitter.mdl'))
     word_vectors = t_model.wv
     embedded_data = []
     for (text, tag) in cleaner_data:
