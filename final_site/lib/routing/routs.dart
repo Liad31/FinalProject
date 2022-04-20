@@ -2,7 +2,7 @@ const String homePageRoute = "Overview";
 const String getScorePageRoute = "Get Score";
 const String usersToFollowPageRoute = "Users To Follow";
 const String recentPageRoute = "Recent";
-const String timeAndSpacePageRoute = "Time And Space";
+const String timeAndPlacePageRoute = "Time And Place";
 const String authenticationPageRoute = "Authentication";
 
 List sideMenuItems = [
@@ -10,5 +10,5 @@ List sideMenuItems = [
   getScorePageRoute,
   usersToFollowPageRoute,
   recentPageRoute,
-  timeAndSpacePageRoute,
+  timeAndPlacePageRoute,
 ];

@@ -1,8 +1,8 @@
 import 'package:final_site/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 
-class TimeAndSpacePage extends StatelessWidget {
-  const TimeAndSpacePage({Key? key}) : super(key: key);
+class TimeAndPlacePage extends StatelessWidget {
+  const TimeAndPlacePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

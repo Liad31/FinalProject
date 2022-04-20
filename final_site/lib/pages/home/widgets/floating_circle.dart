@@ -36,7 +36,7 @@ class floatingCircle extends StatelessWidget {
       child: ClipRRect(
         child: CustomText(
           text: text,
-          size: (size / 3),
+          size: (size / 3) - 1,
           align: TextAlign.center,
           weight: FontWeight.bold,
         ),

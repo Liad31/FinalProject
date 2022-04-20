@@ -30,7 +30,7 @@ class MenuController extends GetxController {
         return _customIcon(Icons.people, itemName);
       case recentPageRoute:
         return _customIcon(Icons.video_collection_rounded, itemName);
-      case timeAndSpacePageRoute:
+      case timeAndPlacePageRoute:
         return _customIcon(Icons.access_time_filled_sharp, itemName);
       default:
         return _customIcon(Icons.home_rounded, itemName);

@@ -37,7 +37,7 @@ class textCircle extends StatelessWidget {
             ),
             CustomText(
               text: text,
-              size: (size2 * (8 - text.length + 3) / 8),
+              size: (size2 * (8 - text.length + 2.5) / 8),
               align: TextAlign.center,
               weight: FontWeight.bold,
             ),

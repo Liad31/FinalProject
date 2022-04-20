@@ -9,12 +9,16 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:final_site/helpers/responsiveness.dart';
 import 'package:final_site/pages/home/widgets/Image_card.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:webview_flutter/webview_flutter.dart';
+import 'package:easy_web_view/easy_web_view.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    var c = 9;
     const List project_phases = [
       'Define nationalistic',
       'Collect data',
@@ -22,12 +26,12 @@ class HomePage extends StatelessWidget {
       'Get labeled data',
       'Build and train the model'
     ];
-    List datas = [
+    var datas = [
       {'title': 'Tagged videos', 'value': '30,000'},
       {'title': 'AUC', 'value': '94'},
       {'title': 'Examined users', 'value': '3,824'},
       {'title': 'New videos from last 24h', 'value': '121'},
-    ];
+    ].obs;
     return Container(
       padding: EdgeInsets.only(top: 20, left: 40, right: 80),
       child: ListView(
@@ -118,14 +122,18 @@ class HomePage extends StatelessWidget {
             children: [
               Expanded(
                 child: Column(
-                  children: const [
-                    CustomText(
-                      text:
-                          'Our model Relies on 4 different data types: text description, it\'s hashtags, The sound attached to the video and the video itself. For each data type we created a sub-model or introduced logic before combining all the outputs of the sub-models which were trained separately before into one vector and passed it through a final fully connected network. For the text description we built an attention based LSTM taking as input the words of the description represented as the vector given by AraVec 3.0 (word2vec). For the hashtags we developed a weighted-KNN model, Our logic was to look at the correlation between a given hashtag and the nationalism of the posts tagged by it. We then defined a score function combining the hashtags of each post(reminds of a weighted-KNN). Our video model is the Tannet model provided by MMaction 2.0,  with it\'s final layer cut (to allow our final model to infer more about the video itself). Finally for the post sound we created a nationalistic sounds bucket based on the nationalistic sounds we accumulated in the tagging process and look for those sounds in future posts. Combining those four together, we created our final model which outputs a nationalistic score for a given TikTok post.',
-                      size: 18,
-                      weight: FontWeight.normal,
+                  children: [
+                    RichText(
+                      text: TextSpan(
+                        text:
+                            'Our model Relies on 4 different data types: text description, it\'s hashtags, The sound attached to the video and the video itself. For each data type we created a sub-model or introduced logic before combining all the outputs of the sub-models which were trained separately before into one vector and passed it through a final fully connected network. For the text description we built an attention based LSTM taking as input the words of the description represented as the vector given by ##AraVec 3.0 (word2vec)##. For the hashtags we developed a weighted-KNN model, Our logic was to look at the correlation between a given hashtag and the nationalism of the posts tagged by it. We then defined a score function combining the hashtags of each post(reminds of a weighted-KNN). Our video model is the Tannet model provided by ##MMaction 2.0##,  with it\'s final layer cut (to allow our final model to infer more about the video itself). Finally for the post sound we created a nationalistic sounds bucket based on the nationalistic sounds we accumulated in the tagging process and look for those sounds in future posts. Combining those four together, we created our final model which outputs a nationalistic score for a given TikTok post.',
+                        style: GoogleFonts.notoSans(
+                          fontSize: 18,
+                          fontWeight: FontWeight.normal,
+                        ),
+                      ),
                     ),
-                    CustomText(
+                    const CustomText(
                       text:
                           'With all of that, our TikTok classifier achived an AUC of 94!',
                       size: 18,
@@ -159,6 +167,129 @@ class HomePage extends StatelessWidget {
                 flex: 4,
               ),
             ],
+          ),
+          SizedBox(
+            child: Container(),
+            width: double.infinity,
+            height: 25,
+          ),
+          //
+          //
+          //
+          //
+          //
+          //
+          //
+          //
+          //
+          //
+          //
+          Container(
+            margin: const EdgeInsets.only(bottom: 6),
+            child: Row(
+              children: [
+                const CustomText(
+                  text: 'Our site',
+                  size: 28,
+                  weight: FontWeight.bold,
+                ),
+                Expanded(
+                  child: Container(),
+                ),
+              ],
+            ),
+            height: 60,
+          ),
+          Row(
+            children: [
+              Flexible(
+                child: SizedBox(
+                  child: Container(
+                    color: dark,
+                  ),
+                  width: double.infinity,
+                  height: 3,
+                ),
+                flex: 10,
+              ),
+              Flexible(
+                child: SizedBox(
+                  child: Container(),
+                  width: double.infinity,
+                  height: 3,
+                ),
+                flex: 2,
+              )
+            ],
+          ),
+          CustomText(
+            text:
+                '\nAll the data presented in the site is rendered every 24h. Once a day, The Algorithm downloads all the new videos it founds and updating all the data and scores shown in the site.',
+            size: 18,
+            color: active,
+            weight: FontWeight.bold,
+          ),
+          RichText(
+            text: TextSpan(
+              style: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.normal,
+              ),
+              children: <TextSpan>[
+                TextSpan(
+                  text: '\nGet score page\n\n',
+                  style: GoogleFonts.notoSans(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                    decoration: TextDecoration.underline,
+                  ),
+                ),
+                TextSpan(
+                  text:
+                      'On the get score page you can ask our machine learning mode for either a nationalistic score for a given Tiktok post(just insert it\'s id) or a nationalistic score for a Tiktok user based on his videos(just insert his username). ',
+                  style: GoogleFonts.notoSans(
+                      fontSize: 18, fontWeight: FontWeight.normal),
+                ),
+                TextSpan(
+                    text: '\n\nUsers to follow\n\n',
+                    style: GoogleFonts.notoSans(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                      decoration: TextDecoration.underline,
+                    )),
+                TextSpan(
+                  text:
+                      'Using our model, we managed to build a tool for following nationalistic users in the west bank area. we have accumaleted ${datas[2]['value']} users in our database(and still counting) and calculated a nationalistic score for each of them, based on their latest nationalistic posts. Adding on that, we introduce a relevancy score given for each user which takes into consideration his nationalistic score, and his influence in the Tiktok platform(followers, likes, etc.). If you would like to watch the most relevant/nationalistic users, you\'re welcome to visit the users to follow page where you will find all the relevant tables.',
+                  style: GoogleFonts.notoSans(
+                      fontSize: 18, fontWeight: FontWeight.normal),
+                ),
+                TextSpan(
+                    text: '\n\nRecent\n\n',
+                    style: GoogleFonts.notoSans(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                      decoration: TextDecoration.underline,
+                    )),
+                TextSpan(
+                  text:
+                      'The recent page shows the most relevant nationalistic videos from the last 24h which were found by our algorithm. their relevancy is based on their nationalistic score and their exposure. This page is great for monitoring problematic videos from the west bank which may encourage violence or Cause fermentation.',
+                  style: GoogleFonts.notoSans(
+                      fontSize: 18, fontWeight: FontWeight.normal),
+                ),
+                TextSpan(
+                    text: '\n\nTime and place\n\n',
+                    style: GoogleFonts.notoSans(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                      decoration: TextDecoration.underline,
+                    )),
+                TextSpan(
+                  text: '...',
+                  style: GoogleFonts.notoSans(
+                      fontSize: 18, fontWeight: FontWeight.normal),
+                ),
+              ],
+            ),
           ),
         ],
       ),
