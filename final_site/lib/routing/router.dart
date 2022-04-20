@@ -5,14 +5,14 @@ import 'package:final_site/pages/users_to_follow/users_to_follow.dart';
 import 'package:final_site/routing/routs.dart';
 import 'package:flutter/material.dart';
 
-import '../pages/experts/experts.dart';
+import '../pages/get_score/get_score.dart';
 
 Route<dynamic> genarateRoute(RouteSettings settings) {
   switch (settings.name) {
     case homePageRoute:
       return _getPageRoute(const HomePage());
-    case expertsPageRoute:
-      return _getPageRoute(const ExpertsPage());
+    case getScorePageRoute:
+      return _getPageRoute(const getScorePage());
     case usersToFollowPageRoute:
       return _getPageRoute(const UsersToFollowPage());
     case recentPageRoute:

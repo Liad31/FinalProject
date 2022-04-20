@@ -23,19 +23,17 @@ class MenuController extends GetxController {
   Widget returnIconFor(String itemName) {
     switch (itemName) {
       case homePageRoute:
-        return _customIcon(Icons.abc, itemName);
-      case expertsPageRoute:
-        return _customIcon(Icons.access_alarm, itemName);
+        return _customIcon(Icons.home_rounded, itemName);
+      case getScorePageRoute:
+        return _customIcon(Icons.grade_rounded, itemName);
       case usersToFollowPageRoute:
-        return _customIcon(Icons.catching_pokemon, itemName);
+        return _customIcon(Icons.people, itemName);
       case recentPageRoute:
-        return _customIcon(Icons.local_laundry_service, itemName);
+        return _customIcon(Icons.video_collection_rounded, itemName);
       case timeAndSpacePageRoute:
-        return _customIcon(Icons.exit_to_app, itemName);
-      case authenticationPageRoute:
-        return _customIcon(Icons.exit_to_app, itemName);
+        return _customIcon(Icons.access_time_filled_sharp, itemName);
       default:
-        return _customIcon(Icons.exit_to_app, itemName);
+        return _customIcon(Icons.home_rounded, itemName);
     }
   }
 

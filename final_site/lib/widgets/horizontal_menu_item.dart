@@ -23,47 +23,49 @@ class HorizontalMenuItem extends StatelessWidget {
       },
       child: Obx(
         () => Container(
-            color: menuController.isHoveing(itemName)
-                ? lightGrey.withOpacity(.1)
-                : Colors.transparent,
-            child: Row(
-              children: [
-                Visibility(
-                  visible: menuController.isHoveing(itemName) ||
-                      menuController.isActive(itemName),
-                  child: Container(
-                    width: 6,
-                    height: 40,
-                    color: dark,
-                  ),
-                  maintainSize: true,
-                  maintainState: true,
-                  maintainAnimation: true,
+          color: menuController.isHoveing(itemName)
+              ? lightGrey.withOpacity(.1)
+              : Colors.transparent,
+          child: Row(
+            children: [
+              Visibility(
+                visible: menuController.isHoveing(itemName) ||
+                    menuController.isActive(itemName),
+                child: Container(
+                  width: 10,
+                  height: 44,
+                  color: dark,
                 ),
-                SizedBox(
-                  width: _width / 80,
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: menuController.returnIconFor(itemName),
-                ),
-                if (!menuController.isActive(itemName))
-                  Flexible(
-                      child: CustomText(
+                maintainSize: true,
+                maintainState: true,
+                maintainAnimation: true,
+              ),
+              SizedBox(
+                width: _width / 80,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(20),
+                child: menuController.returnIconFor(itemName),
+              ),
+              if (!menuController.isActive(itemName))
+                Flexible(
+                    child: CustomText(
+                  text: itemName,
+                  size: 20,
+                  color: menuController.isHoveing(itemName) ? dark : lightGrey,
+                ))
+              else
+                Flexible(
+                  child: CustomText(
                     text: itemName,
-                    color:
-                        menuController.isHoveing(itemName) ? dark : lightGrey,
-                  ))
-                else
-                  Flexible(
-                      child: CustomText(
-                    text: itemName,
                     color: dark,
-                    size: 18,
+                    size: 22,
                     weight: FontWeight.bold,
-                  ))
-              ],
-            )),
+                  ),
+                )
+            ],
+          ),
+        ),
       ),
     );
   }

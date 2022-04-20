@@ -2,19 +2,26 @@ import 'package:final_site/helpers/responsiveness.dart';
 import 'package:final_site/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:final_site/constatns/syle.dart';
+import 'package:flutter/widgets.dart';
 
 AppBar topNavigationBar(BuildContext context, GlobalKey<ScaffoldState> key) =>
     AppBar(
+      leadingWidth: 100,
       leading: !ResponsiveWidget.isSmallScreen(context)
           ? Row(
               children: [
                 Container(
-                  padding: const EdgeInsets.only(left: 14),
-                  child: Image.asset(
-                    "icons/logo.jpeg",
-                    width: 28,
+                  color: torquise,
+                  padding: const EdgeInsets.only(bottom: 100, left: 30),
+                  margin: const EdgeInsets.only(bottom: 100),
+                  child: IconButton(
+                    icon: const Icon(Icons.tiktok_outlined),
+                    color: dark.withOpacity(.9),
+                    onPressed: () {},
+                    iconSize: 50,
                   ),
-                )
+                  width: 75,
+                ),
               ],
             )
           : IconButton(
@@ -23,13 +30,13 @@ AppBar topNavigationBar(BuildContext context, GlobalKey<ScaffoldState> key) =>
                 key.currentState?.openDrawer();
               },
             ),
-      elevation: 0,
+      elevation: 200,
       title: Row(children: [
         Visibility(
           child: CustomText(
-            text: "Dash",
-            size: 20,
-            color: lightGrey,
+            text: "TikTok nationalistic classifier",
+            size: 18,
+            color: darkgrey,
             weight: FontWeight.bold,
           ),
         ),
@@ -70,21 +77,15 @@ AppBar topNavigationBar(BuildContext context, GlobalKey<ScaffoldState> key) =>
           height: 22,
           color: lightGrey,
         ),
-        CustomText(
-          text: "hello",
-          color: lightGrey,
-        ),
         const SizedBox(
           width: 16,
         ),
         Container(
-          decoration: BoxDecoration(
-              color: Colors.white, borderRadius: BorderRadius.circular(30)),
           child: Container(
             padding: const EdgeInsets.all(12),
             margin: const EdgeInsets.all(2),
             child: CircleAvatar(
-              backgroundColor: light,
+              backgroundColor: torquise,
               child: Icon(
                 Icons.person,
                 color: dark,
@@ -94,5 +95,5 @@ AppBar topNavigationBar(BuildContext context, GlobalKey<ScaffoldState> key) =>
         ),
       ]),
       iconTheme: IconThemeData(color: dark),
-      backgroundColor: light,
+      backgroundColor: torquise,
     );
