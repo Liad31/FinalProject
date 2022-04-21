@@ -65,7 +65,7 @@ def score_for_users(users,num_posts=20):
             video["videoText"]=text["text"]
         # find the path of the video in directory
         return predictSamples(ids,data,videoRoot)
-def get_hash_score(data):
+def get_hashtag_score(data):
     res=predict(data,np.zeros(1))
     res=[i["hash_score"] for i in data]
     res=torch.tensor(res)
@@ -83,9 +83,9 @@ def predictSamples(ids,dataArray,root):
         x["video_embeded"]=torch.tensor(videoVec)
         x["sound"]=get_sound_score(data)
         x["sound"]=torch.tensor(x["sound"])
-        x["hashtags_score"]=get_hash_score(data)
-        x["text"]=[d['text'] for d in data]
+        x["hashtags_score"]=get_hashtag_score(data)
         embed_text2(data,np.zeros(1))
+        x["text"]=[d['text'] for d in data]
         x["text_embeded"]=[d['text_embeded'] for d in data]
         x["text_embeded"]= x["text_embeded"][0]
         model = torch.load('models/final_model/final_model', map_location='cpu')
@@ -137,6 +137,6 @@ if __name__ == "__main__":
     users_db = db['tiktokusernationalistics']
     users= db['tiktokusernationalistics']
     videos= db['videos']
-    for user in users.find({"userName":"hamza_syouri"}):
-        scores=score_for_users([user["userName"]],num_posts=1)
+    for user in users.find():
+        scores=score_for_users([user["userName"]],num_posts=100)
         update_video_scores(scores)
