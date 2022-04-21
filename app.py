@@ -18,8 +18,11 @@ import  json
 from tiktokApi.scraper import scraper
 from tiktokApi.OCR import ocr
 from tiktokApi.scrapeHashtags import addToDB
+import requests
 # app = Flask(__name__)
-# nationalistic_sounds = get_train_sounds.get_train_sounds(x_train, nationalistic_sounds) # important to do!!!! x_train is data in data format
+
+import pymongo
+from bson.objectid import ObjectId
 
 def apply_video_model(vids,vidsRoot):
     with tempfile.TemporaryDirectory() as root:
@@ -50,7 +53,18 @@ def score_from_url(urls):
             video["videoText"]=text["text"]
         # find the path of the video in directory
         return predictSamples(ids,data,videoRoot)        
-
+def score_for_users(users,num_posts=20):
+    with tempfile.TemporaryDirectory() as videoRoot:
+        userMeta=scraper.scrap_users(users,num_posts=num_posts)
+        data=[]
+        for user in addToDB(userMeta,yieldRes=True,locationFilter=False,ignore_location=True):
+            data.extend(user[0]["videos"])
+        ids=[i["Vid"] for i in data]
+        videoText=ocr(ids,videoRoot)
+        for video,text in zip(data,videoText):
+            video["videoText"]=text["text"]
+        # find the path of the video in directory
+        return predictSamples(ids,data,videoRoot)
 def get_hash_score(data):
     res=predict(data,np.zeros(1))
     res=[i["hash_score"] for i in data]
@@ -111,5 +125,18 @@ def predictSamples(ids,dataArray,root):
 #         preds.extend([float(i) for i in res])
 #     with open("preds.txt","w+") as f:
 #         f.writelines([str(p)+'\n' for p in preds])
+def update_video_scores(scores):
+    headers = {'Content-Type': 'application/json',
+               'Accept': 'application/json'}
+    requests.post("http://localhost:8001/api/database/updateScores",
+                  data=json.dumps({"scores":scores}), headers=headers)
 if __name__ == "__main__":
-    print(score_from_url(["https://www.tiktok.com/@al_king540/video/7087276450801388801","https://www.tiktok.com/@x_qx3/video/7088016276987055362"]))
+    myclient = pymongo.MongoClient("mongodb+srv://ourProject:EMGwk59xADuSIIkv@cluster0.lhfaj.mongodb.net/production2?retryWrites=true&w=majority")
+
+    db = myclient['production3']
+    users_db = db['tiktokusernationalistics']
+    users= db['tiktokusernationalistics']
+    videos= db['videos']
+    for user in users.find({"userName":"hamza_syouri"}):
+        scores=score_for_users([user["userName"]],num_posts=1)
+        update_video_scores(scores)

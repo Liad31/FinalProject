@@ -3,7 +3,7 @@ from .scraper import scraper
 import requests
 import json
 from datetime import datetime
-def addToDB(output,yieldRes=False,locationFilter=True):
+def addToDB(output,yieldRes=False,locationFilter=True,ignore_location=False):
     usersWithLocation=output
     if locationFilter:
         usersWithLocation = [user for user in output if user["governorate"]]
@@ -40,7 +40,7 @@ def addToDB(output,yieldRes=False,locationFilter=True):
         x = {"users": res}
         headers = {'Content-Type': 'application/json',
                    'Accept': 'application/json'}
-        if user["governorate"]:
+        if user["governorate"] or ignore_location:
             requests.post("http://localhost:8001/api/database/postNewUsers",
                           data=json.dumps(x), headers=headers)
         if yieldRes:

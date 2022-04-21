@@ -91,7 +91,7 @@ class Scraper:
         output = self.generate_output_from_csv(dir_name)
         return output
 
-    def scrap_users(self, usernames, num_posts, since, before):
+    def scrap_users(self, usernames, num_posts):
         cmds = usernames
         json= {"profiles": cmds}
         json = self.scrap_batch2(json, num_posts)
