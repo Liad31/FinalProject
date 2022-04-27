@@ -7,10 +7,12 @@ import 'package:final_site/layout.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:final_site/helpers/database.dart';
 
 void main() {
   Get.put(MenuController());
   Get.put(NavigationController());
+  Get.put(MongoDatabase());
   runApp(const MyApp());
 }
 
