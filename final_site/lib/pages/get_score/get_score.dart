@@ -165,6 +165,10 @@ class getScorePage extends StatelessWidget {
                       ),
                       queryForm('User query', 'Enter the username')
                           .build(context),
+                      SizedBox(
+                        height: 40,
+                        child: Container(),
+                      ),
                     ],
                   ),
                 ),
