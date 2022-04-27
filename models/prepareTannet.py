@@ -1,5 +1,5 @@
 from sklearn.model_selection import train_test_split
-import imageUtils
+from .imageUtils import extractFps
 import numpy as np
 import cv2
 import os
@@ -37,27 +37,28 @@ def organize(videos,tags,annoFile,videosRoot,fps=10,vid_root="/mnt/videos"):
         if not os.path.exists(f"{vid_root}/{vid}"):
             with open("failed_vids.txt","a") as f:
                 f.write(f"{vid}\n")
-            continue
+            # continue
         # # save each frame seperately
         if os.path.exists(f"{videosRoot}/{id}"):
             # with open("vids2.txt","a+") as f:
             #     f.write(f"{id}\n")
             continue
-        imageUtils.extractFps(f"{vid_root}/{vid}",fps,videosRoot+'/'+id)
+        extractFps(f"{vid_root}/{vid}",fps,videosRoot+'/'+id)
         # get number of files in dir
         onlyfiles = next(os.walk(videosRoot+'/'+id))[2] #dir is your directory path as string
         numFrames=len(onlyfiles)
         with open(annoFile,"a") as f:
             if(int(tag) in [0,1]):
                 f.write(f"{id} {numFrames} {int(tag)}\n")
-root="/mnt/tannetFinalFinal/"
-createIfNotExists(root)
-data_root = root+'train'
-data_root_val = root+'val'
-data_root_test = root+"test"
-ann_file_train = root+'anno/train.txt'
-ann_file_val = root+'anno/val.txt'
-ann_file_test = root+'anno/test.txt'
+if "__main__"==__name__:
+    root="/mnt/tannetF/"
+    createIfNotExists(root)
+    data_root = root+'train'
+    data_root_val = root+'val'
+    data_root_test = root+"test"
+    ann_file_train = root+'anno/train.txt'
+    ann_file_val = root+'anno/val.txt'
+    ann_file_test = root+'anno/test.txt'
 # vidRoots=[data_root,data_root_val,data_root_test]
 # vids=[]
 # tags=[]
@@ -72,10 +73,10 @@ ann_file_test = root+'anno/test.txt'
 # vids=[i["Vid"] for i in vids]
 # organize(vids,tag,ann_file_train,data_root)
 
-vids=np.load("data.npy",allow_pickle=True)
-tag=np.load("tag.npy",allow_pickle=True)
-vids=[i["Vid"] for i in vids]
-organize(vids,tag,ann_file_test,data_root_test)
+    # vids=np.load("data.npy",allow_pickle=True)
+    # tag=np.load("tag.npy",allow_pickle=True)
+    # vids=[i["Vid"] for i in vids]
+    # organize(vids,tag,ann_file_train,data_root)
 
 
 # vids=np.load("x_test.npy",allow_pickle=True)

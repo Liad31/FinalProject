@@ -3,7 +3,8 @@ import scipy.stats as sp
 import math
 from sklearn.metrics import accuracy_score, log_loss, auc, roc_curve
 import torch
-
+import os.path as osp
+import os
 sigmoid = torch.nn.Sigmoid()
 
 # def sigmoid(x):
@@ -15,9 +16,10 @@ sigmoid = torch.nn.Sigmoid()
 class HashtagModel(object):
     def __init__(self, hashtag_bucket=None, vid_bucket=None):
         if hashtag_bucket is None or vid_bucket is None:
-            self.hashtag_bucket = dict(np.load("hashtag_bucket.npy", allow_pickle=True))
-            self.vid_bucket = dict(np.load("vid_bucket.npy", allow_pickle=True))
-            self.correlations = dict(np.load("correlations.npy", allow_pickle=True))
+            this_dir, this_filename = os.path.split(__file__)
+            self.hashtag_bucket = dict(np.load(osp.join(this_dir,"hashtag_bucket.npy"), allow_pickle=True))
+            self.vid_bucket = dict(np.load(osp.join(this_dir,"vid_bucket.npy"), allow_pickle=True))
+            self.correlations = dict(np.load(osp.join(this_dir,"correlations.npy"), allow_pickle=True))
         else:
             self.hashtag_bucket = hashtag_bucket
             self.vid_bucket = vid_bucket

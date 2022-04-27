@@ -1,7 +1,7 @@
-from model import *
-from dataprep import *
+from .model import *
+from .dataprep import *
 import numpy as np
-from metrics import *
+from .metrics import *
 
 limit_size = 5
 limit_pearson = 0
@@ -27,7 +27,6 @@ def add_grade(train, train_labels, test, test_lables):
     for sample in test:
         sample['hash_score'] = model.predict(test_data[sample['Vid']][0], metric)
     return train, test
-
 
 def predict(test, test_lables):
     model = HashtagModel()

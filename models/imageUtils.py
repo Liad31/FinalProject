@@ -1,25 +1,17 @@
 import os
 import cv2
 import numpy as np
-videosDir='videos'
-tmpDir='tmp'
-import numpy as np
-import pymongo
-from bson.objectid import ObjectId
-from  tqdm import tqdm
-def extractFps(video,fps):
-    if not os.path.exists(tmpDir):
-        os.mkdir(tmpDir)
-    os.system(f'ffmpeg -i {videosDir}/{video}.mp4 -vf fps={fps} {tmpDir}/%d.jpg')
-    data=[]
-    for frame in os.listdir(tmpDir):
-        data.append(cv2.imread(tmpDir+'/'+frame))
+# tmpDir='/tmp/videos'
+def extractFps(video,fps,dir):
+    if not os.path.exists(dir):
+        os.mkdir(dir)
+    os.system(f'ffmpeg -i {video} -vf fps={fps} {dir}/img_%05d.jpg')
     #remove dir
-    os.system(f'rm -rf {tmpDir}')
-    return np.array(data)
+    # os.system(f'rm -r {tmpDir}')
+    # return np.array(data)
 
 def extractNumFrames(video,numFramesExtract):
     # determine video length in seconds
-    videoLength=os.popen(f'ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 {videosDir}/{video}.mp4').read()
+    videoLength=os.popen(f'ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 {video}').read()
     videoLength=float(videoLength)
     return extractFps(video,numFramesExtract/videoLength)

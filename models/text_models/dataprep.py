@@ -4,7 +4,7 @@ import gensim
 import torch
 import random
 import os
-
+import os.path as osp
 
 def removeUnnecessarySpaces(text):
     return re.sub(r'[\n\t\ ]+', ' ', text)
@@ -116,9 +116,9 @@ def prep_data(examples, labels):
 
     # embed data
     print(os.getcwd())
-    t_model = gensim.models.Word2Vec.load('../text_models/full_uni_sg_300_twitter.mdl')
+    this_dir, this_filename = osp.split(__file__)
+    t_model = gensim.models.Word2Vec.load(osp.join(this_dir,'full_uni_sg_300_twitter.mdl'))
     word_vectors = t_model.wv
-    del t_model
     embedded_data = []
     for (text, tag) in cleaner_data:
         if text:
@@ -144,7 +144,7 @@ def embed_text(model, data, labels):
             x["text_embeded"] = y
             x["text"] = 1
         else:
-            x["text_embeded"] = np.random.rand(64)
+            x["text_embeded"] = torch.tensor([0]*64)
             x["text"] = 0
 
 

@@ -34,7 +34,6 @@ class Music:
 class Video:
     height: int
     width: int
-    duration: int
 
     def as_dict(self):
         result = self.__dict__
@@ -45,7 +44,6 @@ class Video:
         return Video(
             height=int(series['videoMeta.height']),
             width=int(series['videoMeta.width']),
-            duration=int(series['videoMeta.duration'])
         )
 
 

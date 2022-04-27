@@ -81,7 +81,7 @@ def create_download_txt(lis_sec_ids,path="async_list.txt"):
 def chunker_list(seq, size):
     return (seq[pos:pos + size] for pos in range(0, len(seq), size))
 
-def async_download_vids_parallel(batch_size =15,iterations=50, num_videos=30):
+def async_download_vids_parallel(batch_size =15,iterations=50, num_videos=30,tokens=None):
     # request the videos from server
     cur_time = time.time()
     cnt=0
@@ -89,6 +89,7 @@ def async_download_vids_parallel(batch_size =15,iterations=50, num_videos=30):
     batch_size =batch_size
     num_threads=10
     passed_total = 0
+    videosDir="/mnt/videos"
     
     id_success=[]
     i=0
@@ -111,9 +112,8 @@ def async_download_vids_parallel(batch_size =15,iterations=50, num_videos=30):
                 vids_to_download.append((secuid,id))
             videoTexts=[]
             async_list = "async_list.txt"
-            videosDir="/mnt/tmp/videos"
             create_download_txt(vids_to_download,async_list)
-            os.system(f'yt-dlp -a {async_list} -o "%(id)s.mp4" -R 10 --proxy frzgcmrj-rotate:rxpxcauy7pn0@p.webshare.io:80')
+            a=os.system(f'yt-dlp -a {async_list} -o "%(id)s.mp4" -R 10 --proxy frzgcmrj-rotate:rxpxcauy7pn0@p.webshare.io:80')
             downloaded_paths = []
             for (secuid,id) in vids_to_download:
                 # check in current folder
