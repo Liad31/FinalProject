@@ -12,7 +12,7 @@ AppBar topNavigationBar(BuildContext context, GlobalKey<ScaffoldState> key) =>
               children: [
                 Container(
                   color: torquise,
-                  padding: const EdgeInsets.only(bottom: 100, left: 30),
+                  padding: const EdgeInsets.only(bottom: 100, left: 35),
                   margin: const EdgeInsets.only(bottom: 100),
                   child: IconButton(
                     icon: const Icon(Icons.tiktok_outlined),
