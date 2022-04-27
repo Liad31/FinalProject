@@ -1,17 +1,14 @@
 import 'package:final_site/constatns/syle.dart';
-import 'package:final_site/pages/home/widgets/floating_circle.dart';
 import 'package:final_site/pages/home/widgets/circles_overview.dart';
 import 'package:final_site/pages/home/widgets/overview_cards_large.dart';
 import 'package:final_site/pages/home/widgets/overview_cards_small.dart';
-import 'package:final_site/pages/home/widgets/text_in_circle.dart';
 import 'package:final_site/widgets/custom_text.dart';
+import 'package:final_site/widgets/tiktok_embedd.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:final_site/helpers/responsiveness.dart';
 import 'package:final_site/pages/home/widgets/Image_card.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:webview_flutter/webview_flutter.dart';
-import 'package:easy_web_view/easy_web_view.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -150,13 +147,13 @@ class HomePage extends StatelessWidget {
                       child: Container(),
                       flex: 1,
                     ),
-                    Flexible(
-                      flex: 25,
-                      child: ImageCard(
-                        imagePath: 'assets/photos/diagram.png',
-                        onTap: () {},
-                      ),
-                    ),
+                    // Flexible(
+                    //   flex: 25,
+                    //   child: ImageCard(
+                    //     imagePath: 'assets/photos/diagram.png',
+                    //     onTap: () {},
+                    //   ),
+                    // ),
                     Flexible(
                       child: Container(),
                       flex: 1,
@@ -290,6 +287,7 @@ class HomePage extends StatelessWidget {
               ],
             ),
           ),
+          const TiktokEmbedd(src: "6718335390845095173"),
         ],
       ),
     );

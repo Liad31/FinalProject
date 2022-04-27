@@ -1,20 +1,9 @@
-import 'dart:html';
 import 'package:final_site/constatns/syle.dart';
-import 'package:final_site/pages/home/widgets/floating_circle.dart';
-import 'package:final_site/pages/home/widgets/circles_overview.dart';
-import 'package:final_site/pages/home/widgets/overview_cards_large.dart';
-import 'package:final_site/pages/home/widgets/overview_cards_small.dart';
-import 'package:final_site/pages/home/widgets/text_in_circle.dart';
 import 'package:final_site/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:final_site/helpers/responsiveness.dart';
-import 'package:final_site/pages/home/widgets/Image_card.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:webview_flutter/webview_flutter.dart';
-import 'package:easy_web_view/easy_web_view.dart';
 import 'package:final_site/pages/users_to_follow/widgets/users_table.dart';
-import 'user.dart';
 import 'package:final_site/helpers/database.dart';
 
 class UsersToFollowPage extends StatelessWidget {

@@ -2,7 +2,6 @@ import 'package:final_site/helpers/responsiveness.dart';
 import 'package:final_site/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:final_site/constatns/syle.dart';
-import 'package:flutter/widgets.dart';
 
 AppBar topNavigationBar(BuildContext context, GlobalKey<ScaffoldState> key) =>
     AppBar(

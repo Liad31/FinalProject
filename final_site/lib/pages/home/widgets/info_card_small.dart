@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:final_site/constatns/controllers.dart';
 import 'package:final_site/constatns/syle.dart';
 import 'package:final_site/widgets/custom_text.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class InfoCardSmall extends StatelessWidget {
   final String title;
