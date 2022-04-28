@@ -94,10 +94,11 @@ def train_test(config):
     torch.save(model.state_dict(), "text_model.pt")
 
 
+config = Config()
+
+nlp_model = Seq2SeqAttention(config)
+this_dir, this_filename = os.path.split(__file__)
 def embed_text2(data, labels):
-    config = Config()
-    nlp_model = Seq2SeqAttention(config)
-    this_dir, this_filename = os.path.split(__file__)
     cuda_available = torch.cuda.is_available()
     mapLoc="cuda:0" if cuda_available else "cpu"
     nlp_model.load_state_dict(torch.load(osp.join(this_dir,'text_model.pt'), map_location=mapLoc))

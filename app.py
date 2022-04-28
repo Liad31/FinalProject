@@ -24,6 +24,8 @@ import requests
 import pymongo
 from bson.objectid import ObjectId
 
+nationalistic_sounds = np.load('models/nationalistic_songs.npy', allow_pickle=True)
+model = torch.load('models/final_model/final_model', map_location='cpu')
 def apply_video_model(vids,vidsRoot):
     with tempfile.TemporaryDirectory() as root:
         dataRootTest=root+"/test"
@@ -44,6 +46,8 @@ def apply_video_model(vids,vidsRoot):
 def score_from_url(urls):
     with tempfile.TemporaryDirectory() as videoRoot:
         userMeta=scraper.scrap_postsUrl(urls)
+        if len(userMeta)==0:
+            return []
         data=[]
         for user in addToDB(userMeta,yieldRes=True,locationFilter=False):
             data.extend(user[0]["videos"])
@@ -52,7 +56,19 @@ def score_from_url(urls):
         for video,text in zip(data,videoText):
             video["videoText"]=text["text"]
         # find the path of the video in directory
-        return predictSamples(ids,data,videoRoot)        
+        return predictSamples(ids,data,videoRoot)
+def download_user_vids(users,num_posts=20):
+    videoRoot="/mnt/videos"
+    userMeta=scraper.scrap_users(users,num_posts=num_posts)
+    data=[]
+    for user in addToDB(userMeta,yieldRes=True,locationFilter=False,ignore_location=True):
+        data.extend(user[0]["videos"])
+    ids=[i["Vid"] for i in data]
+    videoText=ocr(ids,videoRoot)
+    for video,text in zip(data,videoText):
+        video["videoText"]=text["text"]
+    # find the path of the video in directory
+    return data
 def score_for_users(users,num_posts=20):
     with tempfile.TemporaryDirectory() as videoRoot:
         userMeta=scraper.scrap_users(users,num_posts=num_posts)
@@ -71,7 +87,6 @@ def get_hashtag_score(data):
     res=torch.tensor(res)
     return res
 def get_sound_score(data):
-    nationalistic_sounds = np.load('models/nationalistic_songs.npy', allow_pickle=True)
     return [i["musicId"] in nationalistic_sounds for i in data]
 def predictSamples(ids,dataArray,root):
     videoVecs=apply_video_model(ids,root)
@@ -88,43 +103,42 @@ def predictSamples(ids,dataArray,root):
         x["text"]=[d['text'] for d in data]
         x["text_embeded"]=[d['text_embeded'] for d in data]
         x["text_embeded"]= x["text_embeded"][0]
-        model = torch.load('models/final_model/final_model', map_location='cpu')
-        res.append({"Vid":id,"result": final_model.get_predict(model,sample=x)})
+        res.append({"Vid":id,"result": float(final_model.get_predict(model,sample=x))})
     return res
-# def predictAll():
-#     videoResultsFile="models/videoModel/mmaction2/finalVecs.json"
-#     dataFile="data.npy"
-#     batchSize=1
-#     with open(videoResultsFile) as f:
-#         videoVecs=json.load(f)
-#     data=np.load(dataFile,allow_pickle=True)
-#     # make data and vids in the same order
-#     # apply models
-#     with open("/mnt/tannetFinalFinal/anno/test.txt") as f:
-#         lines=f.readlines()
-#         allowedVids=[line.strip() for line in lines]
-#         allowedVids=[lines.split()[0] for lines in allowedVids]
-#     allowedVids=set(allowedVids)
-#     preds=[]
-#     from tqdm import tqdm
-#     for i in tqdm(range(0,len(data),batchSize)):
-#         x={}
-#         x["video_embeded"]=torch.tensor(videoVecs[i:i+batchSize])
-#         dataBatch=data[i:i+batchSize]
-#         x["hashtags_score"]=predict(dataBatch,np.zeros(batchSize))
-#         # make tensor
-#         x["hashtags_score"]=[i["hash_score"] for i in dataBatch]
-#         x["hashtags_score"]=torch.tensor(x["hashtags_score"])
-#         x["sound"]=[i["musicId"] in nationalistic_sounds for i in dataBatch]
-#         x["sound"]= torch.tensor(x["sound"])
-#         embed_text2(dataBatch,np.zeros(batchSize))
-#         x["text"]=[d['text'] for d in dataBatch]
-#         x["text_embeded"]=[d['text_embeded'] for d in dataBatch]
-#         x["text_embeded"]= x["text_embeded"][0]
-#         res=final_model.get_predict(model,sample=x)
-#         preds.extend([float(i) for i in res])
-#     with open("preds.txt","w+") as f:
-#         f.writelines([str(p)+'\n' for p in preds])
+def predictAll():
+    videoResultsFile="models/videoModel/mmaction2/finalVecs.json"
+    dataFile="data.npy"
+    batchSize=1
+    with open(videoResultsFile) as f:
+        videoVecs=json.load(f)
+    data=np.load(dataFile,allow_pickle=True)
+    # make data and vids in the same order
+    # apply models
+    with open("/mnt/tannetIdk/anno/test.txt") as f:
+        lines=f.readlines()
+        allowedVids=[line.strip() for line in lines]
+        allowedVids=[lines.split()[0] for lines in allowedVids]
+    allowedVids=set(allowedVids)
+    preds=[]
+    from tqdm import tqdm
+    for i in tqdm(range(0,100 ,batchSize)):
+        x={}
+        x["video_embeded"]=torch.tensor(videoVecs[i:i+batchSize])
+        dataBatch=data[i:i+batchSize]
+        x["hashtags_score"]=predict(dataBatch,np.zeros(batchSize))
+        # make tensor
+        x["hashtags_score"]=[i["hash_score"] for i in dataBatch]
+        x["hashtags_score"]=torch.tensor(x["hashtags_score"])
+        x["sound"]=[i["musicId"] in nationalistic_sounds for i in dataBatch]
+        x["sound"]= torch.tensor(x["sound"])
+        embed_text2(dataBatch,np.zeros(batchSize))
+        x["text"]=[d['text'] for d in dataBatch]
+        x["text_embeded"]=[d['text_embeded'] for d in dataBatch]
+        x["text_embeded"]= x["text_embeded"][0]
+        res=final_model.get_predict(model,sample=x)
+        preds.extend([float(i) for i in res])
+    with open("predsCopy.txt","w+") as f:
+        f.writelines([str(p)+'\n' for p in preds])
 def update_video_scores(scores):
     headers = {'Content-Type': 'application/json',
                'Accept': 'application/json'}
@@ -137,6 +151,6 @@ if __name__ == "__main__":
     users_db = db['tiktokusernationalistics']
     users= db['tiktokusernationalistics']
     videos= db['videos']
-    for user in users.find():
+    for user in list(users.find()):
         scores=score_for_users([user["userName"]],num_posts=100)
         update_video_scores(scores)
