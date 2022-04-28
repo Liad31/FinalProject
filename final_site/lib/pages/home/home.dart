@@ -1,24 +1,20 @@
 import 'package:final_site/constatns/syle.dart';
-import 'package:final_site/pages/home/widgets/floating_circle.dart';
 import 'package:final_site/pages/home/widgets/circles_overview.dart';
 import 'package:final_site/pages/home/widgets/overview_cards_large.dart';
 import 'package:final_site/pages/home/widgets/overview_cards_small.dart';
-import 'package:final_site/pages/home/widgets/text_in_circle.dart';
 import 'package:final_site/widgets/custom_text.dart';
+import 'package:final_site/widgets/tiktok_embedd.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:final_site/helpers/responsiveness.dart';
 import 'package:final_site/pages/home/widgets/Image_card.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:webview_flutter/webview_flutter.dart';
-import 'package:easy_web_view/easy_web_view.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    var c = 9;
     const List project_phases = [
       'Define nationalistic',
       'Collect data',
@@ -81,7 +77,7 @@ class HomePage extends StatelessWidget {
           ),
           const CustomText(
             text:
-                'The TikTok classifier is a tool for recognizing palestinian nationalism in TikTok.\nThe tool is based on a machine learning model which was trained for classifying TikTok videos as either palestinian nationalistic or not.\nThis tool was developed by R. Cirkin, G. Vitrak and L. Kehila as the final project for our computer science B.A in Bar-Ilan University. We collaborated with the Department of Middle Eastern Studiest of BIU, specifically with our mentors Y. mann and Eli (A.K.A hitpalgut normalit, Proxy medaleg, etc.) and students in their seminar.\nThanks to their guidance and the hard work of the seminar students who helped us a lot along the way, our model achived great performance.\nThe tool and its results are now avaible in this website. Now, using our tool we can follow palestinian nationalistic users, monitor their videos and predict nationalistic waves in the West bank before they burst.',
+                'The TikTok classifier is a tool for recognizing Palestinian nationalism in TikTok.\nThe tool is based on a machine learning model which was trained for classifying TikTok videos as either Palestinian nationalistic or not.\nThis tool was developed by R. Cirkin, G. Vitrak and L. Kehila as the final project for our computer science B.A in Bar-Ilan University(BIU). We collaborated with the Department of Middle Eastern Studiest of BIU, specifically with our mentors Y. Mann and Eli (A.K.A hitpalgut normalit, Proxy medaleg, etc.) and students in their seminar.\nThanks to their guidance and the hard work of the seminar students who helped us a lot along the way, our model achived great performance.\nThe tool and its results are now avaible in this website. Now, using our tool we can follow Palestinian nationalistic users, monitor their videos and predict nationalistic waves in the West bank before they burst.',
             size: 18,
             weight: FontWeight.normal,
           ),
@@ -92,7 +88,7 @@ class HomePage extends StatelessWidget {
           ),
           const CustomText(
             text:
-                'At first, we had to define palestinian nationalism and characterize the kinds of videos we should be looking out for. After discussing this with the seminar students and our mentors we got a green light to start collecting data(users, videos, etc...) from Tiktok, we created a location analyzer which tries to make sure that all our data comes from the West bank. Then, we built the tagging site for our taggers, the seminar students, where they could tag the videos we collected. this data was later used to train our model.\nAfter 3 intensive months of video tagging and model building, we finally were able to train & test our model on the labeled data.',
+                'At first, we had to define Palestinian nationalism and characterize the kinds of videos we should be looking out for. After discussing this with the seminar students and our mentors we got a green light to start collecting data(users, videos, etc...) from Tiktok, we created a location analyzer which tries to make sure that all our data comes from the West bank. Then, we built the tagging site for our taggers, the seminar students, where they could tag the videos we collected. this data was later used to train our model.\nAfter 3 intensive months of video tagging and model building, we finally were able to train & test our model on the labeled data.',
             size: 18,
             weight: FontWeight.normal,
           ),
@@ -151,13 +147,13 @@ class HomePage extends StatelessWidget {
                       child: Container(),
                       flex: 1,
                     ),
-                    Flexible(
-                      flex: 25,
-                      child: ImageCard(
-                        imagePath: 'assets/photos/diagram.png',
-                        onTap: () {},
-                      ),
-                    ),
+                    // Flexible(
+                    //   flex: 25,
+                    //   child: ImageCard(
+                    //     imagePath: 'assets/photos/diagram.png',
+                    //     onTap: () {},
+                    //   ),
+                    // ),
                     Flexible(
                       child: Container(),
                       flex: 1,
@@ -246,7 +242,7 @@ class HomePage extends StatelessWidget {
                 ),
                 TextSpan(
                   text:
-                      'On the get score page you can ask our machine learning mode for either a nationalistic score for a given Tiktok post(just insert it\'s id) or a nationalistic score for a Tiktok user based on his videos(just insert his username). ',
+                      'On the get score page you can query our machine learning mode for either a nationalistic score for a given Tiktok post(just insert it\'s id) or a nationalistic score for a Tiktok user based on his videos(just insert his username). ',
                   style: GoogleFonts.notoSans(
                       fontSize: 18, fontWeight: FontWeight.normal),
                 ),
@@ -291,6 +287,7 @@ class HomePage extends StatelessWidget {
               ],
             ),
           ),
+          const TiktokEmbedd(src: "6718335390845095173"),
         ],
       ),
     );

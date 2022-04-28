@@ -1,5 +1,7 @@
 import numpy as np
 import  pymongo
+from sklearn import metrics
+from sklearn.metrics import accuracy_score
 
 def upload(ids, preds):
     myclient = pymongo.MongoClient("mongodb+srv://ourProject:EMGwk59xADuSIIkv@cluster0.lhfaj.mongodb.net/production3?retryWrites=true&w=majority")
@@ -21,8 +23,57 @@ def upload(ids, preds):
 def calc_auc():
     pass
 
-data = np.load('../../Downloads/data.npy', allow_pickle=True)
-with open('../../Downloads/preds.txt', 'r') as f:
-    preds = f.readlines()
-ids = [x['Vid'] for x in data]
-upload(ids, preds)
+def random_scores_users():
+    myclient = pymongo.MongoClient("mongodb+srv://ourProject:EMGwk59xADuSIIkv@cluster0.lhfaj.mongodb.net/production3?retryWrites=true&w=majority")
+    db = myclient['production3']
+    users_db = db['tiktokusernationalistics']
+    users = list(users_db.find())
+    for user in users:
+        user['nationalisticScore'] = np.random.rand()
+        user['relevancyScore'] = np.random.rand()
+        users_db.update_one({'userId': user['userId']}, {"$set": user}, upsert=False)
+
+def calc_auc_amen():
+    predictions = []
+    tags = []
+    # with open('../../Downloads/preds.txt', 'r') as f:
+    #     preds = f.readlines()
+    myclient = pymongo.MongoClient(
+        "mongodb+srv://ourProject:EMGwk59xADuSIIkv@cluster0.lhfaj.mongodb.net/production3?retryWrites=true&w=majority")
+    db = myclient['production3']
+    real_db = db['mltaggedvids']
+    tags_from_db = list(real_db.find())
+    data = list(db['videos'].find())
+    id = [str(x['_id']) for x in data]
+    scores = [str(x['score']) for x in data]
+    for tag in tags_from_db:
+        vid = tag['vid']
+        tag = tag['expertTag']
+        if tag != None and tag == 1 or tag == 0:
+            tags.append(tag)
+            try:
+                predictions.append(scores[id.index(str(vid))])
+            except:
+                print(1)
+    good_idx = [i for i, e in enumerate(predictions) if e != '-1']
+    tags = np.array(tags)[good_idx]
+    predictions = np.array(predictions)[good_idx]
+    predictions = [float(i) for i in predictions]
+    tags = [float(i) for i in tags]
+    fpr, tpr, thresholds = metrics.roc_curve(tags, predictions)
+    print(len([1 for yhat, y in zip(predictions, tags) if yhat >= 0.5 and y == 1 or yhat < 0.3 and y == 0])/len(tags))
+    print(metrics.auc(fpr, tpr))
+
+
+if __name__ == "__main__":
+    data = np.load('../../Downloads/data.npy', allow_pickle=True)
+    calc_auc_amen()
+    # with open('../../Downloads/preds.txt', 'r') as f:
+    #     preds = f.readlines()
+    # ids = [x['Vid'] for x in data]
+    # upload(ids, preds)
+
+
+
+# if __name__ == "__main__":
+#     random_scores_users()

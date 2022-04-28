@@ -1,10 +1,5 @@
-import 'package:final_site/constatns/controllers.dart';
-import 'package:final_site/constatns/syle.dart';
-import 'package:final_site/pages/home/widgets/floating_circle.dart';
-import 'package:final_site/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:final_site/pages/home/widgets/info_card.dart';
 import 'package:final_site/pages/home/widgets/info_card_small.dart';
 
 class OverviewCardsSmallScreen extends GetxController {

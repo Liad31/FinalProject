@@ -15,7 +15,7 @@ class SideMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     double _width = MediaQuery.of(context).size.width;
     return Container(
-      color: light,
+      color: Color.fromARGB(255, 192, 234, 240).withOpacity(.5),
       child: ListView(children: [
         if (ResponsiveWidget.isSmallScreen(context))
           Column(
@@ -49,7 +49,7 @@ class SideMenu extends StatelessWidget {
           height: 20,
         ),
         Divider(
-          color: lightGrey.withOpacity(.1),
+          color: grey.withOpacity(.1),
         ),
         Column(
           mainAxisSize: MainAxisSize.min,

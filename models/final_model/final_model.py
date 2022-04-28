@@ -170,6 +170,7 @@ def train_epoch(trainDataLoader, model, loss_function, optimizer):
                 optimizer.step()
 
                 total_loss += loss.item()
+
     avg_loss = total_loss / len(trainDataLoader.dataset)
     fpr, tpr, threshold = metrics.roc_curve(reals, preds)
     roc_auc = metrics.auc(fpr, tpr)

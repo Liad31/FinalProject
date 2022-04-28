@@ -14,9 +14,9 @@ Route<dynamic> genarateRoute(RouteSettings settings) {
     case getScorePageRoute:
       return _getPageRoute(const getScorePage());
     case usersToFollowPageRoute:
-      return _getPageRoute(const UsersToFollowPage());
+      return _getPageRoute(UsersToFollowPage());
     case recentPageRoute:
-      return _getPageRoute(const RecentPage());
+      return _getPageRoute(RecentPage());
     case timeAndPlacePageRoute:
       return _getPageRoute(const TimeAndPlacePage());
     default:
