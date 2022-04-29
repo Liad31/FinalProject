@@ -77,7 +77,7 @@ class HomePage extends StatelessWidget {
           ),
           const CustomText(
             text:
-                'The TikTok classifier is a tool for recognizing Palestinian nationalism in TikTok.\nThe tool is based on a machine learning model which was trained for classifying TikTok videos as either Palestinian nationalistic or not.\nThis tool was developed by R. Cirkin, G. Vitrak and L. Kehila as the final project for our computer science B.A in Bar-Ilan University(BIU). We collaborated with the Department of Middle Eastern Studiest of BIU, specifically with our mentors Y. Mann and Eli (A.K.A hitpalgut normalit, Proxy medaleg, etc.) and students in their seminar.\nThanks to their guidance and the hard work of the seminar students who helped us a lot along the way, our model achived great performance.\nThe tool and its results are now avaible in this website. Now, using our tool we can follow Palestinian nationalistic users, monitor their videos and predict nationalistic waves in the West bank before they burst.',
+                'The TikTok classifier is a tool for recognizing Palestinian nationalism in TikTok.\nThe tool is based on a machine learning model which was trained for classifying TikTok videos as either Palestinian nationalistic or not.\nThis tool was developed by R. Cirkin, G. Vitrak and L. Kehila as the final project for our computer science B.A in Bar-Ilan University(BIU). We collaborated with the Department of Middle Eastern Studiest of BIU, specifically with our mentors Y. Mann and Eli (insert family name) and students in their seminar.\nThanks to their guidance and the hard work of the seminar students who helped us a lot along the way, our model achived great performance.\nThe tool and its results are now avaible in this website. Now, using our tool we can follow Palestinian nationalistic users, monitor their videos and predict nationalistic waves in the West bank before they burst.',
             size: 18,
             weight: FontWeight.normal,
           ),
@@ -147,13 +147,13 @@ class HomePage extends StatelessWidget {
                       child: Container(),
                       flex: 1,
                     ),
-                    // Flexible(
-                    //   flex: 25,
-                    //   child: ImageCard(
-                    //     imagePath: 'assets/photos/diagram.png',
-                    //     onTap: () {},
-                    //   ),
-                    // ),
+                    Flexible(
+                      flex: 25,
+                      child: ImageCard(
+                        imagePath: 'assets/photos/diagram.png',
+                        onTap: () {},
+                      ),
+                    ),
                     Flexible(
                       child: Container(),
                       flex: 1,
@@ -287,7 +287,8 @@ class HomePage extends StatelessWidget {
               ],
             ),
           ),
-          const TiktokEmbedd(src: "6718335390845095173"),
+          TiktokEmbedd(
+              src: "6718335390845095173", color: Colors.green, text: 'nice'),
         ],
       ),
     );

@@ -69,7 +69,7 @@ class queryForm extends GetxController {
                 width: 20,
                 child: Container(),
               ),
-              Ink(
+              Container(
                 decoration: ShapeDecoration(
                   color: veryLightGrey.withOpacity(.8),
                   shape: RoundedRectangleBorder(
