@@ -1,14 +1,14 @@
 from flask import Flask, request,jsonify
 import json
-# from predictUtils import score_from_url
+from predictUtils import score_from_url
 import pymongo
 app= Flask(__name__)
-# @app.route('/predict', methods=['GET'])
-# def videoScores():
-#     urls=request.args.get('urls')
-#     urls=json.loads(urls)
-#     res=score_from_url(urls)
-#     return jsonify(res)
+@app.route('/predict', methods=['GET'])
+def videoScores():
+    urls=request.args.get('urls')
+    urls=json.loads(urls)
+    res=score_from_url(urls)
+    return jsonify(res)
 @app.route('/mostNationalistic', methods=['GET'])
 def getNationalistic():
     username = request.args.get('user')
