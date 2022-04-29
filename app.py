@@ -35,7 +35,6 @@ def videoScores():
 def getNationalistic():
     username = request.args.get('user')
     n = request.args.get('n')
-    mongoClient = pymongo.MongoClient("mongodb+srv://ourProject:EMGwk59xADuSIIkv@cluster0.lhfaj.mongodb.net/production2?retryWrites=true&w=majority")
     db = mongoClient["production3"]
     usersDB= db["tiktokusernationalistics"]
     videoDB= db["videos"]
@@ -52,6 +51,16 @@ def getNationalistic():
     for vid in vids:
         del vid["_id"]
     return jsonify(vids)
+@app.route('/usersMostNationalistic', methods=['GET'])
+def getMostNationalistic():
+    n = request.args.get('n')
+    db = mongoClient["production3"]
+    usersDB= db["tiktokusernationalistics"]
+    users=usersDB.find().sort("nationalisticScore",pymongo.DESCENDING).limit(int(n))
+    users=[i for i in users]
+    for user in users:
+        del user["_id"]
+    return jsonify(users)
 def updateNationalisticScores():
     pass
 def apply_video_model(vids,vidsRoot):
@@ -66,7 +75,7 @@ def apply_video_model(vids,vidsRoot):
         with open(confFile,"w") as f:
             f.writelines(lines)
         prefix="models/videoModel/mmaction2/"
-        a=os.system(f"python3.8 {prefix}tools/test.py {confFile} {prefix}/work_dirs/tanet/epoch_12.pth --out results.json")
+        a=os.system(f"python3 {prefix}tools/test.py {confFile} {prefix}/work_dirs/tanet/epoch_12.pth --out results.json")
         with open("results.json") as f:
             results=json.load(f)
         return results
