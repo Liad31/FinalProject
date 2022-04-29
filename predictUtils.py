@@ -19,48 +19,11 @@ from tiktokApi.scraper import scraper
 from tiktokApi.OCR import ocr
 from tiktokApi.scrapeHashtags import addToDB
 import requests
+
 import pymongo
-from flask import Flask, request,jsonify
 nationalistic_sounds = np.load('models/nationalistic_songs.npy', allow_pickle=True)
 mongoClient = pymongo.MongoClient("mongodb+srv://ourProject:EMGwk59xADuSIIkv@cluster0.lhfaj.mongodb.net/production2?retryWrites=true&w=majority")
 model = torch.load('models/final_model/final_model', map_location='cpu')
-app= Flask(__name__)
-@app.route('/predict', methods=['GET'])
-def videoScores():
-    urls=request.args.get('urls')
-    urls=json.loads(urls)
-    res=score_from_url(urls)
-    return jsonify(res)
-@app.route('/mostNationalistic', methods=['GET'])
-def getNationalistic():
-    username = request.args.get('user')
-    n = request.args.get('n')
-    db = mongoClient["production3"]
-    usersDB= db["tiktokusernationalistics"]
-    videoDB= db["videos"]
-    user=usersDB.find_one({"userName":username})
-    # populate videos
-    # get the top scored videos
-    vidIds=user["videos"]
-    # turn object id to objects
-    vidsCursor=videoDB.find({"_id":{"$in":vidIds}})
-    vids= [i for i in vidsCursor]
-    vids.sort(key=lambda x:x["score"],reverse=True)
-    vids=vids[:int(n)]
-    # remove _id field
-    for vid in vids:
-        del vid["_id"]
-    return jsonify(vids)
-@app.route('/usersMostNationalistic', methods=['GET'])
-def getMostNationalistic():
-    n = request.args.get('n')
-    db = mongoClient["production3"]
-    usersDB= db["tiktokusernationalistics"]
-    users=usersDB.find().sort("nationalisticScore",pymongo.DESCENDING).limit(int(n))
-    users=[i for i in users]
-    for user in users:
-        del user["_id"]
-    return jsonify(users)
 def updateNationalisticScores():
     pass
 def apply_video_model(vids,vidsRoot):
@@ -75,7 +38,7 @@ def apply_video_model(vids,vidsRoot):
         with open(confFile,"w") as f:
             f.writelines(lines)
         prefix="models/videoModel/mmaction2/"
-        a=os.system(f"python3 {prefix}tools/test.py {confFile} {prefix}/work_dirs/tanet/epoch_12.pth --out results.json")
+        a=os.system(f"python3.8 {prefix}tools/test.py {confFile} {prefix}/work_dirs/tanet/epoch_12.pth --out results.json")
         with open("results.json") as f:
             results=json.load(f)
         return results
@@ -182,4 +145,10 @@ def update_video_scores(scores):
     requests.post("http://localhost:8001/api/database/updateScores",
                   data=json.dumps({"scores":scores}), headers=headers)
 if __name__ == "__main__":
-    app.run(host='0.0.0.0',port=8080)
+    productionDB = mongoClient['production3']
+    users_db = productionDB['tiktokusernationalistics']
+    users= productionDB['tiktokusernationalistics']
+    videos_db= productionDB['videos']
+    for user in list(users.find()):
+        scores=score_for_users([user["userName"]],num_posts=100)
+        update_video_scores(scores)
