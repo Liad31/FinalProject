@@ -19,13 +19,13 @@ from tiktokApi.scraper import scraper
 from tiktokApi.OCR import ocr
 from tiktokApi.scrapeHashtags import addToDB
 import requests
-# app = Flask(__name__)
 
 import pymongo
-from bson.objectid import ObjectId
-
 nationalistic_sounds = np.load('models/nationalistic_songs.npy', allow_pickle=True)
+mongoClient = pymongo.MongoClient("mongodb+srv://ourProject:EMGwk59xADuSIIkv@cluster0.lhfaj.mongodb.net/production2?retryWrites=true&w=majority")
 model = torch.load('models/final_model/final_model', map_location='cpu')
+def updateNationalisticScores():
+    pass
 def apply_video_model(vids,vidsRoot):
     with tempfile.TemporaryDirectory() as root:
         dataRootTest=root+"/test"
@@ -145,12 +145,10 @@ def update_video_scores(scores):
     requests.post("http://localhost:8001/api/database/updateScores",
                   data=json.dumps({"scores":scores}), headers=headers)
 if __name__ == "__main__":
-    myclient = pymongo.MongoClient("mongodb+srv://ourProject:EMGwk59xADuSIIkv@cluster0.lhfaj.mongodb.net/production2?retryWrites=true&w=majority")
-
-    db = myclient['production3']
-    users_db = db['tiktokusernationalistics']
-    users= db['tiktokusernationalistics']
-    videos= db['videos']
+    productionDB = mongoClient['production3']
+    users_db = productionDB['tiktokusernationalistics']
+    users= productionDB['tiktokusernationalistics']
+    videos_db= productionDB['videos']
     for user in list(users.find()):
         scores=score_for_users([user["userName"]],num_posts=100)
         update_video_scores(scores)
