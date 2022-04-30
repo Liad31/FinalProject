@@ -21,16 +21,61 @@ from tiktokApi.scrapeHashtags import addToDB
 import requests
 import pymongo
 from flask import Flask, request,jsonify
+import datetime
 nationalistic_sounds = np.load('models/nationalistic_songs.npy', allow_pickle=True)
 mongoClient = pymongo.MongoClient("mongodb+srv://ourProject:EMGwk59xADuSIIkv@cluster0.lhfaj.mongodb.net/production2?retryWrites=true&w=majority")
 model = torch.load('models/final_model/final_model', map_location='cpu')
 app= Flask(__name__)
+def idFromUrl(url):
+    return url.split("/")[-1]
 @app.route('/predict', methods=['GET'])
 def videoScores():
     urls=request.args.get('urls')
     urls=json.loads(urls)
     res=score_from_url(urls)
     return jsonify(res)
+@app.route("/getVideos", methods=["GET"])
+def getVideos():
+    urls=request.args.get('urls')
+    urls=json.loads(urls)
+    db = mongoClient["production3"]
+    usersDB = db["users"]
+    ids= [idFromUrl(i) for i in urls]
+    res = usersDB.find({"Vid": {"$in": ids}})
+    for i in res:
+        del i["_id"]
+    return jsonify(list(res))
+@app.route("/getUsers", methods=["GET"])
+def getUsers():
+    users=request.args.get('users')
+    users=json.loads(users)
+    db = mongoClient["production3"]
+    usersDB = db["users"]
+    res= usersDB.find({"userName": {"$in": users}})
+    return jsonify(list(res))
+@app.route("/videosFromLast", methods=['GET'])
+def videosFromLast():
+    db= mongoClient["production3"]
+    videosDB= db["videos"]
+    if 'hours' in request.args: 
+        hours=request.args.get('hours')
+        hours=int(hours)
+        time= datetime.datetime.now()-datetime.timedelta(hours=hours)
+        timeInEpoch = int(time.timestamp())
+        filter= {"timestamp": {"$gt": timeInEpoch}}
+    else:
+        filter={}
+    # count results
+    res=videosDB.find(filter)
+    res = len(list(res))
+    return jsonify(res)
+@app.route("/usersCount", methods=['GET'])
+def usersCount():
+    db= mongoClient["production3"]
+    usersDB= db["users"]
+    res=usersDB.find()
+    res = len(list(res))
+    return res
 @app.route('/mostNationalistic', methods=['GET'])
 def getNationalistic():
     username = request.args.get('user')
@@ -51,16 +96,28 @@ def getNationalistic():
     for vid in vids:
         del vid["_id"]
     return jsonify(vids)
-@app.route('/usersMostNationalistic', methods=['GET'])
-def getMostNationalistic():
+@app.route('/topUsers', methods=['GET'])
+def topUsers():
     n = request.args.get('n')
+    sort= request.args.get('sort')
     db = mongoClient["production3"]
     usersDB= db["tiktokusernationalistics"]
-    users=usersDB.find().sort("nationalisticScore",pymongo.DESCENDING).limit(int(n))
+    users=usersDB.find().sort(sort,pymongo.DESCENDING).limit(int(n))
     users=[i for i in users]
     for user in users:
         del user["_id"]
     return jsonify(users)
+@app.route("/topVideos", methods=['GET'])
+def topVideos():
+    n = request.args.get('n')
+    sort= request.args.get('sort')
+    db = mongoClient["production3"]
+    videosDB= db["videos"]
+    videos = videosDB.find().sort(sort,pymongo.DESCENDING).limit(int(n))
+    videos=[i for i in videos]
+    for video in videos:
+        del video["_id"]
+    return jsonify(videos)
 def updateNationalisticScores():
     pass
 def apply_video_model(vids,vidsRoot):
@@ -182,4 +239,10 @@ def update_video_scores(scores):
     requests.post("http://localhost:8001/api/database/updateScores",
                   data=json.dumps({"scores":scores}), headers=headers)
 if __name__ == "__main__":
-    app.run(host='0.0.0.0',port=8080)
+    # app.run(host='0.0.0.0',port=8080)
+    db = mongoClient['production3']
+    users_db = db['tiktokusernationalistics']
+    users= db['tiktokusernationalistics']
+    videos= db['videos']
+    for user in users.find():
+        download_user_vids([user['userId']],num_posts=20)
