@@ -1,7 +1,7 @@
 import 'package:final_site/helpers/responsiveness.dart';
 import 'package:final_site/widgets/large_screen.dart';
 import 'package:final_site/widgets/side_menu.dart';
-import 'package:final_site/widgets/small_screen.dart';
+
 import 'package:final_site/widgets/top_vav.dart';
 import 'package:flutter/material.dart';
 
@@ -15,7 +15,7 @@ class SiteLayout extends StatelessWidget {
       appBar: topNavigationBar(context, scaffoldKey),
       body: ResponsiveWidget(
         largeScreen: const LargeScreen(),
-        smallScreen: const SmallScreen(),
+        smallScreen: const LargeScreen(),
         scaffoldKey: scaffoldKey,
       ),
       drawer: const Drawer(
