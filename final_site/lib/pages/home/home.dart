@@ -105,10 +105,20 @@ class HomePage extends StatelessWidget {
           Row(
             mainAxisSize: MainAxisSize.max,
             children: [
-              const Expanded(
-                child: SizedBox(
-                  child: MyMarkdown(src: "markdown/text2.md"),
-                  height: 300,
+              Expanded(
+                child: Column(
+                  children: const [
+                    SizedBox(
+                      child: MyMarkdown(src: "markdown/text2.md"),
+                      height: 300,
+                    ),
+                    CustomText(
+                      text:
+                          'With all of that, our TikTok classifier achived an AUC of 94!',
+                      size: 18,
+                      weight: FontWeight.bold,
+                    ),
+                  ],
                 ),
                 flex: 3,
               ),
