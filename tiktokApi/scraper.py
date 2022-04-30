@@ -16,7 +16,7 @@ else:
 
 from apify_client import ApifyClient
 # Initialize the ApifyClient with your API token
-client = ApifyClient("apify_api_VSGPCD3k3P8Eo08ordUwyhXf9Iyvxz0fLN7O")
+client = ApifyClient("apify_api_qsgbF6c6cYsw80yVk8yDMdaVU8fiDY36FEyd")
 
 # Prepare the actor input
 def get_posts_per_user(posts_df):
@@ -147,7 +147,11 @@ class Scraper:
                 if type(l)==int:
                     l=int(l)
                 jsonRow[origKey.strip("'")]=l
-            jsonRow["musicMeta.musicId"]=int(row["musicMeta"]["playUrl"].split("/")[-1].split(".")[0])
+            
+            try: 
+                jsonRow["musicMeta.musicId"]=int(row["musicMeta"]["playUrl"].split("/")[-1].split(".")[0])
+            except:
+                jsonRow["musicMeta.musicId"]=0
             jsonRow["hashtags"]=jsonRow["hashtags"].encode('utf-8').decode('unicode-escape')
             newJsonArr.append(jsonRow)
         return newJsonArr 
