@@ -50,7 +50,7 @@ def getUsers():
     users=request.args.get('users')
     users=json.loads(users)
     db = mongoClient["production3"]
-    usersDB = db["users"]
+    usersDB = db["tiktokusernationalistics"]
     res= usersDB.find({"userName": {"$in": users}})
     return jsonify(list(res))
 @app.route("/videosFromLast", methods=['GET'])
@@ -72,7 +72,7 @@ def videosFromLast():
 @app.route("/usersCount", methods=['GET'])
 def usersCount():
     db= mongoClient["production3"]
-    usersDB= db["users"]
+    usersDB= db["tiktokusernationalistics"]
     res=usersDB.find()
     res = len(list(res))
     return jsonify(res)
