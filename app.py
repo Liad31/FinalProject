@@ -75,7 +75,15 @@ def usersCount():
     usersDB= db["users"]
     res=usersDB.find()
     res = len(list(res))
-    return res
+    return jsonify(res)
+@app.route("/videosCount", methods=['GET'])
+def videosCount():
+    db= mongoClient["production3"]
+    videosDB= db["videos"]
+    res=videosDB.find()
+    res = len(list(res))
+    return jsonify(res)
+
 @app.route('/mostNationalistic', methods=['GET'])
 def getNationalistic():
     username = request.args.get('user')
@@ -239,10 +247,10 @@ def update_video_scores(scores):
     requests.post("http://localhost:8001/api/database/updateScores",
                   data=json.dumps({"scores":scores}), headers=headers)
 if __name__ == "__main__":
-    # app.run(host='0.0.0.0',port=8080)
-    db = mongoClient['production3']
-    users_db = db['tiktokusernationalistics']
-    users= db['tiktokusernationalistics']
-    videos= db['videos']
-    for user in users.find():
-        download_user_vids([user['userId']],num_posts=20)
+    app.run(host='0.0.0.0',port=8080)
+    # db = mongoClient['production3']
+    # users_db = db['tiktokusernationalistics']
+    # users= db['tiktokusernationalistics']
+    # videos= db['videos']
+    # for user in users.find():
+    #     download_user_vids([user['userId']],num_posts=20)
