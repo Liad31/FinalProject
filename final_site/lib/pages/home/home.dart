@@ -270,8 +270,14 @@ class HomePage extends StatelessWidget {
               ],
             ),
           ),
-          TiktokEmbedd(
-              src: "6718335390845095173", color: Colors.green, text: 'nice'),
+          Wrap(
+            children: [
+              TiktokEmbedd(
+                  src: "6718335390845095173",
+                  color: Colors.green,
+                  text: 'nice'),
+            ],
+          )
         ],
       ),
     );
