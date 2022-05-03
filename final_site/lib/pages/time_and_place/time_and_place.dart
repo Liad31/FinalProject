@@ -17,7 +17,6 @@ class TimeAndPlacePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String goversString = gJson.goversJson;
-    // String goversString = '"govers": [{"name": "bezkoder", "age": 30}]';
     var goversJson = jsonDecode(goversString)['govers'] as List;
     List<Governrate> govers =
         goversJson.map((goverJson) => Governrate.fromJson(goverJson)).toList();
@@ -29,7 +28,6 @@ class TimeAndPlacePage extends StatelessWidget {
       govers_names.add(govers[i].name);
       scores.add((0.99 - 0.05 * i).toString());
     }
-    print(cordinates_list);
     return Row(
       children: [
         Flexible(
@@ -49,17 +47,27 @@ class TimeAndPlacePage extends StatelessWidget {
             borderRadius: BorderRadius.circular(8),
           ),
           width: 630,
-          height: 850,
-          child: Center(
-            child: Container(
-              child: GMap(
-                polygonLatLongs: cordinates_list as List<List<LatLng>>,
-                names: govers_names,
-                scores: scores,
-              ).build(context),
-              width: 600,
-              height: 800,
-            ),
+          height: double.infinity,
+          child: Column(
+            children: [
+              Flexible(
+                child: Container(),
+                flex: 1,
+              ),
+              Container(
+                child: GMap(
+                  polygonLatLongs: cordinates_list as List<List<LatLng>>,
+                  names: govers_names,
+                  scores: scores,
+                ).build(context),
+                width: 600,
+                height: 800,
+              ),
+              Flexible(
+                child: Container(),
+                flex: 1,
+              ),
+            ],
           ),
         ),
         Flexible(

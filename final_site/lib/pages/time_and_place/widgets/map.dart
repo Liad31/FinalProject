@@ -1,10 +1,11 @@
 import 'dart:collection';
-
 import 'package:final_site/widgets/custom_text.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter_web/google_maps_flutter_web.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart' as maps;
+import 'package:syncfusion_flutter_maps/maps.dart';
 
 class GMap extends GetxController {
   final List<List<maps.LatLng>> polygonLatLongs;
@@ -18,16 +19,16 @@ class GMap extends GetxController {
       required this.names,
       required this.scores});
 
-  void setScores(List scores) {
+  void setScores(List scores, BuildContext context) {
     this.scores = scores;
-    _setPolygons();
+    _setPolygons(context);
   }
 
   void onCreated(maps.GoogleMapController controller) {
     mapController = controller;
   }
 
-  void _setPolygons() {
+  void _setPolygons(BuildContext context) {
     if (names.length != polygonLatLongs.length) {
       print('wrong length for the names array');
       throw -1;
@@ -45,6 +46,8 @@ class GMap extends GetxController {
       } else {
         color = Colors.orange[100]!.withOpacity(0.7) as Color;
       }
+      String name = names[i];
+      String score = scores[i];
       polygons.value.add(
         maps.Polygon(
           polygonId: maps.PolygonId(names[i]),
@@ -54,10 +57,31 @@ class GMap extends GetxController {
           strokeWidth: 1,
           consumeTapEvents: true,
           visible: true,
-          // onTap:             infoWindow: InfoWindow(
-          //     title: "San Francsico",
-          //     snippet: "An Interesting city",[
-          //   ),
+          onTap: () {
+            showCupertinoModalPopup(
+              context: context,
+              builder: (context) {
+                return Dialog(
+                  child: Container(
+                    height: MediaQuery.of(context).size.height * 0.15,
+                    width: MediaQuery.of(context).size.width * 0.2,
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.black,
+                        width: 4,
+                      ),
+                    ),
+                    child: Align(
+                      alignment: Alignment.topLeft,
+                      child: Column(
+                        children: <Widget>[Text('$name         $score')],
+                      ),
+                    ),
+                  ),
+                );
+              },
+            );
+          },
         ),
       );
     }
@@ -65,12 +89,12 @@ class GMap extends GetxController {
 
   @override
   Widget build(BuildContext context) {
-    _setPolygons();
+    _setPolygons(context);
     return Obx(
       () => maps.GoogleMap(
         initialCameraPosition: const maps.CameraPosition(
           target: maps.LatLng(31.898043, 35.204269),
-          zoom: 10,
+          zoom: 9,
         ),
         polygons: polygons.value,
         onMapCreated: onCreated as void Function(maps.GoogleMapController)?,
