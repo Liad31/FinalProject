@@ -43,6 +43,7 @@ dependencies:
   flutter_html: ^2.2.1
   flutter_widget_from_html: ^0.8.5
   flutter_markdown: ^0.6.10
+  syncfusion_flutter_charts: ^20.1.52
 
 
 
