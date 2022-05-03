@@ -1,10 +1,15 @@
+import 'dart:convert';
+
 import 'package:final_site/constatns/syle.dart';
 import 'package:final_site/pages/home/widgets/circles_overview.dart';
 import 'package:final_site/pages/home/widgets/overview_cards_large.dart';
 import 'package:final_site/pages/home/widgets/overview_cards_small.dart';
 import 'package:final_site/widgets/custom_text.dart';
+import 'package:final_site/widgets/my_markdown.dart';
 import 'package:final_site/widgets/tiktok_embedd.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:get/get.dart';
 import 'package:final_site/helpers/responsiveness.dart';
 import 'package:final_site/pages/home/widgets/Image_card.dart';
@@ -75,22 +80,9 @@ class HomePage extends StatelessWidget {
             width: double.infinity,
             height: 10,
           ),
-          const CustomText(
-            text:
-                'The TikTok classifier is a tool for recognizing Palestinian nationalism in TikTok.\nThe tool is based on a machine learning model which was trained for classifying TikTok videos as either Palestinian nationalistic or not.\nThis tool was developed by R. Cirkin, G. Vitrak and L. Kehila as the final project for our computer science B.A in Bar-Ilan University(BIU). We collaborated with the Department of Middle Eastern Studiest of BIU, specifically with our mentors Y. Mann and Eli (insert family name) and students in their seminar.\nThanks to their guidance and the hard work of the seminar students who helped us a lot along the way, our model achived great performance.\nThe tool and its results are now avaible in this website. Now, using our tool we can follow Palestinian nationalistic users, monitor their videos and predict nationalistic waves in the West bank before they burst.',
-            size: 18,
-            weight: FontWeight.normal,
-          ),
-          SizedBox(
-            child: Container(),
-            width: double.infinity,
-            height: 8,
-          ),
-          const CustomText(
-            text:
-                'At first, we had to define Palestinian nationalism and characterize the kinds of videos we should be looking out for. After discussing this with the seminar students and our mentors we got a green light to start collecting data(users, videos, etc...) from Tiktok, we created a location analyzer which tries to make sure that all our data comes from the West bank. Then, we built the tagging site for our taggers, the seminar students, where they could tag the videos we collected. this data was later used to train our model.\nAfter 3 intensive months of video tagging and model building, we finally were able to train & test our model on the labeled data.',
-            size: 18,
-            weight: FontWeight.normal,
+          const SizedBox(
+            child: MyMarkdown(src: "markdown/text1.md"),
+            height: 300,
           ),
           SizedBox(
             child: Container(),
@@ -118,18 +110,12 @@ class HomePage extends StatelessWidget {
             children: [
               Expanded(
                 child: Column(
-                  children: [
-                    RichText(
-                      text: TextSpan(
-                        text:
-                            'Our model Relies on 4 different data types: text description, it\'s hashtags, The sound attached to the video and the video itself. For each data type we created a sub-model or introduced logic before combining all the outputs of the sub-models which were trained separately before into one vector and passed it through a final fully connected network. For the text description we built an attention based LSTM taking as input the words of the description represented as the vector given by ##AraVec 3.0 (word2vec)##. For the hashtags we developed a weighted-KNN model, Our logic was to look at the correlation between a given hashtag and the nationalism of the posts tagged by it. We then defined a score function combining the hashtags of each post(reminds of a weighted-KNN). Our video model is the Tannet model provided by ##MMaction 2.0##,  with it\'s final layer cut (to allow our final model to infer more about the video itself). Finally for the post sound we created a nationalistic sounds bucket based on the nationalistic sounds we accumulated in the tagging process and look for those sounds in future posts. Combining those four together, we created our final model which outputs a nationalistic score for a given TikTok post.',
-                        style: GoogleFonts.notoSans(
-                          fontSize: 18,
-                          fontWeight: FontWeight.normal,
-                        ),
-                      ),
+                  children: const [
+                    SizedBox(
+                      child: MyMarkdown(src: "markdown/text2.md"),
+                      height: 420,
                     ),
-                    const CustomText(
+                    CustomText(
                       text:
                           'With all of that, our TikTok classifier achived an AUC of 94!',
                       size: 18,
@@ -242,7 +228,7 @@ class HomePage extends StatelessWidget {
                 ),
                 TextSpan(
                   text:
-                      'On the get score page you can query our machine learning mode for either a nationalistic score for a given Tiktok post(just insert it\'s id) or a nationalistic score for a Tiktok user based on his videos(just insert his username). ',
+                      'On the get score page you can query our machine learning mode for either a nationalistic score for a given Tiktok post (just insert it\'s id) or a nationalistic score for a Tiktok user based on his videos (just insert his username). ',
                   style: GoogleFonts.notoSans(
                       fontSize: 18, fontWeight: FontWeight.normal),
                 ),
@@ -255,7 +241,7 @@ class HomePage extends StatelessWidget {
                     )),
                 TextSpan(
                   text:
-                      'Using our model, we managed to build a tool for following nationalistic users in the west bank area. we have accumaleted ${datas[2]['value']} users in our database(and still counting) and calculated a nationalistic score for each of them, based on their latest nationalistic posts. Adding on that, we introduce a relevancy score given for each user which takes into consideration his nationalistic score, and his influence in the Tiktok platform(followers, likes, etc.). If you would like to watch the most relevant/nationalistic users, you\'re welcome to visit the users to follow page where you will find all the relevant tables.',
+                      'Using our model, we managed to build a tool for following nationalistic users in the west bank area. we have accumaleted ${datas[2]['value']} users in our database (and still counting) and calculated a nationalistic score for each of them, based on their latest nationalistic posts. Adding on that, we introduce a relevancy score given for each user which takes into consideration his nationalistic score, and his influence in the Tiktok platform (followers, likes, etc.). If you would like to watch the most relevant/nationalistic users, you\'re welcome to visit the users to follow page where you will find all the relevant tables.',
                   style: GoogleFonts.notoSans(
                       fontSize: 18, fontWeight: FontWeight.normal),
                 ),
@@ -287,8 +273,44 @@ class HomePage extends StatelessWidget {
               ],
             ),
           ),
-          TiktokEmbedd(
-              src: "6718335390845095173", color: Colors.green, text: 'nice'),
+          FutureBuilder(
+            future: rootBundle.loadString("home_vids/vids.json"),
+            builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+              if (snapshot.hasData) {
+                var data = snapshot.data;
+                if (data != null) {
+                  var list = json.decode(data);
+                  List<dynamic> nat = list["national"];
+                  List<dynamic> notNat = list["not_national"];
+                  nat.shuffle();
+                  notNat.shuffle();
+                  return Row(
+                    children: [
+                      Expanded(child: Container()),
+                      TiktokEmbedd(
+                          src: nat[0]["vid"],
+                          color: Colors.red,
+                          text: 'score: ${nat[0]["score"]}'),
+                      Expanded(child: Container()),
+                      TiktokEmbedd(
+                          src: nat[1]["vid"],
+                          color: Colors.red,
+                          text: 'score: ${nat[1]["score"]}'),
+                      Expanded(child: Container()),
+                      TiktokEmbedd(
+                          src: notNat[0]["vid"],
+                          color: Colors.green,
+                          text: 'score: ${notNat[0]["score"]}'),
+                      Expanded(child: Container()),
+                    ],
+                  );
+                }
+              }
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            },
+          )
         ],
       ),
     );
