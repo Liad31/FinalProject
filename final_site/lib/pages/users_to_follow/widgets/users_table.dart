@@ -87,6 +87,12 @@ class usersTable extends GetxController {
                           backgroundColor:
                               MaterialStateProperty.resolveWith<Color?>(
                             (Set<MaterialState> states) {
+                              if (currentTable.value == 'Nationalistic') {
+                                return Theme.of(context)
+                                    .colorScheme
+                                    .primary
+                                    .withOpacity(0.5);
+                              }
                               if (states.contains(MaterialState.focused) ||
                                   states.contains(MaterialState.pressed) ||
                                   states.contains(MaterialState.hovered)) {
@@ -132,6 +138,12 @@ class usersTable extends GetxController {
                           backgroundColor:
                               MaterialStateProperty.resolveWith<Color?>(
                             (Set<MaterialState> states) {
+                              if (currentTable.value == 'Relevancy') {
+                                return Theme.of(context)
+                                    .colorScheme
+                                    .primary
+                                    .withOpacity(0.5);
+                              }
                               if (states.contains(MaterialState.focused) ||
                                   states.contains(MaterialState.pressed) ||
                                   states.contains(MaterialState.hovered)) {

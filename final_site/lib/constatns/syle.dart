@@ -11,3 +11,4 @@ Color blue = const Color.fromARGB(255, 87, 51, 214);
 Color torquise = const Color.fromARGB(255, 154, 235, 227);
 Color black = const Color.fromARGB(255, 0, 0, 0);
 Color lightBlue = const Color.fromARGB(255, 59, 112, 180);
+Color mapBAckground = Color.fromARGB(255, 130, 182, 96);

@@ -101,6 +101,12 @@ class videoTable extends GetxController {
                           backgroundColor:
                               MaterialStateProperty.resolveWith<Color?>(
                             (Set<MaterialState> states) {
+                              if (currentTable.value == '24') {
+                                return Theme.of(context)
+                                    .colorScheme
+                                    .primary
+                                    .withOpacity(0.5);
+                              }
                               if (states.contains(MaterialState.focused) ||
                                   states.contains(MaterialState.pressed) ||
                                   states.contains(MaterialState.hovered)) {
@@ -153,6 +159,12 @@ class videoTable extends GetxController {
                           backgroundColor:
                               MaterialStateProperty.resolveWith<Color?>(
                             (Set<MaterialState> states) {
+                              if (currentTable.value == '72') {
+                                return Theme.of(context)
+                                    .colorScheme
+                                    .primary
+                                    .withOpacity(0.5);
+                              }
                               if (states.contains(MaterialState.focused) ||
                                   states.contains(MaterialState.pressed) ||
                                   states.contains(MaterialState.hovered)) {
