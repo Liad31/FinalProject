@@ -16,7 +16,7 @@ class TiktokEmbedd extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 575,
-      width: 23r0,
+      width: 230,
       decoration: BoxDecoration(
         color: color,
         border: Border.all(color: dark.withOpacity(.3), width: .5),

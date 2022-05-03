@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:final_site/constatns/syle.dart';
 import 'package:final_site/pages/home/widgets/circles_overview.dart';
 import 'package:final_site/pages/home/widgets/overview_cards_large.dart';
@@ -6,6 +8,7 @@ import 'package:final_site/widgets/custom_text.dart';
 import 'package:final_site/widgets/my_markdown.dart';
 import 'package:final_site/widgets/tiktok_embedd.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:get/get.dart';
 import 'package:final_site/helpers/responsiveness.dart';
@@ -110,7 +113,7 @@ class HomePage extends StatelessWidget {
                   children: const [
                     SizedBox(
                       child: MyMarkdown(src: "markdown/text2.md"),
-                      height: 300,
+                      height: 420,
                     ),
                     CustomText(
                       text:
@@ -225,7 +228,7 @@ class HomePage extends StatelessWidget {
                 ),
                 TextSpan(
                   text:
-                      'On the get score page you can query our machine learning mode for either a nationalistic score for a given Tiktok post(just insert it\'s id) or a nationalistic score for a Tiktok user based on his videos(just insert his username). ',
+                      'On the get score page you can query our machine learning mode for either a nationalistic score for a given Tiktok post (just insert it\'s id) or a nationalistic score for a Tiktok user based on his videos (just insert his username). ',
                   style: GoogleFonts.notoSans(
                       fontSize: 18, fontWeight: FontWeight.normal),
                 ),
@@ -238,7 +241,7 @@ class HomePage extends StatelessWidget {
                     )),
                 TextSpan(
                   text:
-                      'Using our model, we managed to build a tool for following nationalistic users in the west bank area. we have accumaleted ${datas[2]['value']} users in our database(and still counting) and calculated a nationalistic score for each of them, based on their latest nationalistic posts. Adding on that, we introduce a relevancy score given for each user which takes into consideration his nationalistic score, and his influence in the Tiktok platform(followers, likes, etc.). If you would like to watch the most relevant/nationalistic users, you\'re welcome to visit the users to follow page where you will find all the relevant tables.',
+                      'Using our model, we managed to build a tool for following nationalistic users in the west bank area. we have accumaleted ${datas[2]['value']} users in our database (and still counting) and calculated a nationalistic score for each of them, based on their latest nationalistic posts. Adding on that, we introduce a relevancy score given for each user which takes into consideration his nationalistic score, and his influence in the Tiktok platform (followers, likes, etc.). If you would like to watch the most relevant/nationalistic users, you\'re welcome to visit the users to follow page where you will find all the relevant tables.',
                   style: GoogleFonts.notoSans(
                       fontSize: 18, fontWeight: FontWeight.normal),
                 ),
@@ -270,13 +273,43 @@ class HomePage extends StatelessWidget {
               ],
             ),
           ),
-          Wrap(
-            children: [
-              TiktokEmbedd(
-                  src: "6718335390845095173",
-                  color: Colors.green,
-                  text: 'nice'),
-            ],
+          FutureBuilder(
+            future: rootBundle.loadString("home_vids/vids.json"),
+            builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+              if (snapshot.hasData) {
+                var data = snapshot.data;
+                if (data != null) {
+                  var list = json.decode(data);
+                  List<dynamic> nat = list["national"];
+                  List<dynamic> notNat = list["not_national"];
+                  nat.shuffle();
+                  notNat.shuffle();
+                  return Row(
+                    children: [
+                      Expanded(child: Container()),
+                      TiktokEmbedd(
+                          src: nat[0]["vid"],
+                          color: Colors.red,
+                          text: 'score: ${nat[0]["score"]}'),
+                      Expanded(child: Container()),
+                      TiktokEmbedd(
+                          src: nat[1]["vid"],
+                          color: Colors.red,
+                          text: 'score: ${nat[1]["score"]}'),
+                      Expanded(child: Container()),
+                      TiktokEmbedd(
+                          src: notNat[0]["vid"],
+                          color: Colors.green,
+                          text: 'score: ${notNat[0]["score"]}'),
+                      Expanded(child: Container()),
+                    ],
+                  );
+                }
+              }
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            },
           )
         ],
       ),

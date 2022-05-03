@@ -39,6 +39,27 @@ class usersTable extends GetxController {
     return this;
   }
 
+  resolveColor(Set<MaterialState> states, int index) {
+    var score_double = data[index]['score'];
+    int r_color = (score_double * 1000 - ((score_double * 1000) % 100)).toInt();
+    Color? color;
+    if (score_double >= 0.95) {
+      color = Colors.red;
+    } else if (score_double >= 0.1) {
+      color = Colors.orange[r_color];
+    } else {
+      color = Colors.orange[100];
+    }
+    //INMPLEMENT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    // return Theme.of(context)
+    //     .colorScheme
+    //     .primary
+    //     .withOpacity(0.08);
+    // return Colors.red;
+
+    return color;
+  }
+
   @override
   Widget build(BuildContext context) {
     Widget _verticalDivider = const VerticalDivider(
@@ -408,26 +429,7 @@ class usersTable extends GetxController {
                     return DataRow(
                         color: MaterialStateProperty.resolveWith<Color?>(
                             (Set<MaterialState> states) {
-                          var score_double = double.parse(score);
-                          int r_color = (score_double * 1000 -
-                                  ((score_double * 1000) % 100))
-                              .toInt();
-                          if (states.contains(MaterialState.hovered)) {
-                            //INMPLEMENT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                            // return Theme.of(context)
-                            //     .colorScheme
-                            //     .primary
-                            //     .withOpacity(0.08);
-                            // return Colors.red;
-                          }
-                          if (score_double >= 0.95) {
-                            return Colors.red;
-                          }
-                          if (score_double >= 0.1) {
-                            return Colors.orange[r_color];
-                          } else {
-                            return Colors.orange[100];
-                          }
+                          return resolveColor(states, index);
                         }),
                         cells: [
                           rankDataCellFirst,
@@ -440,26 +442,7 @@ class usersTable extends GetxController {
                     return DataRow(
                         color: MaterialStateProperty.resolveWith<Color?>(
                             (Set<MaterialState> states) {
-                          var score_double = double.parse(score);
-                          int r_color = (score_double * 1000 -
-                                  ((score_double * 1000) % 100))
-                              .toInt();
-                          if (states.contains(MaterialState.hovered)) {
-                            //INMPLEMENT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                            // return Theme.of(context)
-                            //     .colorScheme
-                            //     .primary
-                            //     .withOpacity(0.08);
-                            // return Colors.red;
-                          }
-                          if (score_double >= 0.95) {
-                            return Colors.red;
-                          }
-                          if (score_double >= 0.1) {
-                            return Colors.orange[r_color];
-                          } else {
-                            return Colors.orange[100];
-                          }
+                          return resolveColor(states, index);
                         }),
                         cells: [
                           rankDataCellTop,
@@ -472,26 +455,7 @@ class usersTable extends GetxController {
                     return DataRow(
                         color: MaterialStateProperty.resolveWith<Color?>(
                             (Set<MaterialState> states) {
-                          var score_double = double.parse(score);
-                          int r_color = (score_double * 1000 -
-                                  ((score_double * 1000) % 100))
-                              .toInt();
-                          if (states.contains(MaterialState.hovered)) {
-                            //INMPLEMENT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                            // return Theme.of(context)
-                            //     .colorScheme
-                            //     .primary
-                            //     .withOpacity(0.08);
-                            // return Colors.red;
-                          }
-                          if (score_double >= 0.95) {
-                            return Colors.red;
-                          }
-                          if (score_double >= 0.1) {
-                            return Colors.orange[r_color];
-                          } else {
-                            return Colors.orange[100];
-                          }
+                          return resolveColor(states, index);
                         }),
                         cells: [
                           rankDataCell,
