@@ -1,7 +1,11 @@
 import 'dart:convert';
 import "dart:io";
+import 'package:final_site/pages/time_and_place/widgets/graph.dart';
 import 'package:final_site/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:syncfusion_flutter_charts/sparkcharts.dart';
+import '../../widgets/tiktok_embedd.dart';
 import 'package:final_site/pages/time_and_place/widgets/map.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:get/get.dart';
@@ -13,7 +17,7 @@ import '../../constatns/syle.dart';
 import 'package:final_site/pages/time_and_place/widgets/score_show.dart';
 
 class TimeAndPlacePage extends StatelessWidget {
-  const TimeAndPlacePage({Key? key}) : super(key: key);
+  TimeAndPlacePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,8 +33,11 @@ class TimeAndPlacePage extends StatelessWidget {
       govers_names.add(govers[i].name);
       scores.add((0.99 - 0.05 * i).toString());
     }
-    return Row(
+    print(cordinates_list);
+    return Container(
+        child: ListView(
       children: [
+        Graph(),
         Flexible(
           child: Container(),
           flex: 1,
@@ -81,6 +88,6 @@ class TimeAndPlacePage extends StatelessWidget {
           flex: 9,
         ),
       ],
-    );
+    ));
   }
 }

@@ -18,7 +18,7 @@ Route<dynamic> genarateRoute(RouteSettings settings) {
     case recentPageRoute:
       return _getPageRoute(RecentPage());
     case timeAndPlacePageRoute:
-      return _getPageRoute(const TimeAndPlacePage());
+      return _getPageRoute(TimeAndPlacePage());
     default:
       return _getPageRoute(const HomePage());
   }
