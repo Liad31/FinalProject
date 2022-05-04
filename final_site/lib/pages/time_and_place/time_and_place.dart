@@ -34,10 +34,8 @@ class TimeAndPlacePage extends StatelessWidget {
       scores.add((0.99 - 0.05 * i).toString());
     }
     print(cordinates_list);
-    return Container(
-        child: ListView(
+    return Row(
       children: [
-        Graph(),
         Flexible(
           child: Container(),
           flex: 1,
@@ -88,6 +86,6 @@ class TimeAndPlacePage extends StatelessWidget {
           flex: 9,
         ),
       ],
-    ));
+    );
   }
 }
