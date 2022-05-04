@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter_web/google_maps_flutter_web.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart' as maps;
 import 'package:syncfusion_flutter_maps/maps.dart';
+import 'package:final_site/pages/time_and_place/widgets/score_show.dart';
 
 class GMap extends GetxController {
   final List<List<maps.LatLng>> polygonLatLongs;
@@ -58,29 +59,8 @@ class GMap extends GetxController {
           consumeTapEvents: true,
           visible: true,
           onTap: () {
-            showCupertinoModalPopup(
-              context: context,
-              builder: (context) {
-                return Dialog(
-                  child: Container(
-                    height: MediaQuery.of(context).size.height * 0.15,
-                    width: MediaQuery.of(context).size.width * 0.2,
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Colors.black,
-                        width: 4,
-                      ),
-                    ),
-                    child: Align(
-                      alignment: Alignment.topLeft,
-                      child: Column(
-                        children: <Widget>[Text('$name         $score')],
-                      ),
-                    ),
-                  ),
-                );
-              },
-            );
+            scoreShow.currentGover.value = name;
+            scoreShow.currentScore.value = score;
           },
         ),
       );

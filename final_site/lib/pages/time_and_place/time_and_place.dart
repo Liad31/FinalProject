@@ -10,6 +10,7 @@ import 'package:final_site/constatns/goversJson.dart' as gJson;
 import 'dart:convert';
 import 'package:final_site/pages/time_and_place/governrate.dart';
 import '../../constatns/syle.dart';
+import 'package:final_site/pages/time_and_place/widgets/score_show.dart';
 
 class TimeAndPlacePage extends StatelessWidget {
   const TimeAndPlacePage({Key? key}) : super(key: key);
@@ -65,7 +66,12 @@ class TimeAndPlacePage extends StatelessWidget {
               ),
               Flexible(
                 child: Container(),
-                flex: 1,
+                flex: 2,
+              ),
+              scoreShow().build(context),
+              Flexible(
+                child: Container(),
+                flex: 2,
               ),
             ],
           ),
