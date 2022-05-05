@@ -6,7 +6,6 @@ const Img= require("../../models/israelTag");
 
 
 router.post("/postNewUsers", (req, res) => {
-  maxVideosPerUser=100
   for (let t = 0; t < req.body.users.length; t++) {
     let userID = req.body.users[t]['id'];
     TiktokUser.findOne({ userId: userID }, function (err, user) {
@@ -15,40 +14,36 @@ router.post("/postNewUsers", (req, res) => {
         res.status(200).send("error occured");
       }
       if (user) {
-        video_saved = 0
         console.log("adding videos to user");
-        for (let k = 0; k < req.body.users[t]['videos'].length && user.videos.length < maxVideosPerUser; k++) {
-          videoID = req.body.users[t]['videos'][k]['Vid']
-          Video.findOne({ Vid: videoID }, async function (err, video) {
-            if (err) {
-              console.log(`Error: ${err}`);
-              res.status(200).send("error occured");
-            }
-            if (video) {
-            }
-            else {
-              videos = req.body.users[t]['videos']
-              let vid = Video({
-                Vid: videos[k]['Vid'],
-                text: videos[k]['text'],
-                hashtags: videos[k]['hashtags'],
-                musicId: videos[k]['musicId'],
-                musicUrl: videos[k]['musicUrl'],
-                date: videos[k]['date'],
-                stats: videos[k]['videoStats']
-              });
-              console.log(vid)
-              console.log(user.videos)
-              user.videos.push(vid);
-              await vid.save().catch(err => {
-                res.status(400).send("unable to save to database");
-              });
-            }
-          })
-        }
-        user.save().catch(err => {
-          res.status(400).send("unable to save to database");
+        ids = req.body.users[t]['videos'].map(function (item) {
+            return item.Vid;
         });
+        Video.find({ Vid: { $in: ids } }, function (err, databaseVids) {
+            if (err) {
+                console.log(`Error: ${err}`);
+            }
+            for( video of req.body.users[t]['videos']){
+                if(video.Vid in databaseVids.map(vid=> vid.Vid))
+                    continue
+                videoDoc=new Video({
+                  Vid: video.Vid,
+                  text: video.text,
+                  date: video.date,
+                  hashtags: video.hashtags,
+                  musicId: video.musicId,
+                  musicUrl: video.musicUrl,
+                  stats: video.stats
+                });
+                user.videos.push(videoDoc);
+                videoDoc.save().catch(err => {
+                    console.log(`Error: ${err}`);
+                })
+            }
+            user.save().catch(err => {
+                console.log(`Error: ${err}`);
+            })
+          
+      });
       }
       else {
         console.log(t);
@@ -58,7 +53,7 @@ router.post("/postNewUsers", (req, res) => {
         let governorate = req.body.users[t]['governorate'];
         let userStats = req.body.users[t]['userStats'];
         let videos = []
-        for (let i = 0; i < Math.min(videos_arr.length,maxVideosPerUser); i++) {
+        for (let i = 0; i < videos_arr.length; i++) {
           let cur_video = Video({
             Vid: videos_arr[i]['Vid'],
             text: videos_arr[i]['text'],
@@ -66,7 +61,7 @@ router.post("/postNewUsers", (req, res) => {
             hashtags: videos_arr[i]['hashtags'],
             musicId: videos_arr[i]['musicId'],
             musicUrl: videos_arr[i]['musicUrl'],
-            stats: videos[k]['videoStats']
+            stats: videos_arr[i]['stats']
           });
           videos.push(cur_video);
           cur_video.save().catch(err => {
