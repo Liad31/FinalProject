@@ -32,8 +32,5 @@ class ImageCard extends StatelessWidget {
         child: Image.asset(imagePath),
       ),
     );
-    // return FittedBox(
-    //   child: Image.asset(imagePath),
-    // );
   }
 }

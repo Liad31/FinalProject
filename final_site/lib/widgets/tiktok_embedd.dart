@@ -15,8 +15,8 @@ class TiktokEmbedd extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 200,
       height: 575,
+      width: 230,
       decoration: BoxDecoration(
         color: color,
         border: Border.all(color: dark.withOpacity(.3), width: .5),
@@ -29,25 +29,20 @@ class TiktokEmbedd extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
       ),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const SizedBox(
             height: 20,
           ),
-          Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                child: Html(
-                  data: """
-                <iframe width="600" height="450"
-                src="https://www.tiktok.com/embed/$src">
-                </iframe>
-                  """,
-                ),
-              ),
-            ],
-          ),
+          Wrap(alignment: WrapAlignment.center, children: [
+            Html(
+              data: """
+              <iframe height="450"
+              src="https://www.tiktok.com/embed/$src">
+              </iframe>
+                """,
+            ),
+          ]),
           Expanded(child: Container()),
           CustomText(
             text: text,

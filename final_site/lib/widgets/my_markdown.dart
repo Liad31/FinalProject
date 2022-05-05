@@ -16,11 +16,13 @@ class MyMarkdown extends StatelessWidget {
           final data = snapshot.data;
           if (data != null) {
             return Markdown(
-              data: data,
-              onTapLink: (text, url, title) {
-                launch(url!);
-              },
-            );
+                data: data,
+                onTapLink: (text, url, title) {
+                  launch(url!);
+                },
+                styleSheet: MarkdownStyleSheet.fromTheme(ThemeData(
+                    textTheme: const TextTheme(
+                        bodyText2: TextStyle(fontSize: 18.0)))));
           }
         }
 

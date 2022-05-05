@@ -75,7 +75,7 @@ class getScorePage extends StatelessWidget {
                     children: <TextSpan>[
                       TextSpan(
                         text:
-                            'You are welcome to try and query our machine learning model for a Palestinian nationalistic score of a video(insert a URL to the right input box).\nIn addition, we provide a functionality of querying our model for a Palestinian user\'s nationalistic score produced by his latest posts based on a formula we introduce. Feel free to try!',
+                            'You are welcome to try and query our machine learning model for a Palestinian nationalistic score of a video(insert a URL to the right input box).\nIn addition, we provide a functionality of querying our model for a Palestinian user\'s nationalistic score produced by his latest posts based on a formula we introduce. Feel free to try!\nPlease note that the model works the best on the type of data it was trained on, which means videos uploaded by users from the West Bank.',
                         style: GoogleFonts.notoSans(fontSize: 16),
                       ),
                     ],
@@ -88,7 +88,7 @@ class getScorePage extends StatelessWidget {
             ),
           ),
           SizedBox(
-            height: 40,
+            height: 35,
             child: Container(),
           ),
           Row(
