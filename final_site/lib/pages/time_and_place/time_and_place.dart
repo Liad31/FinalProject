@@ -35,6 +35,7 @@ class TimeAndPlacePage extends StatelessWidget {
     }
     print(cordinates_list);
     return Row(
+      //graph
       children: [
         Flexible(
           child: Container(),
