@@ -1,6 +1,6 @@
 import 'dart:convert';
 import "dart:io";
-import 'package:final_site/pages/time_and_place/widgets/graph.dart';
+import 'package:final_site/pages/time/widgets/graph.dart';
 import 'package:final_site/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';

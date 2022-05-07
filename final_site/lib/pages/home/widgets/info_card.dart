@@ -23,8 +23,12 @@ class InfoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      customBorder: const RoundedRectangleBorder(),
+      borderRadius: BorderRadius.circular(12),
+      hoverColor: Colors.black,
       onTap: onTap,
       child: Container(
+        margin: const EdgeInsets.all(4.0),
         height: 135,
         alignment: Alignment.center,
         decoration: BoxDecoration(

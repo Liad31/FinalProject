@@ -32,7 +32,7 @@ class HomePage extends StatelessWidget {
       {'title': 'Tagged videos', 'value': '30,000'},
       {'title': 'AUC', 'value': '94'},
       {'title': 'Examined users', 'value': '3,824'},
-      {'title': 'New videos from last 24h', 'value': '121'},
+      {'title': 'Videos from last 24h', 'value': '121'},
     ].obs;
     return Container(
       padding: EdgeInsets.only(top: 20, left: 40, right: 80),
