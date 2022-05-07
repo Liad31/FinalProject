@@ -1,5 +1,6 @@
 import 'package:final_site/pages/home/home.dart';
 import 'package:final_site/pages/recent/rencet.dart';
+import 'package:final_site/pages/time/time.dart';
 import 'package:final_site/pages/time_and_place/time_and_place.dart';
 import 'package:final_site/pages/users_to_follow/users_to_follow.dart';
 import 'package:final_site/routing/routs.dart';
@@ -17,8 +18,10 @@ Route<dynamic> genarateRoute(RouteSettings settings) {
       return _getPageRoute(UsersToFollowPage());
     case recentPageRoute:
       return _getPageRoute(RecentPage());
-    case timeAndPlacePageRoute:
+    case locationPageRoute:
       return _getPageRoute(TimeAndPlacePage());
+    case timePageRoute:
+      return _getPageRoute(const TimePage());
     default:
       return _getPageRoute(const HomePage());
   }

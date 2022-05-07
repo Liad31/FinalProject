@@ -2,6 +2,7 @@ import 'package:final_site/constatns/syle.dart';
 
 import 'package:final_site/pages/recent/widgets/vidoes_table.dart';
 import 'package:final_site/widgets/custom_text.dart';
+import 'package:final_site/widgets/tiktok_embedd.dart';
 import 'package:flutter/material.dart';
 
 import 'package:google_fonts/google_fonts.dart';
@@ -146,6 +147,17 @@ class RecentPage extends StatelessWidget {
             child: Container(),
           ),
           videoTable(data).sortByScore(0, true).build(context),
+          Row(
+            children: [
+              Expanded(child: Container()),
+              TiktokEmbedd(
+                src: data[0]["id"],
+                color: Colors.black,
+                text: '',
+              ),
+              Expanded(child: Container()),
+            ],
+          )
         ],
       ),
     );

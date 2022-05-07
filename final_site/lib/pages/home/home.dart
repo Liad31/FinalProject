@@ -6,6 +6,7 @@ import 'package:final_site/pages/home/widgets/overview_cards_large.dart';
 import 'package:final_site/pages/home/widgets/overview_cards_small.dart';
 import 'package:final_site/widgets/custom_text.dart';
 import 'package:final_site/widgets/my_markdown.dart';
+import 'package:final_site/widgets/pdf_displayer.dart';
 import 'package:final_site/widgets/tiktok_embedd.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -31,7 +32,7 @@ class HomePage extends StatelessWidget {
       {'title': 'Tagged videos', 'value': '30,000'},
       {'title': 'AUC', 'value': '94'},
       {'title': 'Examined users', 'value': '3,824'},
-      {'title': 'New videos from last 24h', 'value': '121'},
+      {'title': 'Videos from last 24h', 'value': '121'},
     ].obs;
     return Container(
       padding: EdgeInsets.only(top: 20, left: 40, right: 80),
@@ -133,12 +134,9 @@ class HomePage extends StatelessWidget {
                       child: Container(),
                       flex: 1,
                     ),
-                    Flexible(
+                    const Flexible(
                       flex: 25,
-                      child: ImageCard(
-                        imagePath: 'assets/photos/diagram.png',
-                        onTap: () {},
-                      ),
+                      child: PdfDisplayer(src: "assets/photos/diagram.pdf"),
                     ),
                     Flexible(
                       child: Container(),
