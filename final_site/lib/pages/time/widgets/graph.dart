@@ -2,6 +2,7 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 import '../../../widgets/tiktok_embedd.dart';
+import 'package:intl/intl.dart';
 
 class Graph extends StatelessWidget {
   Graph({Key? key}) : super(key: key);
@@ -13,9 +14,12 @@ class Graph extends StatelessWidget {
           int seriesIndex) {
         return Container(
             child: TiktokEmbedd(
-                src: data.vid,
-                color: Colors.green,
-                text: "score: ${data.score}"));
+          src: data.vid,
+          color: Colors.green,
+          text:
+              "score: ${data.score}\ndate: ${DateFormat('yyyy-MM-dd').format(data.date)}",
+          fontSize: 16,
+        ));
       });
   final _zoomPanBehavior = ZoomPanBehavior(
     enableMouseWheelZooming: true,
@@ -40,8 +44,12 @@ class Graph extends StatelessWidget {
                 tooltipBehavior: _tooltipBehavior,
                 zoomPanBehavior: _zoomPanBehavior,
                 primaryXAxis: DateTimeAxis(
-                    intervalType: DateTimeIntervalType.days, interval: 1),
-                primaryYAxis: NumericAxis(minimum: 0, maximum: 1),
+                  intervalType: DateTimeIntervalType.months,
+                  interval: 1,
+                  title: AxisTitle(text: "date"),
+                ),
+                primaryYAxis: NumericAxis(
+                    minimum: 0, maximum: 1, title: AxisTitle(text: "score")),
                 series: <ChartSeries>[
           SplineSeries<DailyNationalisticData, DateTime>(
               selectionBehavior: _selectionBehavior,

@@ -8,14 +8,19 @@ class TiktokEmbedd extends StatelessWidget {
   final String src;
   final Color color;
   final String text;
-  TiktokEmbedd(
-      {Key? key, required this.src, required this.color, required this.text})
+  final double fontSize;
+  const TiktokEmbedd(
+      {Key? key,
+      required this.src,
+      required this.color,
+      required this.text,
+      this.fontSize = 20})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 575,
+      height: 540,
       width: 230,
       decoration: BoxDecoration(
         color: color,
@@ -32,7 +37,7 @@ class TiktokEmbedd extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const SizedBox(
-            height: 20,
+            height: 10,
           ),
           Wrap(alignment: WrapAlignment.center, children: [
             Html(
@@ -43,12 +48,14 @@ class TiktokEmbedd extends StatelessWidget {
                 """,
             ),
           ]),
-          Expanded(child: Container()),
           CustomText(
             text: text,
             align: TextAlign.center,
+            size: fontSize,
           ),
-          Expanded(child: Container()),
+          const SizedBox(
+            height: 20,
+          ),
         ],
       ),
     );

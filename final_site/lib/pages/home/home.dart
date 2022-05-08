@@ -164,6 +164,44 @@ class HomePage extends StatelessWidget {
           //
           //
           //
+          FutureBuilder(
+            future: rootBundle.loadString("home_vids/vids.json"),
+            builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+              if (snapshot.hasData) {
+                var data = snapshot.data;
+                if (data != null) {
+                  var list = json.decode(data);
+                  List<dynamic> nat = list["national"];
+                  List<dynamic> notNat = list["not_national"];
+                  nat.shuffle();
+                  notNat.shuffle();
+                  return Row(
+                    children: [
+                      Expanded(child: Container()),
+                      TiktokEmbedd(
+                          src: nat[0]["vid"],
+                          color: Colors.red,
+                          text: 'score: ${nat[0]["score"]}'),
+                      Expanded(child: Container()),
+                      TiktokEmbedd(
+                          src: nat[1]["vid"],
+                          color: Colors.red,
+                          text: 'score: ${nat[1]["score"]}'),
+                      Expanded(child: Container()),
+                      TiktokEmbedd(
+                          src: notNat[0]["vid"],
+                          color: Colors.green,
+                          text: 'score: ${notNat[0]["score"]}'),
+                      Expanded(child: Container()),
+                    ],
+                  );
+                }
+              }
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            },
+          ),
           Container(
             margin: const EdgeInsets.only(bottom: 6),
             child: Row(
@@ -271,44 +309,6 @@ class HomePage extends StatelessWidget {
               ],
             ),
           ),
-          FutureBuilder(
-            future: rootBundle.loadString("home_vids/vids.json"),
-            builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-              if (snapshot.hasData) {
-                var data = snapshot.data;
-                if (data != null) {
-                  var list = json.decode(data);
-                  List<dynamic> nat = list["national"];
-                  List<dynamic> notNat = list["not_national"];
-                  nat.shuffle();
-                  notNat.shuffle();
-                  return Row(
-                    children: [
-                      Expanded(child: Container()),
-                      TiktokEmbedd(
-                          src: nat[0]["vid"],
-                          color: Colors.red,
-                          text: 'score: ${nat[0]["score"]}'),
-                      Expanded(child: Container()),
-                      TiktokEmbedd(
-                          src: nat[1]["vid"],
-                          color: Colors.red,
-                          text: 'score: ${nat[1]["score"]}'),
-                      Expanded(child: Container()),
-                      TiktokEmbedd(
-                          src: notNat[0]["vid"],
-                          color: Colors.green,
-                          text: 'score: ${notNat[0]["score"]}'),
-                      Expanded(child: Container()),
-                    ],
-                  );
-                }
-              }
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            },
-          )
         ],
       ),
     );
