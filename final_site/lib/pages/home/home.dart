@@ -83,13 +83,13 @@ class HomePage extends StatelessWidget {
           ),
           const SizedBox(
             child: MyMarkdown(src: "markdown/text1.md"),
-            height: 300,
+            height: 260,
           ),
-          SizedBox(
-            child: Container(),
-            width: double.infinity,
-            height: 10,
-          ),
+          // SizedBox(
+          //   child: Container(),
+          //   width: double.infinity,
+          //   height: ,
+          // ),
           circlesOverview(texts: project_phases, color: torquise),
           SizedBox(
             child: Container(),
@@ -295,14 +295,28 @@ class HomePage extends StatelessWidget {
                       fontSize: 18, fontWeight: FontWeight.normal),
                 ),
                 TextSpan(
-                    text: '\n\nTime and place\n\n',
+                    text: '\n\nLocation\n\n',
                     style: GoogleFonts.notoSans(
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
                       decoration: TextDecoration.underline,
                     )),
                 TextSpan(
-                  text: '...',
+                  text:
+                      'On the location page you will find a map showing the nationalistic level of each governorate in the west bank. The nationalistic label of the governorate in determined by the avergare nationalistic level of the users coming from this governorate.',
+                  style: GoogleFonts.notoSans(
+                      fontSize: 18, fontWeight: FontWeight.normal),
+                ),
+                TextSpan(
+                    text: '\n\nTime\n\n',
+                    style: GoogleFonts.notoSans(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                      decoration: TextDecoration.underline,
+                    )),
+                TextSpan(
+                  text:
+                      'The main goal of our tool is presented in the time page. Using our model, We are trying to predict nationalistic waves in the west bank before they burst.\nThe chart-graph in the time page shows the nationalistic score progress in time based on the videos uploaded at each time period. Using the progression we present in the garph, Intelligence and military bodies can monitor the mood in the palestinian street and prevent violence and terrorist attack.',
                   style: GoogleFonts.notoSans(
                       fontSize: 18, fontWeight: FontWeight.normal),
                 ),
