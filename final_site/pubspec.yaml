@@ -47,8 +47,8 @@ dependencies:
   google_maps_flutter_web: ^0.3.2+1
   flutter_markdown: ^0.6.10
   syncfusion_flutter_charts: ^20.1.52
-  native_pdf_renderer: ^5.0.0+1
-  pdf_render: ^1.0.23
+  pdfx: ^2.0.1+2
+  syncfusion_flutter_pdfviewer: ^20.1.52-beta
 
   
 dev_dependencies:

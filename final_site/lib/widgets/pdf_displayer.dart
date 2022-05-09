@@ -1,6 +1,7 @@
 import 'package:final_site/constatns/syle.dart';
 import 'package:flutter/material.dart';
-import 'package:native_pdf_renderer/native_pdf_renderer.dart';
+import 'package:pdfx/pdfx.dart';
+import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 class PdfDisplayer extends StatelessWidget {
   final String src;
@@ -10,49 +11,29 @@ class PdfDisplayer extends StatelessWidget {
   Widget build(BuildContext context) {
     return FutureBuilder(
       future: _getPdf(),
-      builder: (BuildContext context, AsyncSnapshot<PdfPageImage?> snapshot) {
+      builder: (BuildContext context, AsyncSnapshot<SfPdfViewer?> snapshot) {
         if (snapshot.hasError) {
           return Center(
             child: Text(snapshot.error.toString()),
           );
         }
-        if (!snapshot.hasData) {
-          return Center(
-            child: CircularProgressIndicator(),
-          );
-        }
+        if (snapshot.hasData) {
+          final data = snapshot.data;
 
-        return Image(
-          image: MemoryImage(snapshot.data!.bytes),
+          if (data != null) {
+            return Container(
+              child: data,
+            );
+          }
+        }
+        return const Center(
+          child: CircularProgressIndicator(),
         );
       },
     );
   }
 
-  Future<PdfPageImage?> _getPdf() async {
-    if (await hasPdfSupport()) {
-      print(src);
-      final document = await PdfDocument.openAsset(src);
-      throw Exception(
-        'PDF Rendering does not '
-        'support on the system of this version',
-      );
-      final page = await document.getPage(1);
-      final pageImage = await page.render(
-        width: page.width,
-        height: page.height,
-      );
-      await page.close();
-      throw Exception(
-        'PDF Rendering does not '
-        'support on the system of this version',
-      );
-      return pageImage;
-    }
-
-    throw Exception(
-      'PDF Rendering does not '
-      'support on the system of this version',
-    );
+  Future<SfPdfViewer?> _getPdf() async {
+    return SfPdfViewer.asset(src);
   }
 }
