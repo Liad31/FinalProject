@@ -1,17 +1,8 @@
 import 'dart:convert';
-import "dart:io";
-import 'package:final_site/pages/time/widgets/graph.dart';
-import 'package:final_site/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
-import 'package:syncfusion_flutter_charts/sparkcharts.dart';
-import '../../widgets/tiktok_embedd.dart';
 import 'package:final_site/pages/time_and_place/widgets/map.dart';
-import 'package:flutter/services.dart' show rootBundle;
-import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:final_site/constatns/goversJson.dart' as gJson;
-import 'dart:convert';
 import 'package:final_site/pages/time_and_place/governrate.dart';
 import '../../constatns/syle.dart';
 import 'package:final_site/pages/time_and_place/widgets/score_show.dart';
