@@ -6,6 +6,7 @@ import 'package:final_site/pages/home/widgets/overview_cards_large.dart';
 import 'package:final_site/pages/home/widgets/overview_cards_small.dart';
 import 'package:final_site/widgets/custom_text.dart';
 import 'package:final_site/widgets/my_markdown.dart';
+import 'package:final_site/widgets/pdf_displayer.dart';
 import 'package:final_site/widgets/tiktok_embedd.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -31,7 +32,7 @@ class HomePage extends StatelessWidget {
       {'title': 'Tagged videos', 'value': '30,000'},
       {'title': 'AUC', 'value': '94'},
       {'title': 'Examined users', 'value': '3,824'},
-      {'title': 'New videos from last 24h', 'value': '121'},
+      {'title': 'Videos from last 24h', 'value': '121'},
     ].obs;
     return Container(
       padding: EdgeInsets.only(top: 20, left: 40, right: 80),
@@ -82,13 +83,13 @@ class HomePage extends StatelessWidget {
           ),
           const SizedBox(
             child: MyMarkdown(src: "markdown/text1.md"),
-            height: 300,
+            height: 260,
           ),
-          SizedBox(
-            child: Container(),
-            width: double.infinity,
-            height: 10,
-          ),
+          // SizedBox(
+          //   child: Container(),
+          //   width: double.infinity,
+          //   height: ,
+          // ),
           circlesOverview(texts: project_phases, color: torquise),
           SizedBox(
             child: Container(),
@@ -133,12 +134,9 @@ class HomePage extends StatelessWidget {
                       child: Container(),
                       flex: 1,
                     ),
-                    Flexible(
+                    const Flexible(
                       flex: 25,
-                      child: ImageCard(
-                        imagePath: 'assets/photos/diagram.png',
-                        onTap: () {},
-                      ),
+                      child: PdfDisplayer(src: "assets/photos/diagram.pdf"),
                     ),
                     Flexible(
                       child: Container(),
@@ -166,6 +164,44 @@ class HomePage extends StatelessWidget {
           //
           //
           //
+          FutureBuilder(
+            future: rootBundle.loadString("home_vids/vids.json"),
+            builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+              if (snapshot.hasData) {
+                var data = snapshot.data;
+                if (data != null) {
+                  var list = json.decode(data);
+                  List<dynamic> nat = list["national"];
+                  List<dynamic> notNat = list["not_national"];
+                  nat.shuffle();
+                  notNat.shuffle();
+                  return Row(
+                    children: [
+                      Expanded(child: Container()),
+                      TiktokEmbedd(
+                          src: nat[0]["vid"],
+                          color: Colors.red,
+                          text: 'score: ${nat[0]["score"]}'),
+                      Expanded(child: Container()),
+                      TiktokEmbedd(
+                          src: nat[1]["vid"],
+                          color: Colors.red,
+                          text: 'score: ${nat[1]["score"]}'),
+                      Expanded(child: Container()),
+                      TiktokEmbedd(
+                          src: notNat[0]["vid"],
+                          color: Colors.green,
+                          text: 'score: ${notNat[0]["score"]}'),
+                      Expanded(child: Container()),
+                    ],
+                  );
+                }
+              }
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            },
+          ),
           Container(
             margin: const EdgeInsets.only(bottom: 6),
             child: Row(
@@ -259,58 +295,34 @@ class HomePage extends StatelessWidget {
                       fontSize: 18, fontWeight: FontWeight.normal),
                 ),
                 TextSpan(
-                    text: '\n\nTime and place\n\n',
+                    text: '\n\nLocation\n\n',
                     style: GoogleFonts.notoSans(
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
                       decoration: TextDecoration.underline,
                     )),
                 TextSpan(
-                  text: '...',
+                  text:
+                      'On the location page you will find a map showing the nationalistic level of each governorate in the west bank. The nationalistic label of the governorate in determined by the avergare nationalistic level of the users coming from this governorate.',
+                  style: GoogleFonts.notoSans(
+                      fontSize: 18, fontWeight: FontWeight.normal),
+                ),
+                TextSpan(
+                    text: '\n\nTime\n\n',
+                    style: GoogleFonts.notoSans(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                      decoration: TextDecoration.underline,
+                    )),
+                TextSpan(
+                  text:
+                      'The main goal of our tool is presented in the time page. Using our model, We are trying to predict nationalistic waves in the west bank before they burst.\nThe chart-graph in the time page shows the nationalistic score progress in time based on the videos uploaded at each time period. Using the progression we present in the garph, Intelligence and military bodies can monitor the mood in the palestinian street and prevent violence and terrorist attack.',
                   style: GoogleFonts.notoSans(
                       fontSize: 18, fontWeight: FontWeight.normal),
                 ),
               ],
             ),
           ),
-          FutureBuilder(
-            future: rootBundle.loadString("home_vids/vids.json"),
-            builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-              if (snapshot.hasData) {
-                var data = snapshot.data;
-                if (data != null) {
-                  var list = json.decode(data);
-                  List<dynamic> nat = list["national"];
-                  List<dynamic> notNat = list["not_national"];
-                  nat.shuffle();
-                  notNat.shuffle();
-                  return Row(
-                    children: [
-                      Expanded(child: Container()),
-                      TiktokEmbedd(
-                          src: nat[0]["vid"],
-                          color: Colors.red,
-                          text: 'score: ${nat[0]["score"]}'),
-                      Expanded(child: Container()),
-                      TiktokEmbedd(
-                          src: nat[1]["vid"],
-                          color: Colors.red,
-                          text: 'score: ${nat[1]["score"]}'),
-                      Expanded(child: Container()),
-                      TiktokEmbedd(
-                          src: notNat[0]["vid"],
-                          color: Colors.green,
-                          text: 'score: ${notNat[0]["score"]}'),
-                      Expanded(child: Container()),
-                    ],
-                  );
-                }
-              }
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            },
-          )
         ],
       ),
     );

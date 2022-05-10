@@ -1,34 +1,15 @@
-import 'dart:convert';
+import 'package:final_site/pages/time/widgets/graph.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
-import 'package:syncfusion_flutter_charts/sparkcharts.dart';
-import '../../widgets/tiktok_embedd.dart';
-import 'package:final_site/pages/time_and_place/widgets/map.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:final_site/constatns/goversJson.dart' as gJson;
-import 'package:final_site/pages/time_and_place/governrate.dart';
 import '../../constatns/syle.dart';
 import 'package:final_site/pages/time_and_place/widgets/score_show.dart';
+import 'package:final_site/widgets/custom_text.dart';
 
-class TimeAndPlacePage extends StatelessWidget {
-  TimeAndPlacePage({Key? key}) : super(key: key);
+class TimePage extends StatelessWidget {
+  const TimePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    String goversString = gJson.goversJson;
-    var goversJson = jsonDecode(goversString)['govers'] as List;
-    List<Governrate> govers =
-        goversJson.map((goverJson) => Governrate.fromJson(goverJson)).toList();
-    List<List<LatLng>> cordinates_list = [];
-    var govers_names = [];
-    var scores = [];
-    for (var i = 0; i < govers.length; ++i) {
-      cordinates_list.add(govers[i].cordinates);
-      govers_names.add(govers[i].name);
-      scores.add((0.99 - 0.05 * i).toString());
-    }
-    print(cordinates_list);
     return Container(
       padding: EdgeInsets.only(top: 20, left: 40, right: 80),
       child: ListView(
@@ -41,7 +22,7 @@ class TimeAndPlacePage extends StatelessWidget {
                   child: Container(),
                 ),
                 const CustomText(
-                  text: 'Latest nationalistic videos tables',
+                  text: 'Nationalistic progression in time',
                   size: 30,
                   weight: FontWeight.bold,
                 ),
@@ -95,7 +76,7 @@ class TimeAndPlacePage extends StatelessWidget {
                     children: <TextSpan>[
                       TextSpan(
                         text:
-                            'On this page we present you the most Palestinian nationalistic videos lately uploaded to the TikTok platform.\nYou are welcome to choose how far back you want to look, And our site will show you the most relevant videos we found in our DB from that timme period.\nEach post contains it\'s linke, the governrate it was uploaded from, the user who published it and it\'s nationalistic score given by our model. For your convenience, The first video in the table is presented below.',
+                            'The following graph shows the nationalistic level in the west bank by day.\nThe score of each day is calculated by the average nationalistic score of the videos we examined, which were uploaded in the three days prior each date.\nWhen hovering on each time point in the graph you can watch the most nationalistic video from that day.\n We also allow you to choose how far back do you want the graph to present, one year back or a full lifetime.\nNow, using our model and the fact that we update our databse with new users and videos every day,\nThe relevant bodies can use this graph in order to predict and prevent violent nationalistic waves and watch the progression of the nationslistic level on Tiktok in the west bank.\n hopefully our tool can help the security forces and maybe even save lifes.',
                         style: GoogleFonts.notoSans(
                           fontSize: 15,
                         ),
@@ -117,14 +98,12 @@ class TimeAndPlacePage extends StatelessWidget {
             child: Row(
               children: [
                 Flexible(
-                  child: Container(
-                    color: torquise.withOpacity(0.3),
-                  ),
+                  child: Container(),
                   flex: 1,
                 ),
                 Container(
                   decoration: BoxDecoration(
-                    color: mapBAckground.withOpacity(.7),
+                    color: Colors.white,
                     border: Border.all(color: dark.withOpacity(.7), width: .5),
                     boxShadow: [
                       BoxShadow(
@@ -134,6 +113,7 @@ class TimeAndPlacePage extends StatelessWidget {
                     ],
                     borderRadius: BorderRadius.circular(8),
                   ),
+                  width: 1000,
                   height: double.infinity,
                   child: Column(
                     children: [
@@ -141,37 +121,24 @@ class TimeAndPlacePage extends StatelessWidget {
                         child: Container(),
                         flex: 1,
                       ),
-                      Container(
-                        child: GMap(
-                          polygonLatLongs:
-                              cordinates_list as List<List<LatLng>>,
-                          names: govers_names,
-                          scores: scores,
-                        ).build(context),
-                        width: 600,
+                      SizedBox(
+                        child: Graph(),
                         height: 800,
                       ),
                       Flexible(
                         child: Container(),
-                        flex: 2,
-                      ),
-                      scoreShow().build(context),
-                      Flexible(
-                        child: Container(color: torquise.withOpacity(0.3)),
-                        flex: 2,
+                        flex: 1,
                       ),
                     ],
                   ),
                 ),
                 Flexible(
-                  child: Container(
-                    color: torquise.withOpacity(0.3),
-                  ),
-                  flex: 1,
+                  child: Container(),
+                  flex: 9,
                 ),
               ],
             ),
-            height: 900,
+            height: 1000,
           ),
         ],
       ),
