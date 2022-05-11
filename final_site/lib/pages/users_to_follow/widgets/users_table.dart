@@ -11,6 +11,8 @@ class usersTable extends GetxController {
   final int table_size = 25;
   var currentTable = 'Nationalistic'.obs;
   var data = [].obs;
+  late List data_nat = [];
+  late List data_rel = [];
   bool sortedByScore = true;
 
   usersTable(List datasSet) {
@@ -50,14 +52,122 @@ class usersTable extends GetxController {
     } else {
       color = Colors.orange[100];
     }
-    //INMPLEMENT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    // return Theme.of(context)
-    //     .colorScheme
-    //     .primary
-    //     .withOpacity(0.08);
-    // return Colors.red;
 
     return color;
+  }
+
+  Future<String>? fetchData() async {
+    await Future.delayed(Duration(seconds: 5));
+    data_nat = [
+      {
+        'name': 'user1',
+        'governorate': 'Jenin',
+        'followers': 900,
+        'score': 0.95,
+        'id': '123456789'
+      },
+      {
+        'name': 'user2',
+        'governorate': 'Jenin',
+        'followers': 900,
+        'score': 0.9,
+        'id': '123456789'
+      },
+      {
+        'name': 'user3',
+        'governorate': 'Jenin',
+        'followers': 900,
+        'score': 0.85,
+        'id': '123456789'
+      },
+      {
+        'name': 'user4',
+        'governorate': 'Jenin',
+        'followers': 900,
+        'score': 0.8,
+        'id': '123456789'
+      },
+      {
+        'name': 'user5',
+        'governorate': 'Jenin',
+        'followers': 900,
+        'score': 0.75,
+        'id': '123456789'
+      },
+      {
+        'name': 'user6',
+        'governorate': 'Jenin',
+        'followers': 900,
+        'score': 0.7,
+        'id': '123456789'
+      },
+      {
+        'name': 'user6',
+        'governorate': 'Jenin',
+        'followers': 900,
+        'score': 0.7,
+        'id': '123456789'
+      },
+      {
+        'name': 'user6',
+        'governorate': 'Jenin',
+        'followers': 900,
+        'score': 0.7,
+        'id': '123456789'
+      },
+      {
+        'name': 'user6',
+        'governorate': 'Jenin',
+        'followers': 900,
+        'score': 0.7,
+      },
+      {
+        'name': 'user6',
+        'governorate': 'Jerusalem',
+        'followers': 900,
+        'score': 0.7,
+        'id': '123456789'
+      },
+      {
+        'name': 'user6',
+        'governorate': 'Yericho',
+        'followers': 900,
+        'score': 0.7,
+        'id': '123456789'
+      },
+      {
+        'name': 'user6',
+        'governorate': 'Jenin',
+        'followers': 1200,
+        'score': 0.7,
+        'id': '123456789'
+      },
+      {
+        'name': 'user6',
+        'governorate': 'Jenin',
+        'followers': 1000,
+        'score': 0.65,
+        'id': '123456789'
+      },
+    ];
+    data_rel = [
+      {
+        'name': 'user1',
+        'governorate': 'Jenin',
+        'followers': 900,
+        'score': 0.95,
+        'id': '123456789'
+      },
+      {
+        'name': 'user2',
+        'governorate': 'Jenin',
+        'followers': 900,
+        'score': 0.9,
+        'id': '123456789'
+      },
+    ];
+    data.value = data_nat;
+    return 'done';
   }
 
   @override
@@ -127,16 +237,7 @@ class usersTable extends GetxController {
                           ),
                         ),
                         onPressed: () {
-                          //setList(getNAtionalistic());
-                          setList([
-                            {
-                              'name': 'user6',
-                              'governorate': 'Jenin',
-                              'followers': 1200,
-                              'score': 0.7,
-                              'id': '123456789'
-                            },
-                          ]);
+                          data.value = data_nat;
                           currentTable.value = 'Nationalistic';
                         },
                         child: RichText(
@@ -178,16 +279,7 @@ class usersTable extends GetxController {
                           ),
                         ),
                         onPressed: () {
-                          //setList(getNAtionalistic());
-                          setList([
-                            {
-                              'name': 'user6',
-                              'governorate': 'Jenin',
-                              'followers': 1800,
-                              'score': 0.9,
-                              'id': '123456789'
-                            }
-                          ]);
+                          data.value = data_rel;
                           currentTable.value = 'Relevancy';
                         },
                         child: RichText(
@@ -224,261 +316,279 @@ class usersTable extends GetxController {
                 ],
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: DataTable2(
-                columnSpacing: 10,
-                horizontalMargin: 12,
-                smRatio: 0.2,
-                lmRatio: 0.5,
-                dividerThickness: 5,
-                minWidth: 600,
-                columns: [
-                  const DataColumn2(
-                    label: CustomText(
-                      text: "Rank",
-                      size: 22,
-                      align: TextAlign.left,
-                      weight: FontWeight.bold,
-                    ),
-                    size: ColumnSize.S,
-                  ),
-                  const DataColumn2(
-                    label: CustomText(
-                      text: " Name",
-                      size: 22,
-                      weight: FontWeight.bold,
-                    ),
-                    size: ColumnSize.M,
-                  ),
-                  DataColumn2(
-                    onSort: sortByGover,
-                    label: CustomText(
-                      text: "Governorate",
-                      size: 22,
-                      weight: FontWeight.bold,
-                    ),
-                    size: ColumnSize.M,
-                  ),
-                  DataColumn2(
-                    onSort: sortByFollowers,
-                    label: CustomText(
-                      text: "Followers",
-                      size: 22,
-                      weight: FontWeight.bold,
-                    ),
-                    size: ColumnSize.M,
-                  ),
-                  DataColumn2(
-                    onSort: sortByScore,
-                    label: CustomText(
-                      text: '$currentTable' + ' score',
-                      size: 22,
-                      align: TextAlign.left,
-                      weight: FontWeight.bold,
-                    ),
-                    size: ColumnSize.M,
-                  ),
-                ],
-                rows: List<DataRow>.generate(data.length, (index) {
-                  var name = data[index]['name'];
-                  var gover = data[index]['governorate'];
-                  var followers = data[index]['followers'].toString();
-                  var score = data[index]['score'].toString();
-                  var userID = data[index]['id'];
-                  String _url = 'https://www.tiktok.com/@' + name;
-                  DataCell rankDataCell = DataCell(
-                    RichText(
-                      text: TextSpan(
-                        text: "$index",
-                        style: GoogleFonts.merriweather(
-                          fontSize: 18,
-                          fontWeight: FontWeight.normal,
-                        ),
-                      ),
-                    ),
-                  );
-                  DataCell rankDataCellTop = DataCell(
-                    Row(
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        RichText(
-                          text: TextSpan(
-                            text: "$index",
-                            style: GoogleFonts.merriweather(
-                              fontSize: 18,
-                              fontWeight: FontWeight.normal,
+              child: FutureBuilder(
+                  future: fetchData(),
+                  builder:
+                      (BuildContext context, AsyncSnapshot<String> snapshot) {
+                    if (snapshot.connectionState == ConnectionState.done ||
+                        snapshot.connectionState == ConnectionState.waiting) {
+                      return Obx(
+                        () => DataTable2(
+                          columnSpacing: 10,
+                          horizontalMargin: 12,
+                          smRatio: 0.2,
+                          lmRatio: 0.5,
+                          dividerThickness: 5,
+                          minWidth: 600,
+                          columns: [
+                            const DataColumn2(
+                              label: CustomText(
+                                text: "Rank",
+                                size: 22,
+                                align: TextAlign.left,
+                                weight: FontWeight.bold,
+                              ),
+                              size: ColumnSize.S,
                             ),
-                          ),
-                        ),
-                        const Expanded(
-                          child: Icon(Icons.outlined_flag_rounded),
-                        )
-                      ],
-                    ),
-                  );
-                  DataCell rankDataCellFirst = DataCell(
-                    Row(
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        RichText(
-                          text: TextSpan(
-                            text: "$index",
-                            style: GoogleFonts.merriweather(
-                              fontSize: 18,
-                              fontWeight: FontWeight.normal,
+                            const DataColumn2(
+                              label: CustomText(
+                                text: " Name",
+                                size: 22,
+                                weight: FontWeight.bold,
+                              ),
+                              size: ColumnSize.M,
                             ),
-                          ),
-                        ),
-                        const Expanded(
-                          child: Icon(Icons.flag_sharp),
-                        )
-                      ],
-                    ),
-                  );
-                  DataCell nameDataCell = DataCell(
-                      TextButton(
-                        style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.resolveWith<Color?>(
-                            (Set<MaterialState> states) {
-                              if (states.contains(MaterialState.focused) ||
-                                  states.contains(MaterialState.pressed) ||
-                                  states.contains(MaterialState.hovered)) {
-                                return Theme.of(context)
-                                    .colorScheme
-                                    .primary
-                                    .withOpacity(0.5);
-                              }
-                              return null; // Defer to the widget's default.
-                            },
-                          ),
-                        ),
-                        onPressed: () async {
-                          if (!await launch(_url))
-                            throw 'Could not launch $_url';
-                        },
-                        child: RichText(
-                          text: TextSpan(
-                            text: name,
-                            style: GoogleFonts.merriweather(
-                              fontSize: 18,
-                              fontWeight: FontWeight.normal,
-                              color: blue,
+                            DataColumn2(
+                              onSort: sortByGover,
+                              label: CustomText(
+                                text: "Governorate",
+                                size: 22,
+                                weight: FontWeight.bold,
+                              ),
+                              size: ColumnSize.M,
                             ),
-                          ),
-                        ),
-                      ),
-                      onTap: () {});
-                  DataCell goverDataCell = DataCell(
-                    Row(
-                      children: [
-                        Flexible(
-                          flex: 1,
-                          child: Container(),
-                        ),
-                        RichText(
-                          text: TextSpan(
-                            text: gover,
-                            style: GoogleFonts.merriweather(
-                              fontSize: 18,
-                              fontWeight: FontWeight.normal,
+                            DataColumn2(
+                              onSort: sortByFollowers,
+                              label: CustomText(
+                                text: "Followers",
+                                size: 22,
+                                weight: FontWeight.bold,
+                              ),
+                              size: ColumnSize.M,
                             ),
-                          ),
-                        ),
-                        Flexible(
-                          flex: 6,
-                          child: Container(),
-                        ),
-                      ],
-                    ),
-                  );
-                  DataCell followersDataCell = DataCell(
-                    Row(
-                      children: [
-                        Flexible(
-                          flex: 1,
-                          child: Container(),
-                        ),
-                        RichText(
-                          text: TextSpan(
-                            text: followers,
-                            style: GoogleFonts.merriweather(
-                              fontSize: 18,
-                              fontWeight: FontWeight.normal,
+                            DataColumn2(
+                              onSort: sortByScore,
+                              label: CustomText(
+                                text: '$currentTable' + ' score',
+                                size: 22,
+                                align: TextAlign.left,
+                                weight: FontWeight.bold,
+                              ),
+                              size: ColumnSize.M,
                             ),
-                          ),
+                          ],
+                          rows: List<DataRow>.generate(data.length, (index) {
+                            var name = data[index]['name'];
+                            var gover = data[index]['governorate'];
+                            var followers = data[index]['followers'].toString();
+                            var score = data[index]['score'].toString();
+                            var userID = data[index]['id'];
+                            String _url = 'https://www.tiktok.com/@' + name;
+                            DataCell rankDataCell = DataCell(
+                              RichText(
+                                text: TextSpan(
+                                  text: "$index",
+                                  style: GoogleFonts.merriweather(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                ),
+                              ),
+                            );
+                            DataCell rankDataCellTop = DataCell(
+                              Row(
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  RichText(
+                                    text: TextSpan(
+                                      text: "$index",
+                                      style: GoogleFonts.merriweather(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.normal,
+                                      ),
+                                    ),
+                                  ),
+                                  const Expanded(
+                                    child: Icon(Icons.outlined_flag_rounded),
+                                  )
+                                ],
+                              ),
+                            );
+                            DataCell rankDataCellFirst = DataCell(
+                              Row(
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  RichText(
+                                    text: TextSpan(
+                                      text: "$index",
+                                      style: GoogleFonts.merriweather(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.normal,
+                                      ),
+                                    ),
+                                  ),
+                                  const Expanded(
+                                    child: Icon(Icons.flag_sharp),
+                                  )
+                                ],
+                              ),
+                            );
+                            DataCell nameDataCell = DataCell(
+                                TextButton(
+                                  style: ButtonStyle(
+                                    backgroundColor: MaterialStateProperty
+                                        .resolveWith<Color?>(
+                                      (Set<MaterialState> states) {
+                                        if (states.contains(
+                                                MaterialState.focused) ||
+                                            states.contains(
+                                                MaterialState.pressed) ||
+                                            states.contains(
+                                                MaterialState.hovered)) {
+                                          return Theme.of(context)
+                                              .colorScheme
+                                              .primary
+                                              .withOpacity(0.5);
+                                        }
+                                        return null; // Defer to the widget's default.
+                                      },
+                                    ),
+                                  ),
+                                  onPressed: () async {
+                                    if (!await launch(_url))
+                                      throw 'Could not launch $_url';
+                                  },
+                                  child: RichText(
+                                    text: TextSpan(
+                                      text: name,
+                                      style: GoogleFonts.merriweather(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.normal,
+                                        color: blue,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                onTap: () {});
+                            DataCell goverDataCell = DataCell(
+                              Row(
+                                children: [
+                                  Flexible(
+                                    flex: 1,
+                                    child: Container(),
+                                  ),
+                                  RichText(
+                                    text: TextSpan(
+                                      text: gover,
+                                      style: GoogleFonts.merriweather(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.normal,
+                                      ),
+                                    ),
+                                  ),
+                                  Flexible(
+                                    flex: 6,
+                                    child: Container(),
+                                  ),
+                                ],
+                              ),
+                            );
+                            DataCell followersDataCell = DataCell(
+                              Row(
+                                children: [
+                                  Flexible(
+                                    flex: 1,
+                                    child: Container(),
+                                  ),
+                                  RichText(
+                                    text: TextSpan(
+                                      text: followers,
+                                      style: GoogleFonts.merriweather(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.normal,
+                                      ),
+                                    ),
+                                  ),
+                                  Flexible(
+                                    flex: 10,
+                                    child: Container(),
+                                  ),
+                                ],
+                              ),
+                            );
+                            DataCell scoreDataCell = DataCell(
+                              Row(
+                                children: [
+                                  Flexible(
+                                    flex: 4,
+                                    child: Container(),
+                                  ),
+                                  RichText(
+                                    text: TextSpan(
+                                      text: score,
+                                      style: GoogleFonts.merriweather(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.normal,
+                                      ),
+                                    ),
+                                  ),
+                                  Flexible(
+                                    flex: 9,
+                                    child: Container(),
+                                  ),
+                                ],
+                              ),
+                            );
+                            if ((index == 0) && (sortedByScore)) {
+                              return DataRow(
+                                  color:
+                                      MaterialStateProperty.resolveWith<Color?>(
+                                          (Set<MaterialState> states) {
+                                    return resolveColor(states, index);
+                                  }),
+                                  cells: [
+                                    rankDataCellFirst,
+                                    nameDataCell,
+                                    goverDataCell,
+                                    followersDataCell,
+                                    scoreDataCell,
+                                  ]);
+                            } else if ((index < 3) && (sortedByScore)) {
+                              return DataRow(
+                                  color:
+                                      MaterialStateProperty.resolveWith<Color?>(
+                                          (Set<MaterialState> states) {
+                                    return resolveColor(states, index);
+                                  }),
+                                  cells: [
+                                    rankDataCellTop,
+                                    nameDataCell,
+                                    goverDataCell,
+                                    followersDataCell,
+                                    scoreDataCell,
+                                  ]);
+                            } else {
+                              return DataRow(
+                                  color:
+                                      MaterialStateProperty.resolveWith<Color?>(
+                                          (Set<MaterialState> states) {
+                                    return resolveColor(states, index);
+                                  }),
+                                  cells: [
+                                    rankDataCell,
+                                    nameDataCell,
+                                    goverDataCell,
+                                    followersDataCell,
+                                    scoreDataCell,
+                                  ]);
+                            }
+                          }),
                         ),
-                        Flexible(
-                          flex: 10,
-                          child: Container(),
-                        ),
-                      ],
-                    ),
-                  );
-                  DataCell scoreDataCell = DataCell(
-                    Row(
-                      children: [
-                        Flexible(
-                          flex: 4,
-                          child: Container(),
-                        ),
-                        RichText(
-                          text: TextSpan(
-                            text: score,
-                            style: GoogleFonts.merriweather(
-                              fontSize: 18,
-                              fontWeight: FontWeight.normal,
-                            ),
-                          ),
-                        ),
-                        Flexible(
-                          flex: 9,
-                          child: Container(),
-                        ),
-                      ],
-                    ),
-                  );
-                  if ((index == 0) && (sortedByScore)) {
-                    return DataRow(
-                        color: MaterialStateProperty.resolveWith<Color?>(
-                            (Set<MaterialState> states) {
-                          return resolveColor(states, index);
-                        }),
-                        cells: [
-                          rankDataCellFirst,
-                          nameDataCell,
-                          goverDataCell,
-                          followersDataCell,
-                          scoreDataCell,
-                        ]);
-                  } else if ((index < 3) && (sortedByScore)) {
-                    return DataRow(
-                        color: MaterialStateProperty.resolveWith<Color?>(
-                            (Set<MaterialState> states) {
-                          return resolveColor(states, index);
-                        }),
-                        cells: [
-                          rankDataCellTop,
-                          nameDataCell,
-                          goverDataCell,
-                          followersDataCell,
-                          scoreDataCell,
-                        ]);
-                  } else {
-                    return DataRow(
-                        color: MaterialStateProperty.resolveWith<Color?>(
-                            (Set<MaterialState> states) {
-                          return resolveColor(states, index);
-                        }),
-                        cells: [
-                          rankDataCell,
-                          nameDataCell,
-                          goverDataCell,
-                          followersDataCell,
-                          scoreDataCell,
-                        ]);
-                  }
-                }),
-              ),
+                      );
+                    } else {
+                      return Container();
+                    }
+                  }),
             ),
           ],
         ),

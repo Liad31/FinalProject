@@ -8,105 +8,104 @@ import 'package:final_site/helpers/database.dart';
 
 class UsersToFollowPage extends StatelessWidget {
   static MongoDatabase database = Get.find();
-  List<Map<String, dynamic>> data = [
-    {
-      'name': 'user1',
-      'governorate': 'Jenin',
-      'followers': 900,
-      'score': 0.95,
-      'id': '123456789'
-    },
-    {
-      'name': 'user2',
-      'governorate': 'Jenin',
-      'followers': 900,
-      'score': 0.9,
-      'id': '123456789'
-    },
-    {
-      'name': 'user3',
-      'governorate': 'Jenin',
-      'followers': 900,
-      'score': 0.85,
-      'id': '123456789'
-    },
-    {
-      'name': 'user4',
-      'governorate': 'Jenin',
-      'followers': 900,
-      'score': 0.8,
-      'id': '123456789'
-    },
-    {
-      'name': 'user5',
-      'governorate': 'Jenin',
-      'followers': 900,
-      'score': 0.75,
-      'id': '123456789'
-    },
-    {
-      'name': 'user6',
-      'governorate': 'Jenin',
-      'followers': 900,
-      'score': 0.7,
-      'id': '123456789'
-    },
-    {
-      'name': 'user6',
-      'governorate': 'Jenin',
-      'followers': 900,
-      'score': 0.7,
-      'id': '123456789'
-    },
-    {
-      'name': 'user6',
-      'governorate': 'Jenin',
-      'followers': 900,
-      'score': 0.7,
-      'id': '123456789'
-    },
-    {
-      'name': 'user6',
-      'governorate': 'Jenin',
-      'followers': 900,
-      'score': 0.7,
-    },
-    {
-      'name': 'user6',
-      'governorate': 'Jerusalem',
-      'followers': 900,
-      'score': 0.7,
-      'id': '123456789'
-    },
-    {
-      'name': 'user6',
-      'governorate': 'Yericho',
-      'followers': 900,
-      'score': 0.7,
-      'id': '123456789'
-    },
-    {
-      'name': 'user6',
-      'governorate': 'Jenin',
-      'followers': 1200,
-      'score': 0.7,
-      'id': '123456789'
-    },
-    {
-      'name': 'user6',
-      'governorate': 'Jenin',
-      'followers': 1000,
-      'score': 0.65,
-      'id': '123456789'
-    },
-  ];
+  late List<Map<String, dynamic>> data = [];
+  //  = [
+  //   {
+  //     'name': 'user1',
+  //     'governorate': 'Jenin',
+  //     'followers': 900,
+  //     'score': 0.95,
+  //     'id': '123456789'
+  //   },
+  //   {
+  //     'name': 'user2',
+  //     'governorate': 'Jenin',
+  //     'followers': 900,
+  //     'score': 0.9,
+  //     'id': '123456789'
+  //   },
+  //   {
+  //     'name': 'user3',
+  //     'governorate': 'Jenin',
+  //     'followers': 900,
+  //     'score': 0.85,
+  //     'id': '123456789'
+  //   },
+  //   {
+  //     'name': 'user4',
+  //     'governorate': 'Jenin',
+  //     'followers': 900,
+  //     'score': 0.8,
+  //     'id': '123456789'
+  //   },
+  //   {
+  //     'name': 'user5',
+  //     'governorate': 'Jenin',
+  //     'followers': 900,
+  //     'score': 0.75,
+  //     'id': '123456789'
+  //   },
+  //   {
+  //     'name': 'user6',
+  //     'governorate': 'Jenin',
+  //     'followers': 900,
+  //     'score': 0.7,
+  //     'id': '123456789'
+  //   },
+  //   {
+  //     'name': 'user6',
+  //     'governorate': 'Jenin',
+  //     'followers': 900,
+  //     'score': 0.7,
+  //     'id': '123456789'
+  //   },
+  //   {
+  //     'name': 'user6',
+  //     'governorate': 'Jenin',
+  //     'followers': 900,
+  //     'score': 0.7,
+  //     'id': '123456789'
+  //   },
+  //   {
+  //     'name': 'user6',
+  //     'governorate': 'Jenin',
+  //     'followers': 900,
+  //     'score': 0.7,
+  //   },
+  //   {
+  //     'name': 'user6',
+  //     'governorate': 'Jerusalem',
+  //     'followers': 900,
+  //     'score': 0.7,
+  //     'id': '123456789'
+  //   },
+  //   {
+  //     'name': 'user6',
+  //     'governorate': 'Yericho',
+  //     'followers': 900,
+  //     'score': 0.7,
+  //     'id': '123456789'
+  //   },
+  //   {
+  //     'name': 'user6',
+  //     'governorate': 'Jenin',
+  //     'followers': 1200,
+  //     'score': 0.7,
+  //     'id': '123456789'
+  //   },
+  //   {
+  //     'name': 'user6',
+  //     'governorate': 'Jenin',
+  //     'followers': 1000,
+  //     'score': 0.65,
+  //     'id': '123456789'
+  //   },
+  // ];
 
   UsersToFollowPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    // MongoDatabase.connect();
-    // data = MongoDatabase.getDocuments();
     return Container(
       padding: EdgeInsets.only(top: 20, left: 40, right: 80),
       child: ListView(

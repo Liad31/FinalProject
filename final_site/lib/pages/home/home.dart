@@ -60,7 +60,7 @@ class HomePage extends StatelessWidget {
     final response = await http
         .get(Uri.parse('http://104.154.93.111:8080/videosFromLast?hours=24'));
     if (response.statusCode == 200) {
-      print(response.statusCode);
+      print(response.body.toString());
       datas[3]['value'] =
           countOccurences(response.body.toString(), "\"Vid\"").toString();
       return response.body.toString();

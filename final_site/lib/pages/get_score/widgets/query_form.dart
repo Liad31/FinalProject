@@ -13,27 +13,30 @@ class queryForm extends GetxController {
   String value = '';
   bool isUser = false;
   bool ispending = false;
-  queryForm(@required String this.title, @required String this.defaultText) {
+  queryForm(@required String this.title, @required String this.defaultText,
+      @required bool this.isUser) {
     value = defaultText;
   }
 
   Future<int> getScore() async {
-    print(2);
     final response;
     if (!isUser) {
-      response = await http.get(
-          Uri.parse('http://104.154.93.111:8080/predict?urls=\"[$value]\"'));
+      print(2);
+      response = await http
+          .get(Uri.parse('http://104.154.93.111:8080/predict?urls=["$value"]'));
     } else {
+      print(3);
       //change to user prediction
       response = await http.get(
           Uri.parse('http://104.154.93.111:8080/predict?urls=\"[$value]\"'));
     }
+    print(response.statusCode);
     if (response.statusCode == 200) {
       ispending = false;
       score.value = response.body.toString();
       return 1;
     } else {
-      throw Exception('Failed to load usersCount');
+      throw Exception('Failed to load score');
     }
   }
 

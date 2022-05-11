@@ -120,7 +120,8 @@ class getScorePage extends StatelessWidget {
                         height: 40,
                         child: Container(),
                       ),
-                      queryForm('Video query', 'Enter the video\'s URL')
+                      queryForm('Video query',
+                              'Enter the video\'s URL (until it\'s id)', false)
                           .build(context),
                       SizedBox(
                         height: 50,
@@ -163,7 +164,7 @@ class getScorePage extends StatelessWidget {
                         height: 50,
                         child: Container(),
                       ),
-                      queryForm('User query', 'Enter the username')
+                      queryForm('User query', 'Enter the username', true)
                           .build(context),
                       SizedBox(
                         height: 40,
