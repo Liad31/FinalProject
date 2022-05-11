@@ -141,6 +141,9 @@ def topVideos():
         if "user" in i:
             del i["user"]
     return jsonify(videos)
+@app.route("/is1500InHaraza",methods=['GET'])
+def yes():
+    return jsonify("yes")
 def updateNationalisticScores():
     pass
 def apply_video_model(vids,vidsRoot):
