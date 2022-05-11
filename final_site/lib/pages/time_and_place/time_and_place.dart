@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:syncfusion_flutter_charts/sparkcharts.dart';
+import '../../widgets/custom_text.dart';
 import '../../widgets/tiktok_embedd.dart';
 import 'package:final_site/pages/time_and_place/widgets/map.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
