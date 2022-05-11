@@ -153,6 +153,10 @@ def topVideos():
         ,{'$limit':int(n)}])
     videos=[i for i in videos]
     for i in videos:
+        userDB= db["tiktokusernationalistics"]
+        user=userDB.find_one({"_id":i["user"]})
+        i["userName"]=user["userName"]
+        i["governorate"]=user["governorate"]
         del i["_id"]
         if "user" in i:
             del i["user"]
