@@ -67,7 +67,7 @@ def videosFromLast():
         filter={}
     # count results
     res=videosDB.find(filter)
-    res = len(list(res))
+    res = list(res)
     return jsonify(res)
 @app.route("/usersCount", methods=['GET'])
 def usersCount():

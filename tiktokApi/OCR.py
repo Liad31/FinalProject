@@ -1,13 +1,14 @@
 
-from matplotlib.pyplot import text
+# from matplotlib.pyplot import text
+# from regex import F
 import requests
 
-import json
+# import json
 import time
 import cv2
-import sys
-import pickle
-import pandas as pd
+# import sys
+# import pickle
+# import pandas as pd
 # Import required packages
 import cv2
 import sys
@@ -16,6 +17,7 @@ import easyocr
 reader = easyocr.Reader(['ar','en']) # this needs to run only once to load the model into memory
 import openai
 import os.path as  osp
+from multiprocessing import Pool
 
 def roundToN(x, base=1):
     return base * round(x/base)
@@ -32,7 +34,7 @@ class BoxesComparator(object):
             return self.lst[1]<other.lst[1]
         else:
             return self.lst[0]>other.lst[0]
-def text_from_video(path):
+def text_from_video(path,OCR=True):
     def extract_middle_frame(path):
         # loading video gfg
         clip = VideoFileClip(path)
@@ -56,12 +58,14 @@ def text_from_video(path):
     results.sort(key=BoxesComparator)
     for bbox,text,conf in results:
         # print(f"text: {text}, conf: {conf}, bbox: {bbox}")
-        if conf> 0.25:
+        if conf> 0.35:
             final.append(text)
     # final=final[1:]
     final=" ".join(final)
     final=' '.join(final.split())
     if not final or len(final)>150:
+        return final
+    if not OCR:
         return final
     response = openai.Completion.create(
       engine="davinci",
@@ -144,6 +148,70 @@ def ocr(videos,videosDir="/mnt/videos"):
         requests.post(f'http://localhost:8001/api/database/markVideosDownloaded', json={"videos":videoTexts})
     print("finished the iterations!")
     return videoTexts
+def ocrDB(videosDir="/mnt/videos",batchSize=15):
+    cnt=0
+    cur_time = time.time()
+    cnt_failed=0
+    passed_total = 0
+    while True:
+        r = requests.get(f'http://localhost:8001/api/database/getVideos?num={batchSize}')
+        rl = r.json()
+        if len(rl) ==0:
+            print("finished downloading!")
+            break
+        for chunk in chunker_list(rl, batchSize):
+            cnt_batch=0
+            vids_to_ocr = []
+            vids_to_download=[]
+            vids_to_ocr=[]
+            for j in chunk:
+                secuid =j["Vid"]
+                id = j["Vid"]
+                if not os.path.exists(f"{id}.mp4"):
+                    vids_to_download.append((secuid,id))
+                vids_to_ocr.append((secuid,id))
+            vids_to_ocr.append((secuid,id))
+            async_list = "async_list.txt"
+            create_download_txt(vids_to_download,async_list)
+            a=os.system(f'yt-dlp -a {async_list} -o "%(id)s.mp4" -R 10 --proxy frzgcmrj-rotate:rxpxcauy7pn0@p.webshare.io:80')
+            downloaded_paths = []
+            videoTexts=[]
+            for (secuid,id) in vids_to_ocr:
+                path =f"{videosDir}/{id}.mp4"
+                new_path = path[:-4]+"_r.mp4"
+                os.system(f"mv {id}.mp4 {path}")
+                while True:
+                    try:
+                        videoTexts.append({"Vid":id, "text": text_from_video(path,OCR=False)})
+                        break
+                    except OSError as e:
+                        print(f"{id} failed to download")
+                        with open("failed_vids",'a') as f:
+                            f.write(f"{id}\n")
+                        videoTexts.append({"Vid":id, "text": "ERROR!!!!!"})
+                        break
+                    except Exception as e:
+                        if not tokens:
+                            print("no tokens")
+                            return
+                        openai.api_key = tokens.pop()
+                downloaded_paths.append((path,new_path))
+                cnt_batch+=1
+                cnt+=1
+            
+            passed = time.time()-cur_time
+            passed_total+=passed
+                #print(f"Downloaded no videos in {passed} seconds")
+            if cnt_batch!=0:
+                print(f"Downloaded  and resized {cnt_batch} new vids in {passed:0.2f} secs, approx {passed/cnt_batch:0.2f}s per video")
+            cur_time= time.time()
+            # put an average of 50-100 vids
+            if cnt >50:
+                print(f"SUMMARY - Downloaded  and resized {cnt} vids in {passed_total:0.2f} secs, approx {passed_total/cnt:0.2f}s per video")
+                # reset the counter
+                cnt = 0
+                passed_total=0
+            requests.post(f'http://localhost:8001/api/database/markVideosDownloaded', json={"videos":videoTexts})
 # text_from_video.counter=0
 # import glob
 # for i in glob.glob("*.mp4"):
@@ -155,4 +223,6 @@ with open(osp.join(this_dir, "tokens.txt")) as f:
     for line in f:
         tokens.append(line.strip())
 openai.api_key=tokens.pop()
+if __name__ == "__main__":
+    ocrDB()
 # ocr(iterations=1000,tokens=tokens)
