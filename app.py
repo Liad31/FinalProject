@@ -62,12 +62,24 @@ def videosFromLast():
         hours=int(hours)
         time= datetime.datetime.now()-datetime.timedelta(hours=hours)
         timeInEpoch = int(time.timestamp())
-        filter= {"timestamp": {"$gt": timeInEpoch}}
+        filter= {"dateInt": {"$gt": timeInEpoch}}
     else:
         filter={}
     # count results
-    res=videosDB.find(filter)
+    res=videosDB.aggregate([
+    {
+        '$addFields': {
+            'dateInt': {
+                '$toInt': '$date'
+            }
+        }
+    }, {
+        '$match': filter}])
     res = list(res)
+    for i in res:
+        del i["_id"]
+        if "user" in i:
+            del i["user"]
     return jsonify(res)
 @app.route("/usersCount", methods=['GET'])
 def usersCount():
@@ -114,6 +126,7 @@ def topUsers():
     users=[i for i in users]
     for user in users:
         del user["_id"]
+        del user["videos"]
     return jsonify(users)
 @app.route("/topVideos", methods=['GET'])
 def topVideos():
@@ -123,8 +136,10 @@ def topVideos():
     videosDB= db["videos"]
     videos = videosDB.find().sort(sort,pymongo.DESCENDING).limit(int(n))
     videos=[i for i in videos]
-    for video in videos:
-        del video["_id"]
+    for i in videos:
+        del i["_id"]
+        if "user" in i:
+            del i["user"]
     return jsonify(videos)
 def updateNationalisticScores():
     pass
