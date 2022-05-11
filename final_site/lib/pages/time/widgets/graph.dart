@@ -27,20 +27,14 @@ class Graph extends StatelessWidget {
     enablePanning: true,
   );
 
-  final _selectionBehavior = SelectionBehavior(
-    enable: true,
-  );
-
   final List<DailyNationalisticData> _chartData = getChartData();
   @override
   Widget build(BuildContext context) {
     return Center(
         child: Container(
             child: SfCartesianChart(
-                onSelectionChanged: (SelectionArgs args) {
-                  args.selectedColor = Colors.red;
-                  args.unselectedColor = Colors.lightGreen;
-                },
+                plotAreaBackgroundImage:
+                    const AssetImage('photos/graph-bg.jpg'),
                 tooltipBehavior: _tooltipBehavior,
                 zoomPanBehavior: _zoomPanBehavior,
                 primaryXAxis: DateTimeAxis(
@@ -52,12 +46,15 @@ class Graph extends StatelessWidget {
                     minimum: 0, maximum: 1, title: AxisTitle(text: "score")),
                 series: <ChartSeries>[
           SplineSeries<DailyNationalisticData, DateTime>(
-              selectionBehavior: _selectionBehavior,
+              color: Colors.black,
               dataSource: _chartData,
               xValueMapper: (DailyNationalisticData data, _) => data.date,
               yValueMapper: (DailyNationalisticData data, _) => data.score,
               markerSettings: const MarkerSettings(
-                  isVisible: true, shape: DataMarkerType.circle)),
+                isVisible: true,
+                shape: DataMarkerType.circle,
+                color: Colors.black,
+              )),
         ])));
   }
 }
@@ -101,8 +98,8 @@ List<DailyNationalisticData> getChartData() {
   // ];
   final List<DailyNationalisticData> chartData =
       List<DailyNationalisticData>.generate(
-          360,
-          (index) => DailyNationalisticData(sin(index / 10) / 3 + 0.5,
-              start.add(Duration(days: index)), "6718335390845095173"));
+          (360 / 3).round(),
+          (index) => DailyNationalisticData(sin(3 * index / 10) / 3 + 0.5,
+              start.add(Duration(days: 3 * index)), "6718335390845095173"));
   return chartData;
 }

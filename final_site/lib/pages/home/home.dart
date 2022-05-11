@@ -159,48 +159,51 @@ class HomePage extends StatelessWidget {
             width: double.infinity,
             height: 15,
           ),
-          Row(
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Expanded(
-                child: Column(
-                  children: const [
-                    SizedBox(
-                      child: MyMarkdown(src: "markdown/text2.md"),
-                      height: 420,
-                    ),
-                    CustomText(
-                      text:
-                          'With all of that, our TikTok classifier achived an AUC of 94!',
-                      size: 18,
-                      weight: FontWeight.bold,
-                    ),
-                  ],
+          Expanded(
+            child: Column(
+              children: const [
+                SizedBox(
+                  child: MyMarkdown(src: "markdown/text2.md"),
+                  height: 180,
                 ),
-                flex: 3,
-              ),
-              Expanded(
-                child: Row(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Flexible(
-                      child: Container(),
-                      flex: 1,
-                    ),
-                    const Flexible(
-                      flex: 25,
-                      child: PdfDisplayer(src: "assets/photos/diagram.pdf"),
-                    ),
-                    Flexible(
-                      child: Container(),
-                      flex: 1,
-                    ),
-                  ],
+                CustomText(
+                  text:
+                      'With all of that, our TikTok classifier achived an AUC of 94!',
+                  size: 18,
+                  weight: FontWeight.bold,
                 ),
-                flex: 4,
-              ),
-            ],
+              ],
+            ),
           ),
+          SizedBox(
+            child: Container(),
+            width: double.infinity,
+            height: 25,
+          ),
+          Expanded(
+            child: Row(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Flexible(
+                  child: Container(),
+                  flex: 1,
+                ),
+                Flexible(
+                  flex: 25,
+                  child: ImageCard(
+                    imagePath: 'photos/diagram.jpg',
+                    onTap: () {},
+                  ),
+                ),
+                Flexible(
+                  child: Container(),
+                  flex: 1,
+                ),
+              ],
+            ),
+            flex: 4,
+          ),
+
           SizedBox(
             child: Container(),
             width: double.infinity,
@@ -232,19 +235,25 @@ class HomePage extends StatelessWidget {
                     children: [
                       Expanded(child: Container()),
                       TiktokEmbedd(
-                          src: nat[0]["vid"],
-                          color: Colors.red,
-                          text: 'score: ${nat[0]["score"]}'),
+                        src: nat[0]["vid"],
+                        color: Colors.red,
+                        text: 'score: ${nat[0]["score"]}',
+                        fontSize: 16,
+                      ),
                       Expanded(child: Container()),
                       TiktokEmbedd(
-                          src: nat[1]["vid"],
-                          color: Colors.red,
-                          text: 'score: ${nat[1]["score"]}'),
+                        src: notNat[0]["vid"],
+                        color: Colors.green,
+                        text: 'score: ${notNat[0]["score"]}',
+                        fontSize: 16,
+                      ),
                       Expanded(child: Container()),
                       TiktokEmbedd(
-                          src: notNat[0]["vid"],
-                          color: Colors.green,
-                          text: 'score: ${notNat[0]["score"]}'),
+                        src: nat[1]["vid"],
+                        color: Colors.red,
+                        text: 'score: ${nat[1]["score"]}',
+                        fontSize: 16,
+                      ),
                       Expanded(child: Container()),
                     ],
                   );
