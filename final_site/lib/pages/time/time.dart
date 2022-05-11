@@ -13,6 +13,8 @@ class TimePage extends StatelessWidget {
     return Container(
       padding: EdgeInsets.only(top: 20, left: 40, right: 80),
       child: ListView(
+        physics: const NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
         children: [
           Container(
             margin: EdgeInsets.only(bottom: 6),
