@@ -133,7 +133,11 @@ def topUsers():
 def topVideos():
     n = request.args.get('n')
     sort= request.args.get('sort')
-    hours= request.args.get('hours')
+    hours=request.args.get('hours')
+    hours=int(hours)
+    time= datetime.datetime.now()-datetime.timedelta(hours=hours)
+    timeInEpoch = int(time.timestamp())
+    filter= {"dateInt": {"$gt": timeInEpoch}}
     db = mongoClient["production3"]
     videosDB= db["videos"]
     videos=videosDB.aggregate([
@@ -143,7 +147,7 @@ def topVideos():
                 '$toInt': '$date'
             }
         }
-    }, {
+    },  {
         '$match': filter}
         ,{'$sort':{sort:pymongo.DESCENDING}}
         ,{'$limit':int(n)}])
