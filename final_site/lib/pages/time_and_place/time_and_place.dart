@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:final_site/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';

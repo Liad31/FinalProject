@@ -3,22 +3,22 @@ import 'package:flutter/material.dart';
 
 import 'package:final_site/constatns/syle.dart';
 import 'package:final_site/pages/home/widgets/text_in_circle.dart';
+import 'package:get/state_manager.dart';
 
-class InfoCard extends StatelessWidget {
+class InfoCard extends GetxController {
   final String title;
   final String value;
   final Color topColor;
   final bool isActive;
   final VoidCallback onTap;
 
-  const InfoCard(
+  InfoCard(
       {Key? key,
       required this.title,
       required this.value,
       this.isActive = false,
       required this.onTap,
-      required this.topColor})
-      : super(key: key);
+      required this.topColor});
 
   @override
   Widget build(BuildContext context) {

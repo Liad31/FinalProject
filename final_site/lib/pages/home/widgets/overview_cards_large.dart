@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:js';
+import 'package:http/http.dart' as http;
 import 'package:final_site/constatns/syle.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -37,7 +40,7 @@ class OverviewCardsLargeScreen extends GetxController {
                         value: data['value'],
                         onTap: () {},
                         topColor: torquise,
-                      ),
+                      ).build(context),
                     ),
                     Expanded(
                       flex: 1,

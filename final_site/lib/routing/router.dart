@@ -11,7 +11,7 @@ import '../pages/get_score/get_score.dart';
 Route<dynamic> genarateRoute(RouteSettings settings) {
   switch (settings.name) {
     case homePageRoute:
-      return _getPageRoute(const HomePage());
+      return _getPageRoute(HomePage());
     case getScorePageRoute:
       return _getPageRoute(const getScorePage());
     case usersToFollowPageRoute:
@@ -23,7 +23,7 @@ Route<dynamic> genarateRoute(RouteSettings settings) {
     case timePageRoute:
       return _getPageRoute(const TimePage());
     default:
-      return _getPageRoute(const HomePage());
+      return _getPageRoute(HomePage());
   }
 }
 

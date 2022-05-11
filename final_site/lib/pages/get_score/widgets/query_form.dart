@@ -11,9 +11,30 @@ class queryForm extends GetxController {
   RxString score = ''.obs;
   String defaultText = '';
   String value = '';
+  bool isUser = false;
   bool ispending = false;
   queryForm(@required String this.title, @required String this.defaultText) {
     value = defaultText;
+  }
+
+  Future<int> getScore() async {
+    print(2);
+    final response;
+    if (!isUser) {
+      response = await http.get(
+          Uri.parse('http://104.154.93.111:8080/predict?urls=\"[$value]\"'));
+    } else {
+      //change to user prediction
+      response = await http.get(
+          Uri.parse('http://104.154.93.111:8080/predict?urls=\"[$value]\"'));
+    }
+    if (response.statusCode == 200) {
+      ispending = false;
+      score.value = response.body.toString();
+      return 1;
+    } else {
+      throw Exception('Failed to load usersCount');
+    }
   }
 
   @override
@@ -54,10 +75,7 @@ class queryForm extends GetxController {
                     this.value = value;
                     score.value = 'calculating...';
                     ispending = true;
-                    Future.delayed(const Duration(seconds: 2), () {
-                      ispending = false;
-                      score.value = '0.8';
-                    });
+                    getScore();
                   },
                   onChanged: (String value) async {
                     this.value = value;
@@ -84,24 +102,7 @@ class queryForm extends GetxController {
                   onPressed: () async {
                     score.value = 'calculating...';
                     ispending = true;
-                    // Future<Void>() async {
-                    //   final response = await http.get(Uri.parse(
-                    //       'http://104.154.93.111:8080/predict?urls=["https://www.tiktok.com/@alesyaizbas/video/7065632812694572290"]'));
-                    //   if (response.statusCode == 200) {
-                    //     // If the server did return a 200 OK response,
-                    //     // then parse the JSON.
-                    //     return Album.fromJson(jsonDecode(response.body));
-                    //   } else {
-                    //     // If the server did not return a 200 OK response,
-                    //     // then throw an exception.
-                    //     throw Exception('Failed to load album');
-                    //   }
-                    // }
-
-                    Future.delayed(const Duration(seconds: 2), () {
-                      ispending = false;
-                      score.value = '0.8';
-                    });
+                    getScore();
                   },
                 ),
               ),

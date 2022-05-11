@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:final_site/constatns/syle.dart';
@@ -15,9 +16,64 @@ import 'package:get/get.dart';
 import 'package:final_site/helpers/responsiveness.dart';
 import 'package:final_site/pages/home/widgets/Image_card.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart' as http;
 
 class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
+  late OverviewCardsLargeScreen cards;
+  var datas = [
+    {'title': 'Tagged videos', 'value': '30,000'},
+    {'title': 'AUC', 'value': '94'},
+    {'title': 'Examined users', 'value': '4481'},
+    {'title': 'Videos from last 24h', 'value': '0'}
+  ].obs;
+
+  HomePage({Key? key}) : super(key: key) {}
+
+  int countOccurences(String mainString, String search) {
+    int lInx = 0;
+    int count = 0;
+    while (lInx != -1) {
+      lInx = mainString.indexOf(search, lInx);
+      if (lInx != -1) {
+        count++;
+        lInx += search.length;
+      }
+    }
+    return count;
+  }
+
+  Future<String> fetchUsersCount() async {
+    final response =
+        await http.get(Uri.parse('http://104.154.93.111:8080/usersCount'));
+    if (response.statusCode == 200) {
+      print(response.body.toString());
+      datas[2]['value'] = response.body
+          .toString()
+          .substring(0, response.body.toString().length - 1);
+      return response.body.toString();
+    } else {
+      throw Exception('Failed to load usersCount');
+    }
+  }
+
+  Future<String> fetchVideosFromLast() async {
+    final response = await http
+        .get(Uri.parse('http://104.154.93.111:8080/videosFromLast?hours=24'));
+    if (response.statusCode == 200) {
+      print(response.statusCode);
+      datas[3]['value'] =
+          countOccurences(response.body.toString(), "\"Vid\"").toString();
+      return response.body.toString();
+    } else {
+      throw Exception('Failed to load VideosFromLast24h');
+    }
+  }
+
+  Future<String>? fetchData() async {
+    await Future.wait([fetchUsersCount(), fetchVideosFromLast()]);
+    print('done!');
+    return 'done!';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,12 +84,8 @@ class HomePage extends StatelessWidget {
       'Get labeled data',
       'Build and train the model'
     ];
-    var datas = [
-      {'title': 'Tagged videos', 'value': '30,000'},
-      {'title': 'AUC', 'value': '94'},
-      {'title': 'Examined users', 'value': '3,824'},
-      {'title': 'Videos from last 24h', 'value': '121'},
-    ].obs;
+    cards = OverviewCardsLargeScreen(datas);
+
     return Container(
       padding: EdgeInsets.only(top: 20, left: 40, right: 80),
       child: ListView(
@@ -85,22 +137,23 @@ class HomePage extends StatelessWidget {
             child: MyMarkdown(src: "markdown/text1.md"),
             height: 260,
           ),
-          // SizedBox(
-          //   child: Container(),
-          //   width: double.infinity,
-          //   height: ,
-          // ),
           circlesOverview(texts: project_phases, color: torquise),
           SizedBox(
             child: Container(),
             width: double.infinity,
             height: 13,
           ),
-          if (ResponsiveWidget.isLargeScreen(context) ||
-              ResponsiveWidget.isMediumScreen(context))
-            OverviewCardsLargeScreen(datas).build(context)
-          else
-            OverviewCardsSmallScreen(datas).build(context),
+          FutureBuilder(
+            future: fetchData(),
+            builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                // OverviewCardsLargeScreen(datas).build(context)
+                return cards.build(context);
+              } else {
+                return Container();
+              }
+            },
+          ),
           SizedBox(
             child: Container(),
             width: double.infinity,
