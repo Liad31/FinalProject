@@ -78,7 +78,7 @@ class TimePage extends StatelessWidget {
                     children: <TextSpan>[
                       TextSpan(
                         text:
-                            'The following graph shows the nationalistic level in the west bank by day.\nThe score of each day is calculated by the average nationalistic score of the videos we examined, which were uploaded in the three days prior each date.\nWhen hovering on each time point in the graph you can watch the most nationalistic video from that day.\n We also allow you to choose how far back do you want the graph to present, one year back or a full lifetime.\nNow, using our model and the fact that we update our databse with new users and videos every day,\nThe relevant bodies can use this graph in order to predict and prevent violent nationalistic waves and watch the progression of the nationslistic level on Tiktok in the west bank.\n hopefully our tool can help the security forces and maybe even save lifes.',
+                            'The following graph shows the nationalistic level in the west bank by day.\nThe score of each day is calculated by the average nationalistic score of the videos we examined, which were uploaded in the three days prior each date.\nWhen hovering on each time point in the graph you can watch the most nationalistic video from that day.\n We also allow you to choose how far back do you want the graph to present, one year back or a full lifetime.\nNow, using our model and the fact that we update our databse with new users and videos every day, the relevant bodies can use this graph in order to predict and prevent violent nationalistic waves\nand watch the progression of the nationslistic level on Tiktok in the west bank.\nHopefully our tool can help the security forces and maybe even save lifes.',
                         style: GoogleFonts.notoSans(
                           fontSize: 15,
                         ),
@@ -115,7 +115,7 @@ class TimePage extends StatelessWidget {
                     ],
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  width: 1000,
+                  width: 1400,
                   height: double.infinity,
                   child: Column(
                     children: [
