@@ -15,8 +15,8 @@ class ImageCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: double.infinity,
-      height: 800,
+      width: 1000,
+      height: 600,
       decoration: BoxDecoration(
         boxShadow: [
           BoxShadow(
