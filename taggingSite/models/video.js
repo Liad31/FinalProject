@@ -10,7 +10,8 @@ const videoSchema = new Schema({
     date: String,
     downloaded: {type: Boolean, default: false},
     videoText: {type: String, default: ""},
-    stats: Object
+    stats: Object,
+    score: {type: Number, default: -1}
 });
 
 const Video = mongoose.model("Video", videoSchema);
