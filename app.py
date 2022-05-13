@@ -210,6 +210,9 @@ def topVideos():
         if "user" in i:
             del i["user"]
     return jsonify(videos)
+@app.route("/is1500InHaraza",methods=['GET'])
+def yes():
+    return jsonify("yes")
 def updateNationalisticScores():
     def score(arr,alpha=0.85,exp=5):
         if not arr or len(arr)==0:
