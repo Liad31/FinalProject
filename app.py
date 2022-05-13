@@ -23,6 +23,7 @@ import pymongo
 from flask import Flask, request,jsonify
 import datetime
 import math
+from mongoThings import avgScoreOverTime,governorateScores
 nationalistic_sounds = np.load('models/nationalistic_songs.npy', allow_pickle=True)
 mongoClient = pymongo.MongoClient("mongodb+srv://ourProject:EMGwk59xADuSIIkv@cluster0.lhfaj.mongodb.net/production2?retryWrites=true&w=majority")
 model = torch.load('models/final_model/final_model', map_location='cpu')
@@ -125,7 +126,6 @@ def topUsers():
     currentEpoch= int(datetime.datetime.now().timestamp())
     startEpoch= currentEpoch-int(days)*24*60*60
     db = mongoClient["production3"]
-    usersDB= db["tiktokusernationalistics"]
     videoDB= db["videos"]
     users= videoDB.aggregate([
     {
@@ -178,6 +178,18 @@ def topUsers():
         del user["_id"]
         del user["videos"]
     return jsonify(users)
+@app.route('/avgScoreOverTime')
+def avgScoreOverTimeRoute():
+    db = mongoClient["production3"]
+    precomputedDB= db["precomputed"]
+    res=precomputedDB.find_one({"key":"avgScoreOverTime"})
+    return jsonify(res["value"])
+@app.route('/governorates')
+def governoratesRoute():
+    db = mongoClient["production3"]
+    precomputedDB= db["precomputed"]
+    res=precomputedDB.find_one({"key":"governorateScores"})
+    return jsonify(res["value"])
 @app.route("/topVideos", methods=['GET'])
 def topVideos():
     n = request.args.get('n')
@@ -213,6 +225,18 @@ def topVideos():
 @app.route("/is1500InHaraza",methods=['GET'])
 def yes():
     return jsonify("yes")
+def updateAvgScoreOverTime():
+    res= avgScoreOverTime()
+    db=  mongoClient["production3"]
+    precomputedDB= db["precomputed"]
+    precomputedDB.update_one({"key":"avgScoreOverTime"}, {"$set":{"key":"avgScoreOverTime","value":res}}, upsert=True)
+    return res
+def updateGovernorateScore():
+    res= governorateScores()
+    db=  mongoClient["production3"]
+    precomputedDB= db["precomputed"]
+    precomputedDB.update_one({"key":"governorateScores"}, {"$set":{"key":"governorateScores","value":res}}, upsert=True)
+    return res
 def updateNationalisticScores():
     def score(arr,alpha=0.85,exp=5):
         if not arr or len(arr)==0:
@@ -432,12 +456,14 @@ def predictAll():
 def update_video_scores(scores):
     headers = {'Content-Type': 'application/json',
                'Accept': 'application/json'}
-requests.post("http://localhost:8001/api/database/updateScores",
-                  data=json.dumps({"scores":scores}), headers=headers)
+    requests.post("http://localhost:8001/api/database/updateScores",
+                      data=json.dumps({"scores":scores}), headers=headers)
 def updateLoop():
     updateNationalisticScores()
     updateRelevancyScores()
     updateVideoRelevancyScores()
+    updateAvgScoreOverTime()
+    updateGovernorateScore()
 if __name__ == "__main__":
     app.run(host='0.0.0.0',port=8080)
     # db = mongoClient['production3']
