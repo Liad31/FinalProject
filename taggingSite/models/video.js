@@ -1,3 +1,4 @@
+const { ObjectId } = require("mongodb");
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
@@ -10,7 +11,8 @@ const videoSchema = new Schema({
     date: String,
     downloaded: {type: Boolean, default: false},
     videoText: {type: String, default: ""},
-    stats: Object
+    stats: Object,
+    user: {type: ObjectId, default: null},
 });
 
 const Video = mongoose.model("Video", videoSchema);

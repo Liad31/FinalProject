@@ -1,5 +1,5 @@
 The TikTok classifier is a tool for recognizing Palestinian nationalism in TikTok.  
-The tool is based on a machine learning model which was trained for classifying TikTok videos as either Palestinian nationalistic or not.  
+The tool is based on a machine learning model which was trained for classifying Palestinian TikTok videos as either nationalistic or not.  
 This tool was developed by R. Cirkin, G. Vitrak and L. Kehila as the final project for our computer science B.A in Bar-Ilan University(BIU). We collaborated with the Department of Middle Eastern Studies of BIU, specifically with our mentors Y. Mann and Eli Alshech and students in their seminar.  
 Thanks to their guidance and the hard work of the seminar students who helped us a lot along the way, our model achived great performance.  
 The tool and its results are now available in this website. Now, using our tool we can follow Palestinian nationalistic users, monitor their videos and predict nationalistic waves in the West bank before they burst.  

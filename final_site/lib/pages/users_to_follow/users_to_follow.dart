@@ -179,7 +179,7 @@ class UsersToFollowPage extends StatelessWidget {
                         ),
                       ),
                       TextSpan(
-                        text: 'nationalistic ',
+                        text: 'Nationalistic ',
                         style: GoogleFonts.notoSans(
                           fontSize: 15,
                           fontWeight: FontWeight.bold,
@@ -201,7 +201,7 @@ class UsersToFollowPage extends StatelessWidget {
                       ),
                       TextSpan(
                         text:
-                            'score, sorts the table by the most relevant users to follow, based on a formula we present, which takes into account both the nationalistic score of the user and his influence power in the area.\nFor sorting the table by one of the columns, click on the wanted column name.',
+                            'score, sorts the table by the most relevant users to follow, based on a formula we present, which takes into account both the nationalistic score of the user and his influence power in the area.\nTo sort the table by one of the columns, click on the wanted column name.',
                         style: GoogleFonts.notoSans(fontSize: 15),
                       ),
                     ],
