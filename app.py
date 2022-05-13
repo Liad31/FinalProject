@@ -121,9 +121,58 @@ def getNationalistic():
 def topUsers():
     n = request.args.get('n')
     sort= request.args.get('sort')
+    days= request.args.get('days')
+    currentEpoch= int(datetime.datetime.now().timestamp())
+    startEpoch= currentEpoch-int(days)*24*60*60
     db = mongoClient["production3"]
     usersDB= db["tiktokusernationalistics"]
-    users=usersDB.find().sort(sort,pymongo.DESCENDING).limit(int(n))
+    videoDB= db["videos"]
+    users= videoDB.aggregate([
+    {
+        '$addFields': {
+            'dateInt': {
+                '$toInt': '$date'
+            }
+        }
+    }, {
+        '$match': {
+            '$and': [
+                {
+                    'score': {
+                        '$gt': -1
+                    }
+                }, {
+                    'dateInt': {
+                        '$gt': startEpoch
+                    }
+                }
+            ]
+        }
+    }, {
+        '$group': {
+            '_id': '$user'
+        }
+    }, {
+        '$lookup': {
+            'from': 'tiktokusernationalistics', 
+            'localField': '_id', 
+            'foreignField': '_id', 
+            'as': 'user'
+        }
+    }, {
+        '$addFields': {
+            'user': {
+                '$first': '$user'
+            }
+        }
+    }, {
+        '$sort': {
+            f'user.{sort}': -1
+        }
+    }, {
+        '$limit': n
+    }
+    ])
     users=[i for i in users]
     for user in users:
         del user["_id"]
@@ -380,7 +429,7 @@ def predictAll():
 def update_video_scores(scores):
     headers = {'Content-Type': 'application/json',
                'Accept': 'application/json'}
-    requests.post("http://localhost:8001/api/database/updateScores",
+requests.post("http://localhost:8001/api/database/updateScores",
                   data=json.dumps({"scores":scores}), headers=headers)
 def updateLoop():
     updateNationalisticScores()
