@@ -8,53 +8,53 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class RecentPage extends StatelessWidget {
-  List<Map<String, dynamic>> data = [
-    {
-      // 'video': 'https://tiktok.com/@username/video/70880m12__b432452777757953?is_copy_url=1&is_from_webapp=v1',
-      'user': 'user1',
-      'governorate': 'Jenin',
-      'views': 20000,
-      'likes': 1000,
-      'score': 0.95,
-      'id': '7073810575611956481'
-    },
-    {
-      // 'video': 'https://tiktok.com/@username/video/70880m12__b432452777757953?is_copy_url=1&is_from_webapp=v1',
-      'user': 'user2',
-      'governorate': 'Jerusalem',
-      'views': 50000,
-      'likes': 40000,
-      'score': 0.9,
-      'id': '7073810575611956481'
-    },
-    {
-      // 'video': 'https://tiktok.com/@username/video/70880m12__b432452777757953?is_copy_url=1&is_from_webapp=v1',
-      'user': 'user1',
-      'governorate': 'Jenin',
-      'views': 20000,
-      'likes': 1000,
-      'score': 0.83,
-      'id': '7082076746517990662'
-    },
-    {
-      // 'video': 'https://tiktok.com/@username/video/70880m12__b432452777757953?is_copy_url=1&is_from_webapp=v1',
-      'user': 'user3',
-      'governorate': 'Jenin',
-      'views': 2000,
-      'likes': 1200,
-      'score': 0.77,
-      'id': '7082076746517990662'
-    },
-    {
-      // 'video': 'https://tiktok.com/@username/video/70880m12__b432452777757953?is_copy_url=1&is_from_webapp=v1',
-      'user': 'user1',
-      'governorate': 'Jenin',
-      'views': 12,
-      'likes': 6,
-      'score': 0.65,
-      'id': '7082076746517990662'
-    },
-  ];
+  List<Map<String, dynamic>> data = [];
+  //   {
+  //     // 'video': 'https://tiktok.com/@username/video/70880m12__b432452777757953?is_copy_url=1&is_from_webapp=v1',
+  //     'user': 'user1',
+  //     'governorate': 'Jenin',
+  //     'views': 20000,
+  //     'likes': 1000,
+  //     'score': 0.95,
+  //     'id': '7073810575611956481'
+  //   },
+  //   {
+  //     // 'video': 'https://tiktok.com/@username/video/70880m12__b432452777757953?is_copy_url=1&is_from_webapp=v1',
+  //     'user': 'user2',
+  //     'governorate': 'Jerusalem',
+  //     'views': 50000,
+  //     'likes': 40000,
+  //     'score': 0.9,
+  //     'id': '7073810575611956481'
+  //   },
+  //   {
+  //     // 'video': 'https://tiktok.com/@username/video/70880m12__b432452777757953?is_copy_url=1&is_from_webapp=v1',
+  //     'user': 'user1',
+  //     'governorate': 'Jenin',
+  //     'views': 20000,
+  //     'likes': 1000,
+  //     'score': 0.83,
+  //     'id': '7082076746517990662'
+  //   },
+  //   {
+  //     // 'video': 'https://tiktok.com/@username/video/70880m12__b432452777757953?is_copy_url=1&is_from_webapp=v1',
+  //     'user': 'user3',
+  //     'governorate': 'Jenin',
+  //     'views': 2000,
+  //     'likes': 1200,
+  //     'score': 0.77,
+  //     'id': '7082076746517990662'
+  //   },
+  //   {
+  //     // 'video': 'https://tiktok.com/@username/video/70880m12__b432452777757953?is_copy_url=1&is_from_webapp=v1',
+  //     'user': 'user1',
+  //     'governorate': 'Jenin',
+  //     'views': 12,
+  //     'likes': 6,
+  //     'score': 0.65,
+  //     'id': '7082076746517990662'
+  //   },
+  // ];
 
   RecentPage({Key? key}) : super(key: key);
 
@@ -147,17 +147,17 @@ class RecentPage extends StatelessWidget {
             child: Container(),
           ),
           videoTable(data).sortByScore(0, true).build(context),
-          Row(
-            children: [
-              Expanded(child: Container()),
-              TiktokEmbedd(
-                src: data[0]["id"],
-                color: Colors.black,
-                text: '',
-              ),
-              Expanded(child: Container()),
-            ],
-          )
+          // Row(
+          //   children: [
+          //     Expanded(child: Container()),
+          //     TiktokEmbedd(
+          //       src: data[0]["id"],
+          //       color: Colors.red,
+          //       text: '',
+          //     ),
+          //     Expanded(child: Container()),
+          //   ],
+          // )
         ],
       ),
     );

@@ -21,7 +21,7 @@ import 'package:http/http.dart' as http;
 class HomePage extends StatelessWidget {
   late OverviewCardsLargeScreen cards;
   var datas = [
-    {'title': 'Tagged videos', 'value': '30,000'},
+    {'title': 'Tagged videos', 'value': '24,000'},
     {'title': 'AUC', 'value': '94'},
     {'title': 'Examined users', 'value': '4481'},
     {'title': 'Videos from last 24h', 'value': '0'}

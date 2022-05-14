@@ -1,4 +1,5 @@
 // ignore_for_file: prefer_const_constructors
+import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:final_site/constatns/syle.dart';
 import 'package:final_site/widgets/custom_text.dart';
@@ -21,19 +22,20 @@ class queryForm extends GetxController {
   Future<int> getScore() async {
     final response;
     if (!isUser) {
-      print(2);
       response = await http
           .get(Uri.parse('http://104.154.93.111:8080/predict?urls=["$value"]'));
     } else {
-      print(3);
       //change to user prediction
-      response = await http.get(
-          Uri.parse('http://104.154.93.111:8080/predict?urls=\"[$value]\"'));
+      response = await http
+          .get(Uri.parse('http://104.154.93.111:8080/predict?urls=["$value"]'));
     }
-    print(response.statusCode);
     if (response.statusCode == 200) {
+      final parsed =
+          jsonDecode(response.body.toString()).cast<Map<String, dynamic>>();
       ispending = false;
-      score.value = response.body.toString();
+      print(parsed.length);
+      print(parsed[0]['result'].toString().substring(0, 5));
+      score.value = parsed[0]['result'].toString().substring(0, 5);
       return 1;
     } else {
       throw Exception('Failed to load score');
@@ -150,7 +152,7 @@ class queryForm extends GetxController {
                               if (score_double >= 0.1) {
                                 return Colors.orange[r_color];
                               } else {
-                                return Colors.orange[100];
+                                return Colors.orange[200];
                               }
                             } else {
                               return Colors.black;

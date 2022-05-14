@@ -1,4 +1,6 @@
 // ignore_for_file: prefer_const_constructors
+import 'dart:convert';
+import 'dart:math';
 import 'package:final_site/constatns/syle.dart';
 import 'package:final_site/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:http/http.dart' as http;
 
 class usersTable extends GetxController {
   final int table_size = 25;
@@ -57,116 +60,63 @@ class usersTable extends GetxController {
   }
 
   Future<String>? fetchData() async {
-    await Future.delayed(Duration(seconds: 5));
-    data_nat = [
-      {
-        'name': 'user1',
-        'governorate': 'Jenin',
-        'followers': 900,
-        'score': 0.95,
-        'id': '123456789'
-      },
-      {
-        'name': 'user2',
-        'governorate': 'Jenin',
-        'followers': 900,
-        'score': 0.9,
-        'id': '123456789'
-      },
-      {
-        'name': 'user3',
-        'governorate': 'Jenin',
-        'followers': 900,
-        'score': 0.85,
-        'id': '123456789'
-      },
-      {
-        'name': 'user4',
-        'governorate': 'Jenin',
-        'followers': 900,
-        'score': 0.8,
-        'id': '123456789'
-      },
-      {
-        'name': 'user5',
-        'governorate': 'Jenin',
-        'followers': 900,
-        'score': 0.75,
-        'id': '123456789'
-      },
-      {
-        'name': 'user6',
-        'governorate': 'Jenin',
-        'followers': 900,
-        'score': 0.7,
-        'id': '123456789'
-      },
-      {
-        'name': 'user6',
-        'governorate': 'Jenin',
-        'followers': 900,
-        'score': 0.7,
-        'id': '123456789'
-      },
-      {
-        'name': 'user6',
-        'governorate': 'Jenin',
-        'followers': 900,
-        'score': 0.7,
-        'id': '123456789'
-      },
-      {
-        'name': 'user6',
-        'governorate': 'Jenin',
-        'followers': 900,
-        'score': 0.7,
-      },
-      {
-        'name': 'user6',
-        'governorate': 'Jerusalem',
-        'followers': 900,
-        'score': 0.7,
-        'id': '123456789'
-      },
-      {
-        'name': 'user6',
-        'governorate': 'Yericho',
-        'followers': 900,
-        'score': 0.7,
-        'id': '123456789'
-      },
-      {
-        'name': 'user6',
-        'governorate': 'Jenin',
-        'followers': 1200,
-        'score': 0.7,
-        'id': '123456789'
-      },
-      {
-        'name': 'user6',
-        'governorate': 'Jenin',
-        'followers': 1000,
-        'score': 0.65,
-        'id': '123456789'
-      },
-    ];
-    data_rel = [
-      {
-        'name': 'user1',
-        'governorate': 'Jenin',
-        'followers': 900,
-        'score': 0.95,
-        'id': '123456789'
-      },
-      {
-        'name': 'user2',
-        'governorate': 'Jenin',
-        'followers': 900,
-        'score': 0.9,
-        'id': '123456789'
-      },
-    ];
-    data.value = data_nat;
+    Future<String> getNat() async {
+      var response = await http
+          .get(Uri.parse(
+              'http://104.154.93.111:8080/topUsers?n=25&sort=nationalisticScore&days=30'))
+          .then((value) {
+        if (value.statusCode == 200) {
+          var json =
+              jsonDecode(value.body.toString()).cast<Map<String, dynamic>>();
+          data_nat = json
+              .map((user) => {
+                    'name': user['userName'].toString(),
+                    'governorate': user['governorate'].toString(),
+                    'followers': int.parse(
+                        user['userStats']['followers_count'].toString()),
+                    'score':
+                        double.parse(user['nationalisticScore'].toString()),
+                    'id': user['userId'].toString(),
+                  })
+              .toList();
+          data.value = data_nat;
+          return 'done';
+        } else {
+          throw Exception('Failed to load users');
+        }
+      });
+      return response.toString();
+    }
+
+    Future<String> getRel() async {
+      var response = await http
+          .get(Uri.parse(
+              'http://104.154.93.111:8080/topUsers?n=25&sort=relevancyScore'))
+          .then((value) {
+        if (value.statusCode == 200) {
+          var json =
+              jsonDecode(value.body.toString()).cast<Map<String, dynamic>>();
+          data_rel = json
+              .map((user) => {
+                    'name': user['userName'].toString(),
+                    'governorate': user['governorate'].toString(),
+                    'followers': int.parse(
+                        user['userStats']['followers_count'].toString()),
+                    'score': min(
+                        double.parse(user['relevancyScore'].toString()) + 0.12,
+                        1),
+                    'id': user['userId'].toString(),
+                  })
+              .toList();
+          return 'done';
+        } else {
+          throw Exception('Failed to load users');
+        }
+      });
+      return response.toString();
+    }
+
+    await Future.wait([getRel(), getNat()]);
     return 'done';
   }
 
@@ -383,11 +333,13 @@ class usersTable extends GetxController {
                             var followers = data[index]['followers'].toString();
                             var score = data[index]['score'].toString();
                             var userID = data[index]['id'];
+                            int realIdx = index + 1;
+                            print(realIdx);
                             String _url = 'https://www.tiktok.com/@' + name;
                             DataCell rankDataCell = DataCell(
                               RichText(
                                 text: TextSpan(
-                                  text: "$index",
+                                  text: "$realIdx",
                                   style: GoogleFonts.merriweather(
                                     fontSize: 18,
                                     fontWeight: FontWeight.normal,
@@ -401,7 +353,7 @@ class usersTable extends GetxController {
                                 children: [
                                   RichText(
                                     text: TextSpan(
-                                      text: "$index",
+                                      text: "$realIdx",
                                       style: GoogleFonts.merriweather(
                                         fontSize: 18,
                                         fontWeight: FontWeight.normal,
@@ -420,7 +372,7 @@ class usersTable extends GetxController {
                                 children: [
                                   RichText(
                                     text: TextSpan(
-                                      text: "$index",
+                                      text: "$realIdx",
                                       style: GoogleFonts.merriweather(
                                         fontSize: 18,
                                         fontWeight: FontWeight.normal,
@@ -525,7 +477,7 @@ class usersTable extends GetxController {
                                   ),
                                   RichText(
                                     text: TextSpan(
-                                      text: score,
+                                      text: score.substring(0, 5),
                                       style: GoogleFonts.merriweather(
                                         fontSize: 18,
                                         fontWeight: FontWeight.normal,

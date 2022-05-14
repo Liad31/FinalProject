@@ -12,25 +12,54 @@ import 'package:final_site/constatns/goversJson.dart' as gJson;
 import 'package:final_site/pages/time_and_place/governrate.dart';
 import '../../constatns/syle.dart';
 import 'package:final_site/pages/time_and_place/widgets/score_show.dart';
+import 'package:http/http.dart' as http;
 
 class TimeAndPlacePage extends StatelessWidget {
+  late List scores = [];
+  late List<List<LatLng>> cordinates_list = [];
+  late List<Governrate> gover = [];
+  late List govers_names = [];
+
   TimeAndPlacePage({Key? key}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
+  Future<String>? fetchData() async {
     String goversString = gJson.goversJson;
     var goversJson = jsonDecode(goversString)['govers'] as List;
     List<Governrate> govers =
         goversJson.map((goverJson) => Governrate.fromJson(goverJson)).toList();
-    List<List<LatLng>> cordinates_list = [];
-    var govers_names = [];
-    var scores = [];
-    for (var i = 0; i < govers.length; ++i) {
-      cordinates_list.add(govers[i].cordinates);
-      govers_names.add(govers[i].name);
-      scores.add((0.99 - 0.05 * i).toString());
+    Future<String> getgovernorates() async {
+      var response = await http
+          .get(Uri.parse('http://104.154.93.111:8080/governorates'))
+          .then((value) {
+        if (value.statusCode == 200) {
+          var json =
+              jsonDecode(value.body.toString()).cast<Map<String, dynamic>>();
+          List names = json.map((gov) => gov.keys.toList()[0]).toList();
+          for (var i = 0; i < govers.length; ++i) {
+            cordinates_list.add(govers[i].cordinates);
+            govers_names.add(govers[i].name);
+            print(json[names.indexOf(govers[i].name)]
+                [json[names.indexOf(govers[i].name)].keys.toList()[0]]);
+            scores.add((json[names.indexOf(govers[i].name)]
+                        [json[names.indexOf(govers[i].name)].keys.toList()[0]] +
+                    0.1)
+                .toString()
+                .substring(0, 5));
+          }
+          return 'done';
+        } else {
+          throw Exception('Failed to load map');
+        }
+      });
+      return response.toString();
     }
-    print(cordinates_list);
+
+    await Future.wait([getgovernorates()]);
+    return 'done';
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.only(top: 20, left: 40, right: 80),
       child: ListView(
@@ -144,12 +173,26 @@ class TimeAndPlacePage extends StatelessWidget {
                         flex: 1,
                       ),
                       Container(
-                        child: GMap(
-                          polygonLatLongs:
-                              cordinates_list as List<List<LatLng>>,
-                          names: govers_names,
-                          scores: scores,
-                        ).build(context),
+                        child: FutureBuilder(
+                            future: fetchData(),
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                      ConnectionState.done ||
+                                  snapshot.connectionState ==
+                                      ConnectionState.waiting) {
+                                return GMap(
+                                  polygonLatLongs:
+                                      cordinates_list as List<List<LatLng>>,
+                                  names: govers_names,
+                                  scores: scores,
+                                ).build(context);
+                              } else {
+                                return GMap(
+                                    polygonLatLongs: [],
+                                    names: [],
+                                    scores: []).build(context);
+                              }
+                            }),
                         width: 600,
                         height: 800,
                       ),
