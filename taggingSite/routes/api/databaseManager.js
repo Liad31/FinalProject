@@ -15,24 +15,25 @@ router.post("/postNewUsers", (req, res) => {
       }
       if (user) {
         console.log("adding videos to user");
-        ids = req.body.users[t]['videos'].map(function (item) {
+        let ids = req.body.users[t]['videos'].map(function (item) {
             return item.Vid;
         });
         Video.find({ Vid: { $in: ids } }, function (err, databaseVids) {
             if (err) {
                 console.log(`Error: ${err}`);
             }
-            for( video of req.body.users[t]['videos']){
-                if(video.Vid in databaseVids.map(vid=> vid.Vid))
+            for(let video of req.body.users[t]['videos']){
+                if(databaseVids.map(vid=> vid.Vid).indexOf(video.Vid)!=-1)
                     continue
-                videoDoc=new Video({
+                let videoDoc=new Video({
                   Vid: video.Vid,
                   text: video.text,
                   date: video.date,
                   hashtags: video.hashtags,
                   musicId: video.musicId,
                   musicUrl: video.musicUrl,
-                  stats: video.stats
+                  stats: video.stats,
+                  user: user._id,
                 });
                 user.videos.push(videoDoc);
                 videoDoc.save().catch(err => {
@@ -53,6 +54,16 @@ router.post("/postNewUsers", (req, res) => {
         let governorate = req.body.users[t]['governorate'];
         let userStats = req.body.users[t]['userStats'];
         let videos = []
+        console.log("adding new user");
+        let newUser = TiktokUser({
+          userId: userID,
+          videos: null,
+          bio: bio,
+          userName: user_name,
+          governorate: governorate,
+          userStats: userStats,
+          tags: []
+        });
         for (let i = 0; i < videos_arr.length; i++) {
           let cur_video = Video({
             Vid: videos_arr[i]['Vid'],
@@ -61,23 +72,15 @@ router.post("/postNewUsers", (req, res) => {
             hashtags: videos_arr[i]['hashtags'],
             musicId: videos_arr[i]['musicId'],
             musicUrl: videos_arr[i]['musicUrl'],
-            stats: videos_arr[i]['stats']
+            stats: videos_arr[i]['stats'],
+            user: newUser._id
           });
           videos.push(cur_video);
           cur_video.save().catch(err => {
             res.status(400).send("unable to save to database");
           });
         }
-        console.log("adding new user");
-        let newUser = TiktokUser({
-          userId: userID,
-          videos: videos,
-          bio: bio,
-          userName: user_name,
-          governorate: governorate,
-          userStats: userStats,
-          tags: []
-        });
+        newUser.videos = videos;
         newUser.save().catch(err => {
           res.status(400).send("unable to save to database");
         });
@@ -113,9 +116,10 @@ router.get("/getVideos", (req, res) => {
   numVideos = Number(req.query.num)
   agg=[{
     '$match': {
-      '$or': [
+      '$and': [
         {
           'downloaded': false
+          ,'inBatch': true
         }
         // {
         // 'videoText': "Unproced"

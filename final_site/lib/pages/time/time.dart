@@ -2,8 +2,9 @@ import 'package:final_site/pages/time/widgets/graph.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../constatns/syle.dart';
-import 'package:final_site/pages/time_and_place/widgets/score_show.dart';
 import 'package:final_site/widgets/custom_text.dart';
+import 'dart:math';
+import 'package:http/http.dart' as http;
 
 class TimePage extends StatelessWidget {
   const TimePage({Key? key}) : super(key: key);
@@ -11,13 +12,13 @@ class TimePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(top: 20, left: 40, right: 80),
+      padding: const EdgeInsets.only(top: 20, left: 40, right: 80),
       child: ListView(
         physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
         children: [
           Container(
-            margin: EdgeInsets.only(bottom: 6),
+            margin: const EdgeInsets.only(bottom: 6),
             child: Row(
               children: [
                 Expanded(
@@ -46,7 +47,7 @@ class TimePage extends StatelessWidget {
                           Border.all(color: active.withOpacity(.4), width: .5),
                       boxShadow: [
                         BoxShadow(
-                            offset: Offset(0, 6),
+                            offset: const Offset(0, 6),
                             color: lightGrey.withOpacity(.1),
                             blurRadius: 12)
                       ],
@@ -65,7 +66,7 @@ class TimePage extends StatelessWidget {
             child: Container(),
           ),
           Container(
-            margin: EdgeInsets.only(bottom: 6),
+            margin: const EdgeInsets.only(bottom: 6),
             child: Row(
               mainAxisSize: MainAxisSize.max,
               children: [
@@ -78,7 +79,7 @@ class TimePage extends StatelessWidget {
                     children: <TextSpan>[
                       TextSpan(
                         text:
-                            'The following graph shows the nationalistic level in the west bank by day.\nThe score of each day is calculated by the average nationalistic score of the videos we examined, which were uploaded in the three days prior each date.\nWhen hovering on each time point in the graph you can watch the most nationalistic video from that day.\n We also allow you to choose how far back do you want the graph to present, one year back or a full lifetime.\nNow, using our model and the fact that we update our databse with new users and videos every day,\nThe relevant bodies can use this graph in order to predict and prevent violent nationalistic waves and watch the progression of the nationslistic level on Tiktok in the west bank.\n hopefully our tool can help the security forces and maybe even save lifes.',
+                            'The following graph shows the nationalistic level in the west bank by day.\nThe score of each day is calculated by the average nationalistic score of the videos we examined, which were uploaded in the three days prior each date.\nWhen hovering on each time point in the graph you can watch the most nationalistic video from that day.\n We also allow you to choose how far back do you want the graph to present, one year back or a full lifetime.\nNow, using our model and the fact that we update our databse with new users and videos every day, the relevant bodies can use this graph in order to predict and prevent violent nationalistic waves\nand watch the progression of the nationslistic level on Tiktok in the west bank.\nHopefully our tool can help the security forces and maybe even save lifes.',
                         style: GoogleFonts.notoSans(
                           fontSize: 15,
                         ),
@@ -115,7 +116,7 @@ class TimePage extends StatelessWidget {
                     ],
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  width: 1000,
+                  width: 1400,
                   height: double.infinity,
                   child: Column(
                     children: [
@@ -124,7 +125,23 @@ class TimePage extends StatelessWidget {
                         flex: 1,
                       ),
                       SizedBox(
-                        child: Graph(),
+                        child: FutureBuilder(
+                          future: getChartData(),
+                          builder: (BuildContext context,
+                              AsyncSnapshot<List<DailyNationalisticData>>
+                                  snapshot) {
+                            if (snapshot.hasData) {
+                              final data = snapshot.data;
+                              print(data);
+                              if (data != null) {
+                                return Graph(chartData: data);
+                              }
+                            }
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          },
+                        ),
                         height: 800,
                       ),
                       Flexible(
@@ -146,4 +163,22 @@ class TimePage extends StatelessWidget {
       ),
     );
   }
+}
+
+Future<List<DailyNationalisticData>> getChartData() async {
+  var url = Uri.parse('http://104.154.93.111:8080/avgScoreOverTime');
+  // var url = Uri.http('104.154.93.111:8080', '/avgScoreOverTime');
+  print(url);
+  print("hello!");
+  var response = await http.get(url);
+  print("hello!!");
+  print('Response status: $response');
+
+  DateTime start = DateTime.utc(2022, 1, 1);
+  final List<DailyNationalisticData> chartData =
+      List<DailyNationalisticData>.generate(
+          (360 / 3).round(),
+          (index) => DailyNationalisticData(sin(3 * index / 10) / 3 + 0.5,
+              start.add(Duration(days: 3 * index)), "6718335390845095173"));
+  return chartData;
 }

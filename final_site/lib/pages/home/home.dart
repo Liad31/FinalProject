@@ -184,21 +184,12 @@ class HomePage extends StatelessWidget {
             child: Row(
               mainAxisSize: MainAxisSize.max,
               children: [
-                Flexible(
-                  child: Container(),
-                  flex: 1,
+                Expanded(child: Container()),
+                ImageCard(
+                  imagePath: 'photos/diagram.jpg',
+                  onTap: () {},
                 ),
-                Flexible(
-                  flex: 25,
-                  child: ImageCard(
-                    imagePath: 'photos/diagram.jpg',
-                    onTap: () {},
-                  ),
-                ),
-                Flexible(
-                  child: Container(),
-                  flex: 1,
-                ),
+                Expanded(child: Container()),
               ],
             ),
             flex: 4,
@@ -304,7 +295,7 @@ class HomePage extends StatelessWidget {
           ),
           CustomText(
             text:
-                '\nAll the data presented in the site is rendered every 24h. Once a day, The Algorithm downloads all the new videos it founds and updating all the data and scores shown in the site.',
+                '\nAll the data presented in the site is rendered every 24h. Once a day, The Algorithm downloads all the new videos it founds and updates all the data and scores shown in the site.',
             size: 18,
             color: active,
             weight: FontWeight.bold,
@@ -326,7 +317,7 @@ class HomePage extends StatelessWidget {
                 ),
                 TextSpan(
                   text:
-                      'On the get score page you can query our machine learning mode for either a nationalistic score for a given Tiktok post (just insert it\'s id) or a nationalistic score for a Tiktok user based on his videos (just insert his username). ',
+                      'On the get score page you can query our machine learning model for either a nationalistic score for a given Tiktok post (just insert it\'s id) or a nationalistic score for a Tiktok user based on his videos (just insert his username). ',
                   style: GoogleFonts.notoSans(
                       fontSize: 18, fontWeight: FontWeight.normal),
                 ),
@@ -339,7 +330,7 @@ class HomePage extends StatelessWidget {
                     )),
                 TextSpan(
                   text:
-                      'Using our model, we managed to build a tool for following nationalistic users in the west bank area. we have accumaleted ${datas[2]['value']} users in our database (and still counting) and calculated a nationalistic score for each of them, based on their latest nationalistic posts. Adding on that, we introduce a relevancy score given for each user which takes into consideration his nationalistic score, and his influence in the Tiktok platform (followers, likes, etc.). If you would like to watch the most relevant/nationalistic users, you\'re welcome to visit the users to follow page where you will find all the relevant tables.',
+                      'Using our model, we managed to build a tool for following nationalistic users in the west bank area. we have accumaleted ${datas[2]['value']} users in our database (and still counting) and calculated a nationalistic score for each of them, based on their latest nationalistic posts. Adding on that, we introduce a relevancy score given for each user which takes into consideration his nationalistic score, and his influence in the Tiktok platform (followers, likes, etc). If you would like to watch the most relevant/nationalistic users, you\'re welcome to visit the "users to follow page" where you will find all the relevant tables.',
                   style: GoogleFonts.notoSans(
                       fontSize: 18, fontWeight: FontWeight.normal),
                 ),
@@ -385,6 +376,7 @@ class HomePage extends StatelessWidget {
               ],
             ),
           ),
+          const SizedBox(height: 20)
         ],
       ),
     );

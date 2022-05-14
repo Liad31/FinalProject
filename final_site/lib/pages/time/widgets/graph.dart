@@ -5,21 +5,20 @@ import '../../../widgets/tiktok_embedd.dart';
 import 'package:intl/intl.dart';
 
 class Graph extends StatelessWidget {
-  Graph({Key? key}) : super(key: key);
+  Graph({Key? key, required this.chartData}) : super(key: key);
   final _tooltipBehavior = TooltipBehavior(
       enable: true,
       duration: 5000,
       // Templating the tooltip
       builder: (dynamic data, dynamic point, dynamic series, int pointIndex,
           int seriesIndex) {
-        return Container(
-            child: TiktokEmbedd(
+        return TiktokEmbedd(
           src: data.vid,
           color: Colors.green,
           text:
               "score: ${data.score}\ndate: ${DateFormat('yyyy-MM-dd').format(data.date)}",
           fontSize: 16,
-        ));
+        );
       });
   final _zoomPanBehavior = ZoomPanBehavior(
     enableMouseWheelZooming: true,
@@ -27,7 +26,7 @@ class Graph extends StatelessWidget {
     enablePanning: true,
   );
 
-  final List<DailyNationalisticData> _chartData = getChartData();
+  final List<DailyNationalisticData> chartData;
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -47,7 +46,7 @@ class Graph extends StatelessWidget {
                 series: <ChartSeries>[
           SplineSeries<DailyNationalisticData, DateTime>(
               color: Colors.black,
-              dataSource: _chartData,
+              dataSource: chartData,
               xValueMapper: (DailyNationalisticData data, _) => data.date,
               yValueMapper: (DailyNationalisticData data, _) => data.score,
               markerSettings: const MarkerSettings(
