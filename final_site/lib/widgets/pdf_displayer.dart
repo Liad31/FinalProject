@@ -1,6 +1,4 @@
-import 'package:final_site/constatns/syle.dart';
 import 'package:flutter/material.dart';
-import 'package:pdfx/pdfx.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 class PdfDisplayer extends StatelessWidget {

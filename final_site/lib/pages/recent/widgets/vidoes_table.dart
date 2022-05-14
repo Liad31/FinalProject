@@ -427,8 +427,9 @@ class videoTable extends GetxController {
                                     ),
                                   ),
                                   onPressed: () async {
-                                    if (!await launch(_url_post))
+                                    if (!await launch(_url_post)) {
                                       throw 'Could not launch $_url_post';
+                                    }
                                   },
                                   child: RichText(
                                     text: TextSpan(
@@ -464,8 +465,9 @@ class videoTable extends GetxController {
                                     ),
                                   ),
                                   onPressed: () async {
-                                    if (!await launch(_url_user))
+                                    if (!await launch(_url_user)) {
                                       throw 'Could not launch $_url_user';
+                                    }
                                   },
                                   child: RichText(
                                     text: TextSpan(

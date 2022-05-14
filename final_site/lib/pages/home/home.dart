@@ -4,16 +4,12 @@ import 'dart:convert';
 import 'package:final_site/constatns/syle.dart';
 import 'package:final_site/pages/home/widgets/circles_overview.dart';
 import 'package:final_site/pages/home/widgets/overview_cards_large.dart';
-import 'package:final_site/pages/home/widgets/overview_cards_small.dart';
 import 'package:final_site/widgets/custom_text.dart';
 import 'package:final_site/widgets/my_markdown.dart';
-import 'package:final_site/widgets/pdf_displayer.dart';
 import 'package:final_site/widgets/tiktok_embedd.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:get/get.dart';
-import 'package:final_site/helpers/responsiveness.dart';
 import 'package:final_site/pages/home/widgets/Image_card.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
@@ -27,7 +23,7 @@ class HomePage extends StatelessWidget {
     {'title': 'Videos from last 24h', 'value': '0'}
   ].obs;
 
-  HomePage({Key? key}) : super(key: key) {}
+  HomePage({Key? key}) : super(key: key);
 
   int countOccurences(String mainString, String search) {
     int lInx = 0;
@@ -87,11 +83,11 @@ class HomePage extends StatelessWidget {
     cards = OverviewCardsLargeScreen(datas);
 
     return Container(
-      padding: EdgeInsets.only(top: 20, left: 40, right: 80),
+      padding: const EdgeInsets.only(top: 20, left: 40, right: 80),
       child: ListView(
         children: [
           Container(
-            margin: EdgeInsets.only(bottom: 6),
+            margin: const EdgeInsets.only(bottom: 6),
             child: Row(
               children: [
                 const CustomText(
@@ -228,21 +224,21 @@ class HomePage extends StatelessWidget {
                       TiktokEmbedd(
                         src: nat[0]["vid"],
                         color: Colors.red,
-                        text: 'score: ${nat[0]["score"]}',
+                        text: 'score: ${nat[0]["score"].toStringAsFixed(3)}',
                         fontSize: 16,
                       ),
                       Expanded(child: Container()),
                       TiktokEmbedd(
                         src: notNat[0]["vid"],
                         color: Colors.green,
-                        text: 'score: ${notNat[0]["score"]}',
+                        text: 'score: ${notNat[0]["score"].toStringAsFixed(3)}',
                         fontSize: 16,
                       ),
                       Expanded(child: Container()),
                       TiktokEmbedd(
                         src: nat[1]["vid"],
                         color: Colors.red,
-                        text: 'score: ${nat[1]["score"]}',
+                        text: 'score: ${nat[1]["score"].toStringAsFixed(3)}',
                         fontSize: 16,
                       ),
                       Expanded(child: Container()),

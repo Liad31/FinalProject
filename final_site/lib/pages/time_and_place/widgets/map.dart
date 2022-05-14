@@ -1,9 +1,6 @@
 import 'dart:collection';
-import 'package:final_site/widgets/custom_text.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_maps_flutter_web/google_maps_flutter_web.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart' as maps;
 import 'package:final_site/pages/time_and_place/widgets/score_show.dart';
 
@@ -42,9 +39,9 @@ class GMap extends GetxController {
         color = Colors.red.withOpacity(0.7);
       }
       if (score_double >= 0.1) {
-        color = Colors.orange[r_color]!.withOpacity(0.7) as Color;
+        color = Colors.orange[r_color]!.withOpacity(0.7);
       } else {
-        color = Colors.orange[100]!.withOpacity(0.7) as Color;
+        color = Colors.orange[100]!.withOpacity(0.7);
       }
       String name = names[i];
       String score = scores[i];

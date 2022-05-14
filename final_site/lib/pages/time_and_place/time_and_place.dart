@@ -2,10 +2,7 @@ import 'dart:convert';
 import 'package:final_site/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
-import 'package:syncfusion_flutter_charts/sparkcharts.dart';
 import '../../widgets/custom_text.dart';
-import '../../widgets/tiktok_embedd.dart';
 import 'package:final_site/pages/time_and_place/widgets/map.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:final_site/constatns/goversJson.dart' as gJson;
@@ -61,11 +58,11 @@ class TimeAndPlacePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(top: 20, left: 40, right: 80),
+      padding: const EdgeInsets.only(top: 20, left: 40, right: 80),
       child: ListView(
         children: [
           Container(
-            margin: EdgeInsets.only(bottom: 6),
+            margin: const EdgeInsets.only(bottom: 6),
             child: Row(
               children: [
                 Expanded(
@@ -94,7 +91,7 @@ class TimeAndPlacePage extends StatelessWidget {
                           Border.all(color: active.withOpacity(.4), width: .5),
                       boxShadow: [
                         BoxShadow(
-                            offset: Offset(0, 6),
+                            offset: const Offset(0, 6),
                             color: lightGrey.withOpacity(.1),
                             blurRadius: 12)
                       ],
@@ -113,7 +110,7 @@ class TimeAndPlacePage extends StatelessWidget {
             child: Container(),
           ),
           Container(
-            margin: EdgeInsets.only(bottom: 6),
+            margin: const EdgeInsets.only(bottom: 6),
             child: Row(
               mainAxisSize: MainAxisSize.max,
               children: [
@@ -144,7 +141,7 @@ class TimeAndPlacePage extends StatelessWidget {
             height: 20,
             child: Container(),
           ),
-          Container(
+          SizedBox(
             child: Row(
               children: [
                 Flexible(
@@ -172,7 +169,7 @@ class TimeAndPlacePage extends StatelessWidget {
                         child: Container(),
                         flex: 1,
                       ),
-                      Container(
+                      SizedBox(
                         child: FutureBuilder(
                             future: fetchData(),
                             builder: (context, snapshot) {
@@ -181,8 +178,7 @@ class TimeAndPlacePage extends StatelessWidget {
                                   snapshot.connectionState ==
                                       ConnectionState.waiting) {
                                 return GMap(
-                                  polygonLatLongs:
-                                      cordinates_list as List<List<LatLng>>,
+                                  polygonLatLongs: cordinates_list,
                                   names: govers_names,
                                   scores: scores,
                                 ).build(context);

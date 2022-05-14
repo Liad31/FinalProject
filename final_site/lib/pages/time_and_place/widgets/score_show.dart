@@ -1,10 +1,7 @@
-import 'dart:collection';
 import 'package:final_site/widgets/custom_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_maps_flutter_web/google_maps_flutter_web.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart' as maps;
 
 class scoreShow extends GetxController {
   static var currentGover = ''.obs;

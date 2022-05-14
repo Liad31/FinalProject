@@ -107,11 +107,11 @@ class UsersToFollowPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(top: 20, left: 40, right: 80),
+      padding: const EdgeInsets.only(top: 20, left: 40, right: 80),
       child: ListView(
         children: [
           Container(
-            margin: EdgeInsets.only(bottom: 6),
+            margin: const EdgeInsets.only(bottom: 6),
             child: Row(
               children: [
                 Expanded(
@@ -140,7 +140,7 @@ class UsersToFollowPage extends StatelessWidget {
                           Border.all(color: active.withOpacity(.4), width: .5),
                       boxShadow: [
                         BoxShadow(
-                            offset: Offset(0, 6),
+                            offset: const Offset(0, 6),
                             color: lightGrey.withOpacity(.1),
                             blurRadius: 12)
                       ],
@@ -159,7 +159,7 @@ class UsersToFollowPage extends StatelessWidget {
             child: Container(),
           ),
           Container(
-            margin: EdgeInsets.only(bottom: 6),
+            margin: const EdgeInsets.only(bottom: 6),
             child: Row(
               mainAxisSize: MainAxisSize.max,
               children: [

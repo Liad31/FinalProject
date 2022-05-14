@@ -61,7 +61,7 @@ class InfoCard extends GetxController {
               child: Container(),
             ),
             CustomText(
-              text: "$title",
+              text: title,
               color: dark,
               size: 24,
               align: TextAlign.center,

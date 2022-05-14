@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../constatns/syle.dart';
 import 'package:final_site/widgets/custom_text.dart';
 import 'dart:math';
+import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class TimePage extends StatelessWidget {
@@ -132,7 +133,6 @@ class TimePage extends StatelessWidget {
                                   snapshot) {
                             if (snapshot.hasData) {
                               final data = snapshot.data;
-                              print(data);
                               if (data != null) {
                                 return Graph(chartData: data);
                               }
@@ -167,18 +167,16 @@ class TimePage extends StatelessWidget {
 
 Future<List<DailyNationalisticData>> getChartData() async {
   var url = Uri.parse('http://104.154.93.111:8080/avgScoreOverTime');
-  // var url = Uri.http('104.154.93.111:8080', '/avgScoreOverTime');
-  print(url);
-  print("hello!");
   var response = await http.get(url);
-  print("hello!!");
-  print('Response status: $response');
-
-  DateTime start = DateTime.utc(2022, 1, 1);
-  final List<DailyNationalisticData> chartData =
-      List<DailyNationalisticData>.generate(
-          (360 / 3).round(),
-          (index) => DailyNationalisticData(sin(3 * index / 10) / 3 + 0.5,
-              start.add(Duration(days: 3 * index)), "6718335390845095173"));
+  var list = jsonDecode(response.body);
+  // print('Response status: $list');
+  if (response.statusCode != 200) {
+    throw Exception('Failed to load graph');
+  }
+  List<DailyNationalisticData> chartData = [];
+  for (var item in list) {
+    chartData
+        .add(DailyNationalisticData(item[0], DateTime.parse(item[1]), item[2]));
+  }
   return chartData;
 }

@@ -14,13 +14,12 @@ class queryForm extends GetxController {
   String value = '';
   bool isUser = false;
   bool ispending = false;
-  queryForm(@required String this.title, @required String this.defaultText,
-      @required bool this.isUser) {
+  queryForm(this.title, this.defaultText, this.isUser) {
     value = defaultText;
   }
 
   Future<int> getScore() async {
-    final response;
+    final http.Response response;
     if (!isUser) {
       response = await http
           .get(Uri.parse('http://104.154.93.111:8080/predict?urls=["$value"]'));
@@ -48,7 +47,7 @@ class queryForm extends GetxController {
       () => Column(
         children: [
           CustomText(
-            text: '$title',
+            text: title,
             size: 28,
             weight: FontWeight.bold,
             align: TextAlign.center,
