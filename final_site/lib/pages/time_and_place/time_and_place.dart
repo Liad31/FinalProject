@@ -123,7 +123,7 @@ class TimeAndPlacePage extends StatelessWidget {
                     children: <TextSpan>[
                       TextSpan(
                         text:
-                            'On this page we present you the most Palestinian nationalistic videos lately uploaded to the TikTok platform.\nYou are welcome to choose how far back you want to look, And our site will show you the most relevant videos we found in our DB from that time period.\nEach post contains it\'s linke, the governrate it was uploaded from, the user who published it and it\'s nationalistic score given by our model. For your convenience, The first video in the table is presented below.',
+                            'The map page shows the nationalistic level of each governorate in the west bank. Based on our large and diversed databse of Palestinians users we have accumaleted,\nwe divided the users by their home governorate and calculated a nationalistic score for each governorate by the users coming from it.',
                         style: GoogleFonts.notoSans(
                           fontSize: 15,
                         ),
