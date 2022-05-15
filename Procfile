@@ -1,1 +1,0 @@
-web: ./final_site flutter build web
