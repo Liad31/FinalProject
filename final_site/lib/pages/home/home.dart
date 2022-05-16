@@ -40,7 +40,9 @@ class HomePage extends StatelessWidget {
 
   Future<String> fetchUsersCount() async {
     final response =
-        await http.get(Uri.parse('http://104.154.93.111:8080/usersCount'));
+        await http.get(Uri.parse('https://cors-anywhere.herokuapp.com/http://104.154.93.111:8080/usersCount'), headers: <String, String>{
+      'x-requested-with': 'f',
+    },);
     if (response.statusCode == 200) {
       print(response.body.toString());
       datas[2]['value'] = response.body
@@ -54,7 +56,9 @@ class HomePage extends StatelessWidget {
 
   Future<String> fetchVideosFromLast() async {
     final response = await http
-        .get(Uri.parse('http://104.154.93.111:8080/videosFromLast?hours=24'));
+        .get(Uri.parse('https://cors-anywhere.herokuapp.com/http://104.154.93.111:8080/videosFromLast?hours=24'), headers: <String, String>{
+      'x-requested-with': 'f',
+    },);
     if (response.statusCode == 200) {
       print(response.body.toString());
       // datas[3]['value'] =
