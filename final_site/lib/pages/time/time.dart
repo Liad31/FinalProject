@@ -166,8 +166,9 @@ class TimePage extends StatelessWidget {
 }
 
 Future<List<DailyNationalisticData>> getChartData() async {
-  var url = Uri.parse('http://104.154.93.111:8080/avgScoreOverTime');
-  var response = await http.get(
+  var url = Uri.parse(
+      'https://cors-anywhere.herokuapp.com/http://104.154.93.111:8080/avgScoreOverTime');
+  var response = await https.get(
     url,
     headers: <String, String>{
       'x-requested-with': 'f',
