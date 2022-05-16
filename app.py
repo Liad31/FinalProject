@@ -82,7 +82,8 @@ def videosFromLast():
         del i["_id"]
         if "user" in i:
             del i["user"]
-    return jsonify(res)
+    res=len(res)
+    return res
 @app.route("/usersCount", methods=['GET'])
 def usersCount():
     db= mongoClient["production3"]
@@ -121,8 +122,10 @@ def getNationalistic():
 @app.route('/topUsers', methods=['GET'])
 def topUsers():
     n = request.args.get('n')
+    n=int(n)
     sort= request.args.get('sort')
     days= request.args.get('days')
+    days= int(days)
     currentEpoch= int(datetime.datetime.now().timestamp())
     startEpoch= currentEpoch-int(days)*24*60*60
     db = mongoClient["production3"]
@@ -173,7 +176,7 @@ def topUsers():
         '$limit': n
     }
     ])
-    users=[i for i in users]
+    users=[i["user"] for i in users]
     for user in users:
         del user["_id"]
         del user["videos"]
@@ -189,7 +192,9 @@ def governoratesRoute():
     db = mongoClient["production3"]
     precomputedDB= db["precomputed"]
     res=precomputedDB.find_one({"key":"governorateScores"})
-    return jsonify(res["value"])
+    res=res["value"]
+    res=[{i[0]:i[1]} for i in res]
+    return jsonify(res)
 @app.route("/topVideos", methods=['GET'])
 def topVideos():
     n = request.args.get('n')
@@ -224,7 +229,7 @@ def topVideos():
     return jsonify(videos)
 @app.route("/is1500InHaraza",methods=['GET'])
 def yes():
-    return jsonify("yes")
+    return jsonify("no")
 def updateAvgScoreOverTime():
     res= avgScoreOverTime()
     db=  mongoClient["production3"]
