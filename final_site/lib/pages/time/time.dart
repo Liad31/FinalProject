@@ -167,7 +167,12 @@ class TimePage extends StatelessWidget {
 
 Future<List<DailyNationalisticData>> getChartData() async {
   var url = Uri.parse('http://104.154.93.111:8080/avgScoreOverTime');
-  var response = await http.get(url);
+  var response = await http.get(
+    url,
+    headers: <String, String>{
+      'x-requested-with': 'f',
+    },
+  );
   var list = jsonDecode(response.body);
   // print('Response status: $list');
   if (response.statusCode != 200) {
