@@ -57,8 +57,9 @@ class HomePage extends StatelessWidget {
         .get(Uri.parse('http://104.154.93.111:8080/videosFromLast?hours=24'));
     if (response.statusCode == 200) {
       print(response.body.toString());
-      datas[3]['value'] =
-          countOccurences(response.body.toString(), "\"Vid\"").toString();
+      // datas[3]['value'] =
+      //     countOccurences(response.body.toString(), "\"Vid\"").toString();
+      datas[3]['value'] = response.body.toString();
       return response.body.toString();
     } else {
       throw Exception('Failed to load VideosFromLast24h');
