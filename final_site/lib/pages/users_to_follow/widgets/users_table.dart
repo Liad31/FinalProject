@@ -61,10 +61,13 @@ class usersTable extends GetxController {
 
   Future<String>? fetchData() async {
     Future<String> getNat() async {
-      var response = await http
-          .get(Uri.parse(
-              'http://104.154.93.111:8080/topUsers?n=25&sort=nationalisticScore&days=30'))
-          .then((value) {
+      var response = await http.get(
+        Uri.parse(
+            'https://cors-anywhere.herokuapp.com/http://104.154.93.111:8080/topUsers?n=25&sort=nationalisticScore&days=30'),
+        headers: <String, String>{
+          'x-requested-with': 'f',
+        },
+      ).then((value) {
         if (value.statusCode == 200) {
           var json =
               jsonDecode(value.body.toString()).cast<Map<String, dynamic>>();
@@ -89,10 +92,13 @@ class usersTable extends GetxController {
     }
 
     Future<String> getRel() async {
-      var response = await http
-          .get(Uri.parse(
-              'http://104.154.93.111:8080/topUsers?n=25&sort=relevancyScore'))
-          .then((value) {
+      var response = await http.get(
+        Uri.parse(
+            'https://cors-anywhere.herokuapp.com/http://104.154.93.111:8080/topUsers?n=25&sort=relevancyScore'),
+        headers: <String, String>{
+          'x-requested-with': 'f',
+        },
+      ).then((value) {
         if (value.statusCode == 200) {
           var json =
               jsonDecode(value.body.toString()).cast<Map<String, dynamic>>();

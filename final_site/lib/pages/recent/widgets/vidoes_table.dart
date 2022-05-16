@@ -52,11 +52,14 @@ class videoTable extends GetxController {
 
   Future<String>? fetchData() async {
     Future<String> getvids(hours) async {
-      var response = await http
-          .get(Uri.parse(
-              'http://104.154.93.111:8080/topVideos?n=25&sort=score&hours=' +
-                  '2400'))
-          .then((value) {
+      var response = await http.get(
+        Uri.parse(
+            'https://cors-anywhere.herokuapp.com/http://104.154.93.111:8080/topVideos?n=25&sort=score&hours=' +
+                hours),
+        headers: <String, String>{
+          'x-requested-with': 'f',
+        },
+      ).then((value) {
         if (value.statusCode == 200) {
           var json =
               jsonDecode(value.body.toString()).cast<Map<String, dynamic>>();

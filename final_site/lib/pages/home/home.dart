@@ -39,8 +39,13 @@ class HomePage extends StatelessWidget {
   }
 
   Future<String> fetchUsersCount() async {
-    final response =
-        await http.get(Uri.parse('http://104.154.93.111:8080/usersCount'));
+    final response = await http.get(
+      Uri.parse(
+          'https://cors-anywhere.herokuapp.com/http://104.154.93.111:8080/usersCount'),
+      headers: <String, String>{
+        'x-requested-with': 'f',
+      },
+    );
     if (response.statusCode == 200) {
       print(response.body.toString());
       datas[2]['value'] = response.body
@@ -53,8 +58,13 @@ class HomePage extends StatelessWidget {
   }
 
   Future<String> fetchVideosFromLast() async {
-    final response = await http
-        .get(Uri.parse('http://104.154.93.111:8080/videosFromLast?hours=24'));
+    final response = await http.get(
+      Uri.parse(
+          'https://cors-anywhere.herokuapp.com/http://104.154.93.111:8080/videosFromLast?hours=24'),
+      headers: <String, String>{
+        'x-requested-with': 'f',
+      },
+    );
     if (response.statusCode == 200) {
       print(response.body.toString());
       // datas[3]['value'] =
@@ -156,40 +166,36 @@ class HomePage extends StatelessWidget {
             width: double.infinity,
             height: 15,
           ),
-          Expanded(
-            child: Column(
-              children: const [
-                SizedBox(
-                  child: MyMarkdown(src: "markdown/text2.md"),
-                  height: 180,
-                ),
-                CustomText(
-                  text:
-                      'With all of that, our TikTok classifier achived an AUC of 94!',
-                  size: 18,
-                  weight: FontWeight.bold,
-                ),
-              ],
-            ),
+          Column(
+            children: const [
+              SizedBox(
+                child: MyMarkdown(src: "markdown/text2.md"),
+                height: 180,
+              ),
+              CustomText(
+                text:
+                    'With all of that, our TikTok classifier achived an AUC of 94!',
+                size: 18,
+                weight: FontWeight.bold,
+                color: Color.fromARGB(255, 11, 55, 131),
+              ),
+            ],
           ),
           SizedBox(
             child: Container(),
             width: double.infinity,
             height: 25,
           ),
-          Expanded(
-            child: Row(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Expanded(child: Container()),
-                ImageCard(
-                  imagePath: 'photos/diagram.jpg',
-                  onTap: () {},
-                ),
-                Expanded(child: Container()),
-              ],
-            ),
-            flex: 4,
+          Row(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Expanded(child: Container()),
+              ImageCard(
+                imagePath: 'photos/diagram.jpg',
+                onTap: () {},
+              ),
+              Expanded(child: Container()),
+            ],
           ),
 
           SizedBox(
