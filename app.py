@@ -8,7 +8,7 @@ from models.final_model.final_model import postsModel
 from models.text_models.trail_nlp import embed_text2
 from models.hashtags_models.roy import predict
 from models.prepareTannet import organize, createIfNotExists
-# from flask import Flask, request,jsonify
+from flask import Flask, request,jsonify
 import os
 import tempfile
 import torch
@@ -76,13 +76,9 @@ def videosFromLast():
             }
         }
     }, {
-        '$match': filter}])
-    res = list(res)
-    for i in res:
-        del i["_id"]
-        if "user" in i:
-            del i["user"]
-    return jsonify(res)
+        '$count': 'count'}])
+    res= res[0]["count"]
+    return res 
 @app.route("/usersCount", methods=['GET'])
 def usersCount():
     db= mongoClient["production3"]
@@ -94,9 +90,9 @@ def usersCount():
 def videosCount():
     db= mongoClient["production3"]
     videosDB= db["videos"]
-    res=videosDB.find()
-    res = len(list(res))
-    return jsonify(res)
+    res= videosDB.aggregate([
+        {'$count': 'count'}])
+    return res[0]["count"]
 
 @app.route('/mostNationalistic', methods=['GET'])
 def getNationalistic():
@@ -178,6 +174,25 @@ def topUsers():
         del user["_id"]
         del user["videos"]
     return jsonify(users)
+@app.route('/userRelScore', methods=['GET'])
+def userRelScore():
+    username = request.args.get('user')
+    db = mongoClient["production3"]
+    scores, videos,users = score_for_users([username])
+    for i in videos:
+        score= [s for s in scores if s["Vid"]==i["Vid"]][0]
+        i["score"]=score["score"]
+    videos.sort(key=lambda x:x["score"],reverse=True)
+    videos= videos[:20]
+    precomputed= db["precomputed"]
+    maxLikes= precomputed.find_one({"name":"maxLikes"})["value"]
+    maxShares= precomputed.find_one({"name":"maxShares"})["value"]
+    maxFollowers= precomputed.find_one({"name":"maxFollowers"})["value"]
+    followers= users[0]["followers_count"]
+    likes= sum([i["likes_count"] for i in videos])
+    shares= sum([i["share_count"] for i in videos])
+    res= calcRelScore(followers,likes,shares,maxLikes,maxShares,maxFollowers)
+    return jsonify(res)
 @app.route('/avgScoreOverTime')
 def avgScoreOverTimeRoute():
     db = mongoClient["production3"]
@@ -286,23 +301,23 @@ def updateVideoRelevancyScores():
         shares=video["stats"]["shares_count"]
         relScore=score(natScore,likes,shares,maxLikes,maxShares)
         videosDB.update_one({"_id":video["_id"]},{"$set":{"relScore":relScore}})
+def calcRelScore(natScore, likes, shares,followers, maxLikes, maxShares, maxFollowers):
+    # log isn't defined for 0
+    likes+=1
+    shares+=1
+    maxLikes+=1
+    maxShares+=1
+    maxFollowers+=1
+    followers+=1
+    logLikes=math.log(likes)
+    logShares=math.log(shares)
+    logMaxLikes=math.log(maxLikes)
+    logMaxShares=math.log(maxShares)
+    logFollowers=math.log(followers)
+    logMaxFollowers=math.log(maxFollowers)
+    relScore= 0.5*natScore+0.2*logLikes/logMaxLikes+0.2* logFollowers/logMaxFollowers +0.1*logShares/logMaxShares
+    return relScore
 def updateRelevancyScores():
-    def score(natScore, likes, shares,followers, maxLikes, maxShares, maxFollowers):
-        # log isn't defined for 0
-        likes+=1
-        shares+=1
-        maxLikes+=1
-        maxShares+=1
-        maxFollowers+=1
-        followers+=1
-        logLikes=math.log(likes)
-        logShares=math.log(shares)
-        logMaxLikes=math.log(maxLikes)
-        logMaxShares=math.log(maxShares)
-        logFollowers=math.log(followers)
-        logMaxFollowers=math.log(maxFollowers)
-        relScore= 0.5*natScore+0.2*logLikes/logMaxLikes+0.2* logFollowers/logMaxFollowers +0.1*logShares/logMaxShares
-        return relScore
     db = mongoClient["production3"]
     usersDB= db["tiktokusernationalistics"]
     videoDB= db["videos"]
@@ -326,6 +341,10 @@ def updateRelevancyScores():
         shares=sum([i["stats"]["shares_count"] for i in vids])
         maxLikes=max(maxLikes,likes)
         maxShares=max(maxShares,shares)
+    precomputed= db["precomputed"]
+    precomputed.update_one({"key":"maxLikes"}, {"$set":{"key":"maxLikes","value":maxLikes}}, upsert=True)
+    precomputed.update_one({"key":"maxShares"}, {"$set":{"key":"maxShares","value":maxShares}}, upsert=True)
+    precomputed.update_one({"key":"maxFollowers"}, {"$set":{"key":"maxFollowers","value":maxFollowers}}, upsert=True)
     for user in users:
         userVids=user["videos"]
         userStats=user["userStats"]
@@ -338,7 +357,7 @@ def updateRelevancyScores():
         likes=sum([i['stats']['diggs_count'] for i in vids])
         shares=sum([i["stats"]['shares_count'] for i in vids])
         natScore=user["nationalisticScore"]
-        relScore=score(natScore,likes,shares,followers,maxLikes,maxShares,maxFollowers)
+        relScore=calcRelScore(natScore,likes,shares,followers,maxLikes,maxShares,maxFollowers)
         usersDB.update_one({"_id":user["_id"]},{"$set":{"relevancyScore":relScore}})
 def apply_video_model(vids,vidsRoot):
     with tempfile.TemporaryDirectory() as root:
@@ -378,23 +397,25 @@ def download_user_vids(users,num_posts=20):
     for user in addToDB(userMeta,yieldRes=True,locationFilter=False,ignore_location=True):
         data.extend(user[0]["videos"])
     ids=[i["Vid"] for i in data]
-    videoText=ocr(ids,videoRoot)
-    for video,text in zip(data,videoText):
-        video["videoText"]=text["text"]
+    # videoText=ocr(ids,videoRoot)
+    # for video,text in zip(data,videoText):
+    #     video["videoText"]=text["text"]
     # find the path of the video in directory
     return data
 def score_for_users(users,num_posts=20):
     with tempfile.TemporaryDirectory() as videoRoot:
         userMeta=scraper.scrap_users(users,num_posts=num_posts)
         data=[]
+        users=[]
         for user in addToDB(userMeta,yieldRes=True,locationFilter=False,ignore_location=True):
             data.extend(user[0]["videos"])
+            users.append(user[0])
         ids=[i["Vid"] for i in data]
         videoText=ocr(ids,videoRoot)
         for video,text in zip(data,videoText):
             video["videoText"]=text["text"]
         # find the path of the video in directory
-        return predictSamples(ids,data,videoRoot)
+        return predictSamples(ids,data,videoRoot),data,users
 def get_hashtag_score(data):
     res=predict(data,np.zeros(1))
     res=[i["hash_score"] for i in data]
@@ -428,7 +449,7 @@ def predictAll():
     data=np.load(dataFile,allow_pickle=True)
     # make data and vids in the same order
     # apply models
-    with open("/mnt/tannetFinalSite/anno/test.txt") as f:
+    with open("/mnt/tannetFinalSite2/anno/test.txt") as f:
         lines=f.readlines()
         allowedVids=[line.strip() for line in lines]
         allowedVids=[lines.split()[0] for lines in allowedVids]
@@ -471,4 +492,4 @@ if __name__ == "__main__":
     # users= db['tiktokusernationalistics']
     # videos= db['videos']
     # for user in users.find():
-    #     download_user_vids([user['userId']],num_posts=20)
+    # download_user_vids([user['userName']],num_posts=20)
