@@ -69,7 +69,7 @@ def getVideosByScore():
         with open(os.path.join(tmpdir,"res.txt"),'w') as f:
             for i,j in res:
                 f.write(f"{i},{j}"+"\n")
-        send_file(os.path.join(tmpdir,"res.txt"),as_attachment=True)
+        return send_file(os.path.join(tmpdir,"res.txt"),as_attachment=True)
 @app.route("/videosFromLast", methods=['GET'])
 def videosFromLast():
     db= mongoClient["production3"]
