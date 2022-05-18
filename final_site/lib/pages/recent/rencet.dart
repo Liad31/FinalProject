@@ -1,62 +1,58 @@
 import 'package:final_site/constatns/syle.dart';
-
 import 'package:final_site/pages/recent/widgets/vidoes_table.dart';
 import 'package:final_site/widgets/custom_text.dart';
 import 'package:final_site/widgets/tiktok_embedd.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
+import 'package:get/state_manager.dart';
+import 'package:http/http.dart' as http;
 import 'package:google_fonts/google_fonts.dart';
+import 'dart:js' as js;
 
 class RecentPage extends StatelessWidget {
   List<Map<String, dynamic>> data = [];
-  //   {
-  //     // 'video': 'https://tiktok.com/@username/video/70880m12__b432452777757953?is_copy_url=1&is_from_webapp=v1',
-  //     'user': 'user1',
-  //     'governorate': 'Jenin',
-  //     'views': 20000,
-  //     'likes': 1000,
-  //     'score': 0.95,
-  //     'id': '7073810575611956481'
-  //   },
-  //   {
-  //     // 'video': 'https://tiktok.com/@username/video/70880m12__b432452777757953?is_copy_url=1&is_from_webapp=v1',
-  //     'user': 'user2',
-  //     'governorate': 'Jerusalem',
-  //     'views': 50000,
-  //     'likes': 40000,
-  //     'score': 0.9,
-  //     'id': '7073810575611956481'
-  //   },
-  //   {
-  //     // 'video': 'https://tiktok.com/@username/video/70880m12__b432452777757953?is_copy_url=1&is_from_webapp=v1',
-  //     'user': 'user1',
-  //     'governorate': 'Jenin',
-  //     'views': 20000,
-  //     'likes': 1000,
-  //     'score': 0.83,
-  //     'id': '7082076746517990662'
-  //   },
-  //   {
-  //     // 'video': 'https://tiktok.com/@username/video/70880m12__b432452777757953?is_copy_url=1&is_from_webapp=v1',
-  //     'user': 'user3',
-  //     'governorate': 'Jenin',
-  //     'views': 2000,
-  //     'likes': 1200,
-  //     'score': 0.77,
-  //     'id': '7082076746517990662'
-  //   },
-  //   {
-  //     // 'video': 'https://tiktok.com/@username/video/70880m12__b432452777757953?is_copy_url=1&is_from_webapp=v1',
-  //     'user': 'user1',
-  //     'governorate': 'Jenin',
-  //     'views': 12,
-  //     'likes': 6,
-  //     'score': 0.65,
-  //     'id': '7082076746517990662'
-  //   },
-  // ];
+  late String minimumValue;
+  late String maximunValue;
+  late var error = ''.obs;
 
   RecentPage({Key? key}) : super(key: key);
+
+  Future<void> getFile(minimum, maximum) async {
+    var response;
+    double minimumDouble;
+    double maximumDouble;
+    try {
+      minimumDouble = double.parse(minimum);
+      maximumDouble = double.parse(maximum);
+    } catch (e) {
+      error.value =
+          'minimum and maximum values has to be integers in the range of 0 to 1';
+      return;
+    }
+    if (minimumDouble >= 0 &&
+        minimumDouble <= 1 &&
+        minimumDouble <= maximumDouble &&
+        maximumDouble >= 0 &&
+        maximumDouble <= 1) {
+      error.value = '';
+      js.context.callMethod('open', [
+        'http://104.154.93.111:8080/getVideosByScore?lowerBound=' +
+            minimum +
+            '&upperBound=' +
+            maximum
+      ]);
+// await http.get(Uri.parse(
+//           'https://floating-harbor-96334.herokuapp.com/http://104.154.93.111:8080/getVideosByScore?lowerBound=' +
+//               minimum +
+//               '&upperBound=' +
+//               maximum));
+      // response = await http.get(Uri.parse(
+      //     'https://floating-harbor-96334.herokuapp.com/http://104.154.93.111:8080/getVideosByScore?lowerBound=0.3&upperBound=0.9'));
+    } else {
+      error.value =
+          'minimum and maximum values has to be integers in the range of 0 to 1';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -158,6 +154,109 @@ class RecentPage extends StatelessWidget {
           //     Expanded(child: Container()),
           //   ],
           // )
+          Center(
+            child: Container(
+              height: 250,
+              width: 700,
+              color: grey.withOpacity(0.2),
+              alignment: Alignment.center,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Flexible(
+                        child: Container(),
+                        flex: 2,
+                      ),
+                      Expanded(
+                        child: TextField(
+                          decoration: InputDecoration(
+                            fillColor: light,
+                            filled: true,
+                            border: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: dark.withOpacity(0.4), width: 5)),
+                            labelText: 'Minimum score value',
+                          ),
+                          onSubmitted: (String value) async {
+                            this.minimumValue = value;
+                          },
+                          onChanged: (String value) async {
+                            this.minimumValue = value;
+                          },
+                        ),
+                        flex: 2,
+                      ),
+                      Flexible(
+                        child: Container(),
+                        flex: 1,
+                      ),
+                      Expanded(
+                        child: TextField(
+                          decoration: InputDecoration(
+                            fillColor: light,
+                            filled: true,
+                            border: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: dark.withOpacity(0.4), width: 5)),
+                            labelText: 'Maximum score value',
+                          ),
+                          onSubmitted: (String value) async {
+                            this.maximunValue = value;
+                          },
+                          onChanged: (String value) async {
+                            this.maximunValue = value;
+                          },
+                        ),
+                        flex: 2,
+                      ),
+                      Flexible(
+                        child: Container(),
+                        flex: 2,
+                      )
+                    ],
+                  ),
+                  SizedBox(
+                    height: 30,
+                    child: Container(),
+                  ),
+                  Center(
+                    child: Container(
+                      decoration: ShapeDecoration(
+                        color: torquise.withOpacity(.8),
+                        shape: RoundedRectangleBorder(
+                          side: BorderSide(
+                            color: dark,
+                            width: 3,
+                          ),
+                        ),
+                      ),
+                      height: 60,
+                      width: 150,
+                      child: TextButton(
+                        onPressed: () {
+                          getFile(this.minimumValue, this.maximunValue);
+                        },
+                        child: CustomText(text: 'Get CSV file'),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 22,
+                    child: Container(),
+                  ),
+                  Obx(() => CustomText(
+                        text: error.value,
+                        size: 18,
+                        color: Colors.red.withOpacity(0.8),
+                      ))
+                ],
+              ),
+            ),
+          ),
         ],
       ),
     );

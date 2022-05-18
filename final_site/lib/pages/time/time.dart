@@ -159,6 +159,10 @@ class TimePage extends StatelessWidget {
             ),
             height: 1000,
           ),
+          SizedBox(
+            height: 300,
+            child: Container(),
+          ),
         ],
       ),
     );
@@ -167,12 +171,9 @@ class TimePage extends StatelessWidget {
 
 Future<List<DailyNationalisticData>> getChartData() async {
   var url = Uri.parse(
-      'https://cors-anywhere.herokuapp.com/http://104.154.93.111:8080/avgScoreOverTime');
+      'https://floating-harbor-96334.herokuapp.com/http://104.154.93.111:8080/avgScoreOverTime');
   var response = await http.get(
     url,
-    headers: <String, String>{
-      'x-requested-with': 'f',
-    },
   );
   var list = jsonDecode(response.body);
   // print('Response status: $list');

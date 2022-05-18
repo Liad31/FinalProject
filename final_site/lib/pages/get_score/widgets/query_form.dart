@@ -21,22 +21,12 @@ class queryForm extends GetxController {
   Future<int> getScore() async {
     final http.Response response;
     if (!isUser) {
-      response = await http.get(
-        Uri.parse(
-            'https://cors-anywhere.herokuapp.com/http://104.154.93.111:8080/predict?urls=["$value"]'),
-        headers: <String, String>{
-          'x-requested-with': 'f',
-        },
-      );
+      response = await http.get(Uri.parse(
+          'https://floating-harbor-96334.herokuapp.com/http://104.154.93.111:8080/predict?urls=["$value"]'));
     } else {
       //change to user prediction
-      response = await http.get(
-        Uri.parse(
-            'https://cors-anywhere.herokuapp.com/http://104.154.93.111:8080/predict?urls=["$value"]'),
-        headers: <String, String>{
-          'x-requested-with': 'f',
-        },
-      );
+      response = await http.get(Uri.parse(
+          'https://floating-harbor-96334.herokuapp.com/http://104.154.93.111:8080/predict?urls=["$value"]'));
     }
     if (response.statusCode == 200) {
       final parsed =

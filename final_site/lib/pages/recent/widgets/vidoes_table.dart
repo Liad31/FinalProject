@@ -52,14 +52,11 @@ class videoTable extends GetxController {
 
   Future<String>? fetchData() async {
     Future<String> getvids(hours) async {
-      var response = await http.get(
-        Uri.parse(
-            'https://cors-anywhere.herokuapp.com/http://104.154.93.111:8080/topVideos?n=25&sort=score&hours=' +
-                hours),
-        headers: <String, String>{
-          'x-requested-with': 'f',
-        },
-      ).then((value) {
+      var response = await http
+          .get(Uri.parse(
+              'https://floating-harbor-96334.herokuapp.com/http://104.154.93.111:8080/topVideos?n=25&sort=score&hours=' +
+                  hours))
+          .then((value) {
         if (value.statusCode == 200) {
           var json =
               jsonDecode(value.body.toString()).cast<Map<String, dynamic>>();
@@ -210,7 +207,7 @@ class videoTable extends GetxController {
                           backgroundColor:
                               MaterialStateProperty.resolveWith<Color?>(
                             (Set<MaterialState> states) {
-                              if (currentTable.value == '72') {
+                              if (currentTable.value == '96') {
                                 return Theme.of(context)
                                     .colorScheme
                                     .primary

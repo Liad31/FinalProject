@@ -25,13 +25,10 @@ class TimeAndPlacePage extends StatelessWidget {
     List<Governrate> govers =
         goversJson.map((goverJson) => Governrate.fromJson(goverJson)).toList();
     Future<String> getgovernorates() async {
-      var response = await http.get(
-        Uri.parse(
-            'https://cors-anywhere.herokuapp.com/http://104.154.93.111:8080/governorates'),
-        headers: <String, String>{
-          'x-requested-with': 'f',
-        },
-      ).then((value) {
+      var response = await http
+          .get(Uri.parse(
+              'https://floating-harbor-96334.herokuapp.com/http://104.154.93.111:8080/governorates'))
+          .then((value) {
         if (value.statusCode == 200) {
           var json =
               jsonDecode(value.body.toString()).cast<Map<String, dynamic>>();

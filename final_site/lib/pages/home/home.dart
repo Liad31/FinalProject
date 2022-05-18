@@ -39,18 +39,11 @@ class HomePage extends StatelessWidget {
   }
 
   Future<String> fetchUsersCount() async {
-    final response = await http.get(
-      Uri.parse(
-          'https://cors-anywhere.herokuapp.com/http://104.154.93.111:8080/usersCount'),
-      headers: <String, String>{
-        'x-requested-with': 'f',
-      },
-    );
+    final response = await http.get(Uri.parse(
+        'https://floating-harbor-96334.herokuapp.com/http://104.154.93.111:8080/usersCount'));
     if (response.statusCode == 200) {
       print(response.body.toString());
-      datas[2]['value'] = response.body
-          .toString()
-          .substring(0, response.body.toString().length - 1);
+      datas[2]['value'] = response.body.toString();
       return response.body.toString();
     } else {
       throw Exception('Failed to load usersCount');
@@ -58,13 +51,8 @@ class HomePage extends StatelessWidget {
   }
 
   Future<String> fetchVideosFromLast() async {
-    final response = await http.get(
-      Uri.parse(
-          'https://cors-anywhere.herokuapp.com/http://104.154.93.111:8080/videosFromLast?hours=24'),
-      headers: <String, String>{
-        'x-requested-with': 'f',
-      },
-    );
+    final response = await http.get(Uri.parse(
+        'https://floating-harbor-96334.herokuapp.com/http://104.154.93.111:8080/videosFromLast?hours=24'));
     if (response.statusCode == 200) {
       print(response.body.toString());
       // datas[3]['value'] =
