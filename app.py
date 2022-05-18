@@ -65,7 +65,7 @@ def getVideosByScore():
     res=videoDB.aggregate([{"$match":{"score":{"$gte":float(lowerBound),"$lte":float(upperBound)}}},{"$limit":maxResults}])
     res=list(res)
     res= [("https://www.tiktok.com/@a"+i["Vid"],i["score"]) for i in res]
-    with tempfile.tempdir() as tmpdir:
+    with tempfile.TemporaryDirectory() as tmpdir:
         with open(os.path.join(tmpdir,"res.txt"),'w') as f:
             for i,j in res:
                 f.write(f"{i},{j}"+"\n")
