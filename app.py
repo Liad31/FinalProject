@@ -20,7 +20,7 @@ from tiktokApi.OCR import ocr
 from tiktokApi.scrapeHashtags import addToDB
 import requests
 import pymongo
-from flask import Flask, request,jsonify
+from flask import Flask, request,jsonify,send_file
 import datetime
 import math
 from mongoThings import avgScoreOverTime,governorateScores
@@ -55,6 +55,21 @@ def getUsers():
     usersDB = db["tiktokusernationalistics"]
     res= usersDB.find({"userName": {"$in": users}})
     return jsonify(list(res))
+@app.route("/getVideosByScore")
+def getVideosByScore():
+    db= mongoClient["production3"]
+    videoDB= db["videos"]
+    lowerBound=request.args.get('lowerBound')
+    upperBound=request.args.get('upperBound')
+    maxResults= 1000
+    res=videoDB.aggregate([{"$match":{"score":{"$gte":float(lowerBound),"$lte":float(upperBound)}}},{"$limit":maxResults}])
+    res=list(res)
+    res= [("https://www.tiktok.com/@a"+i["Vid"],i["score"]) for i in res]
+    with tempfile.tempdir() as tmpdir:
+        with open(os.path.join(tmpdir,"res.txt"),'w') as f:
+            for i,j in res:
+                f.write(f"{i},{j}"+"\n")
+        send_file(os.path.join(tmpdir,"res.txt"),as_attachment=True)
 @app.route("/videosFromLast", methods=['GET'])
 def videosFromLast():
     db= mongoClient["production3"]
@@ -260,13 +275,13 @@ def updateAvgScoreOverTime():
     db=  mongoClient["production3"]
     precomputedDB= db["precomputed"]
     precomputedDB.update_one({"key":"avgScoreOverTime"}, {"$set":{"key":"avgScoreOverTime","value":res}}, upsert=True)
-    return res
+    # return res
 def updateGovernorateScore():
     res= governorateScores()
     db=  mongoClient["production3"]
     precomputedDB= db["precomputed"]
     precomputedDB.update_one({"key":"governorateScores"}, {"$set":{"key":"governorateScores","value":res}}, upsert=True)
-    return res
+    # return res
 def updateNationalisticScores():
     def score(arr,alpha=0.85,exp=5):
         if not arr or len(arr)==0:
@@ -464,12 +479,13 @@ def predictAll():
     data=np.load(dataFile,allow_pickle=True)
     # make data and vids in the same order
     # apply models
-    with open("/mnt/tannetFinalSite2/anno/test.txt") as f:
+    with open("/mnt/tannetFinalSite3/anno/test.txt") as f:
         lines=f.readlines()
         allowedVids=[line.strip() for line in lines]
         allowedVids=[lines.split()[0] for lines in allowedVids]
     allowedVids=set(allowedVids)
     preds=[]
+    videoVecs= videoVecs[26:]
     from tqdm import tqdm
     for i in tqdm(range(0,len(videoVecs) ,batchSize)):
         x={}
@@ -486,9 +502,9 @@ def predictAll():
         x["text_embeded"]=[d['text_embeded'] for d in dataBatch]
         x["text_embeded"]= x["text_embeded"][0]
         res=final_model.get_predict(model,sample=x)
-        preds.extend([float(i) for i in res])
-    with open("predsCopy.txt","w+") as f:
-        f.writelines([str(p)+'\n' for p in preds])
+        preds=[float(i) for i in res]
+        with open("predsCopy.txt","a+") as f:
+            f.writelines([str(p)+'\n' for p in preds])
 def update_video_scores(scores):
     headers = {'Content-Type': 'application/json',
                'Accept': 'application/json'}
@@ -508,3 +524,5 @@ if __name__ == "__main__":
     # videos= db['videos']
     # for user in users.find():
     # download_user_vids([user['userName']],num_posts=20)
+    # predictAll()
+    # updateLoop()
