@@ -75,24 +75,35 @@ def videosFromLast():
                 '$toInt': '$date'
             }
         }
-    }, {
-        '$count': 'count'}])
-    res= res[0]["count"]
-    return res 
+    }, 
+    {"$match":filter},
+    {'$count': 'count'}])
+    res=list(res)
+    if res:
+        res= res[0]["count"]
+    else:
+        res= 0
+    return str(res) 
 @app.route("/usersCount", methods=['GET'])
 def usersCount():
     db= mongoClient["production3"]
     usersDB= db["tiktokusernationalistics"]
-    res=usersDB.find()
-    res = len(list(res))
-    return jsonify(res)
+    res= usersDB.aggregate([
+        {'$count': 'count'}])
+    res=list(res)
+    if not res:
+        return "0"
+    return str(res[0]["count"])
 @app.route("/videosCount", methods=['GET'])
 def videosCount():
     db= mongoClient["production3"]
     videosDB= db["videos"]
     res= videosDB.aggregate([
         {'$count': 'count'}])
-    return res[0]["count"]
+    res=list(res)
+    if not res:
+        return "0"
+    return str(res[0]["count"])
 
 @app.route('/mostNationalistic', methods=['GET'])
 def getNationalistic():
