@@ -32,11 +32,12 @@ class Graph extends StatelessWidget {
         child: SfCartesianChart(
             plotAreaBackgroundImage: const AssetImage('photos/graph-bg.jpg'),
             tooltipBehavior: _tooltipBehavior,
-            zoomPanBehavior: _zoomPanBehavior,
+            // zoomPanBehavior: _zoomPanBehavior,
             primaryXAxis: DateTimeAxis(
               intervalType: DateTimeIntervalType.months,
               interval: 1,
               title: AxisTitle(text: "date"),
+              enableAutoIntervalOnZooming: false,
             ),
             primaryYAxis: NumericAxis(
                 minimum: 0, maximum: 1, title: AxisTitle(text: "score")),

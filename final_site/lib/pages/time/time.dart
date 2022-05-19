@@ -15,7 +15,7 @@ class TimePage extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.only(top: 20, left: 40, right: 80),
       child: ListView(
-        physics: const NeverScrollableScrollPhysics(),
+        // physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
         children: [
           Container(
@@ -80,7 +80,7 @@ class TimePage extends StatelessWidget {
                     children: <TextSpan>[
                       TextSpan(
                         text:
-                            'The following graph shows the nationalistic level in the west bank by day.\nThe score of each day is calculated by the average nationalistic score of the videos we examined, which were uploaded in the three days prior each date.\nWhen hovering on each time point in the graph you can watch the most nationalistic video from that day.\n We also allow you to choose how far back do you want the graph to present, one year back or a full lifetime.\nNow, using our model and the fact that we update our databse with new users and videos every day, the relevant bodies can use this graph in order to predict and prevent violent nationalistic waves\nand watch the progression of the nationslistic level on Tiktok in the west bank.\nHopefully our tool can help the security forces and maybe even save lifes.',
+                            'The following graph shows the nationalistic level in the West Bank by day.\nThe score of each day is calculated by the average nationalistic score of the videos examined, uploaded three days prior each date.\nWhen hovering on each time point in the graph you can watch the most nationalistic video from that day.\nWe also allow you to choose how far back you want the graph to present, one year before or an entire lifetime.\nUsing our model that updates the database daily, the relevant bodies can use this graph to predict and prevent violent nationalistic waves.\nWe hope that our tool will help the relevant security forces save lives.',
                         style: GoogleFonts.notoSans(
                           fontSize: 15,
                         ),

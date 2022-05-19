@@ -70,7 +70,7 @@ class TimeAndPlacePage extends StatelessWidget {
                   child: Container(),
                 ),
                 const CustomText(
-                  text: 'Latest nationalistic videos tables',
+                  text: 'Nationalistic map',
                   size: 30,
                   weight: FontWeight.bold,
                 ),
@@ -124,7 +124,7 @@ class TimeAndPlacePage extends StatelessWidget {
                     children: <TextSpan>[
                       TextSpan(
                         text:
-                            'The map page shows the nationalistic level of each governorate in the west bank. Based on our large and diversed databse of Palestinians users we have accumaleted,\nwe divided the users by their home governorate and calculated a nationalistic score for each governorate by the users coming from it.\nYou are welcome to tap on one of the governorates and watch it\'s nationalistic score.',
+                            'The map page shows the nationalistic level of each bloc in the West Bank. Based on our wide-range database of Palestinian users, we divided them by their blocs and calculated a nationalistic\nscore for each area.\nYou’re welcome to tap on one of the blocs and see its nationalistic score.',
                         style: GoogleFonts.notoSans(
                           fontSize: 15,
                         ),

@@ -161,8 +161,7 @@ class HomePage extends StatelessWidget {
                 height: 180,
               ),
               CustomText(
-                text:
-                    'With all of that, our TikTok classifier achived an AUC of 94!',
+                text: 'Our TikTok classifier achieved an AUC of 94!',
                 size: 18,
                 weight: FontWeight.bold,
                 color: Color.fromARGB(255, 11, 55, 131),
@@ -286,7 +285,7 @@ class HomePage extends StatelessWidget {
           ),
           CustomText(
             text:
-                '\nAll the data presented in the site is rendered every 24h. Once a day, The Algorithm downloads all the new videos it founds and updates all the data and scores shown in the site.',
+                '\nAll the data presented in the site is updated every 24h. Once a day, The algorithm downloads all the new videos it finds and updates all the data, with scores shown on the site.',
             size: 18,
             color: active,
             weight: FontWeight.bold,
@@ -308,7 +307,7 @@ class HomePage extends StatelessWidget {
                 ),
                 TextSpan(
                   text:
-                      'On the get score page you can query our machine learning model for either a nationalistic score for a given Tiktok post (just insert it\'s id) or a nationalistic score for a Tiktok user based on his videos (just insert his username). ',
+                      'On the get score page, you can test our machine learning model for either a nationalistic score for a given Tiktok post (by inserting its id) or a nationalistic score for a Tiktok user based on his videos (by inserting a username).',
                   style: GoogleFonts.notoSans(
                       fontSize: 18, fontWeight: FontWeight.normal),
                 ),
@@ -321,7 +320,7 @@ class HomePage extends StatelessWidget {
                     )),
                 TextSpan(
                   text:
-                      'Using our model, we managed to build a tool for following nationalistic users in the west bank area. we have accumaleted ${datas[2]['value']} users in our database (and still counting) and calculated a nationalistic score for each of them, based on their latest nationalistic posts. Adding on that, we introduce a relevancy score given for each user which takes into consideration his nationalistic score, and his influence in the Tiktok platform (followers, likes, etc). If you would like to watch the most relevant/nationalistic users, you\'re welcome to visit the "users to follow page" where you will find all the relevant tables.',
+                      'Using our model, we managed to build a tool for following nationalistic users in the West Bank. We’ve accumulated ${datas[2]['value']} users in our database (and counting) and calculated a nationalistic score for each of them based on their latest nationalistic posts. In addition, we introduced a relevancy score for each user, which considers their nationalistic score and their influence on the Tiktok platform (followers, likes, etc.). If you’d like to watch the most relevant/nationalistic users, you\'re welcome to visit the "users to follow page," where all the relevant tables will be available.',
                   style: GoogleFonts.notoSans(
                       fontSize: 18, fontWeight: FontWeight.normal),
                 ),
@@ -334,7 +333,7 @@ class HomePage extends StatelessWidget {
                     )),
                 TextSpan(
                   text:
-                      'The recent page shows the most relevant nationalistic videos from the last 24h which were found by our algorithm. their relevancy is based on their nationalistic score and their exposure. This page is great for monitoring problematic videos from the west bank which may encourage violence or Cause fermentation.',
+                      'The current page shows the most relevant nationalistic videos from the last 24h, which were found by our algorithm. their relevancy is based on their nationalistic score and exposure. This page is excellent for monitoring problematic videos from the West Bank, which may encourage violence or misuse of the platform.',
                   style: GoogleFonts.notoSans(
                       fontSize: 18, fontWeight: FontWeight.normal),
                 ),
@@ -347,7 +346,7 @@ class HomePage extends StatelessWidget {
                     )),
                 TextSpan(
                   text:
-                      'On the location page you will find a map showing the nationalistic level of each governorate in the west bank. The nationalistic label of the governorate in determined by the avergare nationalistic level of the users coming from this governorate.',
+                      'On the location page, you’ll find a map showing the nationalistic level of each bloc in the West Bank. The nationalistic label of the bloc is determined by the average nationalistic level of the bloc’s overall users.',
                   style: GoogleFonts.notoSans(
                       fontSize: 18, fontWeight: FontWeight.normal),
                 ),
@@ -360,7 +359,7 @@ class HomePage extends StatelessWidget {
                     )),
                 TextSpan(
                   text:
-                      'The main goal of our tool is presented in the time page. Using our model, We are trying to predict nationalistic waves in the west bank before they burst.\nThe chart-graph in the time page shows the nationalistic score progress in time based on the videos uploaded at each time period. Using the progression we present in the garph, Intelligence and military bodies can monitor the mood in the palestinian street and prevent violence and terrorist attack.',
+                      'The main goal of our tool is presented on the time page. Using our model, we try to predict nationalistic waves in the West Bank before they burst.\nThe chart graph featured on the time page shows the nationalistic score progress in time, based on the videos uploaded at each time period. Using the progression we present in the graph, intelligence and military bodies can monitor the temper in the Palestinian street, ultimately preventing future violence and terrorist attacks.',
                   style: GoogleFonts.notoSans(
                       fontSize: 18, fontWeight: FontWeight.normal),
                 ),

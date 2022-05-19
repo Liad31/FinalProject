@@ -124,7 +124,7 @@ class RecentPage extends StatelessWidget {
                     children: <TextSpan>[
                       TextSpan(
                         text:
-                            'On this page we present you the most Palestinian nationalistic videos which were uploaded to the TikTok platform recently.\nYou are welcome to choose how far back you want to look, And our site will show you the most relevant videos we found in our DB from that time period.\nEach post contains it\'s link, the governrate it was uploaded from, the user who published it and it\'s nationalistic score given by our model. For your convenience, The first video in the table is presented below.',
+                            'This page features the most recent nationalistic videos uploaded by Palestinians to TikTok.\nYou’re welcome to choose how far back you want to look, and our site will show you the most relevant videos we found in our database from that period.\nEach post contains it\'s link, the bloc it’s uploaded from, the user who posted it, and its nationalistic score given by our model. For your convenience, the first video in the table is presented below.',
                         style: GoogleFonts.notoSans(
                           fontSize: 15,
                         ),

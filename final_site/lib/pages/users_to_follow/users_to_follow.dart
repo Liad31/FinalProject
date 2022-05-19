@@ -118,7 +118,7 @@ class UsersToFollowPage extends StatelessWidget {
                   child: Container(),
                 ),
                 const CustomText(
-                  text: 'Users to follow tables',
+                  text: 'Users to follow table',
                   size: 30,
                   weight: FontWeight.bold,
                 ),
@@ -172,27 +172,13 @@ class UsersToFollowPage extends StatelessWidget {
                     children: <TextSpan>[
                       TextSpan(
                         text:
-                            'On this page we offer two kinds of scores to sort the table by. ',
+                            'We offer two kinds of scores to sort the table. The ‘',
                         style: GoogleFonts.notoSans(
                           fontSize: 15,
                         ),
                       ),
                       TextSpan(
-                        text: 'Nationalistic ',
-                        style: GoogleFonts.notoSans(
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      TextSpan(
-                        text:
-                            'sorts the table by the most nationalistic users found based on their latest uploads.\nThe ',
-                        style: GoogleFonts.notoSans(
-                          fontSize: 15,
-                        ),
-                      ),
-                      TextSpan(
-                        text: 'relevancy ',
+                        text: 'Nationalistic',
                         style: GoogleFonts.notoSans(
                           fontSize: 15,
                           fontWeight: FontWeight.bold,
@@ -200,7 +186,21 @@ class UsersToFollowPage extends StatelessWidget {
                       ),
                       TextSpan(
                         text:
-                            'score, sorts the table by the most relevant users to follow, based on a formula we present, which takes into account both the nationalistic score of the user and his influence power in the area.\nTo sort the table by one of the columns, click on the wanted column name.',
+                            '’ score sorts the table by the most nationalistic users found based on their latest uploads.\nThe ‘',
+                        style: GoogleFonts.notoSans(
+                          fontSize: 15,
+                        ),
+                      ),
+                      TextSpan(
+                        text: 'Relevancy',
+                        style: GoogleFonts.notoSans(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      TextSpan(
+                        text:
+                            '’ score sorts the table by the most relevant users to follow, based on a formula we present, which considers both the nationalistic score of the user and their influence in the area.\nTo sort the table by one of the columns, click on the wanted column name.',
                         style: GoogleFonts.notoSans(fontSize: 15),
                       ),
                     ],
