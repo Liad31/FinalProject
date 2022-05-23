@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:final_site/constatns/syle.dart';
 import 'package:final_site/pages/recent/widgets/vidoes_table.dart';
 import 'package:final_site/widgets/custom_text.dart';
@@ -11,46 +13,79 @@ import 'dart:js' as js;
 
 class RecentPage extends StatelessWidget {
   List<Map<String, dynamic>> data = [];
-  late String minimumValue;
-  late String maximunValue;
+  late String minimumValue = "-1";
+  late String maximunValue = "-1";
+  late String minimumDateValue = "";
+  late String maximunDateValue = "";
   late var error = ''.obs;
+  // Initial Selected Value
+  late var goverdropdownvalue = 'All'.obs;
+
+  // List of items in our dropdown menu
+  var items = [
+    'All',
+    'Hebron',
+    'Bethlehem',
+    'Jerusalem',
+    'Ramallah and Al-Bireh',
+    'Jericho',
+    'Tubas',
+    'Jenin',
+    'Nablus',
+    'Tulkarm',
+    'Qalqilya',
+    'Salfit',
+  ];
 
   RecentPage({Key? key}) : super(key: key);
 
-  Future<void> getFile(minimum, maximum) async {
+  Future<void> getFile(minimum, maximum, minDate, maxDate, gover) async {
     var response;
     double minimumDouble;
     double maximumDouble;
+    print(maxDate);
+    final regex = RegExp(r'(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-\d{4}');
     try {
       minimumDouble = double.parse(minimum);
       maximumDouble = double.parse(maximum);
     } catch (e) {
       error.value =
-          'minimum and maximum values has to be integers in the range of 0 to 1';
+          'minimum and maximum values has to be in the range of 0 to 1';
       return;
     }
-    if (minimumDouble >= 0 &&
+    if (!(minimumDouble >= 0 &&
         minimumDouble <= 1 &&
         minimumDouble <= maximumDouble &&
         maximumDouble >= 0 &&
-        maximumDouble <= 1) {
+        maximumDouble <= 1)) {
+      error.value =
+          'minimum and maximum values has to be in the range of 0 to 1';
+    } else if (minDate.length != 10 ||
+        !regex.hasMatch(minDate) ||
+        maxDate.length != 10 ||
+        !regex.hasMatch(maxDate)) {
+      error.value = 'date in not in dd-mm-yyyy format';
+    } else {
       error.value = '';
       js.context.callMethod('open', [
         'http://104.154.93.111:8080/getVideosByScore?lowerBound=' +
             minimum +
             '&upperBound=' +
-            maximum
+            maximum +
+            '&minDate=' +
+            minDate +
+            '&maxDate=' +
+            maxDate +
+            '&gover=' +
+            gover
       ]);
-// await http.get(Uri.parse(
-//           'https://floating-harbor-96334.herokuapp.com/http://104.154.93.111:8080/getVideosByScore?lowerBound=' +
-//               minimum +
-//               '&upperBound=' +
-//               maximum));
+      // await http.get(Uri.parse(
+      //     'https://floating-harbor-96334.herokuapp.com/http://104.154.93.111:8080/getVideosByScore?lowerBound=' +
+      //         minimum +
+      //         '&upperBound=' +
+      //         maximum));
       // response = await http.get(Uri.parse(
       //     'https://floating-harbor-96334.herokuapp.com/http://104.154.93.111:8080/getVideosByScore?lowerBound=0.3&upperBound=0.9'));
-    } else {
-      error.value =
-          'minimum and maximum values has to be integers in the range of 0 to 1';
     }
   }
 
@@ -156,7 +191,7 @@ class RecentPage extends StatelessWidget {
           // )
           Center(
             child: Container(
-              height: 250,
+              height: 370,
               width: 700,
               color: grey.withOpacity(0.2),
               alignment: Alignment.center,
@@ -223,6 +258,91 @@ class RecentPage extends StatelessWidget {
                     height: 30,
                     child: Container(),
                   ),
+                  Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Flexible(
+                        child: Container(),
+                        flex: 2,
+                      ),
+                      Expanded(
+                        child: TextField(
+                          decoration: InputDecoration(
+                            fillColor: light,
+                            filled: true,
+                            border: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: dark.withOpacity(0.4), width: 5)),
+                            labelText: 'min date dd-mm-yyyy',
+                          ),
+                          onSubmitted: (String value) async {
+                            this.minimumDateValue = value;
+                          },
+                          onChanged: (String value) async {
+                            this.minimumDateValue = value;
+                          },
+                        ),
+                        flex: 2,
+                      ),
+                      Flexible(
+                        child: Container(),
+                        flex: 1,
+                      ),
+                      Expanded(
+                        child: TextField(
+                          decoration: InputDecoration(
+                            fillColor: light,
+                            filled: true,
+                            border: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: dark.withOpacity(0.4), width: 5)),
+                            labelText: 'max dd-mm-yyyy',
+                          ),
+                          onSubmitted: (String value) async {
+                            this.maximunDateValue = value;
+                          },
+                          onChanged: (String value) async {
+                            this.maximunDateValue = value;
+                          },
+                        ),
+                        flex: 2,
+                      ),
+                      Flexible(
+                        child: Container(),
+                        flex: 2,
+                      )
+                    ],
+                  ),
+                  SizedBox(
+                    height: 30,
+                    child: Container(),
+                  ),
+                  Obx(
+                    () => DropdownButton<String>(
+                      // Initial Value
+                      value: goverdropdownvalue.value,
+                      // Down Arrow Icon
+                      icon: const Icon(Icons.keyboard_arrow_down),
+
+                      // Array list of items
+                      items: items.map((String items) {
+                        return DropdownMenuItem(
+                          value: items,
+                          child: Text(items),
+                        );
+                      }).toList(),
+                      // After selecting the desired option,it will
+                      // change button value to selected value
+                      onChanged: (String? newValue) {
+                        goverdropdownvalue.value = newValue!;
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    height: 30,
+                    child: Container(),
+                  ),
                   Center(
                     child: Container(
                       decoration: ShapeDecoration(
@@ -238,7 +358,12 @@ class RecentPage extends StatelessWidget {
                       width: 150,
                       child: TextButton(
                         onPressed: () {
-                          getFile(this.minimumValue, this.maximunValue);
+                          getFile(
+                              this.minimumValue,
+                              this.maximunValue,
+                              this.minimumDateValue,
+                              this.maximunDateValue,
+                              this.goverdropdownvalue);
                         },
                         child: CustomText(text: 'Get CSV file'),
                       ),
