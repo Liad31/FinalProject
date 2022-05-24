@@ -66,10 +66,10 @@ def getVideosByScore():
     res=list(res)
     res= [("https://www.tiktok.com/@a"+i["Vid"],i["score"]) for i in res]
     with tempfile.TemporaryDirectory() as tmpdir:
-        with open(os.path.join(tmpdir,"res.txt"),'w') as f:
+        with open(os.path.join(tmpdir,"res.csv"),'w') as f:
             for i,j in res:
                 f.write(f"{i},{j}"+"\n")
-        return send_file(os.path.join(tmpdir,"res.txt"),as_attachment=True)
+        return send_file(os.path.join(tmpdir,"res.csv"),as_attachment=True)
 @app.route("/videosFromLast", methods=['GET'])
 def videosFromLast():
     db= mongoClient["production3"]
