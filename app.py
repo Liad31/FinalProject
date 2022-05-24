@@ -295,7 +295,7 @@ def updateNationalisticScores():
         usersDB.update_one({"_id":user["_id"]},{"$set":{"nationalisticScore":natScore}})
 def updateVideoRelevancyScores():
     def score(natScore,likes,shares,maxLikes,maxShares):
-        likes+=1
+        likes+=2
         shares+=1
         maxLikes+=1
         maxShares+=1
@@ -354,6 +354,7 @@ def updateRelevancyScores():
         vidsCursor=videoDB.find({"_id":{"$in":userVids}})
         vids= list(vidsCursor)
         vids= [i for i in vids if i["score"]>=0]
+        vids= [i for i in vids if i["stats"]["diggs_count"]>=0]
         vids.sort(key=lambda x:x["date"],reverse=True)
         vids= vids[:20]
         likes=sum([i["stats"]["diggs_count"] for i in vids])
@@ -371,6 +372,7 @@ def updateRelevancyScores():
         vidsCursor=videoDB.find({"_id":{"$in":userVids}})
         vids= list(vidsCursor)
         vids= [i for i in vids if i["score"]>=0]
+        vids= [i for i in vids if i["stats"]["diggs_count"]>=0]
         vids.sort(key=lambda x:x["date"],reverse=True)
         vids= vids[:20]
         likes=sum([i['stats']['diggs_count'] for i in vids])
@@ -460,7 +462,7 @@ def predictSamples(ids,dataArray,root):
         res.append({"Vid":id,"result": float(final_model.get_predict(model,sample=x))})
     return res
 def predictAll():
-    videoResultsFile="models/videoModel/mmaction2/finalSiteVecs.json"
+    videoResultsFile="models/finalSiteVecs.json"
     dataFile="models/data.npy"
     batchSize=1
     with open(videoResultsFile) as f:
@@ -468,13 +470,13 @@ def predictAll():
     data=np.load(dataFile,allow_pickle=True)
     # make data and vids in the same order
     # apply models
-    with open("/mnt/tannetFinalSite3/anno/test.txt") as f:
+    with open("/mnt/tannetFinalSite4/anno/test.txt") as f:
         lines=f.readlines()
         allowedVids=[line.strip() for line in lines]
         allowedVids=[lines.split()[0] for lines in allowedVids]
     allowedVids=set(allowedVids)
     preds=[]
-    videoVecs= videoVecs[26:]
+    videoVecs= videoVecs
     from tqdm import tqdm
     for i in tqdm(range(0,len(videoVecs) ,batchSize)):
         x={}
