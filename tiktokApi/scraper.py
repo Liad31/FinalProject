@@ -2,7 +2,7 @@ import json
 import os
 import shutil
 from zipfile import ZipFile
-
+import re
 import pandas as pd
 
 if __package__ is None or __package__ == '':
@@ -16,7 +16,7 @@ else:
 
 from apify_client import ApifyClient
 # Initialize the ApifyClient with your API token
-client = ApifyClient("apify_api_qsgbF6c6cYsw80yVk8yDMdaVU8fiDY36FEyd")
+client = ApifyClient("apify_api_rbCcChMLmxxDOgqvvro8vzd3y7QoVm23EbYv")
 
 # Prepare the actor input
 def get_posts_per_user(posts_df):
@@ -91,10 +91,15 @@ class Scraper:
         output = self.generate_output_from_csv(dir_name)
         return output
 
-    def scrap_users(self, usernames, num_posts):
+    def scrap_users2(self, usernames, num_posts):
         cmds = usernames
         json= {"profiles": cmds}
         json = self.scrap_batch2(json, num_posts)
+        output= self.generate_output_from_json(json)
+        return output
+    def scrap_users(self, usernames, num_posts):
+        json= self.scrap_batch3(usernames)
+        json= json[:num_posts]
         output= self.generate_output_from_json(json)
         return output
 
@@ -106,7 +111,7 @@ class Scraper:
         
         if os.path.exists(dir_name):
             shutil.rmtree(dir_name)
-        os.system("mkdir -p" + dir_name)
+        os.system("mkdir -p " + dir_name)
         self.counter += 1
 
         self.generate_cmds_file(cmds, cmds_name)
@@ -115,14 +120,14 @@ class Scraper:
         params['filepath'] = dir_name
 
         scrap_params = ' '.join(f'--{param_name} {param_value}' for param_name, param_value in params.items())
-        scrap_cmd = f'ts-node tiktok-scraper/bin/cli.js from-file {cmds_name} {self.async_workers}'
+        scrap_cmd = f'tiktok-scraper from-file {cmds_name} {self.async_workers}'
         print(scrap_cmd)
         os.system(f'{scrap_cmd} {scrap_params}')
 
         os.remove(cmds_name)
         return dir_name
     def correctJson(self,jsonArr):
-        banList=['coverThumb', 'coverMedium', 'coverLarge', 'duration', 'covers', 'musicId', 'videoUrl', 'videoUrlNoWaterMark', 'videoApiUrlNoWaterMark']
+        banList=['coverThumb', 'coverMedium', 'coverLarge', 'duration', 'covers', 'musicId', 'videoUrl', 'videoUrlNoWaterMark', 'videoApiUrlNoWaterMark','musicAuthor','musicAlbum']
         keyTranslate={'secUid': 'id',"secretID":'id'}
         firstCsvRow="'id','secretID','text','createTime','authorMeta.id','authorMeta.secUid','authorMeta.name','authorMeta.nickName','authorMeta.verified','authorMeta.signature','authorMeta.avatar','authorMeta.following','authorMeta.fans','authorMeta.heart','authorMeta.video','authorMeta.digg','musicMeta.musicId','musicMeta.musicName','musicMeta.musicAuthor','musicMeta.musicOriginal','musicMeta.musicAlbum','musicMeta.playUrl','musicMeta.coverThumb','musicMeta.coverMedium','musicMeta.coverLarge','musicMeta.duration','covers.default','covers.origin','covers.dynamic','webVideoUrl','videoUrl','videoUrlNoWaterMark','videoApiUrlNoWaterMark','videoMeta.height','videoMeta.width','videoMeta.duration','diggCount','shareCount','playCount','commentCount','downloaded','mentions','hashtags','effectStickers'"
         keys=firstCsvRow.split(',')
@@ -154,7 +159,8 @@ class Scraper:
                 jsonRow["musicMeta.musicId"]=0
             jsonRow["hashtags"]=jsonRow["hashtags"].encode('utf-8').decode('unicode-escape')
             newJsonArr.append(jsonRow)
-        return newJsonArr 
+        return newJsonArr
+
     def scrap_batch2(self,json,numResults):
         dir_name = os.path.join(self.results_dir, str(self.counter))
         
@@ -172,6 +178,82 @@ class Scraper:
         run = client.actor("sauermar/free-tiktok-scraper").call(run_input=run_input)
         lst=list(client.dataset(run["defaultDatasetId"]).iterate_items())
         return self.correctJson(lst)
+    def getSpecial(self,bio,specialChar):
+        # extract hashtags from bio
+        return re.findall(specialChar+r'(\w+)', bio)
+    def correctJson2(self,jsonArr):
+        banList=['coverThumb', 'coverMedium', 'coverLarge', 'duration', 'covers', 'musicId', 'videoUrl', 'videoUrlNoWaterMark', 'videoApiUrlNoWaterMark','musicAuthor','musicAlbum']
+        keyTranslate={'secUid': 'id',"secretID":'id'}
+        firstCsvRow="'id','secretID','text','createTime','authorMeta.id','authorMeta.secUid','authorMeta.name','authorMeta.nickName','authorMeta.verified','authorMeta.signature','authorMeta.avatar','authorMeta.following','authorMeta.fans','authorMeta.heart','authorMeta.video','authorMeta.digg','musicMeta.musicId','musicMeta.musicName','musicMeta.musicAuthor','musicMeta.musicOriginal','musicMeta.musicAlbum','musicMeta.playUrl','musicMeta.coverThumb','musicMeta.coverMedium','musicMeta.coverLarge','musicMeta.duration','covers.default','covers.origin','covers.dynamic','webVideoUrl','videoUrl','videoUrlNoWaterMark','videoApiUrlNoWaterMark','videoMeta.height','videoMeta.width','videoMeta.duration','diggCount','shareCount','playCount','commentCount','downloaded','mentions','hashtags','effectStickers'"
+        keys=firstCsvRow.split(',')
+        newJsonArr=[]
+        for row in jsonArr:
+            for video in row["posts"]:
+                jsonRow={}
+                for key in keys:
+                    l=row
+                    origKey=key
+                    key=key.split(".")
+                    for subKey in key:
+                        subKey=subKey.strip("\'")
+                        if subKey in banList:
+                            l=""
+                            break
+                        if subKey in keyTranslate:
+                            subKey=keyTranslate[subKey]
+                        l=""
+                    jsonRow[origKey.strip("'")]=l
+                
+                jsonRow["authorMeta.id"]=row["id"]
+                jsonRow['authorMeta.secUid']=row["id"]
+                jsonRow['authorMeta.name']=row["uniqueId"]
+                jsonRow['authorMeta.following']=row["following"]
+                jsonRow['authorMeta.fans']=row["followers"]
+                jsonRow['authorMeta.heart']=row["hearts"]
+                jsonRow['authorMeta.video']=row["videos"]
+                jsonRow['authorMeta.digg']=-1
+                jsonRow["videoMeta.height"]=video["height"]
+                jsonRow["videoMeta.width"]=video["width"]
+                jsonRow['authorMeta.signature']=row["signature"]
+                jsonRow['id']=video["id"]
+                jsonRow['secretID']=video["id"]
+                jsonRow['text']=video["description"]
+                jsonRow['createTime']=int(video["createdAt"])
+                jsonRow['musicMeta.musicId']=video["musicId"]
+                jsonRow['musicMeta.playUrl']=video["musicUrl"]                
+                jsonRow['description']=video["description"]
+                # shares
+                jsonRow['shareCount']=video["shareCount"]
+                # comments
+                jsonRow['commentCount']=video["commentCount"]
+                # likes
+                # jsonRow['likesCount']=video["likesCount"]
+                # plays
+                jsonRow['playCount']=video["playCount"]             
+                jsonRow['diggCount']=video["likesCount"]
+                jsonRow["hashtags"]=self.getSpecial(video["description"],"#")
+                jsonRow["hashtags"]= [{"name":i} for i in jsonRow["hashtags"]]
+                jsonRow["hashtags"]=json.dumps(jsonRow["hashtags"])
+                jsonRow["hashtags"]=jsonRow["hashtags"].encode('utf-8').decode('unicode-escape')
+                jsonRow["mentions"]=self.getSpecial(video["description"],"@")
+                jsonRow["mentions"]=json.dumps(jsonRow["mentions"])
+                newJsonArr.append(jsonRow)
+        return newJsonArr
+    def scrap_batch3(self,usernames):
+        dir_name = os.path.join(self.results_dir, str(self.counter))
+        if os.path.exists(dir_name):
+            shutil.rmtree(dir_name)
+        os.system("mkdir -p " + dir_name)
+        self.counter += 1
+        username= usernames[0]
+        username= username.strip("'")
+        this_dir, this_filename = os.path.split(__file__)
+        output= os.popen(f"ts-node {this_dir}/tiktok-scraperts/src/downloadUser.ts {username}").read()
+        if output=="":
+            print(f"{username} not found")
+            return []
+        output= json.loads(output)
+        return self.correctJson2([output])
     def generate_cmds_file(self, cmds, path):
         with open(path, 'w', encoding='utf8') as cmds_file:
             file_content = '\n'.join(cmds)

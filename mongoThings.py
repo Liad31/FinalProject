@@ -20,8 +20,8 @@ def avgScore(startEpoch, endEpoch,topPer=0.2):
         '$match': {
             '$and': [
                 {
-                    'score': {
-                        '$gt': -1
+                    'relScore': {
+                        '$gt': 0
                     }
                 }, {
                     'dateInt': {
@@ -54,8 +54,8 @@ def avgScore(startEpoch, endEpoch,topPer=0.2):
             '$match': {
                 '$and': [
                     {
-                        'score': {
-                            '$gt': -1
+                        'relScore': {
+                            '$gt': 0
                         }
                     }, {
                         'dateInt': {
@@ -73,7 +73,7 @@ def avgScore(startEpoch, endEpoch,topPer=0.2):
                 'score': -1
             }
         }, {
-            '$limit': int(numResults*topPer)
+            '$limit': int(numResults*topPer)+1
         }, {
             '$group': {
                 '_id': 1, 
@@ -106,7 +106,8 @@ def mostRelevant(startEpoch,endEpoch):
                     'dateInt': {
                         '$gt': startEpoch
                     }
-                }
+                },
+                {'relScore':{"$gt":0}}
             ]
         }
     }, {
@@ -121,10 +122,14 @@ def mostRelevant(startEpoch,endEpoch):
     if not result:
         return None
     return result[0]['Vid']
-def avgScoreOverTime( iters=130,topPer=0.2,daysDelta=1,daysBack=3):
+def avgScoreOverTime( iters=None,topPer=0.2,daysDelta=1,daysBack=3):
     currEpoch=int(time.time())
     dayToSec=24*60*60
     res=[]
+    if not iters:
+        # go back to january first
+        janFirstEpoch= 1640995200 
+        iters= (currEpoch-janFirstEpoch)//(daysDelta*dayToSec)+1
     for i in range(iters):
         end=currEpoch-i*dayToSec*daysDelta
         mostRel= mostRelevant(end-daysBack*dayToSec,end)

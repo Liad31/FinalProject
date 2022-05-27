@@ -1,5 +1,8 @@
 from sklearn.model_selection import train_test_split
-from .imageUtils import extractFps
+if __package__ is None or __package__ == "":
+    from imageUtils import extractFps
+else:
+    from .imageUtils import extractFps
 import numpy as np
 import cv2
 import os
@@ -51,7 +54,7 @@ def organize(videos,tags,annoFile,videosRoot,fps=10,vid_root="/mnt/videos"):
             if(int(tag) in [0,1]):
                 f.write(f"{id} {numFrames} {int(tag)}\n")
 if "__main__"==__name__:
-    root="/mnt/tannetF/"
+    root="/mnt/tannetFinalSite4/"
     createIfNotExists(root)
     data_root = root+'train'
     data_root_val = root+'val'
@@ -59,6 +62,10 @@ if "__main__"==__name__:
     ann_file_train = root+'anno/train.txt'
     ann_file_val = root+'anno/val.txt'
     ann_file_test = root+'anno/test.txt'
+    testVids=np.load('data.npy',allow_pickle=True)
+    testVids= [i["Vid"] for i in testVids]
+    tag=[0 for i in range(len(testVids))]
+    organize(testVids,tag,ann_file_test,data_root_test)
 # vidRoots=[data_root,data_root_val,data_root_test]
 # vids=[]
 # tags=[]
