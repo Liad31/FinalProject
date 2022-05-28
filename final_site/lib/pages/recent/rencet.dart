@@ -60,11 +60,11 @@ class RecentPage extends StatelessWidget {
         maximumDouble <= 1)) {
       error.value =
           'minimum and maximum values has to be in the range of 0 to 1';
-    } else if (minDate.length != 10 ||
-        !regex.hasMatch(minDate) ||
-        maxDate.length != 10 ||
-        !regex.hasMatch(maxDate)) {
-      error.value = 'date in not in dd-mm-yyyy format';
+    } else if ((minDate.length != 0 &&
+            (minDate.length != 10 || !regex.hasMatch(minDate))) ||
+        (maxDate).length != 0 &&
+            (maxDate.length != 10 || !regex.hasMatch(maxDate))) {
+      error.value = 'date is not in dd-mm-yyyy format';
     } else {
       error.value = '';
       js.context.callMethod('open', [
@@ -363,7 +363,7 @@ class RecentPage extends StatelessWidget {
                               this.maximunValue,
                               this.minimumDateValue,
                               this.maximunDateValue,
-                              this.goverdropdownvalue);
+                              this.goverdropdownvalue.value);
                         },
                         child: CustomText(text: 'Get CSV file'),
                       ),
