@@ -68,7 +68,7 @@ class RecentPage extends StatelessWidget {
     } else {
       error.value = '';
       js.context.callMethod('open', [
-        'http://104.154.93.111:8080/getVideosByScore?lowerBound=' +
+        'https://floating-harbor-96334.herokuapp.com/http://104.154.93.111:8080/getVideosByScore?lowerBound=' +
             minimum +
             '&upperBound=' +
             maximum +
