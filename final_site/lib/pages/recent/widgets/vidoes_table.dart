@@ -274,7 +274,7 @@ class videoTable extends GetxController {
                         () => DataTable2(
                           columnSpacing: 10,
                           horizontalMargin: 12,
-                          smRatio: 0.2,
+                          smRatio: 0.3,
                           lmRatio: 0.5,
                           dividerThickness: 5,
                           minWidth: 600,

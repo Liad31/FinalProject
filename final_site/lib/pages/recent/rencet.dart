@@ -4,6 +4,7 @@ import 'package:final_site/constatns/syle.dart';
 import 'package:final_site/pages/recent/widgets/vidoes_table.dart';
 import 'package:final_site/widgets/custom_text.dart';
 import 'package:final_site/widgets/tiktok_embedd.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:get/state_manager.dart';
@@ -319,24 +320,35 @@ class RecentPage extends StatelessWidget {
                     child: Container(),
                   ),
                   Obx(
-                    () => DropdownButton<String>(
-                      // Initial Value
-                      value: goverdropdownvalue.value,
-                      // Down Arrow Icon
-                      icon: const Icon(Icons.keyboard_arrow_down),
+                    () => Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10)),
+                      child: DropdownButton<String>(
+                        // Initial Value
+                        value: goverdropdownvalue.value,
+                        // Down Arrow Icon
+                        icon: const Icon(
+                          Icons.keyboard_arrow_down,
+                        ),
+                        underline: const SizedBox(),
+                        alignment: Alignment.center,
 
-                      // Array list of items
-                      items: items.map((String items) {
-                        return DropdownMenuItem(
-                          value: items,
-                          child: Text(items),
-                        );
-                      }).toList(),
-                      // After selecting the desired option,it will
-                      // change button value to selected value
-                      onChanged: (String? newValue) {
-                        goverdropdownvalue.value = newValue!;
-                      },
+                        // Array list of items
+                        items: items.map((String items) {
+                          return DropdownMenuItem(
+                            value: items,
+                            child: Text(
+                              items,
+                            ),
+                            alignment: Alignment.center,
+                          );
+                        }).toList(),
+                        // After selecting the desired option,it will
+                        // change button value to selected value
+                        onChanged: (String? newValue) {
+                          goverdropdownvalue.value = newValue!;
+                        },
+                      ),
                     ),
                   ),
                   SizedBox(
