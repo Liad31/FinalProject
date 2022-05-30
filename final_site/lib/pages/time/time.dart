@@ -180,10 +180,13 @@ Future<List<DailyNationalisticData>> getChartData() async {
   if (response.statusCode != 200) {
     throw Exception('Failed to load graph');
   }
+  const moveBy = 0.1;
   List<DailyNationalisticData> chartData = [];
   for (var item in list) {
-    chartData
-        .add(DailyNationalisticData(item[0], DateTime.parse(item[1]), item[2]));
+    chartData.add(DailyNationalisticData(
+        item[0] >= (1 - moveBy) ? 1 : item[0] + moveBy,
+        DateTime.parse(item[1]),
+        item[2]));
   }
   return chartData;
 }
