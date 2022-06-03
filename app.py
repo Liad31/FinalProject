@@ -35,6 +35,27 @@ def videoScores():
     urls=request.args.get('urls')
     urls=json.loads(urls)
     res=score_from_url(urls)
+    # update scores in db
+    db= mongoClient["production3"]
+    videoDB= db["videos"]
+    for i in res:
+        videoDB.update_one({"Vid":i["Vid"]},{"$set":{"score":i["result"]}})
+    return jsonify(res)
+@app.route('/getPredicted', methods=['GET'])
+def getPredicted():
+    urls= request.args.get('urls')
+    urls= json.loads(urls)
+    res=[]
+    for url in urls:
+        id= idFromUrl(url)
+        db= mongoClient["production3"]
+        videoDB= db["videos"]
+        video= videoDB.find_one({"Vid":id})
+        if video:
+            res.append({"id":id,"result":video["score"]})  
+        else:
+            # return 428   
+            return "too early"
     return jsonify(res)
 @app.route("/getVideos", methods=["GET"])
 def getVideos():
@@ -61,8 +82,43 @@ def getVideosByScore():
     videoDB= db["videos"]
     lowerBound=request.args.get('lowerBound')
     upperBound=request.args.get('upperBound')
+    minDate= request.args.get('minDate')
+    maxDate= request.args.get('maxDate')
+    # convert from dd-mm-yyyy
+    minDate= datetime.datetime.strptime(minDate, "%d-%m-%Y")
+    minDate= minDate.timestamp()
+    minDate= int(minDate)
+    maxDate= datetime.datetime.strptime(maxDate, "%d-%m-%Y")
+    maxDate= maxDate.timestamp()
+    maxDate= int(maxDate)
+    gover= request.args.get('gover')
+    myFilter={"$match": {"user.governorate":gover}}
+    if gover=="all":
+        myFilter={"$match": {}}
+
+
     maxResults= 1000
-    res=videoDB.aggregate([{"$match":{"score":{"$gte":float(lowerBound),"$lte":float(upperBound)}}},{"$limit":maxResults}])
+    res=videoDB.aggregate([
+        {'$addFields': {
+            'dateInt': {
+                '$toInt': '$date'
+            }
+        }},
+        {"$match":{"score":{"$gte":float(lowerBound),"$lte":float(upperBound)}}},
+        {"$match":{"$dateInt":{"$gte":minDate,"$lte":maxDate}}},
+        {'$lookup': {
+            'from': 'tiktokusernationalistics', 
+            'localField': '_id', 
+            'foreignField': '_id', 
+            'as': 'user'
+        }},
+        {'$addFields': {
+            'user': {
+                '$first': '$user'
+            }
+        }},
+        myFilter,
+        {"$limit":maxResults}])
     res=list(res)
     res= [("https://www.tiktok.com/@a"+i["Vid"],i["score"]) for i in res]
     with tempfile.TemporaryDirectory() as tmpdir:
@@ -209,7 +265,18 @@ def userRelScore():
     likes= sum([i["likes_count"] for i in videos])
     shares= sum([i["share_count"] for i in videos])
     res= calcRelScore(followers,likes,shares,maxLikes,maxShares,maxFollowers)
+    # update rel score in db
+    usersDB= db["tiktokusernationalistics"]
+    usersDB.update_one({"userName":username},{"$set":{"relScore":res}})
     return jsonify(res)
+@app.route('/getPredictedRelScore', methods=['GET'])
+def getPredictedRelScore():
+    username = request.args.get('user')
+    db = mongoClient["production3"]
+    usersDB= db["tiktokusernationalistics"]
+    user=usersDB.find_one({"userName":username})
+    relScore= user["relScore"]
+    return jsonify(relScore)
 @app.route('/avgScoreOverTime')
 def avgScoreOverTimeRoute():
     db = mongoClient["production3"]
@@ -312,9 +379,10 @@ def updateVideoRelevancyScores():
     maxLikes=list(maxLikes)[0]["maxLikes"]
     maxShares=videosDB.aggregate([{"$group":{"_id":"null","maxShares":{"$max":"$stats.shares_count"}}}])
     maxShares=list(maxShares)[0]["maxShares"]
-    videos=videosDB.find()
+    videos=videosDB.find({'score':{'$gte':0},'relScore':{'$exists':False}})
     videos=list(videos)
-    for video in videos:
+    from tqdm import tqdm
+    for video in tqdm(videos):
         natScore=video["score"]
         likes=video["stats"]["diggs_count"]
         shares=video["stats"]["shares_count"]
@@ -462,7 +530,7 @@ def predictSamples(ids,dataArray,root):
         res.append({"Vid":id,"result": float(final_model.get_predict(model,sample=x))})
     return res
 def predictAll():
-    videoResultsFile="models/finalSiteVecs.json"
+    videoResultsFile="models/videoModel/mmaction2/finalSiteVecs.json"
     dataFile="models/data.npy"
     batchSize=1
     with open(videoResultsFile) as f:
@@ -470,7 +538,7 @@ def predictAll():
     data=np.load(dataFile,allow_pickle=True)
     # make data and vids in the same order
     # apply models
-    with open("/mnt/tannetFinalSite4/anno/test.txt") as f:
+    with open("/mnt/tannetFinalSite5/anno/test.txt") as f:
         lines=f.readlines()
         allowedVids=[line.strip() for line in lines]
         allowedVids=[lines.split()[0] for lines in allowedVids]
@@ -494,7 +562,7 @@ def predictAll():
         x["text_embeded"]= x["text_embeded"][0]
         res=final_model.get_predict(model,sample=x)
         preds=[float(i) for i in res]
-        with open("predsCopy.txt","a+") as f:
+        with open("preds5.txt","a+") as f:
             f.writelines([str(p)+'\n' for p in preds])
 def update_video_scores(scores):
     headers = {'Content-Type': 'application/json',
@@ -513,7 +581,11 @@ if __name__ == "__main__":
     # users_db = db['tiktokusernationalistics']
     # users= db['tiktokusernationalistics']
     # videos= db['videos']
-    # for user in users.find():
-    # download_user_vids([user['userName']],num_posts=20)
+    # u = users.find()
+    # u=list(u)
+    # from tqdm import tqdm
+    # u= tqdm(u)
+    # for user in u:
+    #     download_user_vids([user['userName']],num_posts=20)
     # predictAll()
     # updateLoop()
