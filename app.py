@@ -23,6 +23,7 @@ import pymongo
 from flask import Flask, request,jsonify,send_file
 import datetime
 import math
+import time
 from mongoThings import avgScoreOverTime,governorateScores
 nationalistic_sounds = np.load('models/nationalistic_songs.npy', allow_pickle=True)
 mongoClient = pymongo.MongoClient("mongodb+srv://ourProject:EMGwk59xADuSIIkv@cluster0.lhfaj.mongodb.net/production2?retryWrites=true&w=majority")
@@ -85,6 +86,7 @@ def getVideosByScore():
     minDate= request.args.get('minDate')
     maxDate= request.args.get('maxDate')
     # convert from dd-mm-yyyy
+<<<<<<< HEAD
     minDate= datetime.datetime.strptime(minDate, "%d-%m-%Y")
     minDate= minDate.timestamp()
     minDate= int(minDate)
@@ -94,6 +96,23 @@ def getVideosByScore():
     gover= request.args.get('gover')
     myFilter={"$match": {"user.governorate":gover}}
     if gover=="all":
+=======
+    if minDate:
+        minDate= datetime.datetime.strptime(minDate, "%d-%m-%Y")
+        minDate= minDate.timestamp()
+        minDate= int(minDate)
+    else:
+        minDate=0
+    if maxDate:
+        maxDate= datetime.datetime.strptime(maxDate, "%d-%m-%Y")
+        maxDate= maxDate.timestamp()
+        maxDate= int(maxDate)
+    else:
+        maxDate=int(time.time())
+    gover= request.args.get('gover')
+    myFilter={"$match": {"user.governorate":gover}}
+    if gover=="All":
+>>>>>>> 0e9a46480fdc1948e3ca01f5a7f8871e583ed230
         myFilter={"$match": {}}
 
 
@@ -105,10 +124,17 @@ def getVideosByScore():
             }
         }},
         {"$match":{"score":{"$gte":float(lowerBound),"$lte":float(upperBound)}}},
+<<<<<<< HEAD
         {"$match":{"$dateInt":{"$gte":minDate,"$lte":maxDate}}},
         {'$lookup': {
             'from': 'tiktokusernationalistics', 
             'localField': '_id', 
+=======
+        {"$match":{"dateInt":{"$gte":minDate,"$lte":maxDate}}},
+        {'$lookup': {
+            'from': 'tiktokusernationalistics', 
+            'localField': 'user', 
+>>>>>>> 0e9a46480fdc1948e3ca01f5a7f8871e583ed230
             'foreignField': '_id', 
             'as': 'user'
         }},
@@ -146,24 +172,35 @@ def videosFromLast():
                 '$toInt': '$date'
             }
         }
-    }, {
-        '$count': 'count'}])
-    res= res[0]["count"]
-    return res 
+    }, 
+    {"$match":filter},
+    {'$count': 'count'}])
+    res=list(res)
+    if res:
+        res= res[0]["count"]
+    else:
+        res= 0
+    return str(res) 
 @app.route("/usersCount", methods=['GET'])
 def usersCount():
     db= mongoClient["production3"]
     usersDB= db["tiktokusernationalistics"]
-    res=usersDB.find()
-    res = len(list(res))
-    return jsonify(res)
+    res= usersDB.aggregate([
+        {'$count': 'count'}])
+    res=list(res)
+    if not res:
+        return "0"
+    return str(res[0]["count"])
 @app.route("/videosCount", methods=['GET'])
 def videosCount():
     db= mongoClient["production3"]
     videosDB= db["videos"]
     res= videosDB.aggregate([
         {'$count': 'count'}])
-    return res[0]["count"]
+    res=list(res)
+    if not res:
+        return "0"
+    return str(res[0]["count"])
 
 @app.route('/mostNationalistic', methods=['GET'])
 def getNationalistic():
@@ -577,6 +614,7 @@ def updateLoop():
     updateGovernorateScore()
 if __name__ == "__main__":
     app.run(host='0.0.0.0',port=8080)
+<<<<<<< HEAD
     # db = mongoClient['production3']
     # users_db = db['tiktokusernationalistics']
     # users= db['tiktokusernationalistics']
@@ -587,5 +625,8 @@ if __name__ == "__main__":
     # u= tqdm(u)
     # for user in u:
     #     download_user_vids([user['userName']],num_posts=20)
+=======
+>>>>>>> 0e9a46480fdc1948e3ca01f5a7f8871e583ed230
     # predictAll()
     # updateLoop()
+    print("finished")
