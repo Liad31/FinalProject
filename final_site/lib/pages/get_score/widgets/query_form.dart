@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors
+import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:final_site/constatns/syle.dart';
 import 'package:final_site/widgets/custom_text.dart';
@@ -18,25 +20,71 @@ class queryForm extends GetxController {
     value = defaultText;
   }
 
-  Future<int> getScore() async {
+  Future<http.Response> getPredictedScore() async {
     final http.Response response;
+    String url = "";
     if (!isUser) {
-      response = await http.get(Uri.parse(
-          'https://floating-harbor-96334.herokuapp.com/http://104.154.93.111:8080/predict?urls=["$value"]'));
+      url =
+          'https://floating-harbor-96334.herokuapp.com/http://104.154.93.111:8080/getPredicted?urls=["$value"]';
     } else {
       //change to user prediction
-      response = await http.get(Uri.parse(
-          'https://floating-harbor-96334.herokuapp.com/http://104.154.93.111:8080/predict?urls=["$value"]'));
+      url =
+          'https://floating-harbor-96334.herokuapp.com/http://104.154.93.111:8080/getPredictedRelScore?username="$value"';
+    }
+    response = await http.get(Uri.parse(url));
+    if (response.statusCode == 200) {
+      return response;
+    } else {
+      throw Exception('Failed to load score');
+    }
+  }
+
+  Future<http.Response> getPredictedScoreIter() async {
+    while (true) {
+      http.Response response = await getPredictedScore();
+      if (response.statusCode != 200) {
+        throw Exception('Failed to load score');
+      }
+      if (response.body.toString() != "too early") {
+        return response;
+      }
+      await Future.delayed(Duration(seconds: 30));
+    }
+  }
+
+  Future<int> getScore() async {
+    final http.Response response;
+    http.Response response1 = await getPredictedScore();
+    String url = "";
+    if (!isUser) {
+      url =
+          'https://floating-harbor-96334.herokuapp.com/http://104.154.93.111:8080/predict?urls=["$value"]';
+    } else {
+      //change to user prediction
+      url =
+          'https://floating-harbor-96334.herokuapp.com/http://104.154.93.111:8080/userRelScore?username="$value"';
+    }
+    if (response1.body.toString() != "too early") {
+      response = response1;
+    } else {
+      response = await http
+          .get(Uri.parse(url))
+          .timeout(Duration(seconds: 30), onTimeout: getPredictedScoreIter);
     }
     if (response.statusCode == 200) {
       final parsed =
           jsonDecode(response.body.toString()).cast<Map<String, dynamic>>();
       ispending = false;
-      print(parsed.length);
-      print(parsed[0]['result'].toString().substring(0, 5));
-      score.value = parsed[0]['result'].toString().substring(0, 5);
+      // print(parsed.length);
+      // print(parsed[0]['result'].toString().substring(0, 5));
+      if (parsed.length == 0) {
+        score.value = "Failed to load score";
+      } else {
+        score.value = parsed[0]['result'].toString().substring(0, 5);
+      }
       return 1;
     } else {
+      score.value = "Failed to load score";
       throw Exception('Failed to load score');
     }
   }
@@ -132,15 +180,18 @@ class queryForm extends GetxController {
                         text: () {
                           if (score.isEmpty) {
                             return '';
+                          } else if (score.value == "Failed to load score") {
+                            return score.value;
                           } else {
-                            return 'The post\'s score is $score';
+                            return "The post\'s score is ${score.value}";
                           }
                         }(),
                         style: GoogleFonts.notoSans(
                           fontSize: 25,
                           fontWeight: FontWeight.bold,
                           color: () {
-                            if (!score.isEmpty) {
+                            if (!score.isEmpty &&
+                                score.value != "Failed to load score") {
                               var score_double = double.parse(score.value);
                               int r_color = (score_double * 1000 -
                                       ((score_double * 1000) % 100))
