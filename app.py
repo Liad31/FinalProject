@@ -23,6 +23,7 @@ import pymongo
 from flask import Flask, request,jsonify,send_file
 import datetime
 import math
+import time
 from mongoThings import avgScoreOverTime,governorateScores
 nationalistic_sounds = np.load('models/nationalistic_songs.npy', allow_pickle=True)
 mongoClient = pymongo.MongoClient("mongodb+srv://ourProject:EMGwk59xADuSIIkv@cluster0.lhfaj.mongodb.net/production2?retryWrites=true&w=majority")
@@ -61,15 +62,56 @@ def getVideosByScore():
     videoDB= db["videos"]
     lowerBound=request.args.get('lowerBound')
     upperBound=request.args.get('upperBound')
+    minDate= request.args.get('minDate')
+    maxDate= request.args.get('maxDate')
+    # convert from dd-mm-yyyy
+    if minDate:
+        minDate= datetime.datetime.strptime(minDate, "%d-%m-%Y")
+        minDate= minDate.timestamp()
+        minDate= int(minDate)
+    else:
+        minDate=0
+    if maxDate:
+        maxDate= datetime.datetime.strptime(maxDate, "%d-%m-%Y")
+        maxDate= maxDate.timestamp()
+        maxDate= int(maxDate)
+    else:
+        maxDate=int(time.time())
+    gover= request.args.get('gover')
+    myFilter={"$match": {"user.governorate":gover}}
+    if gover=="All":
+        myFilter={"$match": {}}
+
+
     maxResults= 1000
-    res=videoDB.aggregate([{"$match":{"score":{"$gte":float(lowerBound),"$lte":float(upperBound)}}},{"$limit":maxResults}])
+    res=videoDB.aggregate([
+        {'$addFields': {
+            'dateInt': {
+                '$toInt': '$date'
+            }
+        }},
+        {"$match":{"score":{"$gte":float(lowerBound),"$lte":float(upperBound)}}},
+        {"$match":{"dateInt":{"$gte":minDate,"$lte":maxDate}}},
+        {'$lookup': {
+            'from': 'tiktokusernationalistics', 
+            'localField': 'user', 
+            'foreignField': '_id', 
+            'as': 'user'
+        }},
+        {'$addFields': {
+            'user': {
+                '$first': '$user'
+            }
+        }},
+        myFilter,
+        {"$limit":maxResults}])
     res=list(res)
     res= [("https://www.tiktok.com/@a"+i["Vid"],i["score"]) for i in res]
     with tempfile.TemporaryDirectory() as tmpdir:
-        with open(os.path.join(tmpdir,"res.csv"),'w') as f:
+        with open(os.path.join(tmpdir,"res.txt"),'w') as f:
             for i,j in res:
                 f.write(f"{i},{j}"+"\n")
-        return send_file(os.path.join(tmpdir,"res.csv"),as_attachment=True)
+        return send_file(os.path.join(tmpdir,"res.txt"),as_attachment=True)
 @app.route("/videosFromLast", methods=['GET'])
 def videosFromLast():
     db= mongoClient["production3"]
@@ -520,11 +562,6 @@ def updateLoop():
     updateGovernorateScore()
 if __name__ == "__main__":
     app.run(host='0.0.0.0',port=8080)
-    # db = mongoClient['production3']
-    # users_db = db['tiktokusernationalistics']
-    # users= db['tiktokusernationalistics']
-    # videos= db['videos']
-    # for user in users.find():
-    # download_user_vids([user['userName']],num_posts=20)
     # predictAll()
     # updateLoop()
+    print("finished")
