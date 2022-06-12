@@ -47,16 +47,19 @@ def getPredicted():
     urls= request.args.get('urls')
     urls= json.loads(urls)
     res=[]
+    tooEarly="too early"
     for url in urls:
         id= idFromUrl(url)
         db= mongoClient["production3"]
         videoDB= db["videos"]
         video= videoDB.find_one({"Vid":id})
         if video:
+            if video["score"]==-1:
+                return tooEarly
             res.append({"id":id,"result":video["score"]})  
         else:
             # return 428   
-            return "too early"
+            return tooEarly
     return jsonify(res)
 @app.route("/getVideos", methods=["GET"])
 def getVideos():
@@ -127,7 +130,7 @@ def getVideosByScore():
         myFilter,
         {"$limit":maxResults}])
     res=list(res)
-    res= [("https://www.tiktok.com/@a"+i["Vid"],i["score"]) for i in res]
+    res= [("https://www.tiktok.com/@a/video/"+i["Vid"],i["score"]) for i in res]
     with tempfile.TemporaryDirectory() as tmpdir:
         with open(os.path.join(tmpdir,"res.txt"),'w') as f:
             for i,j in res:
@@ -489,7 +492,7 @@ def score_from_url(urls):
         if len(userMeta)==0:
             return []
         data=[]
-        for user in addToDB(userMeta,yieldRes=True,locationFilter=False):
+        for user in addToDB(userMeta,yieldRes=True,locationFilter=False,ignore_location=True):
             data.extend(user[0]["videos"])
         ids=[i["Vid"] for i in data]
         videoText=ocr(ids,videoRoot)
