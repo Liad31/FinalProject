@@ -143,7 +143,7 @@ def videosFromLast():
     if 'hours' in request.args: 
         hours=request.args.get('hours')
         hours=int(hours)
-        time= datetime.datetime.now()-datetime.timedelta(hours=hours)
+        time= maxTimestamp()-datetime.timedelta(hours=hours)
         timeInEpoch = int(time.timestamp())
         filter= {"dateInt": {"$gt": timeInEpoch}}
     else:
@@ -213,7 +213,7 @@ def topUsers():
     sort= request.args.get('sort')
     days= request.args.get('days')
     days= int(days)
-    currentEpoch= int(datetime.datetime.now().timestamp())
+    currentEpoch= maxTimestamp()
     startEpoch= currentEpoch-int(days)*24*60*60
     db = mongoClient["production3"]
     videoDB= db["videos"]
@@ -312,13 +312,33 @@ def governoratesRoute():
     res=res["value"]
     res=[{i[0]:i[1]} for i in res]
     return jsonify(res)
+def maxTimestamp():
+    db = mongoClient["production3"]
+    videosDB= db["videos"]
+    res= videosDB.aggregate([
+        {'$addFields': {
+            'dateInt': {
+                '$toInt': '$date'
+            }
+        }}, {
+            '$sort': {
+                'dateInt': -1
+            }
+        }, {
+            '$limit': 1
+        }
+    ])
+    res=list(res)
+    if not res:
+        return 0
+    return res[0]["dateInt"]
 @app.route("/topVideos", methods=['GET'])
 def topVideos():
     n = request.args.get('n')
     sort= request.args.get('sort')
     hours=request.args.get('hours')
     hours=int(hours)
-    time= datetime.datetime.now()-datetime.timedelta(hours=hours)
+    time= maxTimestamp()-datetime.timedelta(hours=hours)
     timeInEpoch = int(time.timestamp())
     filter= {"dateInt": {"$gt": timeInEpoch}}
     db = mongoClient["production3"]
@@ -559,13 +579,14 @@ def predictAll():
     data=np.load(dataFile,allow_pickle=True)
     # make data and vids in the same order
     # apply models
-    with open("/mnt/tannetFinalSite5/anno/test.txt") as f:
+    with open("/mnt/tannetFinalSite6/anno/test.txt") as f:
         lines=f.readlines()
         allowedVids=[line.strip() for line in lines]
         allowedVids=[lines.split()[0] for lines in allowedVids]
     allowedVids=set(allowedVids)
     preds=[]
     videoVecs= videoVecs
+    assert len(videoVecs)==len(data)
     from tqdm import tqdm
     for i in tqdm(range(0,len(videoVecs) ,batchSize)):
         x={}
@@ -583,8 +604,8 @@ def predictAll():
         x["text_embeded"]= x["text_embeded"][0]
         res=final_model.get_predict(model,sample=x)
         preds=[float(i) for i in res]
-        with open("preds5.txt","a+") as f:
-            f.writelines([str(p)+'\n' for p in preds])
+        scores = [{"Vid":i,"result":pred} for i,pred in zip(allowedVids,preds)]
+        update_video_scores(scores)
 def update_video_scores(scores):
     headers = {'Content-Type': 'application/json',
                'Accept': 'application/json'}
