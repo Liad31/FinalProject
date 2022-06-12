@@ -328,7 +328,7 @@ def maxTimestamp():
     res=list(res)
     if not res:
         return 0
-    return res[0]["dateInt"]
+    return datetime.datetime.fromtimestamp( res[0]["dateInt"])
 @app.route("/topVideos", methods=['GET'])
 def topVideos():
     n = request.args.get('n')
