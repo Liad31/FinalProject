@@ -8,7 +8,7 @@ from models.final_model.final_model import postsModel
 from models.text_models.trail_nlp import embed_text2
 from models.hashtags_models.roy import predict
 from models.prepareTannet import organize, createIfNotExists
-# from flask import Flask, request,jsonify
+from flask import Flask, request,jsonify
 import os
 import tempfile
 import torch
@@ -20,9 +20,10 @@ from tiktokApi.OCR import ocr
 from tiktokApi.scrapeHashtags import addToDB
 import requests
 import pymongo
-from flask import Flask, request,jsonify
+from flask import Flask, request,jsonify,send_file
 import datetime
 import math
+import time
 from mongoThings import avgScoreOverTime,governorateScores
 nationalistic_sounds = np.load('models/nationalistic_songs.npy', allow_pickle=True)
 mongoClient = pymongo.MongoClient("mongodb+srv://ourProject:EMGwk59xADuSIIkv@cluster0.lhfaj.mongodb.net/production2?retryWrites=true&w=majority")
@@ -35,6 +36,27 @@ def videoScores():
     urls=request.args.get('urls')
     urls=json.loads(urls)
     res=score_from_url(urls)
+    # update scores in db
+    db= mongoClient["production3"]
+    videoDB= db["videos"]
+    for i in res:
+        videoDB.update_one({"Vid":i["Vid"]},{"$set":{"score":i["result"]}})
+    return jsonify(res)
+@app.route('/getPredicted', methods=['GET'])
+def getPredicted():
+    urls= request.args.get('urls')
+    urls= json.loads(urls)
+    res=[]
+    for url in urls:
+        id= idFromUrl(url)
+        db= mongoClient["production3"]
+        videoDB= db["videos"]
+        video= videoDB.find_one({"Vid":id})
+        if video:
+            res.append({"id":id,"result":video["score"]})  
+        else:
+            # return 428   
+            return "too early"
     return jsonify(res)
 @app.route("/getVideos", methods=["GET"])
 def getVideos():
@@ -55,6 +77,62 @@ def getUsers():
     usersDB = db["tiktokusernationalistics"]
     res= usersDB.find({"userName": {"$in": users}})
     return jsonify(list(res))
+@app.route("/getVideosByScore")
+def getVideosByScore():
+    db= mongoClient["production3"]
+    videoDB= db["videos"]
+    lowerBound=request.args.get('lowerBound')
+    upperBound=request.args.get('upperBound')
+    minDate= request.args.get('minDate')
+    maxDate= request.args.get('maxDate')
+    # convert from dd-mm-yyyy
+    if minDate:
+        minDate= datetime.datetime.strptime(minDate, "%d-%m-%Y")
+        minDate= minDate.timestamp()
+        minDate= int(minDate)
+    else:
+        minDate=0
+    if maxDate:
+        maxDate= datetime.datetime.strptime(maxDate, "%d-%m-%Y")
+        maxDate= maxDate.timestamp()
+        maxDate= int(maxDate)
+    else:
+        maxDate=int(time.time())
+    gover= request.args.get('gover')
+    myFilter={"$match": {"user.governorate":gover}}
+    if gover=="All":
+        myFilter={"$match": {}}
+
+
+    maxResults= 1000
+    res=videoDB.aggregate([
+        {'$addFields': {
+            'dateInt': {
+                '$toInt': '$date'
+            }
+        }},
+        {"$match":{"score":{"$gte":float(lowerBound),"$lte":float(upperBound)}}},
+        {"$match":{"dateInt":{"$gte":minDate,"$lte":maxDate}}},
+        {'$lookup': {
+            'from': 'tiktokusernationalistics', 
+            'localField': 'user', 
+            'foreignField': '_id', 
+            'as': 'user'
+        }},
+        {'$addFields': {
+            'user': {
+                '$first': '$user'
+            }
+        }},
+        myFilter,
+        {"$limit":maxResults}])
+    res=list(res)
+    res= [("https://www.tiktok.com/@a"+i["Vid"],i["score"]) for i in res]
+    with tempfile.TemporaryDirectory() as tmpdir:
+        with open(os.path.join(tmpdir,"res.txt"),'w') as f:
+            for i,j in res:
+                f.write(f"{i},{j}"+"\n")
+        return send_file(os.path.join(tmpdir,"res.txt"),as_attachment=True)
 @app.route("/videosFromLast", methods=['GET'])
 def videosFromLast():
     db= mongoClient["production3"]
@@ -62,7 +140,7 @@ def videosFromLast():
     if 'hours' in request.args: 
         hours=request.args.get('hours')
         hours=int(hours)
-        time= datetime.datetime.now()-datetime.timedelta(hours=hours)
+        time= maxTimestamp()-datetime.timedelta(hours=hours)
         timeInEpoch = int(time.timestamp())
         filter= {"dateInt": {"$gt": timeInEpoch}}
     else:
@@ -75,28 +153,35 @@ def videosFromLast():
                 '$toInt': '$date'
             }
         }
-    }, {
-        '$match': filter}])
-    res = list(res)
-    for i in res:
-        del i["_id"]
-        if "user" in i:
-            del i["user"]
-    return jsonify(res)
+    }, 
+    {"$match":filter},
+    {'$count': 'count'}])
+    res=list(res)
+    if res:
+        res= res[0]["count"]
+    else:
+        res= 0
+    return str(res) 
 @app.route("/usersCount", methods=['GET'])
 def usersCount():
     db= mongoClient["production3"]
     usersDB= db["tiktokusernationalistics"]
-    res=usersDB.find()
-    res = len(list(res))
-    return jsonify(res)
+    res= usersDB.aggregate([
+        {'$count': 'count'}])
+    res=list(res)
+    if not res:
+        return "0"
+    return str(res[0]["count"])
 @app.route("/videosCount", methods=['GET'])
 def videosCount():
     db= mongoClient["production3"]
     videosDB= db["videos"]
-    res=videosDB.find()
-    res = len(list(res))
-    return jsonify(res)
+    res= videosDB.aggregate([
+        {'$count': 'count'}])
+    res=list(res)
+    if not res:
+        return "0"
+    return str(res[0]["count"])
 
 @app.route('/mostNationalistic', methods=['GET'])
 def getNationalistic():
@@ -121,9 +206,11 @@ def getNationalistic():
 @app.route('/topUsers', methods=['GET'])
 def topUsers():
     n = request.args.get('n')
+    n=int(n)
     sort= request.args.get('sort')
     days= request.args.get('days')
-    currentEpoch= int(datetime.datetime.now().timestamp())
+    days= int(days)
+    currentEpoch= maxTimestamp().timestamp()
     startEpoch= currentEpoch-int(days)*24*60*60
     db = mongoClient["production3"]
     videoDB= db["videos"]
@@ -173,11 +260,41 @@ def topUsers():
         '$limit': n
     }
     ])
-    users=[i for i in users]
+    users=[i["user"] for i in users]
     for user in users:
         del user["_id"]
         del user["videos"]
     return jsonify(users)
+@app.route('/userRelScore', methods=['GET'])
+def userRelScore():
+    username = request.args.get('user')
+    db = mongoClient["production3"]
+    scores, videos,users = score_for_users([username])
+    for i in videos:
+        score= [s for s in scores if s["Vid"]==i["Vid"]][0]
+        i["score"]=score["score"]
+    videos.sort(key=lambda x:x["score"],reverse=True)
+    videos= videos[:20]
+    precomputed= db["precomputed"]
+    maxLikes= precomputed.find_one({"name":"maxLikes"})["value"]
+    maxShares= precomputed.find_one({"name":"maxShares"})["value"]
+    maxFollowers= precomputed.find_one({"name":"maxFollowers"})["value"]
+    followers= users[0]["followers_count"]
+    likes= sum([i["likes_count"] for i in videos])
+    shares= sum([i["share_count"] for i in videos])
+    res= calcRelScore(followers,likes,shares,maxLikes,maxShares,maxFollowers)
+    # update rel score in db
+    usersDB= db["tiktokusernationalistics"]
+    usersDB.update_one({"userName":username},{"$set":{"relScore":res}})
+    return jsonify(res)
+@app.route('/getPredictedRelScore', methods=['GET'])
+def getPredictedRelScore():
+    username = request.args.get('user')
+    db = mongoClient["production3"]
+    usersDB= db["tiktokusernationalistics"]
+    user=usersDB.find_one({"userName":username})
+    relScore= user["relScore"]
+    return jsonify(relScore)
 @app.route('/avgScoreOverTime')
 def avgScoreOverTimeRoute():
     db = mongoClient["production3"]
@@ -189,14 +306,38 @@ def governoratesRoute():
     db = mongoClient["production3"]
     precomputedDB= db["precomputed"]
     res=precomputedDB.find_one({"key":"governorateScores"})
-    return jsonify(res["value"])
+    res=res["value"]
+    res=[{i[0]:i[1]} for i in res]
+    return jsonify(res)
+def maxTimestamp():
+    db = mongoClient["production3"]
+    videosDB= db["videos"]
+    res= videosDB.aggregate([
+        {'$addFields': {
+            'dateInt': {
+                '$toInt': '$date'
+            }
+        }},
+        {"$match": {"score": {"$gt": -1}}},
+        {
+            '$sort': {
+                'dateInt': -1
+            }
+        }, {
+            '$limit': 1
+        }
+    ])
+    res=list(res)
+    if not res:
+        return 0
+    return datetime.datetime.fromtimestamp( res[0]["dateInt"])
 @app.route("/topVideos", methods=['GET'])
 def topVideos():
     n = request.args.get('n')
     sort= request.args.get('sort')
     hours=request.args.get('hours')
     hours=int(hours)
-    time= datetime.datetime.now()-datetime.timedelta(hours=hours)
+    time= maxTimestamp()-datetime.timedelta(hours=hours)
     timeInEpoch = int(time.timestamp())
     filter= {"dateInt": {"$gt": timeInEpoch}}
     db = mongoClient["production3"]
@@ -224,19 +365,19 @@ def topVideos():
     return jsonify(videos)
 @app.route("/is1500InHaraza",methods=['GET'])
 def yes():
-    return jsonify("yes")
+    return jsonify("no")
 def updateAvgScoreOverTime():
     res= avgScoreOverTime()
     db=  mongoClient["production3"]
     precomputedDB= db["precomputed"]
     precomputedDB.update_one({"key":"avgScoreOverTime"}, {"$set":{"key":"avgScoreOverTime","value":res}}, upsert=True)
-    return res
+    # return res
 def updateGovernorateScore():
     res= governorateScores()
     db=  mongoClient["production3"]
     precomputedDB= db["precomputed"]
     precomputedDB.update_one({"key":"governorateScores"}, {"$set":{"key":"governorateScores","value":res}}, upsert=True)
-    return res
+    # return res
 def updateNationalisticScores():
     def score(arr,alpha=0.85,exp=5):
         if not arr or len(arr)==0:
@@ -261,7 +402,7 @@ def updateNationalisticScores():
         usersDB.update_one({"_id":user["_id"]},{"$set":{"nationalisticScore":natScore}})
 def updateVideoRelevancyScores():
     def score(natScore,likes,shares,maxLikes,maxShares):
-        likes+=1
+        likes+=2
         shares+=1
         maxLikes+=1
         maxShares+=1
@@ -278,31 +419,32 @@ def updateVideoRelevancyScores():
     maxLikes=list(maxLikes)[0]["maxLikes"]
     maxShares=videosDB.aggregate([{"$group":{"_id":"null","maxShares":{"$max":"$stats.shares_count"}}}])
     maxShares=list(maxShares)[0]["maxShares"]
-    videos=videosDB.find()
+    videos=videosDB.find({'score':{'$gte':0},'relScore':{'$exists':False}})
     videos=list(videos)
-    for video in videos:
+    from tqdm import tqdm
+    for video in tqdm(videos):
         natScore=video["score"]
         likes=video["stats"]["diggs_count"]
         shares=video["stats"]["shares_count"]
         relScore=score(natScore,likes,shares,maxLikes,maxShares)
         videosDB.update_one({"_id":video["_id"]},{"$set":{"relScore":relScore}})
+def calcRelScore(natScore, likes, shares,followers, maxLikes, maxShares, maxFollowers):
+    # log isn't defined for 0
+    likes+=1
+    shares+=1
+    maxLikes+=1
+    maxShares+=1
+    maxFollowers+=1
+    followers+=1
+    logLikes=math.log(likes)
+    logShares=math.log(shares)
+    logMaxLikes=math.log(maxLikes)
+    logMaxShares=math.log(maxShares)
+    logFollowers=math.log(followers)
+    logMaxFollowers=math.log(maxFollowers)
+    relScore= 0.5*natScore+0.2*logLikes/logMaxLikes+0.2* logFollowers/logMaxFollowers +0.1*logShares/logMaxShares
+    return relScore
 def updateRelevancyScores():
-    def score(natScore, likes, shares,followers, maxLikes, maxShares, maxFollowers):
-        # log isn't defined for 0
-        likes+=1
-        shares+=1
-        maxLikes+=1
-        maxShares+=1
-        maxFollowers+=1
-        followers+=1
-        logLikes=math.log(likes)
-        logShares=math.log(shares)
-        logMaxLikes=math.log(maxLikes)
-        logMaxShares=math.log(maxShares)
-        logFollowers=math.log(followers)
-        logMaxFollowers=math.log(maxFollowers)
-        relScore= 0.5*natScore+0.2*logLikes/logMaxLikes+0.2* logFollowers/logMaxFollowers +0.1*logShares/logMaxShares
-        return relScore
     db = mongoClient["production3"]
     usersDB= db["tiktokusernationalistics"]
     videoDB= db["videos"]
@@ -320,12 +462,17 @@ def updateRelevancyScores():
         vidsCursor=videoDB.find({"_id":{"$in":userVids}})
         vids= list(vidsCursor)
         vids= [i for i in vids if i["score"]>=0]
+        vids= [i for i in vids if i["stats"]["diggs_count"]>=0]
         vids.sort(key=lambda x:x["date"],reverse=True)
         vids= vids[:20]
         likes=sum([i["stats"]["diggs_count"] for i in vids])
         shares=sum([i["stats"]["shares_count"] for i in vids])
         maxLikes=max(maxLikes,likes)
         maxShares=max(maxShares,shares)
+    precomputed= db["precomputed"]
+    precomputed.update_one({"key":"maxLikes"}, {"$set":{"key":"maxLikes","value":maxLikes}}, upsert=True)
+    precomputed.update_one({"key":"maxShares"}, {"$set":{"key":"maxShares","value":maxShares}}, upsert=True)
+    precomputed.update_one({"key":"maxFollowers"}, {"$set":{"key":"maxFollowers","value":maxFollowers}}, upsert=True)
     for user in users:
         userVids=user["videos"]
         userStats=user["userStats"]
@@ -333,12 +480,13 @@ def updateRelevancyScores():
         vidsCursor=videoDB.find({"_id":{"$in":userVids}})
         vids= list(vidsCursor)
         vids= [i for i in vids if i["score"]>=0]
+        vids= [i for i in vids if i["stats"]["diggs_count"]>=0]
         vids.sort(key=lambda x:x["date"],reverse=True)
         vids= vids[:20]
         likes=sum([i['stats']['diggs_count'] for i in vids])
         shares=sum([i["stats"]['shares_count'] for i in vids])
         natScore=user["nationalisticScore"]
-        relScore=score(natScore,likes,shares,followers,maxLikes,maxShares,maxFollowers)
+        relScore=calcRelScore(natScore,likes,shares,followers,maxLikes,maxShares,maxFollowers)
         usersDB.update_one({"_id":user["_id"]},{"$set":{"relevancyScore":relScore}})
 def apply_video_model(vids,vidsRoot):
     with tempfile.TemporaryDirectory() as root:
@@ -378,23 +526,25 @@ def download_user_vids(users,num_posts=20):
     for user in addToDB(userMeta,yieldRes=True,locationFilter=False,ignore_location=True):
         data.extend(user[0]["videos"])
     ids=[i["Vid"] for i in data]
-    videoText=ocr(ids,videoRoot)
-    for video,text in zip(data,videoText):
-        video["videoText"]=text["text"]
+    # videoText=ocr(ids,videoRoot)
+    # for video,text in zip(data,videoText):
+    #     video["videoText"]=text["text"]
     # find the path of the video in directory
     return data
 def score_for_users(users,num_posts=20):
     with tempfile.TemporaryDirectory() as videoRoot:
         userMeta=scraper.scrap_users(users,num_posts=num_posts)
         data=[]
+        users=[]
         for user in addToDB(userMeta,yieldRes=True,locationFilter=False,ignore_location=True):
             data.extend(user[0]["videos"])
+            users.append(user[0])
         ids=[i["Vid"] for i in data]
         videoText=ocr(ids,videoRoot)
         for video,text in zip(data,videoText):
             video["videoText"]=text["text"]
         # find the path of the video in directory
-        return predictSamples(ids,data,videoRoot)
+        return predictSamples(ids,data,videoRoot),data,users
 def get_hashtag_score(data):
     res=predict(data,np.zeros(1))
     res=[i["hash_score"] for i in data]
@@ -428,12 +578,14 @@ def predictAll():
     data=np.load(dataFile,allow_pickle=True)
     # make data and vids in the same order
     # apply models
-    with open("/mnt/tannetFinalSite/anno/test.txt") as f:
+    with open("/mnt/tannetFinalSite6/anno/test.txt") as f:
         lines=f.readlines()
         allowedVids=[line.strip() for line in lines]
         allowedVids=[lines.split()[0] for lines in allowedVids]
     allowedVids=set(allowedVids)
     preds=[]
+    videoVecs= videoVecs
+    assert len(videoVecs)==len(data)
     from tqdm import tqdm
     for i in tqdm(range(0,len(videoVecs) ,batchSize)):
         x={}
@@ -450,9 +602,9 @@ def predictAll():
         x["text_embeded"]=[d['text_embeded'] for d in dataBatch]
         x["text_embeded"]= x["text_embeded"][0]
         res=final_model.get_predict(model,sample=x)
-        preds.extend([float(i) for i in res])
-    with open("predsCopy.txt","w+") as f:
-        f.writelines([str(p)+'\n' for p in preds])
+        preds=[float(i) for i in res]
+        scores = [{"Vid":i,"result":pred} for i,pred in zip(allowedVids,preds)]
+        update_video_scores(scores)
 def update_video_scores(scores):
     headers = {'Content-Type': 'application/json',
                'Accept': 'application/json'}
@@ -465,10 +617,17 @@ def updateLoop():
     updateAvgScoreOverTime()
     updateGovernorateScore()
 if __name__ == "__main__":
-    app.run(host='0.0.0.0',port=8080)
+    # app.run(host='0.0.0.0',port=8080)
     # db = mongoClient['production3']
     # users_db = db['tiktokusernationalistics']
     # users= db['tiktokusernationalistics']
     # videos= db['videos']
-    # for user in users.find():
-    #     download_user_vids([user['userId']],num_posts=20)
+    # u = users.find()
+    # u=list(u)
+    # from tqdm import tqdm
+    # u= tqdm(u)
+    # for user in u:
+    #     download_user_vids([user['userName']],num_posts=20)
+    predictAll()
+    updateLoop()
+    print("finished")

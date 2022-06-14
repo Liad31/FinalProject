@@ -34,7 +34,7 @@ class BoxesComparator(object):
             return self.lst[1]<other.lst[1]
         else:
             return self.lst[0]>other.lst[0]
-def text_from_video(path,OCR=True):
+def text_from_video(path,AI=True):
     def extract_middle_frame(path):
         # loading video gfg
         clip = VideoFileClip(path)
@@ -65,7 +65,7 @@ def text_from_video(path,OCR=True):
     final=' '.join(final.split())
     if not final or len(final)>150:
         return final
-    if not OCR:
+    if not AI:
         return final
     response = openai.Completion.create(
       engine="davinci",
@@ -167,7 +167,7 @@ def ocrDB(videosDir="/mnt/videos",batchSize=15):
             for j in chunk:
                 secuid =j["Vid"]
                 id = j["Vid"]
-                if not os.path.exists(f"{id}.mp4"):
+                if not (os.path.exists(f"{id}.mp4") or os.path.exists(f"{videosDir}/{id}.mp4")):
                     vids_to_download.append((secuid,id))
                 vids_to_ocr.append((secuid,id))
             vids_to_ocr.append((secuid,id))
@@ -180,9 +180,10 @@ def ocrDB(videosDir="/mnt/videos",batchSize=15):
                 path =f"{videosDir}/{id}.mp4"
                 new_path = path[:-4]+"_r.mp4"
                 os.system(f"mv {id}.mp4 {path}")
+            
                 while True:
                     try:
-                        videoTexts.append({"Vid":id, "text": text_from_video(path,OCR=False)})
+                        videoTexts.append({"Vid":id, "text": text_from_video(path,AI=False)})
                         break
                     except OSError as e:
                         print(f"{id} failed to download")
