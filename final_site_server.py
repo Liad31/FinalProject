@@ -24,7 +24,7 @@ from flask import Flask, request,jsonify,send_file
 import datetime
 import math
 import time
-from mongoThings import avgScoreOverTime,governorateScores
+from dbFunctions import avgScoreOverTime,governorateScores
 nationalistic_sounds = np.load('models/nationalistic_songs.npy', allow_pickle=True)
 mongoClient = pymongo.MongoClient("mongodb+srv://ourProject:EMGwk59xADuSIIkv@cluster0.lhfaj.mongodb.net/production2?retryWrites=true&w=majority")
 model = torch.load('models/final_model/final_model', map_location='cpu')
