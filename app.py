@@ -210,7 +210,7 @@ def topUsers():
     sort= request.args.get('sort')
     days= request.args.get('days')
     days= int(days)
-    currentEpoch= maxTimestamp()
+    currentEpoch= maxTimestamp().timestamp()
     startEpoch= currentEpoch-int(days)*24*60*60
     db = mongoClient["production3"]
     videoDB= db["videos"]
@@ -317,7 +317,9 @@ def maxTimestamp():
             'dateInt': {
                 '$toInt': '$date'
             }
-        }}, {
+        }},
+        {"$match": {"score": {"$gt": -1}}},
+        {
             '$sort': {
                 'dateInt': -1
             }
@@ -615,7 +617,7 @@ def updateLoop():
     updateAvgScoreOverTime()
     updateGovernorateScore()
 if __name__ == "__main__":
-    app.run(host='0.0.0.0',port=8080)
+    # app.run(host='0.0.0.0',port=8080)
     # db = mongoClient['production3']
     # users_db = db['tiktokusernationalistics']
     # users= db['tiktokusernationalistics']
@@ -626,6 +628,6 @@ if __name__ == "__main__":
     # u= tqdm(u)
     # for user in u:
     #     download_user_vids([user['userName']],num_posts=20)
-    # predictAll()
-    # updateLoop()
+    predictAll()
+    updateLoop()
     print("finished")

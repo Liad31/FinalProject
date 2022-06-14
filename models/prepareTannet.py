@@ -54,7 +54,7 @@ def organize(videos,tags,annoFile,videosRoot,fps=10,vid_root="/mnt/videos"):
             if(int(tag) in [0,1]):
                 f.write(f"{id} {numFrames} {int(tag)}\n")
 if "__main__"==__name__:
-    root="/mnt/tannetFinalSite4/"
+    root="/mnt/tannetFinalSite6/"
     createIfNotExists(root)
     data_root = root+'train'
     data_root_val = root+'val'

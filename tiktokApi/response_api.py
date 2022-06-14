@@ -97,8 +97,8 @@ class Post:
             web_url=series['webVideoUrl'],
             video=Video.from_scraper_pandas_series(series),
             stats=PostStats.from_scraper_pandas_series(series),
-            mentions=json.dumps([mention[1:] for mention in json.loads(series['mentions'])]),
-            hashtags=json.dumps([hashtag['name'] for hashtag in json.loads(series['hashtags'])])
+            mentions=json.dumps([mention[1:] for mention in json.loads(series['mentions'] )]),
+            hashtags=json.dumps([hashtag['name'] for hashtag in json.loads(series['hashtags'], strict= False)])
         )
 
 

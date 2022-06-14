@@ -118,8 +118,9 @@ router.get("/getVideos", (req, res) => {
     '$match': {
       '$and': [
         {
-          'downloaded': false
-          ,'inBatch': true
+          // videoText:"ERROR!!!!!"
+          downloaded: false,
+          // inBatch: true
         }
         // {
         // 'videoText': "Unproced"
