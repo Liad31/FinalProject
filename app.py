@@ -88,6 +88,8 @@ def getVideosByScore():
     upperBound=request.args.get('upperBound')
     minDate= request.args.get('minDate')
     maxDate= request.args.get('maxDate')
+    minDateCopy= minDate
+    maxDateCopy= maxDate
     # convert from dd-mm-yyyy
     if minDate:
         minDate= datetime.datetime.strptime(minDate, "%d-%m-%Y")
@@ -132,10 +134,15 @@ def getVideosByScore():
     res=list(res)
     res= [("https://www.tiktok.com/@a/video/"+i["Vid"],i["score"]) for i in res]
     with tempfile.TemporaryDirectory() as tmpdir:
-        with open(os.path.join(tmpdir,"res.txt"),'w') as f:
+        if not minDateCopy:
+            minDate= "no limit"
+        if not maxDateCopy:
+            maxDate= "no limit"
+        name = f"videos Score:{lowerBound}-{upperBound} From {minDateCopy} To {maxDateCopy} Gover:{gover}.txt"
+        with open(os.path.join(tmpdir,name),'w') as f:
             for i,j in res:
                 f.write(f"{i},{j}"+"\n")
-        return send_file(os.path.join(tmpdir,"res.txt"),as_attachment=True)
+        return send_file(os.path.join(tmpdir,name),as_attachment=True)
 @app.route("/videosFromLast", methods=['GET'])
 def videosFromLast():
     db= mongoClient["production3"]
@@ -213,7 +220,7 @@ def topUsers():
     sort= request.args.get('sort')
     days= request.args.get('days')
     days= int(days)
-    currentEpoch= maxTimestamp()
+    currentEpoch= maxTimestamp().timestamp()
     startEpoch= currentEpoch-int(days)*24*60*60
     db = mongoClient["production3"]
     videoDB= db["videos"]
@@ -313,25 +320,28 @@ def governoratesRoute():
     res=[{i[0]:i[1]} for i in res]
     return jsonify(res)
 def maxTimestamp():
-    db = mongoClient["production3"]
-    videosDB= db["videos"]
-    res= videosDB.aggregate([
-        {'$addFields': {
-            'dateInt': {
-                '$toInt': '$date'
-            }
-        }}, {
-            '$sort': {
-                'dateInt': -1
-            }
-        }, {
-            '$limit': 1
-        }
-    ])
-    res=list(res)
-    if not res:
-        return 0
-    return datetime.datetime.fromtimestamp( res[0]["dateInt"])
+    #db = mongoClient["production3"]
+    #videosDB= db["videos"]
+    #res= videosDB.aggregate([
+    #    {'$addFields': {
+    #        'dateInt': {
+    #            '$toInt': '$date'
+    #        }
+    #    }},
+    #    {"$match": {"score": {"$gt": -1}}},
+    #    {
+    #        '$sort': {
+    #            'dateInt': -1
+    #        }
+    #    }, {
+    #        '$limit': 1
+    #    }
+    #])
+    #res=list(res)
+    #if not res:
+    #    return 0
+    #return datetime.datetime.fromtimestamp( res[0]["dateInt"])
+    return datetime.datetime.fromtimestamp(1654175389)
 @app.route("/topVideos", methods=['GET'])
 def topVideos():
     n = request.args.get('n')

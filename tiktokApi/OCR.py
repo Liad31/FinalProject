@@ -120,7 +120,7 @@ def ocr(videos,videosDir="/mnt/videos"):
         os.system(f"mv {cur_path} {path}")
         while True:
             try:
-                videoTexts.append({"Vid":id, "text": text_from_video(path)})
+                videoTexts.append({"Vid":id, "text": text_from_video(path, AI=False)})
                 break
             except OSError as e:
                 with open("failed_vids",'a') as f:
